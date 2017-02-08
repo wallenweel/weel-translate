@@ -1,0 +1,73 @@
+@import "variables";
+
+@font-face {
+  font-family: 'weel-translate';
+  src:
+    url('#{$icomoon-font-path}/weel-translate.ttf?vylgu1') format('truetype'),
+    url('#{$icomoon-font-path}/weel-translate.woff?vylgu1') format('woff'),
+    url('#{$icomoon-font-path}/weel-translate.svg?vylgu1#weel-translate') format('svg');
+  font-weight: normal;
+  font-style: normal;
+}
+
+[class^="i-"], [class*=" i-"] {
+  /* use !important to prevent issues with browser extensions that change fonts */
+  font-family: 'weel-translate' !important;
+  speak: none;
+  font-style: normal;
+  font-weight: normal;
+  font-variant: normal;
+  text-transform: none;
+  line-height: 1;
+
+  /* Better Font Rendering =========== */
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+}
+
+.i-add {
+  &:before {
+    content: $i-add;
+  }
+}
+.i-arrow_back {
+  &:before {
+    content: $i-arrow_back;
+  }
+}
+.i-check {
+  &:before {
+    content: $i-check;
+  }
+}
+.i-close {
+  &:before {
+    content: $i-close;
+  }
+}
+.i-g_translate {
+  &:before {
+    content: $i-g_translate;
+  }
+}
+.i-menu {
+  &:before {
+    content: $i-menu;
+  }
+}
+.i-more_horiz {
+  &:before {
+    content: $i-more_horiz;
+  }
+}
+.i-more_vert {
+  &:before {
+    content: $i-more_vert;
+  }
+}
+.i-settings {
+  &:before {
+    content: $i-settings;
+  }
+}
+

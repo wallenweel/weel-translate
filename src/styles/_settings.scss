@@ -1,0 +1,23 @@
+$primary-color_darker: hsl(220, 66%, 51%);
+$primary-color_lighter: hsl(217, 89%, 60%);
+
+@mixin stealth($on: 0) {
+  @if $on == 0 {
+    visibility: hidden;
+    opacity: 0;
+  } @else {
+    visibility: visible;
+    opacity: 1;
+  }
+}
+
+@mixin ordinary($node) {
+  @if $node == 'a' {
+
+  } @elseif $node == 'button' {
+    background: initial;
+    padding: initial;
+    border: initial;
+    outline: initial;
+  }
+}

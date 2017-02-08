@@ -1,0 +1,55 @@
+{
+  "name": "gulp-next",
+  "version": "0.0.1",
+  "description": "",
+  "main": "index.js",
+  "scripts": {
+    "start": "set NODE_ENV=development && gulp server",
+    "start:debug": "set NODE_ENV=development && gulp server --verbose",
+    "build": "set NODE_ENV=production && gulp build --release",
+    "build:debug": "set NODE_ENV=development && gulp build --verbose"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/wallenweel/gulp-next.git"
+  },
+  "author": "wallen",
+  "license": "MIT",
+  "bugs": {
+    "url": "https://github.com/wallenweel/gulp-next/issues"
+  },
+  "homepage": "https://github.com/wallenweel/gulp-next#readme",
+  "devDependencies": {
+    "autoprefixer": "^6.3.7",
+    "babel-core": "^6.11.4",
+    "babel-loader": "^6.2.7",
+    "babel-polyfill": "^6.9.1",
+    "babel-preset-es2015": "^6.18.0",
+    "babel-preset-stage-0": "^6.5.0",
+    "babel-register": "^6.11.6",
+    "babelify": "^7.3.0",
+    "browser-sync": "^2.13.0",
+    "del": "^2.2.1",
+    "gulp": "github:gulpjs/gulp#4.0",
+    "gulp-autoprefixer": "^3.1.0",
+    "gulp-babel": "^6.1.2",
+    "gulp-browserify": "^0.5.1",
+    "gulp-changed": "^1.3.1",
+    "gulp-cssnano": "^2.1.2",
+    "gulp-filter": "^4.0.0",
+    "gulp-if": "^2.0.1",
+    "gulp-imagemin": "^3.0.2",
+    "gulp-plumber": "^1.1.0",
+    "gulp-pug": "^3.0.3",
+    "gulp-rename": "^1.2.2",
+    "gulp-replace": "^0.5.4",
+    "gulp-sass": "^2.3.2",
+    "gulp-sourcemaps": "^2.2.0",
+    "gulp-uglify": "^2.0.0",
+    "gulp.spritesmith": "^6.2.1"
+  },
+  "dependencies": {
+    "bourbon": "^4.3.1",
+    "normalize-scss": "^6.0.0"
+  }
+}

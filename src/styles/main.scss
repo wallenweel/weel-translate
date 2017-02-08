@@ -1,0 +1,97 @@
+@import "libs/bourbon";
+@import "libs/normalize";
+@import "libs/icon";
+
+@import "settings.scss";
+
+@include normalize();
+
+html, body {
+  background-color: $primary-color_darker;
+  height: 100%;
+  min-height: 120px;
+  width: 320px;
+  max-width: 320px;
+}
+
+.container {
+  background-color: #fff;
+  height: inherit;
+  color: hsl(0, 0%, 20%);
+  overflow: hidden;
+  flex-direction: column;
+  display: flex;
+  position: relative;
+
+  header.toolbar {
+    $h: 48px;
+    box-shadow: 0 4px 8px hsla(0, 0%, 30%, 0.27);
+    background-color: $primary-color_lighter;
+    height: $h;
+    max-height: $h;
+    color: hsl(0, 0%, 100%);
+    overflow: hidden;
+    flex-grow: 1;
+    flex-shrink: 0;
+
+    button {
+      $sz: 48px;
+
+      @include ordinary('button');
+      height: $sz;
+      width: $sz;
+      color: hsl(0, 0%, 100%);
+
+      &.drawer-menu {
+        font-size: 24px;
+      }
+    }
+  }
+
+  main.content {
+    flex-grow: 2;
+    position: relative;
+
+    .page {
+      @include position(absolute, 0 0 0 0);
+      @include stealth;
+
+      &._on {
+        @include stealth(1);
+      }
+    }
+  }
+
+  .drawer, .mask {
+      @include position(absolute, 0 0 0 0);
+    }
+
+  &[data-unique-ui="drawer"] {
+    .drawer {
+      transform: translateX(100%);
+    }
+  }
+  .drawer {
+    $w: 260px;
+    transition: transform .25s ease;
+    transform: translateX(0%);
+    box-shadow: 0 4px 8px hsla(0, 0%, 30%, 0.27);
+    background-color: hsl(0, 0%, 100%);
+    max-width: $w;
+    left: -$w;
+
+    z-index: 10;
+  }
+
+  .mask {
+    @include stealth;
+
+    background-color: hsl(0, 0%, 5%);
+
+    &._on {
+      @include stealth(1);
+      opacity: .85;
+    }
+  }
+
+}

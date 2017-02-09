@@ -19,5 +19,9 @@ $primary-color_lighter: hsl(217, 89%, 60%);
     padding: initial;
     border: initial;
     outline: initial;
+  } @elseif $node == 'h' {
+    font-size: 1em;
+    margin: initial;
+    font-weight: initial;
   }
 }

@@ -7,13 +7,20 @@ html(lang="")
   body
     .container(data-unique-ui="")
       header.toolbar
-        button.drawer-menu.-js.i-menu
+        button.drawer-menu.wave.-js.i-menu
+        h1.title Weel Translate
+        button.feedback.wave.-js.i-g_translate
 
       main.content
         .page.-entry._on
-          h1 Entry
+          section.input-stream
+            .textarea.-js(contentEditable data-placeholder="input ...")
+          section.stream-behavior
+          section.output-stream
+
         .page.-settings
           h1 Settings
+
         .page.-about
           h1 About
 

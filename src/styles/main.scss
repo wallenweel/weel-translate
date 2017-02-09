@@ -25,32 +25,61 @@ html, body {
 
   header.toolbar {
     $h: 48px;
+
     box-shadow: 0 4px 8px hsla(0, 0%, 30%, 0.27);
     background-color: $primary-color_lighter;
     height: $h;
     max-height: $h;
     color: hsl(0, 0%, 100%);
+    padding: 0 4px;
+    z-index: 14;
+    position: relative;
     overflow: hidden;
-    flex-grow: 1;
+    flex-grow: 0;
     flex-shrink: 0;
+
+    align-items: center;
+    display: flex;
 
     button {
       $sz: 48px;
 
       @include ordinary('button');
+
       height: $sz;
       width: $sz;
       color: hsl(0, 0%, 100%);
+      font-size: 24px;
+      flex-shrink: 0;
+      flex-grow: 0;
 
-      &.drawer-menu {
-        font-size: 24px;
+      &:focus {
+        color: hsla(0, 0%, 100%, 0.92);
       }
+
+      &.drawer-menu {}
+
+      &.feedback {
+        align-self: flex-end;
+      }
+    }
+
+    h1, h2, h3 {
+      @include ordinary('h');
+    }
+
+    > .title {
+      font-weight: 600;
+      padding: 0 4px;
+      flex-grow: 1;
+      flex-shrink: 1;
     }
   }
 
-  main.content {
-    flex-grow: 2;
+  @at-root main.content {
+    background-color: hsl(0, 0%, 96%);
     position: relative;
+    flex-grow: 2;
 
     .page {
       @include position(absolute, 0 0 0 0);
@@ -58,6 +87,34 @@ html, body {
 
       &._on {
         @include stealth(1);
+      }
+
+      &.-entry {
+        section {
+          &.input-stream {
+            background-color: hsl(0, 0%, 100%);
+            .textarea {
+              min-height: 4em;
+              font-size: 14px;
+              color: hsl(0, 0%, 34%);
+              padding: 12px 16px;
+
+              &::before {
+                @include stealth(1);
+
+                content: attr(data-placeholder);
+                position: absolute;
+                color: hsl(0, 0%, 72%);
+              }
+
+              &._on {
+                &::before {
+                  @include stealth;
+                }
+              }
+            }
+          }
+        }
       }
     }
   }
@@ -79,14 +136,14 @@ html, body {
     background-color: hsl(0, 0%, 100%);
     max-width: $w;
     left: -$w;
-
-    z-index: 10;
+    z-index: 54;
   }
 
   .mask {
     @include stealth;
 
     background-color: hsl(0, 0%, 5%);
+    z-index: 34;
 
     &._on {
       @include stealth(1);
@@ -94,4 +151,35 @@ html, body {
     }
   }
 
+}
+
+span.wave {
+  $sz: .1px;
+
+  border-radius: 50%;
+  background-color: hsla(0, 0%, 0%, 0.24);
+  height: $sz;
+  width: $sz;
+  display: block;
+  z-index: 999;
+  position: absolute;
+
+  animation-name: wave;
+  animation-duration: .925s;
+  animation-timing-function: ease;
+  animation-fill-mode: both;
+}
+
+@keyframes wave {
+  0% {
+    $sz: 0;
+    @include stealth(1);
+    transform: scale3d($sz, $sz, 1);
+  }
+  100% {
+    $sz: 3000;
+
+    @include stealth;
+    transform: scale3d($sz, $sz, 1);
+  }
 }

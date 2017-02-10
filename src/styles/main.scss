@@ -9,13 +9,25 @@
 html, body {
   background-color: $primary-color_darker;
   height: 100%;
-  min-height: 120px;
+  min-height: 220px;
   width: 320px;
   max-width: 320px;
 }
 
+button {
+  &.-ordinary {
+    @include ordinary('button');
+  }
+}
+
+h1, h2, h3, h4, h5, h6 {
+  &.-ordinary {
+    @include ordinary('h');
+  }
+}
+
 .container {
-  background-color: #fff;
+  background-color: hsl(0, 0%, 100%);
   height: inherit;
   color: hsl(0, 0%, 20%);
   overflow: hidden;
@@ -44,8 +56,6 @@ html, body {
     button {
       $sz: 48px;
 
-      @include ordinary('button');
-
       height: $sz;
       width: $sz;
       color: hsl(0, 0%, 100%);
@@ -62,10 +72,6 @@ html, body {
       &.feedback {
         align-self: flex-end;
       }
-    }
-
-    h1, h2, h3 {
-      @include ordinary('h');
     }
 
     > .title {
@@ -92,24 +98,71 @@ html, body {
       &.-entry {
         section {
           &.input-stream {
+            @include box_shadow;
+
             background-color: hsl(0, 0%, 100%);
+            overflow: hidden;
+            position: relative;
             .textarea {
-              min-height: 4em;
+              $lh: 1.25;
+              min-height: 5em * $lh;
+              max-height: 7em * $lh;
               font-size: 14px;
-              color: hsl(0, 0%, 34%);
-              padding: 12px 16px;
+              color: hsl(0, 0%, 45%);
+              line-height: $lh;
+              white-space: normal;
+              word-wrap: break-word;
+              margin: 12px 16px;
+              overflow: hidden;
 
               &::before {
                 @include stealth(1);
 
                 content: attr(data-placeholder);
-                position: absolute;
+                width: 0;
+                white-space: nowrap;
                 color: hsl(0, 0%, 72%);
+                display: inline-block;
               }
 
               &._on {
                 &::before {
                   @include stealth;
+                }
+              }
+            }
+          }
+
+          &.stream-behavior {
+            padding: 16px 0;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            position: relative;
+            > button {
+              $sz: 48px;
+
+              height: $sz / 1.25;
+              color: hsl(0, 0%, 42%);
+              padding: 0 16px;
+              overflow: hidden;
+              position: relative;
+              margin: 0 8px;
+
+              &.translate {
+                @include box_shadow;
+
+                transition: box-shadow .25s ease;
+                border-radius: 50%;
+                background-color: $primary-color_lighter;
+                height: $sz;
+                width: $sz;
+                padding: initial;
+                color: hsl(0, 0%, 100%);
+                font-size: 24px;
+
+                &:hover {
+                  @include box_shadow(3);
                 }
               }
             }

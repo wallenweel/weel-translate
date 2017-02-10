@@ -20,19 +20,21 @@ ui['textarea'] = q('.input-stream .textarea.-js')
 
 const fn = {}
 fn['wave'] = ev => {
-  const rect = ev.target.offsetParent.getBoundingClientRect()
+  const wave = document.createElement('span')
+  const target = ev.currentTarget
+
+  target.appendChild(wave)
+
+  const rect = wave.offsetParent.getBoundingClientRect()
   const [ left, top ] = [
     ev.clientX - rect.x,
     ev.clientY - rect.y,
   ]
 
-  const wave = document.createElement('span')
   wave.classList.add('wave')
   wave.style.left = `${left}px`
   wave.style.top = `${top}px`
 
-  const target = ev.currentTarget
-  target.appendChild(wave)
   setTimeout(() => target.removeChild(wave), 2000)
 }
 

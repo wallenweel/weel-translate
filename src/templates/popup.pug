@@ -7,16 +7,23 @@ html(lang="")
   body
     .container(data-unique-ui="")
       header.toolbar
-        button.drawer-menu.wave.-js.i-menu
-        h1.title Weel Translate
-        button.feedback.wave.-js.i-g_translate
+        button.drawer-menu.wave.-js.-ordinary.i-menu
+        h1.title.-ordinary Weel Translate
+        button.feedback.wave.-js.-ordinary.i-g_translate
 
       main.content
         .page.-entry._on
           section.input-stream
             .textarea.-js(contentEditable data-placeholder="input ...")
+
           section.stream-behavior
+            button.wave.-js.-ordinary 朗读内容
+            button.translate.wave.-js.-ordinary.i-g_translate
+            button.wave.-js.-ordinary 翻译页面
+
           section.output-stream
+            .result result
+            .explain explain
 
         .page.-settings
           h1 Settings

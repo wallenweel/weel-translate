@@ -11,6 +11,10 @@ $primary-color_lighter: hsl(217, 89%, 60%);
   }
 }
 
+@mixin box_shadow($lv: 1) {
+  box-shadow: 0 1px * $lv 2px * $lv hsla(0, 0%, 28%, 1 / $lv);
+}
+
 @mixin ordinary($node) {
   @if $node == 'a' {
 

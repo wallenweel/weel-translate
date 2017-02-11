@@ -27,6 +27,7 @@ ui['mask'] = q('.mask.-js')
 ui['wave'] = q('.wave.-js')
 ui['textarea'] = q('.input-stream .textarea.-js')
 ui['select'] = q('.select.-js')
+ui['lang_switch'] = q('.language .-switch.-js')
 
 const fn = {}
 fn['wave'] = ev => {
@@ -84,11 +85,32 @@ fn['select'] = ev => {
   self.classList.add('_on')
 }
 
+fn['lang_switch'] = ev => {
+  const self = ev.currentTarget
+  const lang = q('.input-stream .language')
+  const [ origin, dest ] = [
+    lang.querySelector('.-origin'),
+    lang.querySelector('.-destination'),
+  ]
+  const [ ov, ot, dv, dt ] = [
+    origin.getAttribute('data-value'),
+    origin.getAttribute('data-text'),
+    dest.getAttribute('data-value'),
+    dest.getAttribute('data-text'),
+  ]
+
+  origin.setAttribute('data-value', dv)
+  origin.setAttribute('data-text', dt)
+  dest.setAttribute('data-value', ov)
+  dest.setAttribute('data-text', ot)
+}
+
 ui.textarea.addEventListener('keyup', fn.textarea, false)
 ui.drawerMenu.addEventListener('click', fn.drawer, false)
 ui.mask.addEventListener('click', fn.mask, false)
 ui.wave.forEach(elem => elem.addEventListener('click', fn.wave, false))
 ui.select.forEach(elem => elem.addEventListener('click', fn.select, false))
+ui.lang_switch.addEventListener('click', fn.lang_switch, false)
 
 document.body.addEventListener('click', ev => {
 

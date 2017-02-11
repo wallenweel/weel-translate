@@ -41,9 +41,10 @@ h1, h2, h3, h4, h5, h6 {
   position: relative;
 
   header.toolbar {
+    @include box_shadow(2);
+
     $h: 48px;
 
-    box-shadow: 0 4px 8px hsla(0, 0%, 30%, 0.27);
     background-color: $primary-color_lighter;
     height: $h;
     max-height: $h;
@@ -68,7 +69,7 @@ h1, h2, h3, h4, h5, h6 {
       flex-shrink: 0;
       flex-grow: 0;
 
-      &:focus {
+      &:active {
         color: hsla(0, 0%, 100%, 0.92);
       }
 
@@ -126,8 +127,8 @@ h1, h2, h3, h4, h5, h6 {
                 color: $primary-color_lighter;
               }
               .-origin, .-destination {
-                width: 100%;
                 height: inherit;
+                width: 100%;
                 font-size: 13px;
                 margin: 0 8px;
 
@@ -136,8 +137,13 @@ h1, h2, h3, h4, h5, h6 {
                 }
               }
               .-switch {
+                height: inherit;
                 width: 48px;
                 flex-shrink: 0;
+
+                &:active {
+                  color: grey(8);
+                }
               }
             }
 
@@ -187,6 +193,7 @@ h1, h2, h3, h4, h5, h6 {
 
               height: $sz / 1.25;
               width: 100%;
+              margin: 0 16px;
               font-size: 14px;
               color: hsl(0, 0%, 42%);
               text-align: center;

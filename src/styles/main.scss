@@ -105,14 +105,15 @@ h1, h2, h3, h4, h5, h6 {
 
       &.-entry {
         section {
+
           &.input-stream {
-            border-bottom: 1px solid grey(8.5);
             overflow: hidden;
             position: relative;
+            z-index: 2;
 
             nav.language {
               background-color: hsl(0, 0%, 98%);
-              height: 32px;
+              height: 38px;
               font-size: 14px;
               color: $primary-color_lighter;
               text-align: center;
@@ -182,12 +183,18 @@ h1, h2, h3, h4, h5, h6 {
           }
 
           &.stream-behavior {
-            border-bottom: 1px solid grey(8.5);
+            @include box_shadow;
+
+            $s: 1px solid grey(8.5);
+
+            background-color: grey(10);
+            margin-bottom: 10px;
             padding: 8px 0;
             display: flex;
             justify-content: center;
             align-items: center;
             position: relative;
+
             > button {
               $sz: 42px;
 
@@ -221,9 +228,19 @@ h1, h2, h3, h4, h5, h6 {
           }
 
           &.output-stream {
-            border-bottom: 1px solid grey(8.5);
-            background-color: hsl(0, 0%, 100%);
-            min-height: 80px;
+            display: none;
+            
+            &._on {
+              display: block;
+            }
+
+            .result, .reference {
+              @include box_shadow;
+
+              background-color: grey(10);
+              padding: 16px;
+              margin-bottom: 10px;
+            }
           }
         }
       }

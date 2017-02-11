@@ -30,13 +30,26 @@ html(lang="")
             p.textarea.-js(contentEditable data-placeholder="input ...")
 
           section.stream-behavior
-            button.wave.-js.-ordinary 朗读内容
+            button.wave.-js.-ordinary 选择段落
             button.translate.wave.-js.-ordinary.i-g_translate
-            button.wave.-js.-ordinary 翻译页面
+            button.wave.-js.-ordinary 翻译全页
 
-          section.output-stream
-            .result result
-            .explain explain
+          section.output-stream._on
+            .result
+              .-word
+                .-phonetic
+                  i træns'leɪt; trɑːns-; -nz-
+                .-explain
+                  h4.-plain 翻译
+                  p.-full
+                    |vt. 翻译；转化；解释；转变为；调动
+                    br
+                    |vi. 翻译
+
+
+
+
+            .reference explain
 
         .page.-settings
           h1 Settings

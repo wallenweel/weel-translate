@@ -1,3 +1,12 @@
+try {
+  // console.log(document)
+
+} catch (e) {
+
+} finally {
+
+}
+
 const q = selector => {
   const list = document.querySelectorAll(selector)
 
@@ -17,6 +26,7 @@ ui['drawerMenu'] = q('.drawer-menu.-js')
 ui['mask'] = q('.mask.-js')
 ui['wave'] = q('.wave.-js')
 ui['textarea'] = q('.input-stream .textarea.-js')
+ui['select'] = q('.select.-js')
 
 const fn = {}
 fn['wave'] = ev => {
@@ -60,7 +70,29 @@ fn['textarea'] = ev => {
   }
 }
 
+fn['select'] = ev => {
+  ev.preventDefault()
+  ev.stopPropagation()
+
+  const self = ev.currentTarget
+  if (self.classList.contains('_on')) {
+    self.setAttribute('data-text', ev.target.innerText)
+    self.setAttribute('data-value', ev.target.getAttribute('data-value'))
+    return self.classList.remove('_on')
+  }
+
+  self.classList.add('_on')
+}
+
 ui.textarea.addEventListener('keyup', fn.textarea, false)
 ui.drawerMenu.addEventListener('click', fn.drawer, false)
 ui.mask.addEventListener('click', fn.mask, false)
 ui.wave.forEach(elem => elem.addEventListener('click', fn.wave, false))
+ui.select.forEach(elem => elem.addEventListener('click', fn.select, false))
+
+document.body.addEventListener('click', ev => {
+
+  ui.select.forEach(elem => {
+    if (elem.classList.contains('_on')) elem.classList.remove('_on')
+  })
+}, false)

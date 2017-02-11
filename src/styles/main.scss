@@ -8,10 +8,16 @@
 
 html, body {
   background-color: $primary-color_darker;
-  height: 100%;
-  min-height: 220px;
   width: 320px;
   max-width: 320px;
+}
+
+body {
+  color: grey(2);
+  font-weight: 300;
+  font-family: $default-font-family;
+  line-height: 1.4;
+  text-rendering: optimizeLegibility;
 }
 
 button {
@@ -28,7 +34,6 @@ h1, h2, h3, h4, h5, h6 {
 
 .container {
   background-color: hsl(0, 0%, 100%);
-  height: inherit;
   color: hsl(0, 0%, 20%);
   overflow: hidden;
   flex-direction: column;
@@ -86,11 +91,13 @@ h1, h2, h3, h4, h5, h6 {
     background-color: hsl(0, 0%, 96%);
     position: relative;
     flex-grow: 2;
+    display: flex;
 
     .page {
-      @include position(absolute, 0 0 0 0);
       @include stealth;
 
+      width: 100%;
+      flex-shrink: 0;
       &._on {
         @include stealth(1);
       }
@@ -98,22 +105,57 @@ h1, h2, h3, h4, h5, h6 {
       &.-entry {
         section {
           &.input-stream {
-            @include box_shadow;
-
-            background-color: hsl(0, 0%, 100%);
+            border-bottom: 1px solid grey(8.5);
             overflow: hidden;
             position: relative;
+
+            nav.language {
+              background-color: hsl(0, 0%, 98%);
+              height: 32px;
+              font-size: 14px;
+              color: $primary-color_lighter;
+              text-align: center;
+              border-bottom: 1px solid grey(9.2);
+              justify-content: center;
+              align-items: center;
+              display: flex;
+              z-index: 6;
+              position: relative;
+
+              button {
+                color: $primary-color_lighter;
+              }
+              .-origin, .-destination {
+                width: 100%;
+                height: inherit;
+                font-size: 13px;
+                margin: 0 8px;
+
+                &._on {
+                  margin-top: 6px;
+                }
+              }
+              .-switch {
+                width: 48px;
+                flex-shrink: 0;
+              }
+            }
+
             .textarea {
               $lh: 1.25;
+
+              background-color: hsl(0, 0%, 100%);
               min-height: 5em * $lh;
               max-height: 7em * $lh;
               font-size: 14px;
               color: hsl(0, 0%, 45%);
               line-height: $lh;
+              margin: 0;
               white-space: normal;
               word-wrap: break-word;
-              margin: 12px 16px;
+              padding: 12px 16px;
               overflow: hidden;
+              position: relative;
 
               &::before {
                 @include stealth(1);
@@ -134,20 +176,22 @@ h1, h2, h3, h4, h5, h6 {
           }
 
           &.stream-behavior {
-            padding: 16px 0;
+            border-bottom: 1px solid grey(8.5);
+            padding: 8px 0;
             display: flex;
             justify-content: center;
             align-items: center;
             position: relative;
             > button {
-              $sz: 48px;
+              $sz: 42px;
 
               height: $sz / 1.25;
+              width: 100%;
+              font-size: 14px;
               color: hsl(0, 0%, 42%);
-              padding: 0 16px;
+              text-align: center;
               overflow: hidden;
               position: relative;
-              margin: 0 8px;
 
               &.translate {
                 @include box_shadow;
@@ -160,12 +204,19 @@ h1, h2, h3, h4, h5, h6 {
                 padding: initial;
                 color: hsl(0, 0%, 100%);
                 font-size: 24px;
+                flex-shrink: 0;
 
                 &:hover {
                   @include box_shadow(3);
                 }
               }
             }
+          }
+
+          &.output-stream {
+            border-bottom: 1px solid grey(8.5);
+            background-color: hsl(0, 0%, 100%);
+            min-height: 80px;
           }
         }
       }
@@ -206,8 +257,78 @@ h1, h2, h3, h4, h5, h6 {
 
 }
 
+.select {
+  overflow: hidden;
+  position: relative;
+
+  &::before, &::after {
+    cursor: default;
+    height: inherit;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    z-index: 1;
+    position: absolute;
+  }
+
+  &::before {
+    right: 6px;
+  }
+
+  &::after {
+    content: attr(data-text);
+    font-family: $default-font-family;
+    top: 0;
+    width: 100%;
+    height: inherit;
+  }
+
+  &._on {
+    @include box_shadow;
+
+    padding: 8px 0;
+    background-color: grey(10);
+    overflow: visible;
+    height: initial !important;
+    align-self: flex-start;
+
+    &::before, &::after {
+      @include stealth;
+    }
+
+    .-opt {
+      @include stealth(1);
+      &:hover {
+        background-color: grey(9.6);
+      }
+      &:first-child {
+        line-height: 2.35;
+      }
+    }
+  }
+
+  .-opt {
+    @include stealth;
+
+    transition: background-color .25s ease;
+    cursor: default;
+    line-height: 2.35;
+    font-family: $default-font-family;
+    position: relative;
+    z-index: 2;
+
+    &:first-child {
+      height: inherit;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      line-height: 0;
+    }
+  }
+}
+
 span.wave {
-  $sz: .1px;
+  $sz: 1px;
 
   border-radius: 50%;
   background-color: hsla(0, 0%, 0%, 0.24);
@@ -230,7 +351,7 @@ span.wave {
     transform: scale3d($sz, $sz, 1);
   }
   100% {
-    $sz: 3000;
+    $sz: 1000;
 
     @include stealth;
     transform: scale3d($sz, $sz, 1);

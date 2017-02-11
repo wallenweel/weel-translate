@@ -3,9 +3,9 @@
 @font-face {
   font-family: 'weel-translate';
   src:
-    url('#{$icomoon-font-path}/weel-translate.ttf?vylgu1') format('truetype'),
-    url('#{$icomoon-font-path}/weel-translate.woff?vylgu1') format('woff'),
-    url('#{$icomoon-font-path}/weel-translate.svg?vylgu1#weel-translate') format('svg');
+    url('#{$icomoon-font-path}/weel-translate.ttf?q1185e') format('truetype'),
+    url('#{$icomoon-font-path}/weel-translate.woff?q1185e') format('woff'),
+    url('#{$icomoon-font-path}/weel-translate.svg?q1185e#weel-translate') format('svg');
   font-weight: normal;
   font-style: normal;
 }
@@ -25,9 +25,24 @@
   -moz-osx-font-smoothing: grayscale;
 }
 
+.i-schedule {
+  &:before {
+    content: $i-schedule;
+  }
+}
 .i-add {
   &:before {
     content: $i-add;
+  }
+}
+.i-announcement {
+  &:before {
+    content: $i-announcement;
+  }
+}
+.i-archive {
+  &:before {
+    content: $i-archive;
   }
 }
 .i-arrow_back {
@@ -35,9 +50,54 @@
     content: $i-arrow_back;
   }
 }
+.i-arrow_downward {
+  &:before {
+    content: $i-arrow_downward;
+  }
+}
+.i-arrow_drop_down {
+  &:before {
+    content: $i-arrow_drop_down;
+  }
+}
+.i-arrow_drop_up {
+  &:before {
+    content: $i-arrow_drop_up;
+  }
+}
+.i-arrow_forward {
+  &:before {
+    content: $i-arrow_forward;
+  }
+}
+.i-arrow_upward {
+  &:before {
+    content: $i-arrow_upward;
+  }
+}
+.i-backspace {
+  &:before {
+    content: $i-backspace;
+  }
+}
+.i-cloud_upload {
+  &:before {
+    content: $i-cloud_upload;
+  }
+}
 .i-check {
   &:before {
     content: $i-check;
+  }
+}
+.i-navigate_before {
+  &:before {
+    content: $i-navigate_before;
+  }
+}
+.i-navigate_next {
+  &:before {
+    content: $i-navigate_next;
   }
 }
 .i-close {
@@ -45,9 +105,159 @@
     content: $i-close;
   }
 }
+.i-clear_all {
+  &:before {
+    content: $i-clear_all;
+  }
+}
+.i-wb_cloudy {
+  &:before {
+    content: $i-wb_cloudy;
+  }
+}
+.i-cloud_done {
+  &:before {
+    content: $i-cloud_done;
+  }
+}
+.i-cloud_download {
+  &:before {
+    content: $i-cloud_download;
+  }
+}
+.i-code {
+  &:before {
+    content: $i-code;
+  }
+}
+.i-palette {
+  &:before {
+    content: $i-palette;
+  }
+}
+.i-compare_arrows {
+  &:before {
+    content: $i-compare_arrows;
+  }
+}
+.i-content_cut {
+  &:before {
+    content: $i-content_cut;
+  }
+}
+.i-content_paste {
+  &:before {
+    content: $i-content_paste;
+  }
+}
+.i-done {
+  &:before {
+    content: $i-done;
+  }
+}
+.i-done_all {
+  &:before {
+    content: $i-done_all;
+  }
+}
+.i-expand_less {
+  &:before {
+    content: $i-expand_less;
+  }
+}
+.i-expand_more {
+  &:before {
+    content: $i-expand_more;
+  }
+}
+.i-extension {
+  &:before {
+    content: $i-extension;
+  }
+}
+.i-favorite {
+  &:before {
+    content: $i-favorite;
+  }
+}
+.i-favorite_border {
+  &:before {
+    content: $i-favorite_border;
+  }
+}
+.i-get_app {
+  &:before {
+    content: $i-get_app;
+  }
+}
+.i-file_upload {
+  &:before {
+    content: $i-file_upload;
+  }
+}
 .i-g_translate {
   &:before {
     content: $i-g_translate;
+  }
+}
+.i-star {
+  &:before {
+    content: $i-star;
+  }
+}
+.i-graphic_eq {
+  &:before {
+    content: $i-graphic_eq;
+  }
+}
+.i-hdr_strong {
+  &:before {
+    content: $i-hdr_strong;
+  }
+}
+.i-hdr_weak {
+  &:before {
+    content: $i-hdr_weak;
+  }
+}
+.i-help {
+  &:before {
+    content: $i-help;
+  }
+}
+.i-help_outline {
+  &:before {
+    content: $i-help_outline;
+  }
+}
+.i-restore {
+  &:before {
+    content: $i-restore;
+  }
+}
+.i-home {
+  &:before {
+    content: $i-home;
+  }
+}
+.i-import_export {
+  &:before {
+    content: $i-import_export;
+  }
+}
+.i-info {
+  &:before {
+    content: $i-info;
+  }
+}
+.i-info_outline {
+  &:before {
+    content: $i-info_outline;
+  }
+}
+.i-linear_scale {
+  &:before {
+    content: $i-linear_scale;
   }
 }
 .i-menu {
@@ -68,6 +278,21 @@
 .i-settings {
   &:before {
     content: $i-settings;
+  }
+}
+.i-star_border {
+  &:before {
+    content: $i-star_border;
+  }
+}
+.i-star_half {
+  &:before {
+    content: $i-star_half;
+  }
+}
+.i-style {
+  &:before {
+    content: $i-style;
   }
 }
 

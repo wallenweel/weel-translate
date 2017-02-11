@@ -1,5 +1,28 @@
+$default-font-family: "Roboto", UILanguageFont, Arial,sans-serif;
+
 $primary-color_darker: hsl(220, 66%, 51%);
 $primary-color_lighter: hsl(217, 89%, 60%);
+
+$clr-grey-6: hsl(0, 0%, 60%);
+
+@function grey($degree: 0) {
+  @return hsl(0, 0%, $degree * 10%);
+}
+
+@mixin icon-font {
+  /* use !important to prevent issues with browser extensions that change fonts */
+  font-family: 'weel-translate' !important;
+  speak: none;
+  font-style: normal;
+  font-weight: normal;
+  font-variant: normal;
+  text-transform: none;
+  line-height: 1;
+
+  /* Better Font Rendering =========== */
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+}
 
 @mixin stealth($on: 0) {
   @if $on == 0 {

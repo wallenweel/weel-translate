@@ -60,7 +60,7 @@ h1, h2, h3, h4, h5, h6 {
     color: hsl(0, 0%, 100%);
     padding: 0 4px;
     z-index: 14;
-    position: absolute;
+    position: relative;
     overflow: hidden;
     flex-grow: 0;
     flex-shrink: 0;
@@ -99,19 +99,17 @@ h1, h2, h3, h4, h5, h6 {
 
   @at-root main.content {
     background-color: hsl(0, 0%, 96%);
-    max-height: inherit;
     position: relative;
     flex-grow: 2;
     display: flex;
+    overflow-x: hidden;
+    overflow-y: auto;
 
     .page {
       @include stealth;
 
       max-height: inherit;
       width: 100%;
-      padding-top: 48px;
-      overflow-x: hidden;
-      overflow-y: auto;
       flex-shrink: 0;
       &._on {
         @include stealth(1);

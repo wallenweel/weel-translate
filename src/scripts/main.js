@@ -40,13 +40,13 @@ fn['wave'] = ev => {
 }
 
 fn['drawer'] = ev => {
-  ui.container.setAttribute('data-unique-ui', 'drawer')
-  ui.mask.classList.add('_on')
+  ui.container[0].setAttribute('data-unique-ui', 'drawer')
+  ui.mask[0].classList.add('_on')
 }
 
 fn['mask'] = ev => {
-  ui.container.setAttribute('data-unique-ui', '')
-  ui.mask.classList.remove('_on')
+  ui.container[0].setAttribute('data-unique-ui', '')
+  ui.mask[0].classList.remove('_on')
 }
 
 fn['textarea'] = ev => {

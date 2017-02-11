@@ -7,18 +7,7 @@ try {
 
 }
 
-const q = selector => {
-  const list = document.querySelectorAll(selector)
-
-  switch (list.length) {
-  case 0:
-    return null
-  case 1:
-    return list[0]
-  default:
-    return list
-  }
-}
+const q = selector => document.querySelectorAll(selector)
 
 const ui = {}
 ui['container'] = q('.container')
@@ -27,7 +16,8 @@ ui['mask'] = q('.mask.-js')
 ui['wave'] = q('.wave.-js')
 ui['textarea'] = q('.input-stream .textarea.-js')
 ui['select'] = q('.select.-js')
-ui['lang_switch'] = q('.language .-switch.-js')
+ui['lang_swap'] = q('.language .-swap.-js')
+ui['mark'] = q('button.mark.-js')
 
 const fn = {}
 fn['wave'] = ev => {
@@ -85,9 +75,9 @@ fn['select'] = ev => {
   self.classList.add('_on')
 }
 
-fn['lang_switch'] = ev => {
+fn['lang_swap'] = ev => {
   const self = ev.currentTarget
-  const lang = q('.input-stream .language')
+  const lang = q('.input-stream .language')[0]
   const [ origin, dest ] = [
     lang.querySelector('.-origin'),
     lang.querySelector('.-destination'),
@@ -105,12 +95,17 @@ fn['lang_switch'] = ev => {
   dest.setAttribute('data-text', ot)
 }
 
-ui.textarea.addEventListener('keyup', fn.textarea, false)
-ui.drawerMenu.addEventListener('click', fn.drawer, false)
-ui.mask.addEventListener('click', fn.mask, false)
+fn['mark'] = ev => {
+  ev.currentTarget.classList.toggle('_on')
+}
+
+ui.textarea[0].addEventListener('keyup', fn.textarea, false)
+ui.drawerMenu[0].addEventListener('click', fn.drawer, false)
+ui.mask[0].addEventListener('click', fn.mask, false)
 ui.wave.forEach(elem => elem.addEventListener('click', fn.wave, false))
 ui.select.forEach(elem => elem.addEventListener('click', fn.select, false))
-ui.lang_switch.addEventListener('click', fn.lang_switch, false)
+ui.lang_swap[0].addEventListener('click', fn.lang_swap, false)
+ui.mark[0].addEventListener('click', fn.mark, false)
 
 document.body.addEventListener('click', ev => {
 

@@ -9,7 +9,7 @@ html(lang="")
       header.toolbar
         button.drawer-menu.wave.-js.-ordinary.i-menu
         h1.title.-ordinary Weel Translate
-        button.feedback.wave.-js.-ordinary.i-g_translate
+        button.feedback.wave.-js.-ordinary.i-bug_report
 
       main.content
         .page.-entry._on
@@ -20,7 +20,7 @@ html(lang="")
                 .-opt(data-value="jp") Japanese
                 .-opt(data-value="zh") 中文
 
-              button.-switch.-js.-ordinary.i-compare_arrows
+              button.-swap.-js.-ordinary.i-swap_horiz
 
               .select(data-text="中文" data-value="zh").-destination.-js.-ordinary.i-arrow_drop_down
                 .-opt(data-value="zh") 中文
@@ -31,25 +31,41 @@ html(lang="")
 
           section.stream-behavior
             button.wave.-js.-ordinary 选择段落
-            button.translate.wave.-js.-ordinary.i-g_translate
+            button.translate.wave.-js.-ordinary.i-done
             button.wave.-js.-ordinary 翻译全页
 
           section.output-stream._on
             .result
               .-word
+                .-tools
+                  button.mark.-js.-ordinary
+                    i.i-star_border
+                    i.i-star
                 .-phonetic
-                  i træns'leɪt; trɑːns-; -nz-
+                  button.voice.-js.-ordinary.i-hearing
+                  h5 træns'leɪt; trɑːns-; -nz-
                 .-explain
-                  h4.-plain 翻译
-                  p.-full
+                  button.copy.-js.-ordinary.i-content_copy
+                  h5.-plain 翻译
+                  p.-detail
                     |vt. 翻译；转化；解释；转变为；调动
                     br
                     |vi. 翻译
 
+            .reference
+              .-src
+                h4.-name
+                  i.i-all_inclusive
+                  |Google
+                p.-excerpt Lorem ipsum dolor sit amet, consectetur adipisicing elit, sed do eiusmod tempor incididunt.
+                a(href="#").-link More
 
-
-
-            .reference explain
+              .-src
+                h4.-name
+                  i.i-all_inclusive
+                  |Wiki
+                p.-excerpt Lorem ipsum dolor sit amet, consectetur adipisicing elit, sed do eiusmod tempor incididunt.
+                a(href="#").-link More
 
         .page.-settings
           h1 Settings

@@ -43,9 +43,7 @@ $clr-grey-6: hsl(0, 0%, 60%);
 }
 
 @mixin ordinary($node) {
-  @if $node == 'a' {
-
-  } @elseif $node == 'button' {
+  @if $node == 'button' {
     background: initial;
     padding: initial;
     border: initial;
@@ -54,5 +52,8 @@ $clr-grey-6: hsl(0, 0%, 60%);
     font-size: 1em;
     margin: initial;
     font-weight: initial;
+  } @elseif $node == 'a' {
+    text-decoration: initial;
+    color: grey(2);
   }
 }

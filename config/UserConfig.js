@@ -18,6 +18,9 @@ export default class UserConfig extends DefaultConfig {
     .renew('images.cwd', {
       dest: 'img',
     })
+    .renew('scripts.browserify', {
+      debug: false,
+    })
   }
 
 }

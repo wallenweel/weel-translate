@@ -3,25 +3,25 @@ export const elems = {
   mask: document.querySelector('.mask.-js'),
 }
 
-export const functions = {
-  wave: ev => {
-    const wave = document.createElement('span')
-    const target = ev.currentTarget
+export const functions = {}
 
-    target.appendChild(wave)
+functions['wave'] = ev => {
+  const wave = document.createElement('span')
+  const target = ev.currentTarget
 
-    const rect = wave.offsetParent.getBoundingClientRect()
-    const [ left, top ] = [
-      ev.clientX - rect.x,
-      ev.clientY - rect.y,
-    ]
+  target.appendChild(wave)
 
-    wave.classList.add('wave')
-    wave.style.left = `${left}px`
-    wave.style.top = `${top}px`
+  const rect = wave.offsetParent.getBoundingClientRect()
+  const [ left, top ] = [
+    ev.clientX - rect.x,
+    ev.clientY - rect.y,
+  ]
 
-    setTimeout(() => target.removeChild(wave), 2000)
-  },
+  wave.classList.add('wave')
+  wave.style.left = `${left}px`
+  wave.style.top = `${top}px`
+
+  setTimeout(() => target.removeChild(wave), 2000)
 }
 
 functions['drawer'] = ev => {
@@ -46,16 +46,23 @@ functions['textarea'] = ev => {
   }
 }
 
-functions['select'] = ev => {
-  ev.preventDefault()
-  ev.stopPropagation()
 
+functions['lang_swap'] = ev => {
   const self = ev.currentTarget
-  if (self.classList.contains('_on')) {
-    self.setAttribute('data-text', ev.target.innerText)
-    self.setAttribute('data-value', ev.target.getAttribute('data-value'))
-    return self.classList.remove('_on')
-  }
+  const lang = document.querySelector('.input-stream .language')
+  const [ origin, dest ] = [
+    lang.querySelector('.-origin'),
+    lang.querySelector('.-destination'),
+  ]
+  const [ ov, ot, dv, dt ] = [
+    origin.getAttribute('data-value'),
+    origin.getAttribute('data-text'),
+    dest.getAttribute('data-value'),
+    dest.getAttribute('data-text'),
+  ]
 
-  self.classList.add('_on')
+  origin.setAttribute('data-value', dv)
+  origin.setAttribute('data-text', dt)
+  dest.setAttribute('data-value', ov)
+  dest.setAttribute('data-text', ot)
 }

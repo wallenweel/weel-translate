@@ -14,8 +14,10 @@ export class UI {
   }
 
   register(name) {
-    return (type, listener = functions[name], capture = false) => {
-      this.elems.forEach(elem => elem.addEventListener(type, listener, capture))
+    return (type, listener, capture = false) => {
+      const _capture = typeof listener === 'boolean' ? listener : capture
+      const _listener = functions[name] || listener
+      this.elems.forEach(elem => elem.addEventListener(type, _listener, _capture))
 
       return this
     }

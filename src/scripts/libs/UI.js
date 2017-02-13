@@ -1,4 +1,4 @@
-import { functions } from './storage.js'
+import { fn } from './storage.js'
 
 export class UI {
   constructor() {}
@@ -16,7 +16,7 @@ export class UI {
   register(name) {
     return (type, listener, capture = false) => {
       const _capture = typeof listener === 'boolean' ? listener : capture
-      const _listener = functions[name] || listener
+      const _listener = fn[name] || listener
       this.elems.forEach(elem => elem.addEventListener(type, _listener, _capture))
 
       return this
@@ -25,7 +25,7 @@ export class UI {
 
   unregister(name) {
     return (type, capture = false) => {
-      this.elems.forEach(elem => elem.removeEventListener(type, functions[name], capture))
+      this.elems.forEach(elem => elem.removeEventListener(type, fn[name], capture))
 
       return this
     }

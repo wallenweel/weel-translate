@@ -1,11 +1,11 @@
-export const elems = {
+export const ui = {
   container: document.querySelector('.container'),
   mask: document.querySelector('.mask.-js'),
 }
 
-export const functions = {}
+export const fn = {}
 
-functions['wave'] = ev => {
+fn['wave'] = ev => {
   const wave = document.createElement('span')
   const target = ev.currentTarget
 
@@ -24,17 +24,17 @@ functions['wave'] = ev => {
   setTimeout(() => target.removeChild(wave), 2000)
 }
 
-functions['drawer'] = ev => {
-  elems.container.setAttribute('data-unique-ui', 'drawer')
-  elems.mask.classList.add('_on')
+fn['drawer'] = ev => {
+  ui.container.setAttribute('data-unique-ui', 'drawer')
+  ui.mask.classList.add('_on')
 }
 
-functions['mask'] = ev => {
-  elems.container.setAttribute('data-unique-ui', '')
-  elems.mask.classList.remove('_on')
+fn['mask'] = ev => {
+  ui.container.setAttribute('data-unique-ui', '')
+  ui.mask.classList.remove('_on')
 }
 
-functions['textarea'] = ev => {
+fn['textarea'] = ev => {
   const target = ev.currentTarget
   const text = target.innerText
 
@@ -46,8 +46,22 @@ functions['textarea'] = ev => {
   }
 }
 
+fn['select'] = ev => {
+  ev.stopPropagation()
 
-functions['lang_swap'] = ev => {
+  const self = ev.currentTarget
+  if (self.classList.contains('_on')) {
+    self.setAttribute('data-text', ev.target.innerText)
+    self.setAttribute('data-value', ev.target.getAttribute('data-value'))
+    return self.classList.remove('_on')
+  }
+
+  UI.q('.select.-js').off()
+
+  self.classList.add('_on')
+}
+
+fn['lang_swap'] = ev => {
   const self = ev.currentTarget
   const lang = document.querySelector('.input-stream .language')
   const [ origin, dest ] = [

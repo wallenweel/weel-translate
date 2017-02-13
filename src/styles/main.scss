@@ -98,21 +98,30 @@ h1, h2, h3, h4, h5, h6 {
   }
 
   @at-root main.content {
-    background-color: hsl(0, 0%, 96%);
     position: relative;
-    flex-grow: 2;
+    max-height: inherit;
     display: flex;
-    overflow-x: hidden;
-    overflow-y: auto;
+    flex-grow: 2;
 
     .page {
       @include stealth;
 
+      background-color: hsl(0, 0%, 96%);
       max-height: inherit;
+      height: 100%;
       width: 100%;
       flex-shrink: 0;
+      left: 0;
+      z-index: 1;
+      position: absolute;
+      overflow-y: auto;
+      overflow-x: hidden;
+
       &._on {
         @include stealth(1);
+
+        z-index: 2;
+        position: relative;
       }
 
       &.-entry {
@@ -386,6 +395,156 @@ h1, h2, h3, h4, h5, h6 {
           }
         }
       }
+
+      &.-settings {
+        @include stealth(1);
+
+        // background-color: grey(10);
+        padding: 16px;
+        z-index: 2;
+
+        .group {
+          margin-bottom: 24px;
+
+          &:last-child {
+          }
+
+          > h3 {
+            @include ordinary('h');
+
+            line-height: 1.75;
+            font-size: 18px;
+          }
+
+          .item {
+            font-size: 14px;
+
+            &.-muti-input {
+              $h: 24px;
+
+              height: $h;
+              margin: 16px 0;
+              align-items: center;
+              display: flex;
+
+              > label {
+                width: 2em;
+                flex-shrink: 0;
+                color: grey(4);
+              }
+
+              input[type="text"] {
+                line-height: $h;
+                flex-grow: 2;
+                color: grey(6);
+                text-indent: .4em;
+                border: 1px solid grey(9);
+              }
+
+              > button.-add-new {
+                width: 24px;
+                height: 100%;
+                margin-left: 8px;
+                flex-shrink: 0;
+                &:hover {
+                  color: $primary-color_lighter;
+                }
+              }
+            }
+
+            &.-checkbox {
+              height: 42px;
+              display: flex;
+              align-items: center;
+              justify-content: center;
+              position: relative;
+
+              > label {
+                width: 100%;
+              }
+
+              $sz: 20; $h: 3px; $w: 48px;
+              $rd: 1.8;
+
+              > input[type="checkbox"] {
+                opacity: 0;
+                margin: auto;
+                height: #{$sz}px;
+                width: $w + $sz;
+                top: 0;
+                bottom: 0;
+                right: - #{$sz - 2}px;
+                z-index: 2;
+                position: absolute;
+              }
+              > input[type="checkbox"] {
+                & + i.-fake {
+                  transition: background-color .25s ease;
+                  border-radius: $h / 2;
+                  background-color: grey(8.2);
+                  height: $h;
+                  width: $w;
+                  display: flex;
+                  align-items: center;
+                  position: relative;
+                  z-index: 1;
+
+                  &::before, &::after {
+                    content: "";
+                    height: 1px;
+                    width: 1px;
+                    transform: scale3d($sz - 1, $sz - 1, 1);
+                    display: block;
+                    border-radius: 50%;
+                    left: 0;
+                  }
+                  &::before {
+                    transition: left .25s ease;
+                    background-color: grey(10);
+                    z-index: 2;
+                    position: relative;
+                  }
+                  &::after {
+                    transition: left .25s ease, transform .25s ease;
+                    transform: scale3d($sz + 1, $sz + 1, 1);
+                    background-color: hsla(0, 0%, 20%, 0.125);
+                    margin: auto;
+                    top: 0;
+                    bottom: 0;
+                    z-index: 1;
+                    position: absolute;
+                  }
+                }
+
+                &:checked + i.-fake {
+                  &::before, &::after {
+                    left: 100%;
+                  }
+                  &::before {
+                    background-color: $primary-color_lighter;
+                  }
+                }
+
+                &:hover + i.-fake {
+                  &::after {
+                    transform: scale3d($sz + 9, $sz + 9, 1);
+                  }
+                }
+              }
+            }
+          }
+
+          button.uninstall {
+            @include ordinary('button');
+
+            width: 100%;
+            background-color: hsl(0, 90%, 45%);
+            color: grey(10);
+            height: 48px;
+            margin: 16px 0;
+          }
+        }
+      }
     }
   }
 
@@ -395,18 +554,77 @@ h1, h2, h3, h4, h5, h6 {
 
   &[data-unique-ui="drawer"] {
     .drawer {
+      box-shadow: 0 4px 8px hsla(0, 0%, 30%, 0.27);
       transform: translateX(100%);
     }
   }
   .drawer {
-    $w: 260px;
+    $w: 240px;
+
     transition: transform .25s ease;
     transform: translateX(0%);
-    box-shadow: 0 4px 8px hsla(0, 0%, 30%, 0.27);
     background-color: hsl(0, 0%, 100%);
     max-width: $w;
     left: -$w;
     z-index: 54;
+
+    header.user-area {
+      background-color: grey(4);
+      background-color: $primary-color_darker;
+      height: 80px;
+      align-items: center;
+      display: flex;
+
+      .avatar {
+        $sz: 52px;
+
+        border-radius: 50%;
+        background-color: grey(10);
+        height: $sz;
+        width: $sz;
+        color: grey(6);
+        margin: 16px;
+        justify-content: center;
+        align-items: center;
+        display: flex;
+      }
+
+      .username {
+        color: grey(10);
+        font-weight: 600;
+      }
+    }
+
+    nav.link-list {
+      margin: 16px 0;
+
+      > a.item {
+        @include ordinary('a');
+
+        $sz: 48px;
+
+        transition: background-color .25s ease, color .25s ease;
+        cursor: default;
+        height: $sz;
+        font-size: 14px;
+        align-items: center;
+        display: flex;
+        position: relative;
+        overflow: hidden;
+
+        &:hover {
+          background-color: grey(9.6);
+          color: grey(4);
+        }
+
+        > i {
+          width: $sz;
+          margin-right: 8px;
+          font-size: 24px;
+          text-align: center;
+        }
+      }
+    }
   }
 
   .mask {

@@ -6,79 +6,67 @@ html(lang="")
     link(href="./css/main.css" rel="stylesheet")
   body
     .container(data-unique-ui="")
-      header.toolbar
-        button.drawer-menu.wave.-js.-ordinary.i-menu
-        h1.title.-ordinary Weel Translate
-        button.get-selection.wave.-js.-ordinary.i-format_shapes
-        //- button.feedback.wave.-js.-ordinary.i-bug_report
+      include inc/toolbar.pug
 
       main.content
-        .page.-entry._on
-          section.input-stream
-            nav.language
-              .select(data-text="English" data-value="en").-origin.-js.-ordinary.i-arrow_drop_down
-                .-opt(data-value="en") English
-                .-opt(data-value="jp") Japanese
-                .-opt(data-value="zh") 中文
-
-              button.-swap.-js.-ordinary.i-swap_horiz
-
-              .select(data-text="中文" data-value="zh").-destination.-js.-ordinary.i-arrow_drop_down
-                .-opt(data-value="zh") 中文
-                .-opt(data-value="jp") Japanese
-                .-opt(data-value="en") English
-
-            p.textarea.-js(contentEditable data-placeholder="input ...")
-
-          section.stream-behavior
-            button.clear.wave.-js.-ordinary 清除内容
-            button.translate.wave.-js.-ordinary.i-done
-            button.wave.-js.-ordinary 翻译全页
-
-          section.output-stream._on
-            .result
-              .-word
-                .-tools
-                  button.mark.-js.-ordinary
-                    i.i-star_border
-                    i.i-star
-                .-phonetic
-                  button.voice.-js.-ordinary.i-hearing
-                  h5 træns'leɪt; trɑːns-; -nz-
-                .-explain
-                  button.copy.-js.-ordinary.i-content_copy
-                  h5.-plain 翻译
-                  p.-detail
-                    |vt. 翻译；转化；解释；转变为；调动
-                    br
-                    |vi. 翻译
-
-            .reference
-              .-src
-                h4.-name
-                  i.i-all_inclusive
-                  |Google
-                p.-excerpt Lorem ipsum dolor sit amet, consectetur adipisicing elit, sed do eiusmod tempor incididunt.
-                a(href="#").-link More
-
-              .-src
-                h4.-name
-                  i.i-all_inclusive
-                  |Wiki
-                p.-excerpt Lorem ipsum dolor sit amet, consectetur adipisicing elit, sed do eiusmod tempor incididunt.
-                a(href="#").-link More
+        include inc/entry.page.pug
 
         .page.-settings
-          h1 Settings
+          .group
+            h3 添加 API Key
+            .item.-muti-input
+              label 1
+              input(type="text" name="api_key")
+              button(type="button").-add-new.-js.-ordinary.i-add
+            .item.-muti-input
+              label 2
+              input(type="text" name="api_key")
+              button(type="button").-add-new.-js.-ordinary.i-add
+
+          .group
+            h3 选择交互方式
+            .item.-checkbox
+              label 使用浮动按钮
+              input(type="checkbox" name="use_fab")
+              i.-fake
+            .item.-checkbox
+              label 自动显示弹出面板
+              input(type="checkbox" name="auto_popup")
+              i.-fake
+            .item.-checkbox
+              label 浮动结果面板
+              input(type="checkbox" name="use_fap")
+              i.-fake
+
+          .group
+            h3 扩展选项
+            button(type="button").uninstall 卸载扩展
 
         .page.-about
           h1 About
 
-        //- footer.copyright
-        //-   h2 Footer
-
       section.drawer
-        h2 Drawer
+        header.user-area
+          .avatar
+            img(alt="avatar" src="")
+          .username user name
+
+        nav.link-list
+          a(href="popup.html").item.wave.-js
+            i.i-home
+            span 首页
+          a(href="setting.html").item.wave.-js
+            i.i-tune
+            span 设置
+          a(href="option.html").item.wave.-js
+            i.i-extension
+            span 扩展选项
+          a(href="support.html").item.wave.-js
+            i.i-all_inclusive
+            span 支持开发
+          a(href="feedback.html").item.wave.-js
+            i.i-bug_report
+            span 帮助 &amp; 反馈
 
       section.mask.-js
 

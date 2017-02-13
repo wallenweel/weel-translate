@@ -11,6 +11,11 @@
     "96": "img/icons/icon.svg"
   },
 
+  "permissions": [
+    "storage",
+    "cookies"
+  ],
+
   "background": {
     "scripts": ["js/background.js"]
   },

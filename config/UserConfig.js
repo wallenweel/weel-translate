@@ -11,10 +11,6 @@ export default class UserConfig extends DefaultConfig {
       open: false,
       notify: false,
     })
-    .renew('styles', {
-      include: ['**/*.scss'],
-      exclude: ['**/_*.scss', '**/~*.scss', 'lib/*.scss'],
-    })
     .renew('images.cwd', {
       dest: 'img',
     })

@@ -51,7 +51,7 @@ h1, h2, h3, h4, h5, h6 {
   header.toolbar {
     @include box_shadow(2);
 
-    $h: 48px;
+    $h: $header-height;
 
     background-color: $primary-color_lighter;
     height: $h;
@@ -99,13 +99,15 @@ h1, h2, h3, h4, h5, h6 {
 
   @at-root main.content {
     position: relative;
-    max-height: inherit;
+    max-height: $container-max-height - $header-height;
     display: flex;
     flex-grow: 2;
 
     .page {
       @include stealth;
 
+      transition: visibility .25s ease, opacity .25s ease, transform .45s ease-in-out;
+      transform: translateX(100%) scale3d(.75, .75, 1);
       background-color: hsl(0, 0%, 96%);
       max-height: inherit;
       height: 100%;
@@ -120,6 +122,7 @@ h1, h2, h3, h4, h5, h6 {
       &._on {
         @include stealth(1);
 
+        transform: translateX(0%) scale3d(1, 1, 1);
         z-index: 2;
         position: relative;
       }
@@ -397,8 +400,6 @@ h1, h2, h3, h4, h5, h6 {
       }
 
       &.-settings {
-        @include stealth(1);
-
         // background-color: grey(10);
         padding: 16px;
         z-index: 2;
@@ -537,11 +538,14 @@ h1, h2, h3, h4, h5, h6 {
           button.uninstall {
             @include ordinary('button');
 
-            width: 100%;
+            border-radius: 2px;
             background-color: hsl(0, 90%, 45%);
             color: grey(10);
             height: 48px;
+            width: 100%;
             margin: 16px 0;
+            overflow: hidden;
+            position: relative;
           }
         }
       }

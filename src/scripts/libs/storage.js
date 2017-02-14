@@ -1,5 +1,8 @@
+import UI from './UI.js'
+
 export const ui = {
   container: document.querySelector('.container'),
+  content: document.querySelector('main.content'),
   mask: document.querySelector('.mask.-js'),
 }
 

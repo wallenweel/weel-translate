@@ -37,10 +37,11 @@ export class UI {
     })
   }
 
-  off() {
+  off(callback) {
     this.elems.forEach(elem => {
       if (elem.classList.contains('_on')) elem.classList.remove('_on')
     })
+    if (callback) callback(this.elems)
   }
 
   toggle() {

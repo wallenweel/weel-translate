@@ -3,6 +3,9 @@ $default-font-family: "Roboto", UILanguageFont, Arial,sans-serif;
 $primary-color_darker: hsl(220, 66%, 51%);
 $primary-color_lighter: hsl(217, 89%, 60%);
 
+$container-max-height: 480px;
+$header-height: 48px;
+
 $clr-grey-6: hsl(0, 0%, 60%);
 
 @function grey($degree: 0) {

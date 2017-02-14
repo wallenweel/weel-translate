@@ -12,6 +12,7 @@
   },
 
   "permissions": [
+    "tabs",
     "storage",
     "cookies"
   ],

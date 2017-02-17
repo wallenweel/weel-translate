@@ -1,14 +1,16 @@
 .page.-entry._on
   section.input-stream
     nav.language
-      .select(data-text="English" data-value="en").-origin.-js.-ordinary.i-arrow_drop_down
+      .select(data-text="自动" data-value="").-origin.-js.-ordinary.i-arrow_drop_down
+        .-opt(data-value="") 自动
         .-opt(data-value="en") English
         .-opt(data-value="jp") Japanese
         .-opt(data-value="zh") 中文
 
       button.-swap.-js.-ordinary.i-swap_horiz
 
-      .select(data-text="中文" data-value="zh").-destination.-js.-ordinary.i-arrow_drop_down
+      .select(data-text="自动" data-value="").-destination.-js.-ordinary.i-arrow_drop_down
+        .-opt(data-value="") 自动
         .-opt(data-value="zh") 中文
         .-opt(data-value="jp") Japanese
         .-opt(data-value="en") English
@@ -20,7 +22,7 @@
     button.translate.wave.-js.-ordinary.i-done
     button.wave.-js.-ordinary 翻译全页
 
-  section.output-stream._on
+  section.output-stream
     .result
       .-word
         .-tools
@@ -29,14 +31,11 @@
             i.i-star
         .-phonetic
           button.voice.-js.-ordinary.i-hearing
-          h5 træns'leɪt; trɑːns-; -nz-
+          h5.-plain
         .-explain
           button.copy.-js.-ordinary.i-content_copy
-          h5.-plain 翻译
+          h5.-plain
           p.-detail
-            |vt. 翻译；转化；解释；转变为；调动
-            br
-            |vi. 翻译
 
     .reference
       .-src

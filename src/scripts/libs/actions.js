@@ -1,0 +1,18 @@
+export const TRANSLATE = 'TRANSLATE'
+export const TRANSLATE_QUERY_DONE = 'TRANSLATE_QUERY_DONE'
+export const TRANSLATE_IN_POPUP = 'TRANSLATE_IN_POPUP'
+export const TRANSLATE_WITH_SELECTING = 'TRANSLATE_WITH_SELECTING'
+
+export const UPDATE_SETTINGS = 'UPDATE_SETTINGS'
+export const RESET_SETTINGS = 'RESET_SETTINGS'
+
+export const NO_CORRESPONDING_ACTION = 'NO_CORRESPONDING_ACTION'
+
+export const UNINSTALL_EXTENSION = 'UNINSTALL_EXTENSION'
+
+export const do_translate = (payload = {}) => {
+  return {
+    type: TRANSLATE,
+    payload,
+  }
+}

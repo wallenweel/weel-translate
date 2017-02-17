@@ -1,4 +1,4 @@
-import { fn } from './storage.js'
+import * as fn from './functions.js'
 
 export class UI {
   constructor() {}

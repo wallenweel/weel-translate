@@ -1,14 +1,6 @@
 import UI from './UI.js'
 
-export const ui = {
-  container: document.querySelector('.container'),
-  content: document.querySelector('main.content'),
-  mask: document.querySelector('.mask.-js'),
-}
-
-export const fn = {}
-
-fn['wave'] = ev => {
+export const wave = ev => {
   const wave = document.createElement('span')
   const target = ev.currentTarget
 
@@ -27,17 +19,7 @@ fn['wave'] = ev => {
   setTimeout(() => target.removeChild(wave), 2000)
 }
 
-fn['drawer'] = ev => {
-  ui.container.setAttribute('data-unique-ui', 'drawer')
-  ui.mask.classList.add('_on')
-}
-
-fn['mask'] = ev => {
-  ui.container.setAttribute('data-unique-ui', '')
-  ui.mask.classList.remove('_on')
-}
-
-fn['textarea'] = ev => {
+export const textarea = ev => {
   const target = ev.currentTarget
   const text = target.innerText
 
@@ -49,7 +31,7 @@ fn['textarea'] = ev => {
   }
 }
 
-fn['select'] = ev => {
+export const select = ev => {
   ev.stopPropagation()
 
   const self = ev.currentTarget
@@ -64,7 +46,7 @@ fn['select'] = ev => {
   self.classList.add('_on')
 }
 
-fn['lang_swap'] = ev => {
+export const lang_swap = ev => {
   const self = ev.currentTarget
   const lang = document.querySelector('.input-stream .language')
   const [ origin, dest ] = [

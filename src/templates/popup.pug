@@ -3,13 +3,13 @@ html(lang="")
   head
     meta(charset="utf-8")
     title Weel Translate Popup
-    link(href="./css/main.css" rel="stylesheet")
+    link(href="./css/popup.css" rel="stylesheet")
   body
     .container(data-unique-ui="")
       include inc/toolbar.pug
 
       main.content
-        include inc/entry.page.pug
+        include inc/page-entry.pug
 
         .page.-settings
           .group
@@ -72,4 +72,4 @@ html(lang="")
 
       section.mask.-js
 
-    script(src="js/main.js")
+    script(src="js/popup.js")

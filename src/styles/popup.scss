@@ -252,19 +252,17 @@ h1, h2, h3, h4, h5, h6 {
           }
 
           &.output-stream {
-            display: none;
-            margin-top: 12px;
-
-            &._on {
-              display: block;
-            }
-
             .result, .reference {
               @include box_shadow;
 
               background-color: grey(10);
               padding: 16px;
-              margin-top: 10px;
+              margin-top: 12px;
+              display: none;
+
+              &._on {
+                display: block;
+              }
             }
 
             .result {

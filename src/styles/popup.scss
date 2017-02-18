@@ -309,6 +309,11 @@ h1, h2, h3, h4, h5, h6 {
                   $sz: 32px;
 
                   position: relative;
+                  display: none;
+
+                  &._on {
+                    display: block;
+                  }
 
                   button.-js {
                     height: $sz;

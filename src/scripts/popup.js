@@ -1,6 +1,7 @@
 import UI from './libs/UI.js'
 import * as doms from './libs/doms-popup.js'
 import * as fn from './libs/functions.js'
+import { speech } from './libs/synth.js'
 import {
   TRANSLATE_QUERY_DONE,
 } from './libs/actions.js'
@@ -24,8 +25,16 @@ UI.q('.input-stream .textarea.-js').register('textarea')('keyup')
 const translate = doms.container.querySelector('.translate.-js')
 translate.addEventListener('click', do_translate, false)
 
+const voice = doms.ostream.querySelector('.-phonetic button.voice.-js')
+voice.addEventListener('click', ev => {
+  const text = doms.istream.querySelector('.textarea.-js').innerText
+  console.log(text)
+  speech(text)
+}, false)
+
 function do_translate(ev) {
-  const stream = doms.container.querySelector('.input-stream')
+  const stream = doms.istream
+
   port.postMessage({
     type: 'TRANSLATE',
     meta: {
@@ -33,8 +42,8 @@ function do_translate(ev) {
     },
     payload: {
       content: stream.querySelector('.textarea.-js').innerText,
-      origin: stream.querySelector('.language .-origin').getAttribute('data-value'),
-      dest: stream.querySelector('.language .-destination').getAttribute('data-value'),
+      from: stream.querySelector('.language .-origin').getAttribute('data-value'),
+      to: stream.querySelector('.language .-destination').getAttribute('data-value'),
     },
   })
 }
@@ -44,14 +53,30 @@ port.onMessage.addListener(data => {
 
   switch (type) {
   case TRANSLATE_QUERY_DONE:
-    console.log(data)
-    const rw = doms.ostream.querySelector('.result')
-    const { basic: { explains, phonetic }, translation } = payload
+    const { explains, phonetic, translation } = payload
 
-    rw.querySelector('.-word .-phonetic .-plain').innerText = phonetic
-    rw.querySelector('.-word .-explain .-plain').innerText = translation.join(', ')
-    rw.querySelector('.-word .-explain .-detail').innerHTML = explains.join('<br>')
-    rw.classList.add('_on')
+    doms.ostream.querySelectorAll('._on')
+      .forEach(elem => elem.classList.remove('_on'))
+
+    const $result = doms.ostream.querySelector('.result')
+    const [$phonetic, $explains] = [
+      $result.querySelector('.-word .-phonetic'),
+      $result.querySelector('.-word .-explain'),
+    ]
+
+    if (phonetic[0]) {
+      $phonetic.querySelector('.-plain').innerText = phonetic[0]
+      $phonetic.classList.add('_on')
+    }
+
+    $explains.querySelector('.-plain').innerText = translation.join(', ')
+
+    if (explains) {
+      $explains.querySelector('.-detail').innerHTML = explains.join('<br>')
+      $explains.classList.add('_on')
+    }
+
+    $result.classList.add('_on')
 
     break
   default:

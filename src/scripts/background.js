@@ -1,4 +1,4 @@
-import api, { youdao } from './libs/api.js'
+import api, { youdao, google } from './libs/api.js'
 import {
   TRANSLATE,
   TRANSLATE_QUERY_DONE,
@@ -11,10 +11,10 @@ chrome.runtime.onConnect.addListener(port => {
 
     switch (type) {
     case TRANSLATE:
-      const { content } = payload
-      const f = api(youdao, 'text')
+      const { q } = payload
+      const translate = api(google)
 
-      return f({ content: content || 'translate' })
+      return translate({ q })
         .then(json => {
           port.postMessage({
             type: TRANSLATE_QUERY_DONE,

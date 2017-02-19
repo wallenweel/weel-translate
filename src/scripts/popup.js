@@ -41,16 +41,16 @@ function do_translate(ev) {
       from: 'popup',
     },
     payload: {
-      content: stream.querySelector('.textarea.-js').innerText,
-      from: stream.querySelector('.language .-origin').getAttribute('data-value'),
-      to: stream.querySelector('.language .-destination').getAttribute('data-value'),
+      q: stream.querySelector('.textarea.-js').innerText || 'translate',
+      source: stream.querySelector('.language .-origin').getAttribute('data-value'),
+      target: stream.querySelector('.language .-destination').getAttribute('data-value'),
     },
   })
 }
 
 port.onMessage.addListener(data => {
   const { type, payload = {} } = data
-
+  console.log(payload)
   switch (type) {
   case TRANSLATE_QUERY_DONE:
     const { explains, phonetic, translation } = payload

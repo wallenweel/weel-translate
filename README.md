@@ -1,8 +1,28 @@
-# gulp-next
+## 开始
+> 这是一个基于 Web Extension 接口的浏览器翻译扩展，因为使用习惯，第一步会先在 Firefox 上实现，然后根据情况移植到 Googel Chrome 上。
 
-### How to use?
+## 准备完成的特性
 
-- `gulp [task] --release` ==> Production mode
-- `gulp build` ==> build sources to destination
-- `gulp server` ==> start browser-sync as server
-- ...
++ 类 Material Design 界面
++ 自动中英互译
++ 手动选择语言进行精准翻译
++ 中文、英文音标
++ 中文、英文朗读
++ 选词翻译
++ 节选翻译段落
++ 全文翻译
++ 多种交互方式
++ 可配置选项（同步账户）
++ 简易词汇收藏
++ ……
+
+## 项目进展状态
+`pre-Alpha √` ==> `Alpha` ==> `Beta` => `RC`
+
+## 编译源码
+> 仓库的 master 分支为稳定版本（可编译通过，没有明显 bug），项目使用的自动化工具（gulp-next）是我根据自己习惯定制的，也同时在仓库的项目中可以找到。
+
+0. 首先 clone 项目的 master 分支到本地
+0. 进入项目的根目录，执行 `npm install` 命令安装所需的依赖
+0. 等待依赖安装完毕，执行 `npm run build` 进行编译
+0. 也可以执行 `npm start` 开启一个 web 服务，可以实时查看修改后的界面

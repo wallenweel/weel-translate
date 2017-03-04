@@ -1,8 +1,8 @@
 {
-  "name": "gulp-next",
+  "name": "weel-translation-extension",
   "version": "0.0.1",
-  "description": "",
   "main": "index.js",
+  "description": "A versatile translation base on modern browser and has light material UI.",
   "scripts": {
     "start": "set NODE_ENV=development && gulp server",
     "start:debug": "set NODE_ENV=development && gulp server --verbose",
@@ -16,9 +16,9 @@
   "author": "wallen",
   "license": "MIT",
   "bugs": {
-    "url": "https://github.com/wallenweel/gulp-next/issues"
+    "url": "https://github.com/wallenweel/weel-translation-extension/issues"
   },
-  "homepage": "https://github.com/wallenweel/gulp-next#readme",
+  "homepage": "https://github.com/wallenweel/weel-translation-extension#readme",
   "devDependencies": {
     "autoprefixer": "^6.3.7",
     "babel-core": "^6.11.4",

@@ -1,15 +1,10 @@
 import $ from './libs/Weel.js'
-import * as ui from './libs/uis.js'
+import { wave, select } from './libs/ui/common.js'
+import { input2translate } from './libs/ui/translation.js'
+import { translate } from './libs/services/translation.js'
 
-const logs = () => console.log('logssssssss')
-
-$('.translate.-js').register('click', logs)
-$.log($(document.querySelector('body')))
-
+$('.translate.-js').register('click', input2translate(translate))
 
 $('body').delegate('click', ev => {
-  $('.select.-js._on').off()
-},
-  ui.wave,
-  ui.select
-)
+  $('.select.-js._on', ev.currentTarget).off()
+}, wave, select)

@@ -80,6 +80,29 @@ export class WeeL {
     return this
   }
 
+  turn() {
+    this.elems.forEach(elem => elem.classList.toggle('_on'))
+  }
+
+  /**
+   * Inspect Node Whether Has Specified Class Name
+   * @param  {Element} node  A element that need to inspect
+   * @param  {Array}   clses Some class name as flag
+   * @return {Boolean}       Yes or no
+   */
+  hasClass(...clses) {
+    const node = this.elems[0]
+
+    for (var i = 0; i < clses.length; i++)
+      if (!node.classList.contains(clses[i])) return false
+
+    return true
+  }
+
+  isUI(...clses) {
+    return this.hasClass('-js', ...clses)
+  }
+
 }
 
 /**

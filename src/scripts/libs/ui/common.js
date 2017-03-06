@@ -1,25 +1,11 @@
-import $ from './Weel.js'
-
-/**
- * Inspect Node is js UI or Not
- * @param  {Element} node  A element that need to inspect
- * @param  {Array}   clses Some class name as flag
- * @return {Boolean}       Yes or no
- */
-function sui(node, ...clses) {
-  if (!node.classList.contains('-js')) return false
-
-  for (var i = 0; i < clses.length; i++)
-    if (!node.classList.contains(clses[i])) return false
-
-  return true
-}
+import $ from '../Weel.js'
 
 export const wave = ev => {
-  if (!sui(ev.target, 'wave')) return 0
+  const target = ev.target
+
+  if (!$(target).isUI('wave')) return 0
 
   const wave = document.createElement('span')
-  const target = ev.target
 
   target.appendChild(wave)
 
@@ -39,7 +25,7 @@ export const wave = ev => {
 export const select = ev => {
   const target = ev.target
 
-  if (!sui(target, 'select')) return 0
+  if (!$(target).isUI('select')) return 0
 
   ev.stopPropagation()
 

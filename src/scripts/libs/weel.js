@@ -1,13 +1,19 @@
-export class weel {
-  constructor(selector = '') {
-    this.selector = selector
-    this.objects = this.p(this.selector)
-    this.length = this.objects.length
+import * as fn from './functions.js'
+
+export class WeeL {
+
+  constructor(selector, scope) {
+    this.elems    = this.p(selector, scope)
+    this.selector = selector.toString()
+    this.length   = this.elems.length
   }
 
+  p(selector, scope) {
+    if (selector.nodeType === 1) return [selector]
 
-  p(selector) {
-    return document.querySelectorAll(selector)
+    if (fn.type(selector) === 'nodelist') return Array.from(selector)
+
+    return Array.from((!scope ? document : scope).querySelectorAll(selector))
   }
 
   /**
@@ -17,46 +23,73 @@ export class weel {
    * @return {Object}          Class's this
    */
   do(event, method) {
-    this.register(event, method)
-
-    return this
+    return this.register(event, method)
   }
 
   apply(event, method) {}
 
+  /**
+   * Set Listeners of NodeList
+   * @param  {String} type Listener method type, [add|remove]
+   * @return {Function}    Generate a carry function
+   */
   listener(type) {
+    /**
+     * Traversal function of event listener
+     * @param  {String}   event    Event type, [click|focus|...]
+     * @param  {Callback} method   Listener's Callback function
+     * @param  {Boolean}  capture  Capture, true or false
+     * @return {this}
+     */
     return (event, method, capture) => {
-      this.objects.forEach(obj => {
-        obj[`${type}EventListener`](event, method, capture)
-      })
+      this.elems.forEach(elem => elem[`${type}EventListener`](event, method, capture))
+
+      return this
     }
   }
 
   register(event, method, capture = false) {
-    this.listener('add')(event, method, capture)
-
-    return this
+    return this.listener('add')(event, method, capture)
   }
 
   forget(event, method, capture = false) {
-    this.listener('remove')(event, method, capture)
-
-    return this
+    return this.listener('remove')(event, method, capture)
   }
 
+  /**
+   * Global Proxy Events by Propagating
+   * @param  {String} event     Event Type, [click|...]
+   * @param  {Array}  callbacks Events's callback list in arguments
+   * @return {this}
+   */
   delegate(event, ...callbacks) {
-    this.register(event, ev => {
+    return this.register(event, ev => {
       callbacks.forEach(callback => callback(ev))
     }, false)
   }
 
-  type(obj, val = '') {
-    const r = /(\w+)\]$/.exec(Object.prototype.toString.apply(obj).toLowerCase())[1]
+  on() {
+    this.elems.forEach(elem => !elem.classList.contains('_on') ? elem.classList.add('_on') : 0)
 
-    if (!val) return r
-
-    return (val === r)
+    return this
   }
+
+  off() {
+    this.elems.forEach(elem => elem.classList.contains('_on') ? elem.classList.remove('_on') : 0)
+
+    return this
+  }
+
 }
 
-export default selector => new weel(selector)
+/**
+ * Export Module as Function
+ * @param  {String} selector Param "selector" of Weel's constructor
+ * @return {Object}          Weel's instance
+ */
+const mod = selector => new WeeL(selector)
+
+mod.type = fn.type
+mod.log = fn.log
+
+export default mod

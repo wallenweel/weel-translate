@@ -1,6 +1,6 @@
 import * as fn from './functions.js'
 
-export class WeeL {
+export default class WeeL {
 
   constructor(selector, scope) {
     this.elems    = this.p(selector, scope)
@@ -11,22 +11,10 @@ export class WeeL {
   p(selector, scope) {
     if (selector.nodeType === 1) return [selector]
 
-    if (fn.type(selector) === 'nodelist') return Array.from(selector)
+    if (fn.type(selector) === 'nodelist') return [...selector]
 
-    return Array.from((!scope ? document : scope).querySelectorAll(selector))
+    return [...(!scope ? document : scope).querySelectorAll(selector)]
   }
-
-  /**
-   * Do some operation with DOM
-   * @param  {String}   event  Event type. e.g. 'click' 'hover' ...
-   * @param  {Callback} method Event triggers a operation
-   * @return {Object}          Class's this
-   */
-  do(event, method) {
-    return this.register(event, method)
-  }
-
-  apply(event, method) {}
 
   /**
    * Set Listeners of NodeList
@@ -65,7 +53,7 @@ export class WeeL {
   delegate(event, ...callbacks) {
     return this.register(event, ev => {
       callbacks.forEach(callback => callback(ev))
-    }, false)
+    }, true)
   }
 
   on() {
@@ -110,9 +98,7 @@ export class WeeL {
  * @param  {String} selector Param "selector" of Weel's constructor
  * @return {Object}          Weel's instance
  */
-const mod = selector => new WeeL(selector)
+export const weel = selector => new WeeL(selector)
 
-mod.type = fn.type
-mod.log = fn.log
-
-export default mod
+weel.type = fn.type
+weel.log = fn.log

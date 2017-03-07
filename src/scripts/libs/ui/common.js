@@ -1,4 +1,4 @@
-import $ from '../Weel.js'
+import { weel as $ } from '../Weel.js'
 
 export const wave = ev => {
   const target = ev.target
@@ -24,15 +24,18 @@ export const wave = ev => {
 
 export const select = ev => {
   const target = ev.target
+  const select = $(target.parentElement).isUI('select') ? target.parentElement : target
 
-  if (!$(target).isUI('select')) return 0
+  if (!$(select).isUI('select')) return 0
 
   ev.stopPropagation()
+  ev.preventDefault()
 
-  if (target.classList.contains('_on')) {
-    target.setAttribute('data-text', target.innerText)
-    target.setAttribute('data-value', target.getAttribute('data-value'))
-    return target.classList.remove('_on')
+  if ($(target).hasClass('-opt')) {
+    select.setAttribute('data-text', target.textContent)
+    select.setAttribute('data-value', target.getAttribute('data-value'))
+
+    return select.classList.remove('_on')
   }
 
   $('.select.-js._on', ev.currentTarget).off()

@@ -35,3 +35,35 @@ export const parseEngine = (preset, type = 'text') => {
       .then(data => preset.parse(data, args))
   }
 }
+
+/** @type {Map} Stores Callbacks with Action Name */
+export const doActions = new Map()
+
+/**
+ * Define What An Action Is Going To Be Stored
+ * @param  {String} name   Define an action's name by string const
+ * @param  {Array}  params Provide to callback function as params
+ * @return {Boolean}       Operation status with boolean
+ */
+export const do_action = (name, ...params) => {
+  const callbacks = doActions.get(name) || []
+
+  if (!callbacks.length) return 0
+
+  callbacks.forEach(callback => callback(...params))
+
+  return 1
+}
+
+/**
+ * Add Callback Function Into Action
+ * @param {String}   name     Action name existed in `doAction` Map
+ * @param {Function} callback Do something when action is active
+ */
+export const add_action = (name, callback) => {
+  const callbacks = doActions.get(name) || []
+
+  callbacks.push(callback)
+
+  doActions.set(name, callbacks)
+}

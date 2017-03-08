@@ -4,6 +4,7 @@ export default class WeeL {
 
   constructor(selector, scope) {
     this.elems    = this.p(selector, scope)
+    this.elem     = this.elems[0]
     this.selector = selector.toString()
     this.length   = this.elems.length
   }

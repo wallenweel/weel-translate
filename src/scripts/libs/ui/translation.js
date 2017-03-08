@@ -1,33 +1,47 @@
-export const lang_swap = ev => {
-  const self = ev.currentTarget
-  const lang = document.querySelector('.input-stream .language')
-  const [ origin, dest ] = [
-    lang.querySelector('.-origin'),
-    lang.querySelector('.-destination'),
-  ]
-  const [ ov, ot, dv, dt ] = [
-    origin.getAttribute('data-value'),
-    origin.getAttribute('data-text'),
-    dest.getAttribute('data-value'),
-    dest.getAttribute('data-text'),
+import { do_action } from '../functions'
+import { SWAP_LANGUAGE_COMPLETED } from '../actions/types'
+import Weel from '../Weel'
+
+export const swapLanguages = ({ currentTarget: {
+  previousElementSibling,
+  nextElementSibling,
+}}) => {
+  const [ ov, dv ] = [
+    previousElementSibling.getAttribute('data-value'),
+    nextElementSibling.getAttribute('data-value'),
   ]
 
-  origin.setAttribute('data-value', dv)
-  origin.setAttribute('data-text', dt)
-  dest.setAttribute('data-value', ov)
-  dest.setAttribute('data-text', ot)
+  if (!ov && !dv) return 0
+
+  const [ot, dt ] = [
+    previousElementSibling.getAttribute('data-text'),
+    nextElementSibling.getAttribute('data-text'),
+  ]
+
+  previousElementSibling.setAttribute('data-value', dv)
+  previousElementSibling.setAttribute('data-text', dt)
+  nextElementSibling.setAttribute('data-value', ov)
+  nextElementSibling.setAttribute('data-text', ot)
+
+  do_action(SWAP_LANGUAGE_COMPLETED, ov, dv)
 }
 
-export const textarea = ev => {
-  const target = ev.currentTarget
-  const text = target.innerText
+Weel.prototype.textArea = function () {
+  const target = this.elems[0]
 
-  if (/^\s*$/.test(text)) {
-    target.classList.remove('_on')
-    target.innerHTML = ''
-  } else {
-    target.classList.add('_on')
-  }
+  if (target.nodeName.toLowerCase() !== 'textarea') return 0
+
+  return ({
+    out: ()   => (target.value.trim()),
+    in: str   => (target.value = str),
+    copy: ()  => (target.select() || document.execCommand('copy')),
+    // TODO: Implement paste text by clicking a button
+    paste: ev => {
+      console.log(ev.clipboardData.getData('text/plain'))
+      // (target.value = ev.clipboardData.trim())
+    },
+    clear: () => (target.value = ''),
+  })
 }
 
 export const input2translate = service => {

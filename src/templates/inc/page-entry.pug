@@ -15,12 +15,12 @@
         .-opt(data-value="jp") Japanese
         .-opt(data-value="en") English
 
-    p.textarea.-js(contentEditable data-placeholder="input ...")
+    textarea(autocomplete="false" placeholder="输入需要翻译的内容...")
 
   section.stream-behavior
     button.clear.wave.-js.-ordinary 清除内容
     button.translate.wave.-js.-ordinary.i-done
-    button.wave.-js.-ordinary 翻译全页
+    button.clipboard.wave.-js.-ordinary 粘帖/复制
 
   section.output-stream
     .result

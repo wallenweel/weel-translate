@@ -7,6 +7,8 @@ export default class WeeL {
     this.elem     = this.elems[0]
     this.selector = selector.toString()
     this.length   = this.elems.length
+
+    return this
   }
 
   p(selector, scope) {
@@ -15,6 +17,23 @@ export default class WeeL {
     if (fn.type(selector) === 'nodelist') return [...selector]
 
     return [...(!scope ? document : scope).querySelectorAll(selector)]
+  }
+
+  /**
+   * Proving this's elems has certain elem
+   * @param  {String} selector Certain element's selector
+   * @return {Array}           Result of proving elements
+   */
+  sight(selector) {
+    const r = []
+
+    for (let i = 0; i < this.length; i++) {
+      const tg = this.elems[i]
+
+      if (tg === tg.parentElement.querySelector(selector)) r.push(tg)
+    }
+
+    return r
   }
 
   /**
@@ -57,8 +76,8 @@ export default class WeeL {
     }, true)
   }
 
-  on() {
-    this.elems.forEach(elem => !elem.classList.contains('_on') ? elem.classList.add('_on') : 0)
+  on(list) {
+    (list || this.elems).forEach(elem => !elem.classList.contains('_on') ? elem.classList.add('_on') : 0)
 
     return this
   }
@@ -67,8 +86,8 @@ export default class WeeL {
     return this.hasClass('_on')
   }
 
-  off() {
-    this.elems.forEach(elem => elem.classList.contains('_on') ? elem.classList.remove('_on') : 0)
+  off(list) {
+    (list || this.elems).forEach(elem => elem.classList.contains('_on') ? elem.classList.remove('_on') : 0)
 
     return this
   }
@@ -77,8 +96,8 @@ export default class WeeL {
     return !this.hasClass('_on')
   }
 
-  turn() {
-    this.elems.forEach(elem => elem.classList.toggle('_on'))
+  turn(list) {
+    (list || this.elems).forEach(elem => elem.classList.toggle('_on'))
   }
 
   /**
@@ -90,7 +109,7 @@ export default class WeeL {
   hasClass(...clses) {
     const target = this.elem
 
-    for (var i = 0; i < clses.length; i++)
+    for (let i = 0; i < clses.length; i++)
       if (!target.classList.contains(clses[i])) return false
 
     return true

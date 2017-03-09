@@ -12,6 +12,7 @@ import { PROPAGATION_OUTERMOST, MASK_MANUAL_HIDDEN } from './libs/actions/types'
 ;(container => {
   const toolbar = container.querySelector('header.toolbar')
   const mask = container.querySelector('.mask.-js')
+  const drawer = container.querySelector('.drawer')
 
   $('.drawer-menu.-js', toolbar).register('click', ev => {
     container.setAttribute('data-unique-ui', 'drawer')
@@ -29,6 +30,13 @@ import { PROPAGATION_OUTERMOST, MASK_MANUAL_HIDDEN } from './libs/actions/types'
     do_action(MASK_MANUAL_HIDDEN, ev)
   })
 
+  $('nav.link-list > a.item', drawer).register('click', ev => {
+    ev.preventDefault()
+
+    const target = ev.currentTarget
+
+    $('main.content .page', container).pageSwitcher(target)
+  })
 })(document.querySelector('.container'))
 
 /**
@@ -49,7 +57,6 @@ import { PROPAGATION_OUTERMOST, MASK_MANUAL_HIDDEN } from './libs/actions/types'
   $('.clipboard.-js', streamBehavior).register('click', ev => {
     // inputText.elem.dispatchEvent(event)
   })
-
 })(document.querySelector('.page.-entry._on'))
 
 $('body').delegate('click',

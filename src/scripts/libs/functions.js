@@ -46,9 +46,9 @@ export const doActions = new Map()
  * @return {Boolean}       Operation status with boolean
  */
 export const do_action = (name, ...params) => {
-  const callbacks = doActions.get(name) || []
+  const callbacks = doActions.get(name)
 
-  if (!callbacks.length) return 0
+  if (!callbacks) return 0
 
   callbacks.forEach(callback => callback(...params))
 
@@ -61,9 +61,17 @@ export const do_action = (name, ...params) => {
  * @param {Function} callback Do something when action is active
  */
 export const add_action = (name, callback) => {
-  const callbacks = doActions.get(name) || []
+  const callbacks = doActions.get(name) || new Set()
 
-  callbacks.push(callback)
+  if (callback.name.length) {
+    for (let cb of callbacks) {
+      if (cb.name === callback.name) return 1
+    }
+  }
+
+  if (callbacks.has(callback)) return 0
+
+  callbacks.add(callback)
 
   doActions.set(name, callbacks)
 }

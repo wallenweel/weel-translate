@@ -63,10 +63,18 @@ export default class WeeL {
     return this
   }
 
+  isOn() {
+    return this.hasClass('_on')
+  }
+
   off() {
     this.elems.forEach(elem => elem.classList.contains('_on') ? elem.classList.remove('_on') : 0)
 
     return this
+  }
+
+  isOff() {
+    return !this.hasClass('_on')
   }
 
   turn() {
@@ -80,16 +88,23 @@ export default class WeeL {
    * @return {Boolean}       Yes or no
    */
   hasClass(...clses) {
-    const node = this.elems[0]
+    const target = this.elem
 
     for (var i = 0; i < clses.length; i++)
-      if (!node.classList.contains(clses[i])) return false
+      if (!target.classList.contains(clses[i])) return false
 
     return true
   }
 
   isUI(...clses) {
     return this.hasClass('-js', ...clses)
+  }
+
+  rmData(name, value) {
+    const target = this.elem
+    const origin = target.getAttribute(name)
+
+    target.setAttribute(name, origin.replace(value, ''))
   }
 
 }

@@ -1,4 +1,4 @@
-import { weel as $ } from '../Weel.js'
+import { weel as $ } from '../Weel'
 
 export const wave = ev => {
   const target = ev.target

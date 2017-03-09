@@ -2,13 +2,43 @@ import Weel, { weel as $ } from './libs/Weel'
 import { wave, select } from './libs/ui/common'
 import { input2translate, swapLanguages } from './libs/ui/translation'
 import { translate } from './libs/services/translation'
-import { do_action, add_action } from './libs/functions'
-import { PROPAGATION_OUTERMOST } from './libs/actions/types'
+import { log, do_action, add_action } from './libs/functions'
+import { PROPAGATION_OUTERMOST, MASK_MANUAL_HIDDEN } from './libs/actions/types'
 
-((con) => {
-  const inputStream = con.querySelector('.input-stream')
-  const streamBehavior = con.querySelector('.stream-behavior')
-  const outputStream = con.querySelector('.output-stream')
+/**
+ * Application Container
+ * @type {Closure}
+ */
+;(container => {
+  const toolbar = container.querySelector('header.toolbar')
+  const mask = container.querySelector('.mask.-js')
+
+  $('.drawer-menu.-js', toolbar).register('click', ev => {
+    container.setAttribute('data-unique-ui', 'drawer')
+    $(mask).on()
+  })
+
+  $(mask).register('click', ev => {
+    const $target = $(ev.currentTarget)
+
+    if (!$target.isOn()) return 0
+
+    container.setAttribute('data-unique-ui', '')
+    $target.off()
+
+    do_action(MASK_MANUAL_HIDDEN, ev)
+  })
+
+})(document.querySelector('.container'))
+
+/**
+ * Entry Page
+ * @type {Closure}
+ */
+;(page => {
+  const inputStream = page.querySelector('.input-stream')
+  const streamBehavior = page.querySelector('.stream-behavior')
+  const outputStream = page.querySelector('.output-stream')
 
   const inputText = $('textarea', inputStream)
 

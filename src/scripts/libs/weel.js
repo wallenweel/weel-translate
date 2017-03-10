@@ -119,11 +119,33 @@ export default class WeeL {
     return this.hasClass('-js', ...clses)
   }
 
-  rmData(name, value) {
-    const target = this.elem
-    const origin = target.getAttribute(name)
+  getAttr(name) {
+    return this.elem.getAttribute(name)
+  }
 
-    target.setAttribute(name, origin.replace(value, ''))
+  attr(name, prefix = '') {
+    // const { elem, getAttr } = this
+    const attrName = prefix + name
+    const origin = this.getAttr(attrName) || ''
+    const values = origin.split(' ')
+
+    return ({
+      del: value => {
+        this.elem.setAttribute(attrName, values.filter(val => (val !== value)).join(' '))
+      },
+      set: value => {
+        if (~values.indexOf(value)) return 0
+
+        values.push(value)
+
+        this.elem.setAttribute(attrName, values.join(' '))
+      },
+      clear: () => this.elem.setAttribute(attrName, ''),
+    })
+  }
+
+  data(name) {
+    return this.attr(name, 'data-')
   }
 
 }

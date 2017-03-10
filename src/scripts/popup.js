@@ -14,8 +14,23 @@ import { PROPAGATION_OUTERMOST, MASK_MANUAL_HIDDEN } from './libs/actions/types'
   const mask = container.querySelector('.mask.-js')
   const drawer = container.querySelector('.drawer')
 
+  const closeDrawer = () => ($(container).data('unique-ui').del('drawer') || $(mask).off())
+  // const closeDrawer = () => (container.setAttribute('data-unique-ui', '') || $(mask).off())
+
+  $('body').delegate('click',
+    ev => do_action(PROPAGATION_OUTERMOST, ev),
+    wave,
+    select
+  )
+
+  add_action(PROPAGATION_OUTERMOST, ev => {
+    $('.select.-js._on', ev.currentTarget).off()
+
+    closeDrawer()
+  })
+
   $('.drawer-menu.-js', toolbar).register('click', ev => {
-    container.setAttribute('data-unique-ui', 'drawer')
+    $(container).data('unique-ui').set('drawer')
     $(mask).on()
   })
 
@@ -24,8 +39,7 @@ import { PROPAGATION_OUTERMOST, MASK_MANUAL_HIDDEN } from './libs/actions/types'
 
     if (!$target.isOn()) return 0
 
-    container.setAttribute('data-unique-ui', '')
-    $target.off()
+    closeDrawer()
 
     do_action(MASK_MANUAL_HIDDEN, ev)
   })
@@ -58,13 +72,3 @@ import { PROPAGATION_OUTERMOST, MASK_MANUAL_HIDDEN } from './libs/actions/types'
     // inputText.elem.dispatchEvent(event)
   })
 })(document.querySelector('.page.-entry._on'))
-
-$('body').delegate('click',
-  ev => do_action(PROPAGATION_OUTERMOST, ev),
-  wave,
-  select
-)
-
-add_action(PROPAGATION_OUTERMOST, ev => {
-  $('.select.-js._on', ev.currentTarget).off()
-})

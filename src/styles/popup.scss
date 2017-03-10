@@ -558,7 +558,7 @@ h1, h2, h3, h4, h5, h6 {
       @include position(absolute, 0 0 0 0);
     }
 
-  &[data-unique-ui="drawer"] {
+  &[data-unique-ui~="drawer"] {
     .drawer {
       box-shadow: 0 4px 8px hsla(0, 0%, 30%, 0.27);
       transform: translateX(100%);

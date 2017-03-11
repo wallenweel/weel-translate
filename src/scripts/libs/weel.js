@@ -124,7 +124,6 @@ export default class WeeL {
   }
 
   attr(name, prefix = '') {
-    // const { elem, getAttr } = this
     const attrName = prefix + name
     const origin = this.getAttr(attrName) || ''
     const values = origin.split(' ')

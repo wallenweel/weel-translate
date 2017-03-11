@@ -416,11 +416,83 @@ h1, h2, h3, h4, h5, h6 {
             @include ordinary('h');
 
             line-height: 1.75;
-            font-size: 18px;
+            font-weight: bold;
+            font-size: 16px;
+            margin-bottom: .45em;
+          }
+
+          .info {
+            border-radius: 12px;
+            text-align: center;
+            background-color: grey(9);
+            font-size: 12px;
+            color: grey(6);
+            line-height: 1.25;
+            margin: 16px 0;
+            padding: 2px 8px;
+            code {
+              color: hsl(0, 78%, 72%);
+              margin: 0 4px;
+            }
           }
 
           .item {
             font-size: 14px;
+
+            &.-textarea {
+              textarea {
+                transition: color .25s ease;
+                resize: vertical;
+                border-radius: 2px;
+                min-height: 5em;
+                max-height: 10em;
+                width: 100%;
+                border: 1px solid grey(9);
+                padding: 6px 8px;
+                font-size: 12px;
+                color: grey(8);
+                line-height: 1.35;
+
+                &:focus {
+                  color: grey(3);
+                }
+              }
+            }
+
+            &.-radio {
+              position: relative;
+
+              input[type="radio"] {
+                opacity: 0;
+                height: 100%;
+                width: 100%;
+                position: absolute;
+
+                &:checked {
+                  & + label {
+                    @include box_shadow(2, $alpha: .25);
+
+                    background-color: $primary-color_lighter;
+                    color: grey(10);
+                  }
+                }
+              }
+
+              label {
+                $h: 24px;
+
+                transition: background-color .25s ease, color .25s ease, box-shadow .25s ease;
+                border-radius: 2px;
+                background-color: grey(9);
+                height: $h;
+                color: grey(7);
+                line-height: $h;
+                font-weight: bold;
+                font-size: 12px;
+                padding: 0 12px;
+                display: block;
+              }
+            }
 
             &.-muti-input {
               $h: 24px;
@@ -537,6 +609,15 @@ h1, h2, h3, h4, h5, h6 {
             }
           }
 
+          &.-translator {
+            .item {
+              &.-radio {
+                display: inline-block;
+                margin-right: 4px;
+              }
+            }
+          }
+
           button.uninstall {
             @include ordinary('button');
 
@@ -558,7 +639,7 @@ h1, h2, h3, h4, h5, h6 {
       @include position(absolute, 0 0 0 0);
     }
 
-  &[data-unique-ui~="drawer"] {
+  &[data-actived-ui~="drawer"] {
     .drawer {
       box-shadow: 0 4px 8px hsla(0, 0%, 30%, 0.27);
       transform: translateX(100%);

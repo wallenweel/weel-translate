@@ -1,7 +1,7 @@
 import Weel, { weel as $ } from './libs/Weel'
 import { wave, select } from './libs/ui/common'
 import { input2translate, swapLanguages } from './libs/ui/translation'
-import { translate } from './libs/services/translation'
+import { translator } from './libs/services/translation'
 import { log, do_action, add_action } from './libs/functions'
 import { PROPAGATION_OUTERMOST, MASK_MANUAL_HIDDEN } from './libs/actions/types'
 
@@ -14,8 +14,7 @@ import { PROPAGATION_OUTERMOST, MASK_MANUAL_HIDDEN } from './libs/actions/types'
   const mask = container.querySelector('.mask.-js')
   const drawer = container.querySelector('.drawer')
 
-  const closeDrawer = () => ($(container).data('unique-ui').del('drawer') || $(mask).off())
-  // const closeDrawer = () => (container.setAttribute('data-unique-ui', '') || $(mask).off())
+  const closeDrawer = () => ($(container).data('actived-ui').del('drawer') || $(mask).off())
 
   $('body').delegate('click',
     ev => do_action(PROPAGATION_OUTERMOST, ev),
@@ -30,7 +29,7 @@ import { PROPAGATION_OUTERMOST, MASK_MANUAL_HIDDEN } from './libs/actions/types'
   })
 
   $('.drawer-menu.-js', toolbar).register('click', ev => {
-    $(container).data('unique-ui').set('drawer')
+    $(container).data('actived-ui').set('drawer')
     $(mask).on()
   })
 
@@ -67,8 +66,8 @@ import { PROPAGATION_OUTERMOST, MASK_MANUAL_HIDDEN } from './libs/actions/types'
   $('.language .-swap.-js', inputStream).register('click', swapLanguages)
 
   $('.clear.-js', streamBehavior).register('click', inputText.textArea().clear)
-  $('.translate.-js', streamBehavior).register('click', input2translate(translate))
-  $('.clipboard.-js', streamBehavior).register('click', ev => {
-    // inputText.elem.dispatchEvent(event)
+  $('.translate.-js', streamBehavior).register('click', input2translate(translator))
+  $('.full-text.-js', streamBehavior).register('click', ev => {
+    console.log('全文翻译')
   })
 })(document.querySelector('.page.-entry._on'))

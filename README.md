@@ -19,7 +19,10 @@
 ## 项目进展状态
 `pre-Alpha √👻` ==> `Alpha` ==> `Beta` => `RC`
 
-![screenshot_a1](extras/screenshots/sp170309_125503.png)
+![entry page](extras/screenshots/sp170313_222550.png)
+![settings page 1](extras/screenshots/sp170313_222610.png)
+![settings page 2](extras/screenshots/sp170313_222623.png)
+![drawer navigator](extras/screenshots/sp170313_222653.png)
 
 ## 编译源码
 > 仓库的 master 分支为稳定版本（可编译通过，没有明显 bug），项目使用的自动化工具（gulp-next）是我根据自己习惯定制的，也同时在仓库的项目中可以找到。

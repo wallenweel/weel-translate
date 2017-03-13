@@ -1,32 +1,9 @@
-import api, { youdao, google } from './libs/api.js'
-import {
-  TRANSLATE,
-  TRANSLATE_QUERY_DONE,
-  NO_CORRESPONDING_ACTION,
-} from './libs/actions.js'
+import * as config from './libs/ui/config'
 
-chrome.runtime.onConnect.addListener(port => {
-  port.onMessage.addListener(data => {
-    const { type, payload = {} } = data
+const localStorage = browser.storage.local.get()
 
-    switch (type) {
-    case TRANSLATE:
-      const { q } = payload
-      const translate = api(google)
+localStorage.then(cfg => {
+  if (Object.keys(cfg).length > 0) return void 0
 
-      return translate({ q })
-        .then(json => {
-          port.postMessage({
-            type: TRANSLATE_QUERY_DONE,
-            payload: {
-              ...json,
-            },
-          })
-        })
-    default:
-      postMessage({
-        type: NO_CORRESPONDING_ACTION,
-      })
-    }
-  })
+  browser.storage.local.set(config)
 })

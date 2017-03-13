@@ -17,7 +17,12 @@
 + ……
 
 ## 项目进展状态
-`pre-Alpha √` ==> `Alpha` ==> `Beta` => `RC`
+`pre-Alpha √👻` ==> `Alpha` ==> `Beta` => `RC`
+
+![entry page](extras/screenshots/sp170313_222550.png)
+![settings page 1](extras/screenshots/sp170313_222610.png)
+![settings page 2](extras/screenshots/sp170313_222623.png)
+![drawer navigator](extras/screenshots/sp170313_222653.png)
 
 ## 编译源码
 > 仓库的 master 分支为稳定版本（可编译通过，没有明显 bug），项目使用的自动化工具（gulp-next）是我根据自己习惯定制的，也同时在仓库的项目中可以找到。
@@ -26,3 +31,12 @@
 0. 进入项目的根目录，执行 `npm install` 命令安装所需的依赖
 0. 等待依赖安装完毕，执行 `npm run build` 进行编译
 0. 也可以执行 `npm start` 开启一个 web 服务，可以实时查看修改后的界面
+
+## 临时加载扩展
+> 目前还只在 Windows 系统下的 Firefox 测试开发，熟悉调试过程的可以自行操作，Chrome 的调试过程类似
+
+#### Firefox >=48
+0. 打开 [附加组件调试](about:debugging#addons) 页面
+0. 点击右上角的 **临时加载附加组件** 按钮
+0. 找到上面编译出来的 dist 或 build 目录，打开 `manifest.json` 文件
+0. 成功之后，附加组件就多出了一个和项目同名的项，浏览器工具栏也出现了相同的图标按钮

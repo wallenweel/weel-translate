@@ -1,3 +1,11 @@
+export const PROPAGATION_OUTERMOST = 'PROPAGATION_OUTERMOST'
+
+export const SWAP_LANGUAGE_COMPLETED = 'SWAP_LANGUAGE_COMPLETED'
+
+export const MASK_MANUAL_HIDDEN = 'MASK_MANUAL_HIDDEN'
+
+export const PAGE_IS_SWITCHING = 'PAGE_IS_SWITCHING'
+
 export const TRANSLATE = 'TRANSLATE'
 export const TRANSLATE_QUERY_DONE = 'TRANSLATE_QUERY_DONE'
 export const TRANSLATE_IN_POPUP = 'TRANSLATE_IN_POPUP'
@@ -9,10 +17,3 @@ export const RESET_SETTINGS = 'RESET_SETTINGS'
 export const NO_CORRESPONDING_ACTION = 'NO_CORRESPONDING_ACTION'
 
 export const UNINSTALL_EXTENSION = 'UNINSTALL_EXTENSION'
-
-export const do_translate = (payload = {}) => {
-  return {
-    type: TRANSLATE,
-    payload,
-  }
-}

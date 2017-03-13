@@ -1,128 +1,108 @@
-import UI from './libs/UI.js'
-import * as doms from './libs/doms-popup.js'
-import * as fn from './libs/functions.js'
-import { speech } from './libs/synth.js'
-import {
-  TRANSLATE_QUERY_DONE,
-} from './libs/actions.js'
+import Weel, { weel as $ } from './libs/Weel'
+import { wave, select } from './libs/ui/common'
+import { input2translate, swapLanguages } from './libs/ui/translation'
+import { translator } from './libs/services/translation'
+import { log, do_action, add_action } from './libs/functions'
+import { PROPAGATION_OUTERMOST, MASK_MANUAL_HIDDEN, PAGE_IS_SWITCHING } from './libs/actions/types'
 
-const port = chrome.runtime.connect({ name: 'Connecting From Popup Panel' })
-
-UI.q('.wave.-js').register('wave')('click')
-UI.q('.drawer-menu.-js').register('drawer')('click', ev => {
-  doms.container.setAttribute('data-unique-ui', 'drawer')
-  doms.mask.classList.add('_on')
-})
-UI.q('.mask.-js').register('mask')('click', ev => {
-  doms.container.setAttribute('data-unique-ui', '')
-  doms.mask.classList.remove('_on')
-})
-UI.q('.mark.-js').register('mark')('click', ev => ev.currentTarget.classList.toggle('_on'))
-UI.q('.select.-js').register('select')('click')
-UI.q('.language .-swap.-js').register('lang_swap')('click')
-UI.q('.input-stream .textarea.-js').register('textarea')('keyup')
-
-const translate = doms.container.querySelector('.translate.-js')
-translate.addEventListener('click', do_translate, false)
-
-const voice = doms.ostream.querySelector('.-phonetic button.voice.-js')
-voice.addEventListener('click', ev => {
-  const text = doms.istream.querySelector('.textarea.-js').innerText
-  console.log(text)
-  speech(text)
-}, false)
-
-function do_translate(ev) {
-  const stream = doms.istream
-
-  port.postMessage({
-    type: 'TRANSLATE',
-    meta: {
-      from: 'popup',
-    },
-    payload: {
-      q: stream.querySelector('.textarea.-js').innerText || 'translate',
-      source: stream.querySelector('.language .-origin').getAttribute('data-value'),
-      target: stream.querySelector('.language .-destination').getAttribute('data-value'),
-    },
+try {
+  browser.storage.local.get()
+  .then(conf => {
+    console.log(conf)
   })
+} catch (e) {
+
 }
 
-port.onMessage.addListener(data => {
-  const { type, payload = {} } = data
-  console.log(payload)
-  switch (type) {
-  case TRANSLATE_QUERY_DONE:
-    const { explains, phonetic, translation } = payload
+/**
+ * Application Container
+ * @type {Closure}
+ */
+;(container => {
+  const toolbar = container.querySelector('header.toolbar')
+  const mask = container.querySelector('.mask.-js')
+  const drawer = container.querySelector('.drawer')
 
-    doms.ostream.querySelectorAll('._on')
-      .forEach(elem => elem.classList.remove('_on'))
+  const closeDrawer = () => ($(container).data('actived-ui').del('drawer') || $(mask).off())
 
-    const $result = doms.ostream.querySelector('.result')
-    const [$phonetic, $explains] = [
-      $result.querySelector('.-word .-phonetic'),
-      $result.querySelector('.-word .-explain'),
-    ]
+  $('body').delegate('click',
+    ev => do_action(PROPAGATION_OUTERMOST, ev),
+    wave,
+    select
+  )
 
-    if (phonetic[0]) {
-      $phonetic.querySelector('.-plain').innerText = phonetic[0]
-      $phonetic.classList.add('_on')
-    }
+  add_action(PROPAGATION_OUTERMOST, ev => {
+    $('.select.-js._on', ev.currentTarget).off()
 
-    $explains.querySelector('.-plain').innerText = translation.join(', ')
+    closeDrawer()
+  })
 
-    if (explains) {
-      $explains.querySelector('.-detail').innerHTML = explains.join('<br>')
-      $explains.classList.add('_on')
-    }
+  $('.drawer-menu.-js', toolbar).register('click', ev => {
+    $(container).data('actived-ui').set('drawer')
+    $(mask).on()
+  })
 
-    $result.classList.add('_on')
+  $(mask).register('click', ev => {
+    const $target = $(ev.currentTarget)
 
-    break
-  default:
+    if (!$target.isOn()) return 0
+
+    closeDrawer()
+
+    do_action(MASK_MANUAL_HIDDEN, ev)
+  })
+
+  $('nav.link-list > a.item', drawer).register('click', ev => {
+    ev.preventDefault()
+
+    const target = ev.currentTarget
+
+    $('main.content .page', container).pageSwitcher(target)
+  })
+})(document.querySelector('.container'))
+
+/**
+ * Entry Page
+ * @type {Closure}
+ */
+;(page => {
+  const inputStream = page.querySelector('.input-stream')
+  const streamBehavior = page.querySelector('.stream-behavior')
+  const outputStream = page.querySelector('.output-stream')
+
+  const inputText = $('textarea', inputStream)
+
+  $('.language .-swap.-js', inputStream).register('click', swapLanguages)
+
+  $('.clear.-js', streamBehavior).register('click', inputText.textArea().clear)
+  $('.translate.-js', streamBehavior).register('click', input2translate(translator))
+  $('.full-text.-js', streamBehavior).register('click', ev => {
+    console.log('全文翻译')
+  })
+})(document.querySelector('.page.-entry'))
+
+/**
+ * Settings Page
+ * @type {Closure}
+ */
+;(page => {
+
+  // Render after switch
+  add_action(PAGE_IS_SWITCHING, name => {
+    try {
+      const storage = browser.storage.local.get()
+
+      storage.then(cfg => render(cfg))
+    } catch (e) {}
+  })
+
+  function render(cfg) {
+    const { api_src, use_fab, auto_popup, use_fap } = cfg
+
+    page.querySelector(`input[name="api_src"][data-slug="${api_src}"]`).checked = true
+    page.querySelector(`input[name="use_fab"]`).checked = use_fab
+    page.querySelector(`input[name="auto_popup"]`).checked = auto_popup
+    page.querySelector(`input[name="use_fap"]`).checked = use_fap
 
   }
-})
-
-UI.q('.drawer .link-list > a.item').register('page_link')('click', ev => {
-  ev.preventDefault()
-  ev.stopPropagation()
-
-  const target = ev.currentTarget
-  const link = target.href
-
-  doms.container.setAttribute('data-unique-ui', '')
-  UI.q('.mask.-js').off()
-
-  return router(link)
-})
-
-function router(link) {
-  const match = /.+\/(([\w\d\-\_]+)\.html)$/.exec(link)
-  const page = match[1]
-  const page_name = match[2]
-
-  const page_showed = doms.content.querySelector('.page._on')
-  const page_ready = doms.content.querySelector(`.page.-${page_name}`)
-
-  if (page_ready) {
-    page_ready.classList.add('_on')
-  } else {
-    const new_page = page(link)
-    new_page.classList.add('_on')
-  }
-
-  if (page_showed !== page_ready) page_showed.classList.remove('_on')
-}
-
-function page(link, sync = false) {}
-
-document.body.addEventListener('click', ev => {
-  UI.q('.select.-js').off()
-
-  // browser.storage.sync.get(null)
-  // .then(res => console.log(res))
-  // browser.runtime.sendMessage({
-  //   greeting: "Greeting from the content script",
-  // })
-}, false)
+})(document.querySelector('.page.-settings'))

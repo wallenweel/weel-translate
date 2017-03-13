@@ -5,26 +5,45 @@ html(lang="")
     title Weel Translate Popup
     link(href="./css/popup.css" rel="stylesheet")
   body
-    .container(data-unique-ui="")
+    .container(data-actived-ui="")
       include inc/toolbar.pug
 
       main.content
         include inc/page-entry.pug
 
         .page.-settings
+          .group.-translator
+            h3 选择翻译引擎
+            .item.-radio
+              input(type="radio" name="api_src" data-slug="google")
+              label Google
+            .item.-radio
+              input(type="radio" name="api_src" data-slug="youdao")
+              label 有道
+            .item.-radio
+              input(type="radio" name="api_src" data-slug="baidu")
+              label 百度
+              
           .group
-            h3 添加 API Key
-            .item.-muti-input
-              label 1
-              input(type="text" name="api_key")
-              button(type="button").-add-new.-js.-ordinary.i-add
-            .item.-muti-input
-              label 2
-              input(type="text" name="api_key")
-              button(type="button").-add-new.-js.-ordinary.i-add
+            h3 应用自己的 API
+            .item.-textarea
+              textarea(name="custom_api")
+            .info
+              | 格式:
+              code name id key;
+              | 每条以 ";" 分隔
+            //- .item.-muti-input
+            //-   label 1
+            //-   input(type="text" name="api_key")
+            //-   button(type="button").-add-new.-js.-ordinary.i-add
+            //- .item.-muti-input
+            //-   label 2
+            //-   input(type="text" name="api_key")
+            //-   button(type="button").-add-new.-js.-ordinary.i-add
 
           .group
             h3 选择交互方式
+
             .item.-checkbox
               label 使用浮动按钮
               input(type="checkbox" name="use_fab")
@@ -37,32 +56,33 @@ html(lang="")
               label 浮动结果面板
               input(type="checkbox" name="use_fap")
               i.-fake
+            
+            .info
+              | 全都不选的话，为手动打开
 
           .group
-            h3 扩展选项
+            h3 扩展管理
             button(type="button").uninstall.wave.-js 卸载扩展
 
         .page.-support
           h1 About
 
         .page.-feedback
+          h1 Support
 
       section.drawer
         header.user-area
           .avatar
             img(alt="avatar" src="")
           .username user name
-
+        
         nav.link-list
           a(href="entry.html").item.wave.-js
             i.i-home
-            span 首页
+            span 翻译
           a(href="settings.html").item.wave.-js
             i.i-tune
             span 设置
-          a(href="option.html").item.wave.-js
-            i.i-extension
-            span 扩展选项
           a(href="support.html").item.wave.-js
             i.i-all_inclusive
             span 支持开发

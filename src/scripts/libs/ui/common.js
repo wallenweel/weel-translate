@@ -1,4 +1,6 @@
 import Weel, { weel as $ } from '../Weel'
+import { do_action } from '../functions'
+import { PAGE_IS_SWITCHING } from '../actions/types'
 
 export const wave = ev => {
   const target = ev.target
@@ -48,6 +50,8 @@ Weel.prototype.pageSwitcher = function (target) {
   const aim = this.sight(`.-${name}`)
 
   if ($(aim[0]).hasClass('_on') || !aim.length) return void 0
+
+  do_action(PAGE_IS_SWITCHING, name)
 
   this.off(this.elems)
   this.on(aim)

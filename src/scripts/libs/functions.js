@@ -8,13 +8,17 @@ export const log = (...params) => {
   console.log(...params)
 }
 
+export const getConfig = (name = '') => {
+  
+}
+
 /**
  * Generate API's fetch request
  * @param  {Object}  preset          API's kinds of service
  * @param  {String}  [type='text'] The kind of service
  * @return {Closure}
  */
-export const parseEngine = (preset, type = 'text') => {
+export const apiParse = (preset, type = 'text') => {
   if (!preset.parse) return console.error('Supply A `parse` Method in API Preset!')
 
   /**

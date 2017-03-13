@@ -1,3 +1,4 @@
+import { apiParse } from '../functions'
 import google from '../api/google'
 import youdao from '../api/youdao'
 import bing from '../api/bing'
@@ -10,7 +11,14 @@ try {
   const port = {}
 }
 
-export const translator = ({ q = 'translate' }) => {
+const apiPick = () => {
 
-  console.log(q)
+}
+
+export const translator = ({ q = 'translate' }) => {
+  const service = apiParse(youdao)
+
+  service({ q }).then(json => {
+    console.log(q, json)
+  })
 }

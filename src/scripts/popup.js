@@ -3,7 +3,16 @@ import { wave, select } from './libs/ui/common'
 import { input2translate, swapLanguages } from './libs/ui/translation'
 import { translator } from './libs/services/translation'
 import { log, do_action, add_action } from './libs/functions'
-import { PROPAGATION_OUTERMOST, MASK_MANUAL_HIDDEN } from './libs/actions/types'
+import { PROPAGATION_OUTERMOST, MASK_MANUAL_HIDDEN, PAGE_IS_SWITCHING } from './libs/actions/types'
+
+try {
+  browser.storage.local.get()
+  .then(conf => {
+    console.log(conf)
+  })
+} catch (e) {
+
+}
 
 /**
  * Application Container
@@ -70,4 +79,30 @@ import { PROPAGATION_OUTERMOST, MASK_MANUAL_HIDDEN } from './libs/actions/types'
   $('.full-text.-js', streamBehavior).register('click', ev => {
     console.log('全文翻译')
   })
-})(document.querySelector('.page.-entry._on'))
+})(document.querySelector('.page.-entry'))
+
+/**
+ * Settings Page
+ * @type {Closure}
+ */
+;(page => {
+
+  // Render after switch
+  add_action(PAGE_IS_SWITCHING, name => {
+    try {
+      const storage = browser.storage.local.get()
+
+      storage.then(cfg => render(cfg))
+    } catch (e) {}
+  })
+
+  function render(cfg) {
+    const { api_src, use_fab, auto_popup, use_fap } = cfg
+
+    page.querySelector(`input[name="api_src"][data-slug="${api_src}"]`).checked = true
+    page.querySelector(`input[name="use_fab"]`).checked = use_fab
+    page.querySelector(`input[name="auto_popup"]`).checked = auto_popup
+    page.querySelector(`input[name="use_fap"]`).checked = use_fap
+
+  }
+})(document.querySelector('.page.-settings'))

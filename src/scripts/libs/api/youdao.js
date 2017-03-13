@@ -19,6 +19,7 @@ export default {
       ['type', type],
     ]),
   }),
+
   text: ({ q, id, key }) => ({
     url: 'http://fanyi.youdao.com/openapi.do',
     params: new Map([

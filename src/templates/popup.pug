@@ -15,14 +15,14 @@ html(lang="")
           .group.-translator
             h3 选择翻译引擎
             .item.-radio
-              input(type="radio" name="api_src" checked)
+              input(type="radio" name="api_src" data-slug="google")
               label Google
             .item.-radio
-              input(type="radio" name="api_src")
-              label Youdao
+              input(type="radio" name="api_src" data-slug="youdao")
+              label 有道
             .item.-radio
-              input(type="radio" name="api_src")
-              label Bing
+              input(type="radio" name="api_src" data-slug="baidu")
+              label 百度
               
           .group
             h3 应用自己的 API
@@ -46,7 +46,7 @@ html(lang="")
 
             .item.-checkbox
               label 使用浮动按钮
-              input(type="checkbox" name="use_fab" checked)
+              input(type="checkbox" name="use_fab")
               i.-fake
             .item.-checkbox
               label 自动显示弹出面板

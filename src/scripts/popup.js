@@ -2,6 +2,7 @@ import Weel, { weel as $ } from './libs/Weel'
 import { wave, select } from './libs/ui/common'
 import { swapLanguages } from './libs/ui/translation'
 import translate from './libs/services/translation'
+import synth from './libs/services/synth'
 import { log, do_action, add_action } from './libs/functions'
 import {
   PROPAGATION_OUTERMOST,
@@ -90,6 +91,10 @@ try {
     console.log('全文翻译')
   })
 
+  $('.voice.-js', outputStream).register('click', ev => {
+    synth($inputText.textArea().out() || 'test')
+  })
+
   $inputText.textArea().in('test')
   add_action(TRANSLATE_IN_POPUP, (text, con) => {
     // if (!text.length) return do_action(TRANSLATE_QUERY_NONE, con)
@@ -112,8 +117,6 @@ try {
 
       $('.-explain', result).on()
         .children('.-detail').html(`${explains.join('<br>')}`)
-
-      console.log(json)
     })
   })
 

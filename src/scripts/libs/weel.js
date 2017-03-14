@@ -36,6 +36,49 @@ export default class WeeL {
     return r
   }
 
+  children(selector) {
+    const r = []
+
+    this.elems.forEach(elem => r.push(elem.querySelector(selector)))
+
+    this.elems = r
+    this.elem = r[0]
+
+    return this
+  }
+
+  /**
+   * Find Parents Of Current Element (Not Full Test)
+   * @param  {String} selector A element target of collection
+   * @return {this}
+   */
+  parents(selector) {
+    const r = []
+
+    let parent = this.elem.parentElement
+
+    while (parent.parentElement) {
+      if (!selector) {
+        r.push(parent)
+      } else {
+        if (parent.parentElement.querySelector(selector) === parent) r.push(parent)
+      }
+
+      parent = parent.parentElement
+    }
+
+    this.elems = r
+    this.elem = r[0]
+
+    return this
+  }
+
+  eq(idx = 0) {
+    this.elem = this.elems[idx]
+
+    return this
+  }
+
   /**
    * Set Listeners of NodeList
    * @param  {String} type Listener method type, [add|remove]
@@ -145,6 +188,38 @@ export default class WeeL {
 
   data(name) {
     return this.attr(name, 'data-')
+  }
+
+  text(content) {
+    if (!content) return void 0
+
+    const textNode = document.createTextNode(content)
+    const target = this.elem
+    while (target.firstChild) target.removeChild(target.firstChild)
+
+    target.appendChild(textNode)
+
+    return this
+  }
+
+  html(content) {
+    if (!content) return void 0
+    let doms
+
+    if (fn.type(content, 'string')) {
+      const parser = new DOMParser()
+
+      doms = [...parser.parseFromString(content, 'text/html').body.childNodes]
+      console.log(parser.parseFromString(content, 'text/html').body.childNodes)
+    }
+
+    const target = this.elem
+    while (target.firstChild) target.removeChild(target.firstChild)
+
+    console.log(doms)
+    doms.forEach(dom => target.appendChild(dom))
+
+    return this
   }
 
 }

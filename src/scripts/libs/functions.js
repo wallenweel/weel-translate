@@ -9,7 +9,7 @@ export const log = (...params) => {
 }
 
 export const getConfig = (name = '') => {
-  
+
 }
 
 /**

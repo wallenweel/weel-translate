@@ -1,9 +1,15 @@
 import Weel, { weel as $ } from './libs/Weel'
 import { wave, select } from './libs/ui/common'
-import { input2translate, swapLanguages } from './libs/ui/translation'
-import { translator } from './libs/services/translation'
+import { swapLanguages } from './libs/ui/translation'
+import translate from './libs/services/translation'
 import { log, do_action, add_action } from './libs/functions'
-import { PROPAGATION_OUTERMOST, MASK_MANUAL_HIDDEN, PAGE_IS_SWITCHING } from './libs/actions/types'
+import {
+  PROPAGATION_OUTERMOST,
+  MASK_MANUAL_HIDDEN,
+  PAGE_IS_SWITCHING,
+  TRANSLATE_IN_POPUP,
+  TRANSLATE_QUERY_NONE,
+} from './libs/actions/types'
 
 try {
   browser.storage.local.get()
@@ -70,14 +76,49 @@ try {
   const streamBehavior = page.querySelector('.stream-behavior')
   const outputStream = page.querySelector('.output-stream')
 
-  const inputText = $('textarea', inputStream)
+  const $inputText = $('textarea', inputStream)
 
   $('.language .-swap.-js', inputStream).register('click', swapLanguages)
 
-  $('.clear.-js', streamBehavior).register('click', inputText.textArea().clear)
-  $('.translate.-js', streamBehavior).register('click', input2translate(translator))
+  $('.clear.-js', streamBehavior).register('click', $inputText.textArea().clear)
+  $('.translate.-js', streamBehavior).register('click', ev => do_action(
+    TRANSLATE_IN_POPUP,
+    $inputText.textArea().out(),
+    outputStream
+  ))
   $('.full-text.-js', streamBehavior).register('click', ev => {
     console.log('全文翻译')
+  })
+
+  $inputText.textArea().in('test')
+  add_action(TRANSLATE_IN_POPUP, (text, con) => {
+    // if (!text.length) return do_action(TRANSLATE_QUERY_NONE, con)
+
+    const result = con.querySelector('.result')
+    const reference = con.querySelector('.reference')
+
+    translate({ q: text }).then(json => {
+      const { explains, phonetic, translation } = json
+
+      if (!translation.length) return void 0
+
+      $(result).on()
+
+      $('.-phonetic', result).on()
+        .children('.-plain').text(`[${phonetic[0]}]`)
+
+      $('.-explain', result).on()
+        .children('.-plain').text(`${translation.join(' ')}`)
+
+      $('.-explain', result).on()
+        .children('.-detail').html(`${explains.join('<br>')}`)
+
+      console.log(json)
+    })
+  })
+
+  add_action(TRANSLATE_QUERY_NONE, () => {
+    console.error('Need Enter Some Words For Translating!')
   })
 })(document.querySelector('.page.-entry'))
 

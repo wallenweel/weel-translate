@@ -15,10 +15,6 @@ const apiPick = () => {
 
 }
 
-export const translator = ({ q = 'translate' }) => {
-  const service = apiParse(youdao)
-
-  service({ q }).then(json => {
-    console.log(q, json)
-  })
+export default args => {
+  return apiParse(youdao)(args)
 }

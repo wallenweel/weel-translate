@@ -1,6 +1,9 @@
-import { do_action } from '../functions'
-import { SWAP_LANGUAGE_COMPLETED } from '../actions/types'
 import Weel from '../Weel'
+import { do_action } from '../functions'
+import {
+  SWAP_LANGUAGE_COMPLETED,
+  TRANSLATE_IN_POPUP,
+} from '../actions/types'
 
 export const swapLanguages = ({ currentTarget: {
   previousElementSibling,
@@ -42,10 +45,4 @@ Weel.prototype.textArea = function () {
     },
     clear: () => (target.value = ''),
   })
-}
-
-export const input2translate = service => {
-  return ev => {
-    service({ q: 'test' })
-  }
 }

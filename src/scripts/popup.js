@@ -2,6 +2,7 @@ import Weel, { weel as $ } from './libs/Weel'
 import { wave, select } from './libs/ui/common'
 import { swapLanguages } from './libs/ui/translation'
 import translate from './libs/services/translation'
+import { translate_from } from './libs/actions'
 import synth from './libs/services/synth'
 import { log, do_action, add_action } from './libs/functions'
 import {
@@ -10,16 +11,30 @@ import {
   PAGE_IS_SWITCHING,
   TRANSLATE_IN_POPUP,
   TRANSLATE_QUERY_NONE,
+  CONNECT_FROM_POPUP,
+  MESSAGE_IN_POPUP,
+  RESPOND_TRANSLATING,
 } from './libs/actions/types'
 
-try {
-  browser.storage.local.get()
-  .then(conf => {
-    console.log(conf)
-  })
-} catch (e) {
+const scope = 'popup'
+let port = {}
 
-}
+try {
+  port = browser.runtime.connect({ name: CONNECT_FROM_POPUP })
+  port.onMessage.addListener(data => do_action(MESSAGE_IN_POPUP, data))
+} catch (e) {}
+
+add_action(MESSAGE_IN_POPUP, ({ type, meta, payload }) => {
+  switch (type) {
+
+  case RESPOND_TRANSLATING:
+    do_action(RESPOND_TRANSLATING, payload)
+    do_action(`${RESPOND_TRANSLATING}_${meta.to.toUpperCase()}`, payload)
+    break
+  default:
+
+  }
+})
 
 /**
  * Application Container
@@ -77,16 +92,21 @@ try {
   const streamBehavior = page.querySelector('.stream-behavior')
   const outputStream = page.querySelector('.output-stream')
 
-  const $inputText = $('textarea', inputStream)
-
   $('.language .-swap.-js', inputStream).register('click', swapLanguages)
 
+  const $inputText = $('textarea', inputStream)
+
   $('.clear.-js', streamBehavior).register('click', $inputText.textArea().clear)
-  $('.translate.-js', streamBehavior).register('click', ev => do_action(
-    TRANSLATE_IN_POPUP,
-    $inputText.textArea().out(),
-    outputStream
-  ))
+
+  // TODO: Test input, keep in mind that remove this
+  $inputText.textArea().in('test')
+
+  $('.translate.-js', streamBehavior).register('click', ev => do_action(TRANSLATE_IN_POPUP, {
+    q: $inputText.textArea().out(),
+    source: $('.language .-origin', inputStream).getAttr('data-value'),
+    target: $('.language .-destination', inputStream).getAttr('data-value'),
+  }))
+
   $('.full-text.-js', streamBehavior).register('click', ev => {
     console.log('全文翻译')
   })
@@ -95,34 +115,46 @@ try {
     synth($inputText.textArea().out() || 'test')
   })
 
-  $inputText.textArea().in('test')
-  add_action(TRANSLATE_IN_POPUP, (text, con) => {
-    // if (!text.length) return do_action(TRANSLATE_QUERY_NONE, con)
-
-    const result = con.querySelector('.result')
-    const reference = con.querySelector('.reference')
-
-    translate({ q: text }).then(json => {
-      const { explains, phonetic, translation } = json
-
-      if (!translation.length) return void 0
-
-      $(result).on()
-
-      $('.-phonetic', result).on()
-        .children('.-plain').text(`[${phonetic[0]}]`)
-
-      $('.-explain', result).on()
-        .children('.-plain').text(`${translation.join(' ')}`)
-
-      $('.-explain', result).on()
-        .children('.-detail').html(`${explains.join('<br>')}`)
-    })
+  $('.voice.-js', outputStream).register('click', ev => {
+    synth($inputText.textArea().out() || 'test')
   })
 
-  add_action(TRANSLATE_QUERY_NONE, () => {
-    console.error('Need Enter Some Words For Translating!')
+  $('.copy.-js', outputStream).register('click', ev => {
+    const target = ev.currentTarget.nextElementSibling
+    const textarea = outputStream.querySelector('textarea.-fake.-js')
+
+    textarea.value = target.innerText
+    textarea.select()
+    document.execCommand('copy')
   })
+
+  const result = outputStream.querySelector('.result')
+  const reference = outputStream.querySelector('.reference')
+
+  add_action(TRANSLATE_IN_POPUP, params => {
+    if (!params.q.length) return do_action(TRANSLATE_QUERY_NONE)
+
+    port.postMessage(translate_from(scope, params))
+  })
+
+  add_action(`${RESPOND_TRANSLATING}_${scope.toUpperCase()}`, data => {
+    const { explains, phonetic, translation } = data
+
+    if (!translation.length) return void 0
+
+    $(result).on()
+
+    $('.-phonetic', result).on()
+    .children('.-plain').text(`[ ${phonetic[0] || '...'} ]`)
+
+    $('.-explain', result).on()
+    .children('.-plain').text(`${translation.join(' ')}`)
+
+    $('.-explain', result).on()
+    .children('.-detail').html(`${explains.join('<br>')}`)
+  })
+
+  add_action(TRANSLATE_QUERY_NONE, () => console.error('Need Enter Some Words For Translating!'))
 })(document.querySelector('.page.-entry'))
 
 /**
@@ -130,23 +162,19 @@ try {
  * @type {Closure}
  */
 ;(page => {
-
-  // Render after switch
-  add_action(PAGE_IS_SWITCHING, name => {
+  // Render Settings Page
+  add_action(`${PAGE_IS_SWITCHING}_SETTINGS`, name => {
     try {
       const storage = browser.storage.local.get()
 
-      storage.then(cfg => render(cfg))
+      storage.then(cfg => {
+        const { api_src, use_fab, auto_popup, use_fap } = cfg
+
+        page.querySelector(`input[name="api_src"][data-slug="${api_src}"]`).checked = true
+        page.querySelector(`input[name="use_fab"]`).checked = use_fab
+        page.querySelector(`input[name="auto_popup"]`).checked = auto_popup
+        page.querySelector(`input[name="use_fap"]`).checked = use_fap
+      })
     } catch (e) {}
   })
-
-  function render(cfg) {
-    const { api_src, use_fab, auto_popup, use_fap } = cfg
-
-    page.querySelector(`input[name="api_src"][data-slug="${api_src}"]`).checked = true
-    page.querySelector(`input[name="use_fab"]`).checked = use_fab
-    page.querySelector(`input[name="auto_popup"]`).checked = auto_popup
-    page.querySelector(`input[name="use_fap"]`).checked = use_fap
-
-  }
 })(document.querySelector('.page.-settings'))

@@ -210,13 +210,11 @@ export default class WeeL {
       const parser = new DOMParser()
 
       doms = [...parser.parseFromString(content, 'text/html').body.childNodes]
-      console.log(parser.parseFromString(content, 'text/html').body.childNodes)
     }
 
     const target = this.elem
     while (target.firstChild) target.removeChild(target.firstChild)
 
-    console.log(doms)
     doms.forEach(dom => target.appendChild(dom))
 
     return this

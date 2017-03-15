@@ -10,7 +10,10 @@ html(lang="")
 
       main.content
         include inc/page-entry.pug
-
+        
+        .page.-preference
+          h1 Preference
+          
         .page.-settings
           .group.-translator
             h3 选择翻译引擎
@@ -72,6 +75,9 @@ html(lang="")
           a(href="entry.html").item.wave.-js
             i.i-home
             span 翻译
+          a(href="preference.html").item.wave.-js
+            i.i-style
+            span 偏好
           a(href="settings.html").item.wave.-js
             i.i-tune
             span 设置

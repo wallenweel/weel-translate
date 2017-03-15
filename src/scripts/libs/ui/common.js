@@ -52,6 +52,7 @@ Weel.prototype.pageSwitcher = function (target) {
   if ($(aim[0]).hasClass('_on') || !aim.length) return void 0
 
   do_action(PAGE_IS_SWITCHING, name)
+  do_action(`${PAGE_IS_SWITCHING}_${name.toUpperCase()}`, name)
 
   this.off(this.elems)
   this.on(aim)

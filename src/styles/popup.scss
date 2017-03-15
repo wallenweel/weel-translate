@@ -333,6 +333,7 @@ h1, h2, h3, h4, h5, h6 {
                   h5 {
                     @include ordinary('h');
 
+                    font-size: 14px;
                     line-height: 1.35;
                     padding-top: 6px;
                     text-indent: 32px;
@@ -349,13 +350,20 @@ h1, h2, h3, h4, h5, h6 {
                 .-explain {
                   h5 {
                     font-weight: 600;
+                    & + textarea.-fake {
+                      opacity: 0;
+                      height: 0;
+                      width: 100%;
+                      border: none;
+                      position: absolute;
+                    }
                   }
                   p.-detail {
                     border-top: 1px solid grey(9.6);
-                    font-size: 14px;
+                    font-size: 12px;
                     line-height: 1.75;
                     padding-top: 8px;
-                    margin: 16px 0;
+                    margin: 8px 0;
                   }
                 }
               }

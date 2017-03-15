@@ -13,13 +13,21 @@ export const PAGE_IS_SWITCHING = 'PAGE_IS_SWITCHING'
 // Query text's length is zero, nothing to translate
 export const TRANSLATE_QUERY_NONE = 'TRANSLATE_QUERY_NONE'
 
-export const TRANSLATE = 'TRANSLATE'
+export const REQUEST_TRANSLATING = 'REQUEST_TRANSLATING'
+export const RESPOND_TRANSLATING = 'RESPOND_TRANSLATING'
 
 // Translation result appears in popup panel
 export const TRANSLATE_IN_POPUP = 'TRANSLATE_IN_POPUP'
 
 // Translation result appears in float panel of content
 export const TRANSLATE_IN_FLOAT = 'TRANSLATE_IN_FLOAT'
+
+export const CONNECT_FROM_POPUP = 'CONNECT_FROM_POPUP'
+export const CONNECT_FROM_BACKGROUND = 'CONNECT_FROM_BACKGROUND'
+
+export const MESSAGE_IN_POPUP = 'MESSAGE_IN_POPUP'
+export const MESSAGE_IN_BACKGROUND = 'MESSAGE_IN_BACKGROUND'
+
 
 export const TRANSLATE_QUERY_DONE = 'TRANSLATE_QUERY_DONE'
 export const TRANSLATE_WITH_SELECTING = 'TRANSLATE_WITH_SELECTING'

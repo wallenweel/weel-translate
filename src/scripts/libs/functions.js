@@ -12,6 +12,29 @@ export const getConfig = (name = '') => {
 
 }
 
+export const i18n = {
+  get(msg = '') {
+    let r = ''
+
+    try {
+      r = browser.i18n.getMessage(msg)
+    } catch (e) {
+      r = msg
+      .replace(/\_+/g, ' ').toLowerCase()
+      .replace(/( |^)[a-z]/g, a => a.toUpperCase())
+    }
+
+    return r
+  },
+
+  html(obj) {
+    const str = obj.innerHTML.toString()
+    const msg = str.replace(/\_\_MSG\_(\w+)\_\_/g, (match, $1) => $1 ? this.get($1) : '')
+
+    if (msg !== str) obj.innerHTML = msg
+  },
+}
+
 /**
  * Generate API's fetch request
  * @param  {Object}  preset          API's kinds of service

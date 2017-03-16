@@ -231,3 +231,4 @@ export const weel = selector => new WeeL(selector)
 
 weel.type = fn.type
 weel.log = fn.log
+weel.i18n = fn.i18n

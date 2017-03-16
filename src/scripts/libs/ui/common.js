@@ -1,6 +1,12 @@
 import Weel, { weel as $ } from '../Weel'
-import { do_action } from '../functions'
+import { do_action, i18n } from '../functions'
 import { PAGE_IS_SWITCHING } from '../actions/types'
+
+export const setTitle = (title = '', localize = 1) => {
+  const r = !localize ? title : i18n.get(title)
+
+  document.querySelector('header.toolbar > h1.title').innerText = r
+}
 
 export const wave = ev => {
   const target = ev.target
@@ -56,4 +62,10 @@ Weel.prototype.pageSwitcher = function (target) {
 
   this.off(this.elems)
   this.on(aim)
+}
+
+Weel.prototype.localizeHTML = function () {
+  this.elems.forEach(elem => i18n.html(elem))
+
+  return this
 }

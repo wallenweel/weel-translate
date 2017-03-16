@@ -1,5 +1,5 @@
 import Weel, { weel as $ } from './libs/Weel'
-import { wave, select } from './libs/ui/common'
+import { wave, select, setTitle } from './libs/ui/common'
 import { swapLanguages } from './libs/ui/translation'
 import translate from './libs/services/translation'
 import { translate_from } from './libs/actions'
@@ -11,7 +11,7 @@ import {
   PAGE_IS_SWITCHING,
   TRANSLATE_IN_POPUP,
   TRANSLATE_QUERY_NONE,
-  CONNECT_FROM_POPUP,
+  CONNECT_WITH_TRANSLATING,
   MESSAGE_IN_POPUP,
   RESPOND_TRANSLATING,
 } from './libs/actions/types'
@@ -20,7 +20,7 @@ const scope = 'popup'
 let port = {}
 
 try {
-  port = browser.runtime.connect({ name: CONNECT_FROM_POPUP })
+  port = browser.runtime.connect({ name: CONNECT_WITH_TRANSLATING })
   port.onMessage.addListener(data => do_action(MESSAGE_IN_POPUP, data))
 } catch (e) {}
 
@@ -41,6 +41,8 @@ add_action(MESSAGE_IN_POPUP, ({ type, meta, payload }) => {
  * @type {Closure}
  */
 ;(container => {
+  setTitle('TRANSLATION')
+
   const toolbar = container.querySelector('header.toolbar')
   const mask = container.querySelector('.mask.-js')
   const drawer = container.querySelector('.drawer')
@@ -74,7 +76,7 @@ add_action(MESSAGE_IN_POPUP, ({ type, meta, payload }) => {
     do_action(MASK_MANUAL_HIDDEN, ev)
   })
 
-  $('nav.link-list > a.item', drawer).register('click', ev => {
+  $('nav.link-list > a.item', drawer).localizeHTML().register('click', ev => {
     ev.preventDefault()
 
     const target = ev.currentTarget
@@ -88,13 +90,22 @@ add_action(MESSAGE_IN_POPUP, ({ type, meta, payload }) => {
  * @type {Closure}
  */
 ;(page => {
+  // Render Settings Page
+  add_action(`${PAGE_IS_SWITCHING}_ENTRY`, name => {
+    setTitle('TRANSLATION')
+  })
+
   const inputStream = page.querySelector('.input-stream')
   const streamBehavior = page.querySelector('.stream-behavior')
   const outputStream = page.querySelector('.output-stream')
 
   $('.language .-swap.-js', inputStream).register('click', swapLanguages)
 
+  $(inputStream).localizeHTML()
+
   const $inputText = $('textarea', inputStream)
+
+  $(streamBehavior).localizeHTML()
 
   $('.clear.-js', streamBehavior).register('click', $inputText.textArea().clear)
 
@@ -109,10 +120,6 @@ add_action(MESSAGE_IN_POPUP, ({ type, meta, payload }) => {
 
   $('.full-text.-js', streamBehavior).register('click', ev => {
     console.log('全文翻译')
-  })
-
-  $('.voice.-js', outputStream).register('click', ev => {
-    synth($inputText.textArea().out() || 'test')
   })
 
   $('.voice.-js', outputStream).register('click', ev => {
@@ -144,7 +151,7 @@ add_action(MESSAGE_IN_POPUP, ({ type, meta, payload }) => {
 
     $(result).on()
 
-    $('.-phonetic', result).on()
+    if (phonetic[0]) $('.-phonetic', result).on()
     .children('.-plain').text(`[ ${phonetic[0] || '...'} ]`)
 
     $('.-explain', result).on()
@@ -164,6 +171,8 @@ add_action(MESSAGE_IN_POPUP, ({ type, meta, payload }) => {
 ;(page => {
   // Render Settings Page
   add_action(`${PAGE_IS_SWITCHING}_SETTINGS`, name => {
+    setTitle('SETTINGS')
+
     try {
       const storage = browser.storage.local.get()
 

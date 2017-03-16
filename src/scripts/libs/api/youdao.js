@@ -1,3 +1,5 @@
+import { i18n } from '../functions'
+
 export default {
   dataType: 'json',
   parse: (json, args) => {
@@ -31,4 +33,18 @@ export default {
       ['q', q],
     ]),
   }),
+
+  languages: [{
+    code: 'en',
+    name: 'english',
+    slug: i18n.get('LANG_SLUG_EN'),
+  }, {
+    code: 'zh',
+    name: '中文',
+    slug: i18n.get('LANG_SLUG_ZH'),
+  }, {
+    code: 'ja',
+    name: 'にほんご',
+    slug: i18n.get('LANG_SLUG_JP'),
+  }],
 }

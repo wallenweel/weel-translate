@@ -6,7 +6,7 @@ import {
   BACKGROUND_ON_CONNECTED,
   MESSAGE_IN_BACKGROUND,
   TRANSLATE_QUERY_DONE,
-  CONNECT_FROM_POPUP,
+  CONNECT_WITH_TRANSLATING,
 } from './libs/actions/types'
 
 const scope = 'background'
@@ -21,7 +21,7 @@ localStorage.get().then(cfg => {
 browser.runtime.onConnect.addListener(port => {
   const { name, onMessage } = port
   switch (name) {
-  case CONNECT_FROM_POPUP:
+  case CONNECT_WITH_TRANSLATING:
 
     return onMessage.addListener(data => do_action(MESSAGE_IN_BACKGROUND, data, port))
   default:

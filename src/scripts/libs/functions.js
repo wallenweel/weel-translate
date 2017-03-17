@@ -55,8 +55,8 @@ export const apiParse = (preset, type = 'text') => {
     const s = new URLSearchParams()
     const { url, params } = preset[type](args)
 
-    for (let [k, v] of params) s.append(k, v)
-
+    for (let el of params) s.append(el[0], el[1])
+    
     return fetch(`${url}?${s}`, { mode: 'no-cors' })
       .then(res => res[preset.dataType]())
       .then(data => preset.parse(data, args))

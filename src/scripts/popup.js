@@ -20,6 +20,10 @@ const scope = 'popup'
 let port = {}
 
 try {
+  translate('google', { q: 'translate' }).then(json => {
+    console.log(json)
+  })
+
   port = browser.runtime.connect({ name: CONNECT_WITH_TRANSLATING })
   port.onMessage.addListener(data => do_action(MESSAGE_IN_POPUP, data))
 } catch (e) {}
@@ -76,7 +80,9 @@ add_action(MESSAGE_IN_POPUP, ({ type, meta, payload }) => {
     do_action(MASK_MANUAL_HIDDEN, ev)
   })
 
-  $('nav.link-list > a.item', drawer).localizeHTML().register('click', ev => {
+  $('nav.link-list > a.item', drawer)
+  .localizeHTML()
+  .register('click', ev => {
     ev.preventDefault()
 
     const target = ev.currentTarget
@@ -151,14 +157,15 @@ add_action(MESSAGE_IN_POPUP, ({ type, meta, payload }) => {
 
     $(result).on()
 
-    if (phonetic[0]) $('.-phonetic', result).on()
+    $('.-phonetic', result).on()
     .children('.-plain').text(`[ ${phonetic[0] || '...'} ]`)
 
     $('.-explain', result).on()
     .children('.-plain').text(`${translation.join(' ')}`)
 
     $('.-explain', result).on()
-    .children('.-detail').html(`${explains.join('<br>')}`)
+    .children('.-detail')[explains[0] ? 'on' : 'off']()
+    .html(`${explains.join('<br>')}`)
   })
 
   add_action(TRANSLATE_QUERY_NONE, () => console.error('Need Enter Some Words For Translating!'))

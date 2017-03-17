@@ -34,7 +34,8 @@ add_action(MESSAGE_IN_BACKGROUND, ({ type, meta, payload }, port) => {
   const { q } = payload
 
   localStorage.get('api_src').then(({ api_src }) => {
-    translate(api_src, { q }).then(json => {
+    // translate(api_src, { q }).then(json => {
+    translate('google', { q }).then(json => {
       port.postMessage(translate_to(meta.from, json))
     })
   })

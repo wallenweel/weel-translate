@@ -6,66 +6,66 @@
 
   "EXTENSION_NAME": {
     "message": "A Weel Translation",
-    "description": "Name of the extension."
+    "description": "扩展的名称。"
   },
 
   "EXTENSION_DESCRIPTION": {
-    "message": "Nothing Think Of",
-    "description": "Description of the add-on."
+    "message": "希望是一个还算好用的翻译扩展，为墙内的火狐用户而开发。",
+    "description": "扩展的描述。"
   },
 
   "LANG_SLUG_EN": {
-    "message": "English",
+    "message": "英语",
     "description": ""
   },
 
   "LANG_SLUG_ZH": {
-    "message": "Chinese",
+    "message": "中文",
     "description": ""
   },
 
   "LANG_SLUG_JP": {
-    "message": "Japanese",
+    "message": "日语",
     "description": ""
   },
 
   "TRANSLATION": {
-    "message": "Translation",
+    "message": "翻译",
     "description": ""
   },
 
   "PREFERENCES": {
-    "message": "Preferences",
+    "message": "偏好",
     "description": ""
   },
 
   "SETTINGS": {
-    "message": "Settings",
+    "message": "设置",
     "description": ""
   },
 
   "DONATE": {
-    "message": "Donate",
+    "message": "捐助",
     "description": ""
   },
 
   "FEEDBACK": {
-    "message": "Feedback",
+    "message": "反馈",
     "description": ""
   },
 
   "CLEAR_INPUT": {
-    "message": "Clear Input",
+    "message": "清除内容",
     "description": ""
   },
 
   "TRANSLATE_PAGE": {
-    "message": "Translate Page",
+    "message": "翻译页面",
     "description": ""
   },
 
   "INPUT_SOMETHING": {
-    "message": "Input Something Here",
+    "message": "输入点什么",
     "description": ""
   }
 }

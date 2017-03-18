@@ -29,6 +29,23 @@ export const swapLanguages = ({ currentTarget: {
   do_action(SWAP_LANGUAGE_COMPLETED, ov, dv)
 }
 
+Weel.prototype.initLanguages = function ({ languages = [] }) {
+  if (!languages.length) return 0
+
+  const _gen = elem => languages.forEach(lang => {
+    const opt = document.createElement('div')
+
+    opt.setAttribute('data-value', lang.code)
+    opt.className = '-opt'
+    opt.innerText = lang.slug
+
+    elem.appendChild(opt)
+  })
+
+  _gen(this.elem.querySelector('.select.-origin'))
+  _gen(this.elem.querySelector('.select.-target'))
+}
+
 Weel.prototype.textArea = function () {
   const target = this.elems[0]
 

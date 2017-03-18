@@ -1,13 +1,14 @@
 import * as config from './libs/ui/config'
 import { do_action, add_action } from './libs/functions'
 import { translate_to } from './libs/actions'
-import translate from './libs/services/translation'
 import {
   BACKGROUND_ON_CONNECTED,
   MESSAGE_IN_BACKGROUND,
   TRANSLATE_QUERY_DONE,
   CONNECT_WITH_TRANSLATING,
 } from './libs/actions/types'
+
+import translate from './libs/services/translation'
 
 const scope = 'background'
 const localStorage = browser.storage.local

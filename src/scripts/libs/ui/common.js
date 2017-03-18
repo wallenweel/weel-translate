@@ -1,6 +1,9 @@
 import Weel, { weel as $ } from '../Weel'
 import { do_action, i18n } from '../functions'
-import { PAGE_IS_SWITCHING } from '../actions/types'
+import {
+  PAGE_IS_SWITCHING,
+  SELECT_LACK_OPTIONS,
+ } from '../actions/types'
 
 export const setTitle = (title = '', localize = 1) => {
   const r = !localize ? title : i18n.get(title)
@@ -35,6 +38,8 @@ export const select = ev => {
   const select = $(target.parentElement).isUI('select') ? target.parentElement : target
 
   if (!$(select).isUI('select')) return void 0
+  // If has only one option
+  if (select.querySelectorAll('.-opt').length <= 1) return do_action(SELECT_LACK_OPTIONS, select, ev)
 
   ev.stopPropagation()
   ev.preventDefault()

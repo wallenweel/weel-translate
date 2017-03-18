@@ -4,25 +4,16 @@ import youdao from '../api/youdao'
 import bing from '../api/bing'
 import baidu from '../api/baidu'
 
-export default (src, args) => {
-  let service
-
+export const apiPick = src => {
   switch (src) {
 
-  case 'youdao':
-    service = youdao
-    break
-  case 'google':
-    service = google
-    break
-  case 'baidu':
-    service = baidu
-    break
-  case 'bing':
-    service = bing
-    break
+  case 'youdao': return youdao
+  case 'google': return google
+  case 'baidu':  return baidu
+  case 'bing':   return bing
+  default:       return youdao
 
   }
-
-  return apiParse(service)(args)
 }
+
+export default (src, args) => apiParse(apiPick(src))(args)

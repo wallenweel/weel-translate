@@ -67,5 +67,10 @@
   "INPUT_SOMETHING": {
     "message": "Input Something Here",
     "description": ""
+  },
+
+  "AUTOMATIC": {
+    "message": "Auto",
+    "description": ""
   }
 }

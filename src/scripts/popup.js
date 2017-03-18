@@ -1,29 +1,30 @@
 import Weel, { weel as $ } from './libs/Weel'
 import { wave, select, setTitle } from './libs/ui/common'
 import { swapLanguages } from './libs/ui/translation'
-import translate from './libs/services/translation'
 import { translate_from } from './libs/actions'
-import synth from './libs/services/synth'
 import { log, do_action, add_action } from './libs/functions'
 import {
   PROPAGATION_OUTERMOST,
   MASK_MANUAL_HIDDEN,
   PAGE_IS_SWITCHING,
+
+  CONNECT_WITH_TRANSLATING,
   TRANSLATE_IN_POPUP,
   TRANSLATE_QUERY_NONE,
-  CONNECT_WITH_TRANSLATING,
+
   MESSAGE_IN_POPUP,
   RESPOND_TRANSLATING,
+
+  SELECT_LACK_OPTIONS,
 } from './libs/actions/types'
+
+import translate, { apiPick } from './libs/services/translation'
+import synth from './libs/services/synth'
 
 const scope = 'popup'
 let port = {}
 
 try {
-  translate('google', { q: 'translate' }).then(json => {
-    console.log(json)
-  })
-
   port = browser.runtime.connect({ name: CONNECT_WITH_TRANSLATING })
   port.onMessage.addListener(data => do_action(MESSAGE_IN_POPUP, data))
 } catch (e) {}
@@ -105,13 +106,12 @@ add_action(MESSAGE_IN_POPUP, ({ type, meta, payload }) => {
   const streamBehavior = page.querySelector('.stream-behavior')
   const outputStream = page.querySelector('.output-stream')
 
+  $(inputStream).localizeHTML()
+  $(streamBehavior).localizeHTML()
+
   $('.language .-swap.-js', inputStream).register('click', swapLanguages)
 
-  $(inputStream).localizeHTML()
-
   const $inputText = $('textarea', inputStream)
-
-  $(streamBehavior).localizeHTML()
 
   $('.clear.-js', streamBehavior).register('click', $inputText.textArea().clear)
 
@@ -121,7 +121,7 @@ add_action(MESSAGE_IN_POPUP, ({ type, meta, payload }) => {
   $('.translate.-js', streamBehavior).register('click', ev => do_action(TRANSLATE_IN_POPUP, {
     q: $inputText.textArea().out(),
     source: $('.language .-origin', inputStream).getAttr('data-value'),
-    target: $('.language .-destination', inputStream).getAttr('data-value'),
+    target: $('.language .-target', inputStream).getAttr('data-value'),
   }))
 
   $('.full-text.-js', streamBehavior).register('click', ev => {
@@ -169,6 +169,17 @@ add_action(MESSAGE_IN_POPUP, ({ type, meta, payload }) => {
   })
 
   add_action(TRANSLATE_QUERY_NONE, () => console.error('Need Enter Some Words For Translating!'))
+
+  const api = apiPick('google')
+
+  $('.language', inputStream).localizeHTML()
+  .initLanguages(api)
+
+  add_action(SELECT_LACK_OPTIONS, select => {
+    if (!$(select.parentElement).hasClass('language')) return 0
+
+    console.log(`${api.name} 不支持选择语言。`)
+  })
 })(document.querySelector('.page.-entry'))
 
 /**

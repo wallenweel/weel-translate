@@ -67,5 +67,10 @@
   "INPUT_SOMETHING": {
     "message": "输入点什么",
     "description": ""
+  },
+
+  "AUTOMATIC": {
+    "message": "自动",
+    "description": ""
   }
 }

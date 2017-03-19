@@ -39,7 +39,9 @@ export const select = ev => {
 
   if (!$(select).isUI('select')) return void 0
   // If has only one option
-  if (select.querySelectorAll('.-opt').length <= 1) return do_action(SELECT_LACK_OPTIONS, select, ev)
+  if (select.querySelectorAll('.-opt').length <= 1) {
+    return do_action(SELECT_LACK_OPTIONS, select, ev)
+  }
 
   ev.stopPropagation()
   ev.preventDefault()

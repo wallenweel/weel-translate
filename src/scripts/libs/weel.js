@@ -169,7 +169,7 @@ export default class WeeL {
   attr(name, prefix = '') {
     const attrName = prefix + name
     const origin = this.getAttr(attrName) || ''
-    const values = origin.split(' ')
+    const values = origin ? origin.split(' ') : []
 
     return ({
       del: value => {
@@ -179,9 +179,10 @@ export default class WeeL {
         if (~values.indexOf(value)) return 0
 
         values.push(value)
-
+        
         this.elem.setAttribute(attrName, values.join(' '))
       },
+      get: () => origin,
       clear: () => this.elem.setAttribute(attrName, ''),
     })
   }

@@ -1,8 +1,8 @@
-import Weel, { weel as $ } from './libs/Weel'
-import { wave, select, setTitle } from './libs/ui/common'
-import { swapLanguages } from './libs/ui/translation'
-import { translate_from } from './libs/actions'
-import { log, do_action, add_action } from './libs/functions'
+import Weel, { weel as $ } from "./libs/Weel"
+import { wave, select, setTitle } from "./libs/ui/common"
+import { swapLanguages } from "./libs/ui/translation"
+import { translate_from } from "./libs/actions"
+import { log, do_action, add_action } from "./libs/functions"
 import {
   PROPAGATION_OUTERMOST,
   MASK_MANUAL_HIDDEN,
@@ -16,10 +16,10 @@ import {
   RESPOND_TRANSLATING,
 
   SELECT_LACK_OPTIONS,
-} from './libs/actions/types'
+} from "./libs/actions/types"
 
-import translate, { apiPick } from './libs/services/translation'
-import synth from './libs/services/synth'
+import translate, { apiPick } from "./libs/services/translation"
+import synth from "./libs/services/synth"
 
 const scope = 'popup'
 let port = {}
@@ -120,8 +120,8 @@ add_action(MESSAGE_IN_POPUP, ({ type, meta, payload }) => {
 
   $('.translate.-js', streamBehavior).register('click', ev => do_action(TRANSLATE_IN_POPUP, {
     q: $inputText.textArea().out(),
-    source: $('.language .-origin', inputStream).getAttr('data-value'),
-    target: $('.language .-target', inputStream).getAttr('data-value'),
+    from: $('.language .-origin', inputStream).getAttr('data-value'),
+    to: $('.language .-target', inputStream).getAttr('data-value'),
   }))
 
   $('.full-text.-js', streamBehavior).register('click', ev => {
@@ -170,15 +170,21 @@ add_action(MESSAGE_IN_POPUP, ({ type, meta, payload }) => {
 
   add_action(TRANSLATE_QUERY_NONE, () => console.error('Need Enter Some Words For Translating!'))
 
-  const api = apiPick('google')
+  try {
+    browser.storage.local.get('api_src')
+    .then(({ api_src }) =>
+    $('.language', inputStream).localizeHTML()
+    .initLanguages(apiPick(api_src)))
+  } catch (e) {
+    $('.language', inputStream).localizeHTML()
+    .initLanguages(apiPick('youdao'))
+  }
 
-  $('.language', inputStream).localizeHTML()
-  .initLanguages(api)
 
   add_action(SELECT_LACK_OPTIONS, select => {
     if (!$(select.parentElement).hasClass('language')) return 0
 
-    console.log(`${api.name} 不支持选择语言。`)
+    console.log(`${$(select.parentElement).data('src').get()} 不支持选择语言。`)
   })
 })(document.querySelector('.page.-entry'))
 

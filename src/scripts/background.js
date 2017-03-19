@@ -32,11 +32,10 @@ browser.runtime.onConnect.addListener(port => {
 })
 
 add_action(MESSAGE_IN_BACKGROUND, ({ type, meta, payload }, port) => {
-  const { q } = payload
+  const { q, from, to } = payload
 
   localStorage.get('api_src').then(({ api_src }) => {
-    // translate(api_src, { q }).then(json => {
-    translate('google', { q }).then(json => {
+    translate(api_src, { q, from, to }).then(json => {
       port.postMessage(translate_to(meta.from, json))
     })
   })

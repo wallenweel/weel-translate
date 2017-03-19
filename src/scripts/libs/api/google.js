@@ -26,8 +26,8 @@ export default {
       // ['tk', '313938.164950'],
 
       ['sl', from || 'en'],
-      ['tl', to || 'zh-CN'],
-      ['hl', to || 'zh-CN'],
+      ['tl', to || 'zh'],
+      ['hl', to || 'zh'],
 
       ['ie', 'UTF-8'],
       ['oe', 'UTF-8'],

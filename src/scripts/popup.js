@@ -87,13 +87,14 @@ try {
  */
 ;(page => {
   setTitle('TRANSLATION')
-  initLanguagesBar()
+  _initLanguagesBar()
 
   // Render Settings Page
   add_action(`${PAGE_IS_SWITCHING}_ENTRY`, name => {
     setTitle('TRANSLATION')
-    initLanguagesBar()
   })
+
+  add_action(`CHANGED_SETTING_${'api_src'.toUpperCase()}`, _initLanguagesBar)
 
   const inputStream = page.querySelector('.input-stream')
   const streamBehavior = page.querySelector('.stream-behavior')
@@ -155,15 +156,12 @@ try {
     .html(`${explains.join('<br>')}`)
   })
 
-  function initLanguagesBar() {
+  function _initLanguagesBar() {
     try {
       browser.storage.local.get('api_src')
-      .then(({ api_src }) =>
-      $('.language', inputStream).localizeHTML()
-      .initLanguages(apiPick(api_src)))
+      .then(({ api_src }) => $('.language', inputStream).initLanguages(apiPick(api_src)))
     } catch (e) {
-      $('.language', inputStream).localizeHTML()
-      .initLanguages(apiPick('youdao'))
+      $('.language', inputStream).initLanguages(apiPick('youdao'))
     }
   }
 })(document.querySelector('.page.-entry'))
@@ -181,9 +179,10 @@ try {
       const localStorage = browser.storage.local
 
       localStorage.get().then(cfg => {
-        const { api_src, use_fab, auto_popup, use_fap } = cfg
+        const { api_src, use_fab, auto_popup, use_fap, custom_api } = cfg
 
         page.querySelector(`input[name="api_src"][value="${api_src}"]`).checked = true
+        page.querySelector(`textarea[name="custom_api"]`).value = custom_api
         page.querySelector(`input[name="use_fab"]`).checked = use_fab
         page.querySelector(`input[name="auto_popup"]`).checked = auto_popup
         page.querySelector(`input[name="use_fap"]`).checked = use_fap
@@ -191,15 +190,20 @@ try {
     } catch (e) {}
   })
 
-  $('.-translator', page).register('click', ({
-    target: { nodeName, name, value },
-  }) =>
-    (nodeName === 'INPUT') &&
-    settings().set({ [name]: value })
-    .then(() => do_action(SETTINGS_SET_SUCCESS, name, value))
-  )
+  $('.-translator input[type="radio"][name]', page).register('change', _updateSettings)
 
-  $('.-customAPI textarea[name="custom_api"]', page).register('blur', ev => {
-    console.log(ev)
-  })
+  $('.-customAPI textarea[name]', page).register('blur', _updateSettings)
+
+  $('.-interaction input[type="checkbox"][name]', page).register('change', _updateSettings)
+
+  function _updateSettings(ev) {
+    let { name, value, type, checked } = ev.target
+
+    if (type === 'checkbox') value = checked
+
+    settings().set({ [name]: value })
+      .then(() => do_action(SETTINGS_SET_SUCCESS, name, value))
+
+    settings().log()
+  }
 })(document.querySelector('.page.-settings'))

@@ -1,5 +1,5 @@
 import Weel from '../Weel'
-import { do_action } from '../functions'
+import { do_action, i18n } from '../functions'
 import {
   SWAP_LANGUAGE_COMPLETED,
   TRANSLATE_IN_POPUP,
@@ -31,18 +31,26 @@ export const swapLanguages = ({ currentTarget: {
 
 Weel.prototype.initLanguages = function ({ name, languages = [] }) {
   this.data('src').set(name)
-  
-  if (!languages.length) return 0
 
-  const _gen = elem => languages.forEach(lang => {
-    const opt = document.createElement('div')
+  const _gen = elem => {
+    const fgm = document.createDocumentFragment()
+    const ato = (code, trans) => {
+      const opt = document.createElement('div')
 
-    opt.setAttribute('data-value', lang.code)
-    opt.className = '-opt'
-    opt.innerText = lang.slug
+      opt.setAttribute('data-value', code)
+      opt.className = '-opt'
+      opt.innerText = trans
 
-    elem.appendChild(opt)
-  })
+      return opt
+    }
+
+    fgm.appendChild(ato('', i18n.get('AUTOMATIC')))
+
+    if (languages && languages.length)
+      languages.forEach(({ code, trans }) => fgm.appendChild(ato(code, trans)))
+
+    this.html(fgm, elem)
+  }
 
   _gen(this.elem.querySelector('.select.-origin'))
   _gen(this.elem.querySelector('.select.-target'))

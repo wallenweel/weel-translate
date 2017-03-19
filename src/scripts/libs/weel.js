@@ -179,7 +179,7 @@ export default class WeeL {
         if (~values.indexOf(value)) return 0
 
         values.push(value)
-        
+
         this.elem.setAttribute(attrName, values.join(' '))
       },
       get: () => origin,
@@ -203,9 +203,9 @@ export default class WeeL {
     return this
   }
 
-  html(content) {
+  html(content, obj) {
     if (!content) return void 0
-    let doms
+    let doms = [content]
 
     if (fn.type(content, 'string')) {
       const parser = new DOMParser()
@@ -213,7 +213,7 @@ export default class WeeL {
       doms = [...parser.parseFromString(content, 'text/html').body.childNodes]
     }
 
-    const target = this.elem
+    const target = obj || this.elem
     while (target.firstChild) target.removeChild(target.firstChild)
 
     doms.forEach(dom => target.appendChild(dom))

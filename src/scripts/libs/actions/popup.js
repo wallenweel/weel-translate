@@ -35,6 +35,14 @@ add_action(TRANSLATE_IN_POPUP, (port, params) => {
 
 add_action(SETTINGS_SET_SUCCESS, (name, value) => {
   console.log(name, value)
+
+  switch (name) {
+
+  case 'api_src':
+    return do_action(`CHANGED_SETTING_${name.toUpperCase()}`, value)
+  default:
+
+  }
 })
 
 add_action(SELECT_LACK_OPTIONS, select => {

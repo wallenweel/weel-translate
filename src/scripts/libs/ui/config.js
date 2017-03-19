@@ -2,6 +2,7 @@ const defaultConfig = {
   api_src: 'google',
   custom_api: '',
   use_fab: true,
+  auto_popup: false,
   use_fap: false,
 }
 

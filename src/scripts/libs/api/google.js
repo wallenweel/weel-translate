@@ -52,15 +52,18 @@ export default {
 
   languages: [{
     code: 'en',
-    name: 'english',
-    slug: i18n.get('LANG_SLUG_EN'),
+    name: 'English',
+    slug: 'english',
+    trans: i18n.get('LANG_SLUG_EN'),
   }, {
     code: 'zh',
     name: '中文',
-    slug: i18n.get('LANG_SLUG_ZH'),
+    slug: 'chinese',
+    trans: i18n.get('LANG_SLUG_ZH'),
   }, {
     code: 'ja',
     name: 'にほんご',
-    slug: i18n.get('LANG_SLUG_JP'),
+    slug: 'japanese',
+    trans: i18n.get('LANG_SLUG_JP'),
   }],
 }

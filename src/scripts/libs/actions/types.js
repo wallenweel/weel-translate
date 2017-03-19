@@ -3,6 +3,7 @@ export const PROPAGATION_OUTERMOST = "PROPAGATION_OUTERMOST"
 
 // Two languages exchanged
 export const SWAP_LANGUAGE_COMPLETED = "SWAP_LANGUAGE_COMPLETED"
+export const SET_LANGUAGES_FROM_TO = "SET_LANGUAGES_FROM_TO"
 
 // Mask layout is hidden manually by clicking
 export const MASK_MANUAL_HIDDEN = "MASK_MANUAL_HIDDEN"
@@ -41,6 +42,7 @@ export const UNINSTALL_EXTENSION = "UNINSTALL_EXTENSION"
 
 // Select UI has < 2 options
 export const SELECT_LACK_OPTIONS = "SELECT_LACK_OPTIONS"
+export const SELECT_OPTION_CHANGED = "SELECT_OPTION_CHANGED"
 
 export const SETTINGS_SET_SUCCESS = "SETTINGS_SET_SUCCESS"
 export const SETTINGS_SET_ERROR = "SETTINGS_SET_ERROR"

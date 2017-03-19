@@ -3,6 +3,7 @@ import { do_action, i18n } from '../functions'
 import {
   PAGE_IS_SWITCHING,
   SELECT_LACK_OPTIONS,
+  SELECT_OPTION_CHANGED,
  } from '../actions/types'
 
 export const setTitle = (title = '', localize = 1) => {
@@ -47,10 +48,7 @@ export const select = ev => {
   ev.preventDefault()
 
   if ($(target).hasClass('-opt')) {
-    select.setAttribute('data-text', target.textContent)
-    select.setAttribute('data-value', target.getAttribute('data-value'))
-
-    return void 0
+    return do_action(SELECT_OPTION_CHANGED, target, select, ev)
   }
 
   $('.select.-js._on', ev.currentTarget).off()

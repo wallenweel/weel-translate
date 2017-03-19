@@ -25,9 +25,9 @@ export default {
       ['client', 'gtx'],
       // ['tk', '313938.164950'],
 
-      ['sl', from || 'en'],
-      ['tl', to || 'zh'],
-      ['hl', to || 'zh'],
+      ['sl', from],
+      ['tl', to],
+      ['hl', to],
 
       ['ie', 'UTF-8'],
       ['oe', 'UTF-8'],

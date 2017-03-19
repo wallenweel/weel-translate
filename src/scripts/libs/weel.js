@@ -19,6 +19,12 @@ export default class WeeL {
     return [...(!scope ? document : scope).querySelectorAll(selector)]
   }
 
+  ready(callback) {
+    callback(this)
+
+    return this
+  }
+
   /**
    * Proving this's elems has certain elem
    * @param  {String} selector Certain element's selector

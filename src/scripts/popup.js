@@ -17,6 +17,8 @@ import {
   RESPOND_TRANSLATING,
 
   SETTINGS_SET_SUCCESS,
+
+  SET_LANGUAGES_FROM_TO,
 } from "./libs/actions/types"
 
 import translate, { apiPick } from "./libs/services/translation"
@@ -103,7 +105,28 @@ try {
   $(inputStream).localizeHTML()
   $(streamBehavior).localizeHTML()
 
-  $('.language .-swap.-js', inputStream).register('click', swapLanguages)
+  $('.language .-swap.-js', inputStream).ready(({ elem }) => {
+    const {
+      previousElementSibling,
+      nextElementSibling,
+    } = elem
+
+    $('.-opt', previousElementSibling).register('click', ({ target }) => {
+      console.log(target)
+    })
+
+    try {
+      settings(['lang_from', 'lang_to']).get(({ lang_from, lang_to }) => {
+        // if (!lang_from.text || !lang_to.text) return void 0
+
+        do_action(
+          SET_LANGUAGES_FROM_TO,
+          [previousElementSibling, lang_from],
+          [nextElementSibling, lang_to]
+        )
+      })
+    } catch (e) {}
+  }).register('click', swapLanguages)
 
   const $inputText = $('textarea', inputStream)
 
@@ -156,12 +179,12 @@ try {
     .html(`${explains.join('<br>')}`)
   })
 
-  function _initLanguagesBar() {
+  function _initLanguagesBar(src) {
     try {
       browser.storage.local.get('api_src')
-      .then(({ api_src }) => $('.language', inputStream).initLanguages(apiPick(api_src)))
+      .then(({ api_src }) => $('.language', inputStream).initLanguages(apiPick(api_src), src))
     } catch (e) {
-      $('.language', inputStream).initLanguages(apiPick('youdao'))
+      $('.language', inputStream).initLanguages(apiPick('youdao'), src)
     }
   }
 })(document.querySelector('.page.-entry'))

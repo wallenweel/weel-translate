@@ -1,9 +1,19 @@
+import { i18n } from '../functions'
+
 const defaultConfig = {
   api_src: 'google',
   custom_api: '',
   use_fab: true,
   auto_popup: false,
   use_fap: false,
+  lang_from: {
+    text: i18n.get('AUTOMATIC'),
+    value: '',
+  },
+  lang_to: {
+    text: i18n.get('AUTOMATIC'),
+    value: '',
+  },
 }
 
 export const settings = params => {
@@ -23,8 +33,6 @@ export const settings = params => {
       })
     },
     reset() {
-      if (Object.keys(cfg).length <= 0) return void 0
-
       this.clear()
       this.init()
     },

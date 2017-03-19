@@ -3,6 +3,7 @@ import { wave, select, setTitle } from "./libs/ui/common"
 import { swapLanguages } from "./libs/ui/translation"
 import { translate_from } from "./libs/actions"
 import { log, do_action, add_action } from "./libs/functions"
+import { settings } from './libs/ui/config'
 import {
   PROPAGATION_OUTERMOST,
   MASK_MANUAL_HIDDEN,
@@ -15,11 +16,12 @@ import {
   MESSAGE_IN_POPUP,
   RESPOND_TRANSLATING,
 
-  SELECT_LACK_OPTIONS,
+  SETTINGS_SET_SUCCESS,
 } from "./libs/actions/types"
 
 import translate, { apiPick } from "./libs/services/translation"
 import synth from "./libs/services/synth"
+import "./libs/actions/popup"
 
 const scope = 'popup'
 let port = {}
@@ -29,25 +31,12 @@ try {
   port.onMessage.addListener(data => do_action(MESSAGE_IN_POPUP, data))
 } catch (e) {}
 
-add_action(MESSAGE_IN_POPUP, ({ type, meta, payload }) => {
-  switch (type) {
-
-  case RESPOND_TRANSLATING:
-    do_action(RESPOND_TRANSLATING, payload)
-    do_action(`${RESPOND_TRANSLATING}_${meta.to.toUpperCase()}`, payload)
-    break
-  default:
-
-  }
-})
 
 /**
  * Application Container
  * @type {Closure}
  */
 ;(container => {
-  setTitle('TRANSLATION')
-
   const toolbar = container.querySelector('header.toolbar')
   const mask = container.querySelector('.mask.-js')
   const drawer = container.querySelector('.drawer')
@@ -97,9 +86,13 @@ add_action(MESSAGE_IN_POPUP, ({ type, meta, payload }) => {
  * @type {Closure}
  */
 ;(page => {
+  setTitle('TRANSLATION')
+  initLanguagesBar()
+
   // Render Settings Page
   add_action(`${PAGE_IS_SWITCHING}_ENTRY`, name => {
     setTitle('TRANSLATION')
+    initLanguagesBar()
   })
 
   const inputStream = page.querySelector('.input-stream')
@@ -118,7 +111,7 @@ add_action(MESSAGE_IN_POPUP, ({ type, meta, payload }) => {
   // TODO: Test input, keep in mind that remove this
   $inputText.textArea().in('test')
 
-  $('.translate.-js', streamBehavior).register('click', ev => do_action(TRANSLATE_IN_POPUP, {
+  $('.translate.-js', streamBehavior).register('click', ev => do_action(TRANSLATE_IN_POPUP, port, {
     q: $inputText.textArea().out(),
     from: $('.language .-origin', inputStream).getAttr('data-value'),
     to: $('.language .-target', inputStream).getAttr('data-value'),
@@ -144,12 +137,6 @@ add_action(MESSAGE_IN_POPUP, ({ type, meta, payload }) => {
   const result = outputStream.querySelector('.result')
   const reference = outputStream.querySelector('.reference')
 
-  add_action(TRANSLATE_IN_POPUP, params => {
-    if (!params.q.length) return do_action(TRANSLATE_QUERY_NONE)
-
-    port.postMessage(translate_from(scope, params))
-  })
-
   add_action(`${RESPOND_TRANSLATING}_${scope.toUpperCase()}`, data => {
     const { explains, phonetic, translation } = data
 
@@ -168,24 +155,17 @@ add_action(MESSAGE_IN_POPUP, ({ type, meta, payload }) => {
     .html(`${explains.join('<br>')}`)
   })
 
-  add_action(TRANSLATE_QUERY_NONE, () => console.error('Need Enter Some Words For Translating!'))
-
-  try {
-    browser.storage.local.get('api_src')
-    .then(({ api_src }) =>
-    $('.language', inputStream).localizeHTML()
-    .initLanguages(apiPick(api_src)))
-  } catch (e) {
-    $('.language', inputStream).localizeHTML()
-    .initLanguages(apiPick('youdao'))
+  function initLanguagesBar() {
+    try {
+      browser.storage.local.get('api_src')
+      .then(({ api_src }) =>
+      $('.language', inputStream).localizeHTML()
+      .initLanguages(apiPick(api_src)))
+    } catch (e) {
+      $('.language', inputStream).localizeHTML()
+      .initLanguages(apiPick('youdao'))
+    }
   }
-
-
-  add_action(SELECT_LACK_OPTIONS, select => {
-    if (!$(select.parentElement).hasClass('language')) return 0
-
-    console.log(`${$(select.parentElement).data('src').get()} 不支持选择语言。`)
-  })
 })(document.querySelector('.page.-entry'))
 
 /**
@@ -198,16 +178,28 @@ add_action(MESSAGE_IN_POPUP, ({ type, meta, payload }) => {
     setTitle('SETTINGS')
 
     try {
-      const storage = browser.storage.local.get()
+      const localStorage = browser.storage.local
 
-      storage.then(cfg => {
+      localStorage.get().then(cfg => {
         const { api_src, use_fab, auto_popup, use_fap } = cfg
 
-        page.querySelector(`input[name="api_src"][data-slug="${api_src}"]`).checked = true
+        page.querySelector(`input[name="api_src"][value="${api_src}"]`).checked = true
         page.querySelector(`input[name="use_fab"]`).checked = use_fab
         page.querySelector(`input[name="auto_popup"]`).checked = auto_popup
         page.querySelector(`input[name="use_fap"]`).checked = use_fap
       })
     } catch (e) {}
+  })
+
+  $('.-translator', page).register('click', ({
+    target: { nodeName, name, value },
+  }) =>
+    (nodeName === 'INPUT') &&
+    settings().set({ [name]: value })
+    .then(() => do_action(SETTINGS_SET_SUCCESS, name, value))
+  )
+
+  $('.-customAPI textarea[name="custom_api"]', page).register('blur', ev => {
+    console.log(ev)
   })
 })(document.querySelector('.page.-settings'))

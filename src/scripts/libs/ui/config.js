@@ -1,7 +1,35 @@
-export const api_src = 'youdao'
+const defaultConfig = {
+  api_src: 'google',
+  custom_api: '',
+  use_fab: true,
+  use_fap: false,
+}
 
-export const custom_api = ''
+export const settings = params => {
+  const localStorage = browser.storage.local
 
-export const use_fab = true
-export const auto_popup = false
-export const use_fap = false
+  return ({
+    set: cfg => localStorage.set(cfg),
+    get: callback => localStorage.get(params).then(callback),
+
+    remove: name => localStorage.remove(name),
+    clear: () => localStorage.clear(),
+
+    init() {
+      this.get(cfg => {
+        if (Object.keys(cfg).length > 0) return void 0
+        this.set(defaultConfig)
+      })
+    },
+    reset() {
+      if (Object.keys(cfg).length <= 0) return void 0
+
+      this.clear()
+      this.init()
+    },
+
+    log() { this.get(cfg => console.table(cfg) ) },
+  })
+}
+
+export default defaultConfig

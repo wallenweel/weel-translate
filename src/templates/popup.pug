@@ -18,16 +18,16 @@ html(lang="")
           .group.-translator
             h3 选择翻译引擎
             .item.-radio
-              input(type="radio" name="api_src" data-slug="google")
+              input(type="radio" name="api_src" value="google")
               label Google
             .item.-radio
-              input(type="radio" name="api_src" data-slug="youdao")
+              input(type="radio" name="api_src" value="youdao")
               label 有道
             .item.-radio
-              input(type="radio" name="api_src" data-slug="baidu")
+              input(type="radio" name="api_src" value="baidu")
               label 百度
               
-          .group
+          .group.-customAPI
             h3 应用自己的 API
             .item.-textarea
               textarea(name="custom_api")
@@ -36,7 +36,7 @@ html(lang="")
               code name id key;
               | 每条以 ";" 分隔
 
-          .group
+          .group.-interaction
             h3 选择交互方式
 
             .item.-checkbox

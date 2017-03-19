@@ -31,7 +31,7 @@ export const swapLanguages = ({ currentTarget: {
 
 Weel.prototype.initLanguages = function ({ name, languages = [] }) {
   this.data('src').set(name)
-
+  
   if (!languages.length) return 0
 
   const _gen = elem => languages.forEach(lang => {

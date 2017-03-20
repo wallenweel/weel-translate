@@ -133,7 +133,7 @@ try {
   $('.clear.-js', streamBehavior).register('click', $inputText.textArea().clear)
 
   // TODO: Test input, keep in mind that remove this
-  $inputText.textArea().in('test')
+  $inputText.textArea().in('全文翻译')
 
   $('.translate.-js', streamBehavior).register('click', ev => do_action(TRANSLATE_IN_POPUP, port, {
     q: $inputText.textArea().out(),
@@ -177,6 +177,11 @@ try {
     $('.-explain', result).on()
     .children('.-detail')[explains[0] ? 'on' : 'off']()
     .html(`${explains.join('<br>')}`)
+  })
+
+  add_action(SET_LANGUAGES_FROM_TO, () => {
+    $(result).off()
+    // $inputText.textArea().clear()
   })
 
   function _initLanguagesBar(src) {
@@ -226,7 +231,5 @@ try {
 
     settings().set({ [name]: value })
       .then(() => do_action(SETTINGS_SET_SUCCESS, name, value))
-
-    settings().log()
   }
 })(document.querySelector('.page.-settings'))

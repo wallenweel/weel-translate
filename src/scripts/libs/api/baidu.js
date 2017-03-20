@@ -5,24 +5,34 @@ export default {
   slug: 'baidu',
   dataType: 'json',
 
-  parse: (data, args) => {
-    console.log(data)
-    const {
-      dict_result,
-      trans_result,
-    } = data
-
+  parse: ({
+    dict_result,
+    trans_result,
+  }, args) => {
     const explains = []
     const phonetic = {}
 
-    if (dict_result.length) {
+    if (Object.keys(dict_result).length) {
       const { simple_means: { symbols } } = dict_result
       const { ph_am, ph_en, parts } = symbols[0]
 
       phonetic[0] = ph_am
       phonetic[1] = ph_en
 
-      parts.forEach(({ part, means }) => explains.push(`${part} ${means.join(', ')}`))
+      parts.forEach(({
+        part,
+        part_name,
+        means,
+      }) => {
+        const _p = part || part_name || ''
+        const { has_mean } = means[0]
+
+        if (!parseInt(has_mean)) {
+          return explains.push(`${_p} ${means.join(', ')}`)
+        } else {
+          return explains.push(`${_p} ${means[0].text}`)
+        }
+      })
     }
 
     const translation = [trans_result['data'][0].dst]
@@ -33,8 +43,8 @@ export default {
   text: ({ q, from, to }) => ({
     url: 'http://fanyi.baidu.com/v2transapi',
     params: new Set([
-      ['from', from || 'en'],
-      ['to', to || 'zh'],
+      ['from', from],
+      ['to', to],
       ['transtype', 'translang'],
       ['simple_means_flag', 3],
       ['query', q],
@@ -67,7 +77,7 @@ export default {
     slug: 'chinese',
     trans: i18n.get('LANG_TRANS_ZH'),
   }, {
-    code: 'ja',
+    code: 'jp',
     name: 'にほんご',
     slug: 'japanese',
     trans: i18n.get('LANG_TRANS_JP'),

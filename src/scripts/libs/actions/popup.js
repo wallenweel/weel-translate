@@ -38,8 +38,6 @@ add_action(TRANSLATE_IN_POPUP, (port, params) => {
 })
 
 add_action(SETTINGS_SET_SUCCESS, (name, value) => {
-  console.log(name, value)
-
   switch (name) {
 
   case 'api_src':
@@ -61,7 +59,6 @@ add_action(SELECT_OPTION_CHANGED, (target, select) => {
   select.setAttribute('data-text', target.textContent)
   select.setAttribute('data-value', target.getAttribute('data-value'))
 
-  console.log(select)
   const cfgName = $(select).hasClass('-origin') ? 'lang_from' : 'lang_to'
   const cfg = {
     text: target.textContent,
@@ -69,7 +66,6 @@ add_action(SELECT_OPTION_CHANGED, (target, select) => {
   }
 
   settings().set({ [cfgName]: cfg })
-  settings().log()
 })
 
 add_action(TRANSLATE_QUERY_NONE, () => console.error('Need Enter Some Words For Translating!'))

@@ -2,23 +2,18 @@ import { apiParse } from '../functions'
 import google from '../api/google'
 import youdao from '../api/youdao'
 import bing from '../api/bing'
+import baidu from '../api/baidu'
 
-try {
-  const port = chrome.runtime.connect({ name: 'Connecting:Translate' })
-} catch (e) {
-  console.info('ReferenceError: chrome is not defined!\n', 'Meybe You Are In Common Page For Developing, You might ignore the notice.')
+export const apiPick = src => {
+  switch (src) {
 
-  const port = {}
+  case 'youdao': return youdao
+  case 'google': return google
+  case 'baidu':  return baidu
+  case 'bing':   return bing
+  default:       return youdao
+
+  }
 }
 
-const apiPick = () => {
-
-}
-
-export const translator = ({ q = 'translate' }) => {
-  const service = apiParse(youdao)
-
-  service({ q }).then(json => {
-    console.log(q, json)
-  })
-}
+export default (src, args) => apiParse(apiPick(src))(args)

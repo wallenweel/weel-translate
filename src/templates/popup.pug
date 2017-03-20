@@ -10,21 +10,24 @@ html(lang="")
 
       main.content
         include inc/page-entry.pug
-
+        
+        .page.-preferences
+          h1 Preferences
+          
         .page.-settings
           .group.-translator
             h3 选择翻译引擎
             .item.-radio
-              input(type="radio" name="api_src" data-slug="google")
+              input(type="radio" name="api_src" value="google")
               label Google
             .item.-radio
-              input(type="radio" name="api_src" data-slug="youdao")
+              input(type="radio" name="api_src" value="youdao")
               label 有道
             .item.-radio
-              input(type="radio" name="api_src" data-slug="baidu")
+              input(type="radio" name="api_src" value="baidu")
               label 百度
               
-          .group
+          .group.-customAPI
             h3 应用自己的 API
             .item.-textarea
               textarea(name="custom_api")
@@ -32,16 +35,8 @@ html(lang="")
               | 格式:
               code name id key;
               | 每条以 ";" 分隔
-            //- .item.-muti-input
-            //-   label 1
-            //-   input(type="text" name="api_key")
-            //-   button(type="button").-add-new.-js.-ordinary.i-add
-            //- .item.-muti-input
-            //-   label 2
-            //-   input(type="text" name="api_key")
-            //-   button(type="button").-add-new.-js.-ordinary.i-add
 
-          .group
+          .group.-interaction
             h3 选择交互方式
 
             .item.-checkbox
@@ -79,16 +74,19 @@ html(lang="")
         nav.link-list
           a(href="entry.html").item.wave.-js
             i.i-home
-            span 翻译
+            span __MSG_TRANSLATION__
+          a(href="preferences.html").item.wave.-js
+            i.i-style
+            span __MSG_PREFERENCES__
           a(href="settings.html").item.wave.-js
             i.i-tune
-            span 设置
+            span __MSG_SETTINGS__
           a(href="support.html").item.wave.-js
             i.i-all_inclusive
-            span 支持开发
+            span __MSG_DONATE__
           a(href="feedback.html").item.wave.-js
             i.i-bug_report
-            span 帮助 &amp; 反馈
+            span __MSG_FEEDBACK__
 
       section.mask.-js
 

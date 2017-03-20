@@ -111,7 +111,7 @@ h1, h2, h3, h4, h5, h6 {
       transform: translateX(100%) scale3d(.75, .75, 1);
       background-color: hsl(0, 0%, 96%);
       max-height: inherit;
-      min-height: 220px;
+      min-height: 200px;
       height: 100%;
       width: 100%;
       flex-shrink: 0;
@@ -153,7 +153,7 @@ h1, h2, h3, h4, h5, h6 {
               button {
                 color: $primary-color_lighter;
               }
-              .-origin, .-destination {
+              .-origin, .-target {
                 height: inherit;
                 width: 100%;
                 font-size: 13px;
@@ -333,6 +333,7 @@ h1, h2, h3, h4, h5, h6 {
                   h5 {
                     @include ordinary('h');
 
+                    font-size: 14px;
                     line-height: 1.35;
                     padding-top: 6px;
                     text-indent: 32px;
@@ -349,13 +350,25 @@ h1, h2, h3, h4, h5, h6 {
                 .-explain {
                   h5 {
                     font-weight: 600;
+                    & + textarea.-fake {
+                      opacity: 0;
+                      height: 0;
+                      width: 100%;
+                      border: none;
+                      position: absolute;
+                    }
                   }
                   p.-detail {
                     border-top: 1px solid grey(9.6);
-                    font-size: 14px;
+                    font-size: 12px;
                     line-height: 1.75;
                     padding-top: 8px;
-                    margin: 16px 0;
+                    margin: 8px 0;
+                    display: none;
+
+                    &._on {
+                      display: block;
+                    }
                   }
                 }
               }

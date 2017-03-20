@@ -1,0 +1,76 @@
+{
+  "demo": {
+    "message": "",
+    "description": ""
+  },
+
+  "EXTENSION_NAME": {
+    "message": "A Weel Translation",
+    "description": "扩展的名称。"
+  },
+
+  "EXTENSION_DESCRIPTION": {
+    "message": "希望是一个还算好用的翻译扩展，为墙内的火狐用户而开发。",
+    "description": "扩展的描述。"
+  },
+
+  "LANG_TRANS_EN": {
+    "message": "英语",
+    "description": ""
+  },
+
+  "LANG_TRANS_ZH": {
+    "message": "中文",
+    "description": ""
+  },
+
+  "LANG_TRANS_JP": {
+    "message": "日语",
+    "description": ""
+  },
+
+  "TRANSLATION": {
+    "message": "翻译",
+    "description": ""
+  },
+
+  "PREFERENCES": {
+    "message": "偏好",
+    "description": ""
+  },
+
+  "SETTINGS": {
+    "message": "设置",
+    "description": ""
+  },
+
+  "DONATE": {
+    "message": "捐助",
+    "description": ""
+  },
+
+  "FEEDBACK": {
+    "message": "反馈",
+    "description": ""
+  },
+
+  "CLEAR_INPUT": {
+    "message": "清除内容",
+    "description": ""
+  },
+
+  "TRANSLATE_PAGE": {
+    "message": "翻译页面",
+    "description": ""
+  },
+
+  "INPUT_SOMETHING": {
+    "message": "输入点什么",
+    "description": ""
+  },
+
+  "AUTOMATIC": {
+    "message": "自动",
+    "description": ""
+  }
+}

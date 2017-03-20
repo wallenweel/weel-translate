@@ -1,0 +1,76 @@
+{
+  "demo": {
+    "message": "",
+    "description": ""
+  },
+
+  "EXTENSION_NAME": {
+    "message": "A Weel Translation",
+    "description": "Name of the extension."
+  },
+
+  "EXTENSION_DESCRIPTION": {
+    "message": "Nothing Think Of",
+    "description": "Description of the add-on."
+  },
+
+  "LANG_TRANS_EN": {
+    "message": "English",
+    "description": ""
+  },
+
+  "LANG_TRANS_ZH": {
+    "message": "Chinese",
+    "description": ""
+  },
+
+  "LANG_TRANS_JP": {
+    "message": "Japanese",
+    "description": ""
+  },
+
+  "TRANSLATION": {
+    "message": "Translation",
+    "description": ""
+  },
+
+  "PREFERENCES": {
+    "message": "Preferences",
+    "description": ""
+  },
+
+  "SETTINGS": {
+    "message": "Settings",
+    "description": ""
+  },
+
+  "DONATE": {
+    "message": "Donate",
+    "description": ""
+  },
+
+  "FEEDBACK": {
+    "message": "Feedback",
+    "description": ""
+  },
+
+  "CLEAR_INPUT": {
+    "message": "Clear Input",
+    "description": ""
+  },
+
+  "TRANSLATE_PAGE": {
+    "message": "Translate Page",
+    "description": ""
+  },
+
+  "INPUT_SOMETHING": {
+    "message": "Input Something Here",
+    "description": ""
+  },
+
+  "AUTOMATIC": {
+    "message": "Auto",
+    "description": ""
+  }
+}

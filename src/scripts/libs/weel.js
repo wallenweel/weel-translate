@@ -19,6 +19,12 @@ export default class WeeL {
     return [...(!scope ? document : scope).querySelectorAll(selector)]
   }
 
+  ready(callback) {
+    callback(this)
+
+    return this
+  }
+
   /**
    * Proving this's elems has certain elem
    * @param  {String} selector Certain element's selector
@@ -34,6 +40,49 @@ export default class WeeL {
     }
 
     return r
+  }
+
+  children(selector) {
+    const r = []
+
+    this.elems.forEach(elem => r.push(elem.querySelector(selector)))
+
+    this.elems = r
+    this.elem = r[0]
+
+    return this
+  }
+
+  /**
+   * Find Parents Of Current Element (Not Full Test)
+   * @param  {String} selector A element target of collection
+   * @return {this}
+   */
+  parents(selector) {
+    const r = []
+
+    let parent = this.elem.parentElement
+
+    while (parent.parentElement) {
+      if (!selector) {
+        r.push(parent)
+      } else {
+        if (parent.parentElement.querySelector(selector) === parent) r.push(parent)
+      }
+
+      parent = parent.parentElement
+    }
+
+    this.elems = r
+    this.elem = r[0]
+
+    return this
+  }
+
+  eq(idx = 0) {
+    this.elem = this.elems[idx]
+
+    return this
   }
 
   /**
@@ -126,7 +175,7 @@ export default class WeeL {
   attr(name, prefix = '') {
     const attrName = prefix + name
     const origin = this.getAttr(attrName) || ''
-    const values = origin.split(' ')
+    const values = origin ? origin.split(' ') : []
 
     return ({
       del: value => {
@@ -139,12 +188,43 @@ export default class WeeL {
 
         this.elem.setAttribute(attrName, values.join(' '))
       },
+      get: () => origin,
       clear: () => this.elem.setAttribute(attrName, ''),
     })
   }
 
   data(name) {
     return this.attr(name, 'data-')
+  }
+
+  text(content) {
+    if (!content) return void 0
+
+    const textNode = document.createTextNode(content)
+    const target = this.elem
+    while (target.firstChild) target.removeChild(target.firstChild)
+
+    target.appendChild(textNode)
+
+    return this
+  }
+
+  html(content, obj) {
+    if (!content) return void 0
+    let doms = [content]
+
+    if (fn.type(content, 'string')) {
+      const parser = new DOMParser()
+
+      doms = [...parser.parseFromString(content, 'text/html').body.childNodes]
+    }
+
+    const target = obj || this.elem
+    while (target.firstChild) target.removeChild(target.firstChild)
+
+    doms.forEach(dom => target.appendChild(dom))
+
+    return this
   }
 
 }
@@ -158,3 +238,4 @@ export const weel = selector => new WeeL(selector)
 
 weel.type = fn.type
 weel.log = fn.log
+weel.i18n = fn.i18n

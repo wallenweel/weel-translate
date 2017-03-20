@@ -1,18 +1,38 @@
-import Weel, { weel as $ } from './libs/Weel'
-import { wave, select } from './libs/ui/common'
-import { input2translate, swapLanguages } from './libs/ui/translation'
-import { translator } from './libs/services/translation'
-import { log, do_action, add_action } from './libs/functions'
-import { PROPAGATION_OUTERMOST, MASK_MANUAL_HIDDEN, PAGE_IS_SWITCHING } from './libs/actions/types'
+import Weel, { weel as $ } from "./libs/Weel"
+import { wave, select, setTitle } from "./libs/ui/common"
+import { swapLanguages } from "./libs/ui/translation"
+import { translate_from } from "./libs/actions"
+import { log, do_action, add_action } from "./libs/functions"
+import { settings } from './libs/ui/config'
+import {
+  PROPAGATION_OUTERMOST,
+  MASK_MANUAL_HIDDEN,
+  PAGE_IS_SWITCHING,
+
+  CONNECT_WITH_TRANSLATING,
+  TRANSLATE_IN_POPUP,
+  TRANSLATE_QUERY_NONE,
+
+  MESSAGE_IN_POPUP,
+  RESPOND_TRANSLATING,
+
+  SETTINGS_SET_SUCCESS,
+
+  SET_LANGUAGES_FROM_TO,
+} from "./libs/actions/types"
+
+import translate, { apiPick } from "./libs/services/translation"
+import synth from "./libs/services/synth"
+import "./libs/actions/popup"
+
+const scope = 'popup'
+let port = {}
 
 try {
-  browser.storage.local.get()
-  .then(conf => {
-    console.log(conf)
-  })
-} catch (e) {
+  port = browser.runtime.connect({ name: CONNECT_WITH_TRANSLATING })
+  port.onMessage.addListener(data => do_action(MESSAGE_IN_POPUP, data))
+} catch (e) {}
 
-}
 
 /**
  * Application Container
@@ -52,7 +72,9 @@ try {
     do_action(MASK_MANUAL_HIDDEN, ev)
   })
 
-  $('nav.link-list > a.item', drawer).register('click', ev => {
+  $('nav.link-list > a.item', drawer)
+  .localizeHTML()
+  .register('click', ev => {
     ev.preventDefault()
 
     const target = ev.currentTarget
@@ -66,19 +88,110 @@ try {
  * @type {Closure}
  */
 ;(page => {
+  setTitle('TRANSLATION')
+  _initLanguagesBar()
+
+  // Render Settings Page
+  add_action(`${PAGE_IS_SWITCHING}_ENTRY`, name => {
+    setTitle('TRANSLATION')
+  })
+
+  add_action(`CHANGED_SETTING_${'api_src'.toUpperCase()}`, _initLanguagesBar)
+
   const inputStream = page.querySelector('.input-stream')
   const streamBehavior = page.querySelector('.stream-behavior')
   const outputStream = page.querySelector('.output-stream')
 
-  const inputText = $('textarea', inputStream)
+  $(inputStream).localizeHTML()
+  $(streamBehavior).localizeHTML()
 
-  $('.language .-swap.-js', inputStream).register('click', swapLanguages)
+  $('.language .-swap.-js', inputStream).ready(({ elem }) => {
+    const {
+      previousElementSibling,
+      nextElementSibling,
+    } = elem
 
-  $('.clear.-js', streamBehavior).register('click', inputText.textArea().clear)
-  $('.translate.-js', streamBehavior).register('click', input2translate(translator))
+    $('.-opt', previousElementSibling).register('click', ({ target }) => {
+      console.log(target)
+    })
+
+    try {
+      settings(['lang_from', 'lang_to']).get(({ lang_from, lang_to }) => {
+        // if (!lang_from.text || !lang_to.text) return void 0
+
+        do_action(
+          SET_LANGUAGES_FROM_TO,
+          [previousElementSibling, lang_from],
+          [nextElementSibling, lang_to]
+        )
+      })
+    } catch (e) {}
+  }).register('click', swapLanguages)
+
+  const $inputText = $('textarea', inputStream)
+
+  $('.clear.-js', streamBehavior).register('click', $inputText.textArea().clear)
+
+  // TODO: Test input, keep in mind that remove this
+  $inputText.textArea().in('全文翻译')
+
+  $('.translate.-js', streamBehavior).register('click', ev => do_action(TRANSLATE_IN_POPUP, port, {
+    q: $inputText.textArea().out(),
+    from: $('.language .-origin', inputStream).getAttr('data-value'),
+    to: $('.language .-target', inputStream).getAttr('data-value'),
+  }))
+
   $('.full-text.-js', streamBehavior).register('click', ev => {
     console.log('全文翻译')
   })
+
+  $('.voice.-js', outputStream).register('click', ev => {
+    synth($inputText.textArea().out() || 'test')
+  })
+
+  $('.copy.-js', outputStream).register('click', ev => {
+    const target = ev.currentTarget.nextElementSibling
+    const textarea = outputStream.querySelector('textarea.-fake.-js')
+
+    textarea.value = target.innerText
+    textarea.select()
+    document.execCommand('copy')
+  })
+
+  const result = outputStream.querySelector('.result')
+  const reference = outputStream.querySelector('.reference')
+
+  add_action(`${RESPOND_TRANSLATING}_${scope.toUpperCase()}`, data => {
+    const { explains, phonetic, translation } = data
+
+    if (!translation.length) return void 0
+
+    $(result).on()
+
+    $('.-phonetic', result).on()
+    .children('.-plain').text(`[ ${phonetic[0] || '...'} ]`)
+
+    $('.-explain', result).on()
+    .children('.-plain').text(`${translation.join(' ')}`)
+
+    $('.-explain', result).on()
+    .children('.-detail')[explains[0] ? 'on' : 'off']()
+    .html(`${explains.join('<br>')}`)
+  })
+
+  add_action(SET_LANGUAGES_FROM_TO, () => {
+    $(result).off()
+    // $inputText.textArea().clear()
+  })
+
+  function _initLanguagesBar(src) {
+    try {
+      browser.storage.local.get('api_src')
+      .then(({ api_src }) => $('.language', inputStream).initLanguages(apiPick(api_src), src))
+    } catch (e) {
+      $('.language', inputStream).initLanguages(apiPick('youdao'), src)
+    }
+  }
 })(document.querySelector('.page.-entry'))
 
 /**
@@ -86,23 +199,37 @@ try {
  * @type {Closure}
  */
 ;(page => {
+  // Render Settings Page
+  add_action(`${PAGE_IS_SWITCHING}_SETTINGS`, name => {
+    setTitle('SETTINGS')
 
-  // Render after switch
-  add_action(PAGE_IS_SWITCHING, name => {
     try {
-      const storage = browser.storage.local.get()
+      const localStorage = browser.storage.local
 
-      storage.then(cfg => render(cfg))
+      localStorage.get().then(cfg => {
+        const { api_src, use_fab, auto_popup, use_fap, custom_api } = cfg
+
+        page.querySelector(`input[name="api_src"][value="${api_src}"]`).checked = true
+        page.querySelector(`textarea[name="custom_api"]`).value = custom_api
+        page.querySelector(`input[name="use_fab"]`).checked = use_fab
+        page.querySelector(`input[name="auto_popup"]`).checked = auto_popup
+        page.querySelector(`input[name="use_fap"]`).checked = use_fap
+      })
     } catch (e) {}
   })
 
-  function render(cfg) {
-    const { api_src, use_fab, auto_popup, use_fap } = cfg
+  $('.-translator input[type="radio"][name]', page).register('change', _updateSettings)
 
-    page.querySelector(`input[name="api_src"][data-slug="${api_src}"]`).checked = true
-    page.querySelector(`input[name="use_fab"]`).checked = use_fab
-    page.querySelector(`input[name="auto_popup"]`).checked = auto_popup
-    page.querySelector(`input[name="use_fap"]`).checked = use_fap
+  $('.-customAPI textarea[name]', page).register('blur', _updateSettings)
 
+  $('.-interaction input[type="checkbox"][name]', page).register('change', _updateSettings)
+
+  function _updateSettings(ev) {
+    let { name, value, type, checked } = ev.target
+
+    if (type === 'checkbox') value = checked
+
+    settings().set({ [name]: value })
+      .then(() => do_action(SETTINGS_SET_SUCCESS, name, value))
   }
 })(document.querySelector('.page.-settings'))

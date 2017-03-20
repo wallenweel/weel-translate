@@ -1,6 +1,16 @@
 import Weel, { weel as $ } from '../Weel'
-import { do_action } from '../functions'
-import { PAGE_IS_SWITCHING } from '../actions/types'
+import { do_action, i18n } from '../functions'
+import {
+  PAGE_IS_SWITCHING,
+  SELECT_LACK_OPTIONS,
+  SELECT_OPTION_CHANGED,
+ } from '../actions/types'
+
+export const setTitle = (title = '', localize = 1) => {
+  const r = !localize ? title : i18n.get(title)
+
+  document.querySelector('header.toolbar > h1.title').innerText = r
+}
 
 export const wave = ev => {
   const target = ev.target
@@ -29,15 +39,16 @@ export const select = ev => {
   const select = $(target.parentElement).isUI('select') ? target.parentElement : target
 
   if (!$(select).isUI('select')) return void 0
+  // If has only one option
+  if (select.querySelectorAll('.-opt').length <= 1) {
+    return do_action(SELECT_LACK_OPTIONS, select, ev)
+  }
 
   ev.stopPropagation()
   ev.preventDefault()
 
   if ($(target).hasClass('-opt')) {
-    select.setAttribute('data-text', target.textContent)
-    select.setAttribute('data-value', target.getAttribute('data-value'))
-
-    return void 0
+    return do_action(SELECT_OPTION_CHANGED, target, select, ev)
   }
 
   $('.select.-js._on', ev.currentTarget).off()
@@ -52,7 +63,14 @@ Weel.prototype.pageSwitcher = function (target) {
   if ($(aim[0]).hasClass('_on') || !aim.length) return void 0
 
   do_action(PAGE_IS_SWITCHING, name)
+  do_action(`${PAGE_IS_SWITCHING}_${name.toUpperCase()}`, name)
 
   this.off(this.elems)
   this.on(aim)
+}
+
+Weel.prototype.localizeHTML = function () {
+  this.elems.forEach(elem => i18n.html(elem))
+
+  return this
 }

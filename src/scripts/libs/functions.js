@@ -9,7 +9,30 @@ export const log = (...params) => {
 }
 
 export const getConfig = (name = '') => {
-  
+
+}
+
+export const i18n = {
+  get(msg = '') {
+    let r = ''
+
+    try {
+      r = browser.i18n.getMessage(msg)
+    } catch (e) {
+      r = msg
+      .replace(/\_+/g, ' ').toLowerCase()
+      .replace(/( |^)[a-z]/g, a => a.toUpperCase())
+    }
+
+    return r
+  },
+
+  html(obj) {
+    const str = obj.innerHTML.toString()
+    const msg = str.replace(/\_\_MSG\_(\w+)\_\_/g, (match, $1) => $1 ? this.get($1) : '')
+
+    if (msg !== str) obj.innerHTML = msg
+  },
 }
 
 /**
@@ -32,8 +55,8 @@ export const apiParse = (preset, type = 'text') => {
     const s = new URLSearchParams()
     const { url, params } = preset[type](args)
 
-    for (let [k, v] of params) s.append(k, v)
-
+    for (let el of params) s.append(el[0], el[1])
+    
     return fetch(`${url}?${s}`, { mode: 'no-cors' })
       .then(res => res[preset.dataType]())
       .then(data => preset.parse(data, args))

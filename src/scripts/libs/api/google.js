@@ -1,33 +1,84 @@
-export default {
-  dataType: 'text',
-  parse: (text, args) => {
-    debugger
+import { i18n } from '../functions'
 
-    const data = JSON.parse(JSON.stringify(eval(text)))
-    console.log(typeof data)
+export default {
+  name: 'Google Translate',
+  slug: 'google',
+  dataType: 'json',
+
+  parse: ({
+    sentences,
+    dict,
+  }, args) => {
+    const [{ trans }, { src_translit }] = sentences
     const phonetic = {
-      0: data[0][1][3],
+      0: src_translit,
     }
-    const explains = data[0]
-    const translation = data[0][0]
+    const explains = dict ? dict[0].terms : []
+    const translation = [trans]
 
     return ({ phonetic, explains, translation })
   },
 
-  text: ({ q, source, target }) => ({
-    url: 'http://translate.google.cn/translate_a/single',
-    params: new Map([
-      ['client', 't'],
-      ['tk', '313938.164950'],
-      ['sl', source || 'en'],
-      ['tl', target || 'zh-CN'],
-      ['hl', target || 'zh-CN'],
+  text: ({ q, from, to }) => ({
+    url: 'https://translate.google.cn/translate_a/single',
+    params: new Set([
+      ['client', 'gtx'],
+      // ['tk', '313938.164950'],
+
+      ['sl', from],
+      ['tl', to],
+      ['hl', to],
+
       ['ie', 'UTF-8'],
       ['oe', 'UTF-8'],
-      ['dt', 'rm'],
-      ['dt', 't'],
+
+      ['dt', 'at'],
+      ['dt', 'bd'],
       ['dt', 'ex'],
+      ['dt', 'ld'],
+      ['dt', 'md'],
+      ['dt', 'qca'],
+      ['dt', 'rw'],
+      ['dt', 'rm'],
+      ['dt', 'ss'],
+      ['dt', 't'],
+
+      ['dj', '1'],
+      ['source', 'icon'],
+
       ['q', q],
     ]),
   }),
+
+  presets() {
+    const { languages } = this
+
+    return ({
+      lang_from: {
+        text: languages[0].trans,
+        value: languages[0].code,
+      },
+      lang_to: {
+        text: languages[1].trans,
+        value: languages[1].code,
+      },
+    })
+  },
+
+  languages: [{
+    code: 'en',
+    name: 'English',
+    slug: 'english',
+    trans: i18n.get('LANG_TRANS_EN'),
+  }, {
+    code: 'zh',
+    name: '中文',
+    slug: 'chinese',
+    trans: i18n.get('LANG_TRANS_ZH'),
+  }, {
+    code: 'ja',
+    name: 'にほんご',
+    slug: 'japanese',
+    trans: i18n.get('LANG_TRANS_JP'),
+  }],
 }

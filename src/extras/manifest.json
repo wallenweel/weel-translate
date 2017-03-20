@@ -1,10 +1,10 @@
 {
 
   "manifest_version": 2,
-  "name": "A Weel Translate",
+  "name": "__MSG_EXTENSION_NAME__",
+  "description": "__MSG_EXTENSION_DESCRIPTION__",
   "version": "0.0.1",
-
-  "description": "A translation ...",
+  "default_locale": "en",
 
   "icons": {
     "48": "img/icons/icon.svg",

@@ -1,26 +1,26 @@
 .page.-entry._on
   section.input-stream
     nav.language
-      .select(data-text="自动" data-value="").-origin.-js.-ordinary.i-arrow_drop_down
-        .-opt(data-value="") 自动
-        .-opt(data-value="en") English
-        .-opt(data-value="jp") Japanese
-        .-opt(data-value="zh") 中文
+      .select(data-text="__MSG_AUTOMATIC__" data-value="").-origin.-js.-ordinary.i-arrow_drop_down
+        //- .-opt(data-value="") __MSG_AUTOMATIC__
+        //- .-opt(data-value="en") English
+        //- .-opt(data-value="jp") Japanese
+        //- .-opt(data-value="zh") 中文
 
       button.-swap.-js.-ordinary.i-swap_horiz
 
-      .select(data-text="自动" data-value="").-destination.-js.-ordinary.i-arrow_drop_down
-        .-opt(data-value="") 自动
-        .-opt(data-value="zh") 中文
-        .-opt(data-value="jp") Japanese
-        .-opt(data-value="en") English
+      .select(data-text="__MSG_AUTOMATIC__" data-value="").-target.-js.-ordinary.i-arrow_drop_down
+        //- .-opt(data-value="") __MSG_AUTOMATIC__
+        //- .-opt(data-value="zh") 中文
+        //- .-opt(data-value="jp") Japanese
+        //- .-opt(data-value="en") English
 
-    textarea(autocomplete="false" placeholder="输入需要翻译的内容...")
+    textarea(autocomplete="false" placeholder="__MSG_INPUT_SOMETHING__ ...")
 
   section.stream-behavior
-    button.clear.wave.-js.-ordinary 清除内容
+    button.clear.wave.-js.-ordinary __MSG_CLEAR_INPUT__
     button.translate.wave.-js.-ordinary.i-done_all
-    button.full-text.wave.-js.-ordinary 全文翻译
+    button.full-text.wave.-js.-ordinary __MSG_TRANSLATE_PAGE__
 
   section.output-stream
     .result
@@ -35,6 +35,7 @@
         .-explain
           button.copy.-js.-ordinary.i-content_copy
           h5.-plain
+          textarea.-fake.-js
           p.-detail
 
     .reference

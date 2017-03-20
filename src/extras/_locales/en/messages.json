@@ -14,17 +14,17 @@
     "description": "Description of the add-on."
   },
 
-  "LANG_SLUG_EN": {
+  "LANG_TRANS_EN": {
     "message": "English",
     "description": ""
   },
 
-  "LANG_SLUG_ZH": {
+  "LANG_TRANS_ZH": {
     "message": "Chinese",
     "description": ""
   },
 
-  "LANG_SLUG_JP": {
+  "LANG_TRANS_JP": {
     "message": "Japanese",
     "description": ""
   },

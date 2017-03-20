@@ -1,3 +1,5 @@
+import { i18n } from '../functions'
+
 export default {
   name: '有道翻译',
   slug: 'youdao',
@@ -35,5 +37,25 @@ export default {
     ]),
   }),
 
-  languages: [],
+  presets() {
+    const { languages } = this
+
+    return ({
+      lang_from: {
+        text: languages[0].trans,
+        value: languages[0].code,
+      },
+      lang_to: {
+        text: languages[0].trans,
+        value: languages[0].code,
+      },
+    })
+  },
+
+  languages: [{
+    code: '',
+    name: 'Auto',
+    slug: 'auto',
+    trans: i18n.get('AUTOMATIC'),
+  }],
 }

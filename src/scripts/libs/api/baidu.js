@@ -5,16 +5,27 @@ export default {
   slug: 'baidu',
   dataType: 'json',
 
-  parse: ({
-    sentences,
-    dict,
-  }, args) => {
-    const [{ trans }, { src_translit }] = sentences
-    const phonetic = {
-      0: src_translit,
+  parse: (data, args) => {
+    console.log(data)
+    const {
+      dict_result,
+      trans_result,
+    } = data
+
+    const explains = []
+    const phonetic = {}
+
+    if (dict_result.length) {
+      const { simple_means: { symbols } } = dict_result
+      const { ph_am, ph_en, parts } = symbols[0]
+
+      phonetic[0] = ph_am
+      phonetic[1] = ph_en
+
+      parts.forEach(({ part, means }) => explains.push(`${part} ${means.join(', ')}`))
     }
-    const explains = dict ? dict[0].terms : []
-    const translation = [trans]
+
+    const translation = [trans_result['data'][0].dst]
 
     return ({ phonetic, explains, translation })
   },
@@ -22,48 +33,43 @@ export default {
   text: ({ q, from, to }) => ({
     url: 'http://fanyi.baidu.com/v2transapi',
     params: new Set([
-      ['client', 'gtx'],
-      // ['tk', '313938.164950'],
-
-      ['sl', from],
-      ['tl', to],
-      ['hl', to],
-
-      ['ie', 'UTF-8'],
-      ['oe', 'UTF-8'],
-
-      ['dt', 'at'],
-      ['dt', 'bd'],
-      ['dt', 'ex'],
-      ['dt', 'ld'],
-      ['dt', 'md'],
-      ['dt', 'qca'],
-      ['dt', 'rw'],
-      ['dt', 'rm'],
-      ['dt', 'ss'],
-      ['dt', 't'],
-
-      ['dj', '1'],
-      ['source', 'icon'],
-
-      ['q', q],
+      ['from', from || 'en'],
+      ['to', to || 'zh'],
+      ['transtype', 'translang'],
+      ['simple_means_flag', 3],
+      ['query', q],
     ]),
   }),
+
+  presets() {
+    const { languages } = this
+
+    return ({
+      lang_from: {
+        text: languages[0].trans,
+        value: languages[0].code,
+      },
+      lang_to: {
+        text: languages[1].trans,
+        value: languages[1].code,
+      },
+    })
+  },
 
   languages: [{
     code: 'en',
     name: 'English',
     slug: 'english',
-    trans: i18n.get('LANG_SLUG_EN'),
+    trans: i18n.get('LANG_TRANS_EN'),
   }, {
     code: 'zh',
     name: '中文',
     slug: 'chinese',
-    trans: i18n.get('LANG_SLUG_ZH'),
+    trans: i18n.get('LANG_TRANS_ZH'),
   }, {
     code: 'ja',
     name: 'にほんご',
     slug: 'japanese',
-    trans: i18n.get('LANG_SLUG_JP'),
+    trans: i18n.get('LANG_TRANS_JP'),
   }],
 }

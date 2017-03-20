@@ -14,17 +14,17 @@
     "description": "扩展的描述。"
   },
 
-  "LANG_SLUG_EN": {
+  "LANG_TRANS_EN": {
     "message": "英语",
     "description": ""
   },
 
-  "LANG_SLUG_ZH": {
+  "LANG_TRANS_ZH": {
     "message": "中文",
     "description": ""
   },
 
-  "LANG_SLUG_JP": {
+  "LANG_TRANS_JP": {
     "message": "日语",
     "description": ""
   },

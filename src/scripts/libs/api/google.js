@@ -50,20 +50,35 @@ export default {
     ]),
   }),
 
+  presets() {
+    const { languages } = this
+
+    return ({
+      lang_from: {
+        text: languages[0].trans,
+        value: languages[0].code,
+      },
+      lang_to: {
+        text: languages[1].trans,
+        value: languages[1].code,
+      },
+    })
+  },
+
   languages: [{
     code: 'en',
     name: 'English',
     slug: 'english',
-    trans: i18n.get('LANG_SLUG_EN'),
+    trans: i18n.get('LANG_TRANS_EN'),
   }, {
     code: 'zh',
     name: '中文',
     slug: 'chinese',
-    trans: i18n.get('LANG_SLUG_ZH'),
+    trans: i18n.get('LANG_TRANS_ZH'),
   }, {
     code: 'ja',
     name: 'にほんご',
     slug: 'japanese',
-    trans: i18n.get('LANG_SLUG_JP'),
+    trans: i18n.get('LANG_TRANS_JP'),
   }],
 }

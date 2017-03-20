@@ -7,12 +7,12 @@ const defaultConfig = {
   auto_popup: false,
   use_fap: false,
   lang_from: {
-    text: i18n.get('AUTOMATIC'),
-    value: '',
+    text: i18n.get('LANG_TRANS_EN'),
+    value: 'en',
   },
   lang_to: {
-    text: i18n.get('AUTOMATIC'),
-    value: '',
+    text: i18n.get('LANG_TRANS_ZH'),
+    value: 'zh',
   },
 }
 

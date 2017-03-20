@@ -6,6 +6,8 @@ import {
   SWAP_LANGUAGE_COMPLETED,
 } from '../actions/types'
 
+import { apiPick } from "../services/translation"
+
 export const swapLanguages = ({ currentTarget: {
   previousElementSibling,
   nextElementSibling,
@@ -50,8 +52,6 @@ Weel.prototype.initLanguages = function ({ name, languages = [] }, src = '') {
       return opt
     }
 
-    fgm.appendChild(ato('', i18n.get('AUTOMATIC')))
-
     if (languages && languages.length)
       languages.forEach(({ code, trans }) => fgm.appendChild(ato(code, trans)))
 
@@ -62,7 +62,7 @@ Weel.prototype.initLanguages = function ({ name, languages = [] }, src = '') {
   const tObj = this.elem.querySelector('.select.-target')
 
   if (src) {
-    const { lang_from, lang_to } = config
+    const { lang_from, lang_to } = apiPick(src).presets()
 
     do_action(
       SET_LANGUAGES_FROM_TO,

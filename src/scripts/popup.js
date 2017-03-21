@@ -135,11 +135,16 @@ try {
   // TODO: Test input, keep in mind that remove this
   $inputText.textArea().in('全文翻译')
 
-  $('.translate.-js', streamBehavior).register('click', ev => do_action(TRANSLATE_IN_POPUP, port, {
-    q: $inputText.textArea().out(),
-    from: $('.language .-origin', inputStream).getAttr('data-value'),
-    to: $('.language .-target', inputStream).getAttr('data-value'),
-  }))
+  $inputText.register('keydown', ev => {
+    const { keyCode, ctrlKey } = ev
+
+    if (ctrlKey && keyCode === 13) {
+      // console.log(ctrlKey, keyCode)
+      do_action(TRANSLATE_IN_POPUP, port)
+    }
+  })
+
+  $('.translate.-js', streamBehavior).register('click', ev => do_action(TRANSLATE_IN_POPUP, port))
 
   $('.full-text.-js', streamBehavior).register('click', ev => {
     console.log('全文翻译')

@@ -1,4 +1,4 @@
-import Weel from '../Weel'
+import Weel, { weel as $ } from '../Weel'
 import { do_action, add_action, i18n } from '../functions'
 import config, { settings } from '../ui/config'
 import {
@@ -69,8 +69,6 @@ Weel.prototype.initLanguages = function ({ name, languages = [] }, src = '') {
       [fObj, lang_from],
       [tObj, lang_to]
     )
-
-    settings(['lang_from', 'lang_to']).set({ lang_from, lang_to })
   }
 
   _gen(fObj)
@@ -92,5 +90,15 @@ Weel.prototype.textArea = function () {
       // (target.value = ev.clipboardData.trim())
     },
     clear: () => (target.value = ''),
+  })
+}
+
+export const getTranslationParams = context => {
+  const inputStream = (context || document).querySelector('.input-stream')
+
+  return ({
+    q: $('textarea', inputStream).textArea().out(),
+    from: $('.language .-origin', inputStream).getAttr('data-value'),
+    to: $('.language .-target', inputStream).getAttr('data-value'),
   })
 }

@@ -6,7 +6,7 @@
 
 #### Firefox >=48
 0. 从 [Releases](https://github.com/wallenweel/weel-translation-extension/releases) 下载最新版本的压缩包，解压到本地（或者使用下面 **编译源码** 编译项目）
-0. 打开 [附加组件调试](about:debugging#addons) 页面
+0. 打开 `[附加组件调试](about:debugging#addons)` 页面
 0. 点击右上角的 **临时加载附加组件** 按钮
 0. 找到解压目录（或者编译出来的 dist 或 build 目录），选中打开 `manifest.json` 文件
 0. 成功之后，附加组件就多出了一个和项目同名的项，浏览器工具栏也出现了相同的图标按钮

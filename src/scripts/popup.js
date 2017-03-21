@@ -2,7 +2,7 @@ import Weel, { weel as $ } from "./libs/Weel"
 import { wave, select, setTitle } from "./libs/ui/common"
 import { swapLanguages } from "./libs/ui/translation"
 import { translate_from } from "./libs/actions"
-import { log, do_action, add_action } from "./libs/functions"
+import { log, do_action, add_action, i18n } from "./libs/functions"
 import { settings } from './libs/ui/config'
 import {
   PROPAGATION_OUTERMOST,
@@ -92,9 +92,9 @@ try {
   _initLanguagesBar()
 
   // Render Settings Page
-  add_action(`${PAGE_IS_SWITCHING}_ENTRY`, name => {
-    setTitle('TRANSLATION')
-  })
+  // add_action(`${PAGE_IS_SWITCHING}_ENTRY`, name => {
+  //   setTitle('TRANSLATION')
+  // })
 
   add_action(`CHANGED_SETTING_${'api_src'.toUpperCase()}`, _initLanguagesBar)
 
@@ -138,8 +138,8 @@ try {
   $inputText.register('keydown', ev => {
     const { keyCode, ctrlKey } = ev
 
+    // Ctrl + Enter
     if (ctrlKey && keyCode === 13) {
-      // console.log(ctrlKey, keyCode)
       do_action(TRANSLATE_IN_POPUP, port)
     }
   })
@@ -206,7 +206,7 @@ try {
 ;(page => {
   // Render Settings Page
   add_action(`${PAGE_IS_SWITCHING}_SETTINGS`, name => {
-    setTitle('SETTINGS')
+    // setTitle('SETTINGS')
 
     try {
       const localStorage = browser.storage.local
@@ -228,6 +228,13 @@ try {
   $('.-customAPI textarea[name]', page).register('blur', _updateSettings)
 
   $('.-interaction input[type="checkbox"][name]', page).register('change', _updateSettings)
+
+  $('.uninstall.-js', page).register('click', ev => {
+    browser.management.uninstallSelf({
+      showConfirmDialog: true,
+      dialogMessage: i18n.get('UNINSTALL_DIALOG_MESSAGE'),
+    })
+  })
 
   function _updateSettings(ev) {
     let { name, value, type, checked } = ev.target

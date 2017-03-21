@@ -72,5 +72,10 @@
   "AUTOMATIC": {
     "message": "Auto",
     "description": ""
+  },
+
+  "UNINSTALL_DIALOG_MESSAGE": {
+    "message": "Are You Sure Uninstall this Extension? If Not Click 'Keep Installed'.",
+    "description": ""
   }
 }

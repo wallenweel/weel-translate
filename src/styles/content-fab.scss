@@ -1,0 +1,63 @@
+@import "settings";
+
+weel {
+  box-sizing: border-box;
+  display: block;
+
+  *, *::before, *::after {
+    box-sizing: inherit;
+  }
+
+  &#weel__float-action-button {
+    $sz: 28px;
+
+    left: 100px;
+    top: 100px;
+    position: absolute;
+
+    &--container {
+      @include box_shadow;
+
+      cursor: default;
+      user-select: none;
+
+      border: 1px solid #eee;
+      border-radius: 4px;
+      background-color: grey(9.8);
+
+      height: $sz;
+      width: $sz;
+
+      position: relative;
+    }
+
+    &--icon {
+      $sz: 16px;
+
+      font-family: 'weel-translate' !important;
+      font-style: normal;
+      font-weight: normal;
+      font-variant: normal;
+      text-transform: none;
+      line-height: 1;
+
+      background-size: cover;
+      color: $primary-color_lighter;
+
+      height: $sz;
+      width: $sz;
+
+      margin: auto;
+      left: 0;
+      bottom: 0;
+      right: 0;
+      top: 0;
+      position: absolute;
+      font-size: $sz;
+
+      &::before {
+        content: "";
+      }
+    }
+  }
+}

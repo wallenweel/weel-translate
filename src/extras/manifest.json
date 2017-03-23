@@ -18,6 +18,11 @@
     "cookies"
   ],
 
+  "web_accessible_resources": [
+    "img/**/*",
+    "fonts/*"
+  ],
+
   "background": {
     "scripts": ["js/background.js"]
   },

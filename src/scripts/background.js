@@ -7,6 +7,7 @@ import {
   CONNECT_FROM_CONTENT,
   RESPONSE_FROM_BACKGROUND,
   CONNECT_WITH_TRANSLATING,
+  TABS_UPDATE_CONNECT,
 } from "./libs/actions/types"
 
 import translate from "./libs/services/translation"
@@ -26,28 +27,20 @@ runtime.onConnect.addListener(port => {
   case CONNECT_WITH_TRANSLATING:
     return onMessage.addListener(data => do_action(MESSAGE_IN_BACKGROUND, data, port))
 
-  case CONNECT_FROM_CONTENT:
-    return settings().get(cfgs => {
-      return port.postMessage({
-        type: RESPONSE_FROM_BACKGROUND,
-        payload: cfgs,
-      })
-    })
-
   default:
     return onMessage.addListener(data => do_action(NO_CONNECT_NAME, data, port))
 
   }
 })
 
-tabs.onUpdated.addListener(function(tabId , info) {
-  if (info.status == "complete") {
-    tabs.executeScript(tabId, {
-      allFrames: true,
-      file: "js/weel-translation.js",
-      runAt: 'document_end',
-    }).then(r => {
-      console.log(r)
-    })
-  }
+tabs.onUpdated.addListener((id , { status }) => {
+  if (!status) return void 0
+
+  const port = tabs.connect(id, { name: TABS_UPDATE_CONNECT })
+
+  port.postMessage({
+    type: `TABS_UPDATE_${status.toUpperCase()}`,
+    meta: { status, id },
+    payload: {},
+  })
 })

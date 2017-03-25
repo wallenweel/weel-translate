@@ -8,9 +8,9 @@ import {
 import translate from "../services/translation"
 
 add_action(MESSAGE_IN_BACKGROUND, ({ type, meta = {}, payload = {} }, port) => {
-  const { q, from, to } = payload
-
-  settings('api_src').get(({ api_src }) => {
+  settings(['api_src', 'lang_from', 'lang_to']).get(({ api_src, lang_from, lang_to }) => {
+    const { q, from = lang_from.value, to = lang_to.value } = payload
+    
     translate(api_src, { q, from, to }).then(json => {
       port.postMessage(translate_to(meta.from, json))
     })

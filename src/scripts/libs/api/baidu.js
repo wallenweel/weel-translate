@@ -6,8 +6,8 @@ export default {
   dataType: 'json',
 
   parse: ({
-    dict_result,
-    trans_result,
+    dict_result = {},
+    trans_result = {},
   }, args) => {
     const explains = []
     const phonetic = {}

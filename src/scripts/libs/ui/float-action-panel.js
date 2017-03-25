@@ -29,7 +29,7 @@ function loadFAPElement(cfg) {
     document.body.appendChild(fap)
 
     fap.addEventListener('mousedown', ev => {
-      // ev.preventDefault()
+      ev.preventDefault()
       ev.stopPropagation()
     }, false)
 

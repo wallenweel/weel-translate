@@ -6,6 +6,7 @@ import {
   CONNECT_FROM_CONTENT,
   TABS_UPDATE_CONNECT,
   SELECTED_TEXT_IN_CONTENT,
+  TABS_UPDATE_COMPLETE,
 } from "./libs/actions/types"
 
 import "./libs/actions/content"
@@ -23,17 +24,19 @@ import "./libs/actions/content"
       selection()()
 
       onMessage.addListener(({ type, meta = {}, payload = {} }) => {
-        storage.local.get(cfg => {
-          const { api_src, use_fab } = cfg
+        if (type === TABS_UPDATE_COMPLETE) {
+          storage.local.get(cfg => {
+            const { api_src, use_fab } = cfg
 
-          cfg.content_url = runtime.getURL('content.html')
+            cfg.content_url = runtime.getURL('content.html')
 
-          // Float Action Button
-          if (use_fab) {
-            FABLoader(cfg, port)
-            FAPLoader(cfg, port)
-          }
-        })
+            // Float Action Button
+            if (use_fab) {
+              FABLoader(cfg, port)
+              FAPLoader(cfg, port)
+            }
+          })
+        }
       })
     }
   })

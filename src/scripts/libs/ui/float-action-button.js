@@ -8,22 +8,22 @@ import {
 
 const { runtime } = browser
 
-export const WEEL_APP = 'weel#weel__float-action-button'
+export const WEEL_FAB = 'weel#weel__float-action-button'
 
-export default cfgs => {
-  loadFABElement(cfgs)
-  loadFABStyles(cfgs)
+export default cfg => {
+  loadFABElement(cfg)
+  loadFABStyles(cfg)
 }
 
-function loadFABElement(cfgs) {
-  const FAB_DOM_URL = runtime.getURL('fab.html')
+function loadFABElement(cfg) {
+  const { content_url, fab_hide_timeout } = cfg
 
-  fetch(FAB_DOM_URL)
+  fetch(content_url)
   .then(res => res.text())
   .then(content => {
     const parser = new DOMParser()
     const html = parser.parseFromString(content, 'text/html')
-    const app = html.querySelector(WEEL_APP)
+    const app = html.querySelector(WEEL_FAB)
 
     document.body.appendChild(app)
 
@@ -45,7 +45,7 @@ function loadFABElement(cfgs) {
 
       const interval = up_time - down_time
 
-      if (interval > (cfgs.fab_hide_timeout || 1500)) {
+      if (interval > (fab_hide_timeout || 1500)) {
         document.body.removeChild(app)
         document.body.removeEventListener('mousedown', handleMousedown, false)
         document.body.removeEventListener('mouseup', handleMouseup, false)
@@ -53,12 +53,12 @@ function loadFABElement(cfgs) {
         return void 0
       }
 
-      do_action(FAB_TRIGGERED, selectedText())
+      do_action(FAB_TRIGGERED, selectedText(), app)
     })
   })
 }
 
-function loadFABStyles(cfgs) {
+function loadFABStyles(cfg) {
   const FAB_CSS_URL = runtime.getURL('css/content-fab.css')
 
   const FONT_URL_TTF = runtime.getURL('fonts/weel-translate.ttf')

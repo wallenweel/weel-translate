@@ -33,7 +33,6 @@ try {
   port.onMessage.addListener(data => do_action(MESSAGE_IN_POPUP, data))
 } catch (e) {}
 
-
 /**
  * Application Container
  * @type {Closure}
@@ -111,9 +110,9 @@ try {
       nextElementSibling,
     } = elem
 
-    $('.-opt', previousElementSibling).register('click', ({ target }) => {
-      console.log(target)
-    })
+    // $('.-opt', previousElementSibling).register('click', ({ target }) => {
+    //   console.log(target)
+    // })
 
     try {
       settings(['lang_from', 'lang_to']).get(({ lang_from, lang_to }) => {
@@ -133,18 +132,36 @@ try {
   $('.clear.-js', streamBehavior).register('click', $inputText.textArea().clear)
 
   // TODO: Test input, keep in mind that remove this
-  $inputText.textArea().in('全文翻译')
+  // $inputText.textArea().in('全文翻译')
+
+  const doTransalte = () => do_action(TRANSLATE_IN_POPUP, port)
+
+  try {
+    /** Auto Translate Selection That Selected From Content */
+    settings('auto_translate_selection').get(({ auto_translate_selection }) => {
+      if (!auto_translate_selection) return void 0
+
+      browser.tabs.executeScript({
+        code: 'window.getSelection().toString().trim();',
+      }, selection => {
+        if (!selection[0]) return void 0
+
+        $inputText.textArea().in(selection[0])
+        doTransalte()
+      })
+    })
+  } catch (e) {}
 
   $inputText.register('keydown', ev => {
     const { keyCode, ctrlKey } = ev
 
     // Ctrl + Enter
     if (ctrlKey && keyCode === 13) {
-      do_action(TRANSLATE_IN_POPUP, port)
+      doTransalte()
     }
   })
 
-  $('.translate.-js', streamBehavior).register('click', ev => do_action(TRANSLATE_IN_POPUP, port))
+  $('.translate.-js', streamBehavior).register('click', ev => doTransalte())
 
   $('.full-text.-js', streamBehavior).register('click', ev => {
     console.log('全文翻译')
@@ -212,13 +229,19 @@ try {
       const localStorage = browser.storage.local
 
       localStorage.get().then(cfg => {
-        const { api_src, use_fab, auto_popup, use_fap, custom_api } = cfg
+        const {
+          api_src,
+          custom_api,
+          use_fab, auto_translate_selection,
+          auto_popup, use_fap,
+        } = cfg
 
         page.querySelector(`input[name="api_src"][value="${api_src}"]`).checked = true
         page.querySelector(`textarea[name="custom_api"]`).value = custom_api
         page.querySelector(`input[name="use_fab"]`).checked = use_fab
-        page.querySelector(`input[name="auto_popup"]`).checked = auto_popup
-        page.querySelector(`input[name="use_fap"]`).checked = use_fap
+        page.querySelector(`input[name="auto_translate_selection"]`).checked = auto_translate_selection
+        // page.querySelector(`input[name="auto_popup"]`).checked = auto_popup
+        // page.querySelector(`input[name="use_fap"]`).checked = use_fap
       })
     } catch (e) {}
   })

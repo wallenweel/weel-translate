@@ -13,7 +13,7 @@
 
   "permissions": [
     "<all_urls>",
-    "tabs",
+    "activeTab",
     "storage",
     "cookies"
   ],

@@ -6,6 +6,7 @@ const defaultConfig = {
   use_fab: true,
   auto_popup: false,
   use_fap: false,
+  auto_translate_selection: false,
   lang_from: {
     text: i18n.get('LANG_TRANS_EN'),
     value: 'en',

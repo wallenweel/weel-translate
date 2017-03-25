@@ -13,16 +13,17 @@ weel {
 
     transition: visibility .25s ease, opacity .25s ease;
 
-    visibility: hidden;
-    opacity: 0;
+    // visibility: hidden;
+    // opacity: 0;
 
-    left: -$sz;
-    top: -$sz;
+    left: 0;
+    top: 0;
     position: absolute;
+    z-index: 9999999999999999999999;
 
     &._on {
-      visibility: visible;
-      opacity: 1;
+      visibility: visible !important;
+      opacity: 1 !important;
     }
 
     &--container {

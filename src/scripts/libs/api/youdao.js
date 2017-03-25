@@ -25,17 +25,20 @@ export default {
     ]),
   }),
 
-  text: ({ q, id, key }) => ({
-    url: 'http://fanyi.youdao.com/openapi.do',
-    params: new Set([
-      ['keyfrom', id || 'weel-translate'],
-      ['key', key || '554026358'],
-      ['type', 'data'],
-      ['doctype', 'json'],
-      ['version', 1.1],
-      ['q', q],
-    ]),
-  }),
+  text: ({ q, keyfrom, key }) => {
+    console.log(q, keyfrom, key)
+    return ({
+      url: 'http://fanyi.youdao.com/openapi.do',
+      params: new Set([
+        ['keyfrom', keyfrom || 'weel-translate'],
+        ['key', key || '554026358'],
+        ['type', 'data'],
+        ['doctype', 'json'],
+        ['version', 1.1],
+        ['q', q],
+      ]),
+    })
+  },
 
   presets() {
     const { languages } = this

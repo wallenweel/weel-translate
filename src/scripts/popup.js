@@ -170,7 +170,7 @@ try {
       apis.forEach((api, i) => {
         if (api_src === api.slug) {
           const src = apis[((i < apis.length - 1) ? (i + 1) : 0)]['slug']
-          
+
           settings().set({ api_src: src })
           _initLanguagesBar(src)
         }
@@ -274,9 +274,19 @@ try {
   function _updateSettings(ev) {
     let { name, value, type, checked } = ev.target
 
+    if (name === 'custom_api') {
+      try {
+        JSON.parse(value)
+      } catch (e) {
+        return alert('请确保 JSON 格式正确！')
+      }
+    }
+
     if (type === 'checkbox') value = checked
 
     settings().set({ [name]: value })
       .then(() => do_action(SETTINGS_SET_SUCCESS, name, value))
+
+    settings().log()
   }
 })(document.querySelector('.page.-settings'))

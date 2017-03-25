@@ -2,7 +2,7 @@ import { i18n } from '../functions'
 
 const defaultConfig = {
   api_src: 'google',
-  custom_api: '',
+  custom_api: '[{ "src": "youdao", "keyfrom": "", "key": "" }]',
   use_fab: true,
   auto_popup: false,
   use_fap: false,

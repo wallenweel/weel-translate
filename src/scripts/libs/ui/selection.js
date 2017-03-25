@@ -19,6 +19,12 @@ export function handleMousedown(ev) {
   if (!selectedText()) return void 0
 
   do_action(REMOVED_SELECTION_IN_CONTENT, selectedText(), ev)
+  const fixSelection = setTimeout(() => {
+    if (selectedText()) return void 0
+
+
+    clearTimeout(fixSelection)
+  }, 300)
 }
 
 export function handleMouseup(ev) {
@@ -27,7 +33,7 @@ export function handleMouseup(ev) {
   if (!selectedText()) return void 0
 
   const fixSelection = setTimeout(() => {
-    if (!selectedText()) return do_action(REMOVED_SELECTION_IN_CONTENT, ev)
+    if (!selectedText()) return do_action(REMOVED_SELECTION_IN_CONTENT, selectedText(), ev)
 
     do_action(SELECTED_TEXT_IN_CONTENT, selectedText(), ev)
 

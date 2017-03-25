@@ -10,12 +10,12 @@ const { runtime } = browser
 
 export const WEEL_FAB = 'weel#weel__float-action-button'
 
-export default cfg => {
-  loadFABElement(cfg)
-  loadFABStyles(cfg)
+export default (cfg, port) => {
+  loadFABElement(cfg, port)
+  loadFABStyles()
 }
 
-function loadFABElement(cfg) {
+function loadFABElement(cfg, port) {
   const { content_url, fab_hide_timeout } = cfg
 
   fetch(content_url)
@@ -23,21 +23,21 @@ function loadFABElement(cfg) {
   .then(content => {
     const parser = new DOMParser()
     const html = parser.parseFromString(content, 'text/html')
-    const app = html.querySelector(WEEL_FAB)
+    const fab = html.querySelector(WEEL_FAB)
 
-    document.body.appendChild(app)
+    document.body.appendChild(fab)
 
     let down_time = 0
     let up_time = 0
 
-    app.addEventListener('mousedown', ev => {
+    fab.addEventListener('mousedown', ev => {
       ev.preventDefault()
       ev.stopPropagation()
 
       down_time = ev.timeStamp
     }, false)
 
-    app.addEventListener('mouseup', ev => {
+    fab.addEventListener('mouseup', ev => {
       ev.preventDefault()
       ev.stopPropagation()
 
@@ -46,14 +46,14 @@ function loadFABElement(cfg) {
       const interval = up_time - down_time
 
       if (interval > (fab_hide_timeout || 1500)) {
-        document.body.removeChild(app)
+        document.body.removeChild(fab)
         document.body.removeEventListener('mousedown', handleMousedown, false)
         document.body.removeEventListener('mouseup', handleMouseup, false)
 
         return void 0
       }
 
-      do_action(FAB_TRIGGERED, selectedText(), app)
+      do_action(FAB_TRIGGERED, port, selectedText(), fab)
     })
   })
 }

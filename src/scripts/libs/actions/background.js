@@ -7,7 +7,7 @@ import {
 
 import translate from "../services/translation"
 
-add_action(MESSAGE_IN_BACKGROUND, ({ type, meta, payload }, port) => {
+add_action(MESSAGE_IN_BACKGROUND, ({ type, meta = {}, payload = {} }, port) => {
   const { q, from, to } = payload
 
   settings('api_src').get(({ api_src }) => {

@@ -13,8 +13,10 @@ import "./libs/actions/content"
 ;(() => {
   const { runtime, storage } = browser
 
-  runtime.onConnect.addListener(port => {
-    const { name, onMessage } = port
+  const port = runtime.connect({ name: CONNECT_FROM_CONTENT })
+
+  runtime.onConnect.addListener(_port => {
+    const { name, onMessage } = _port
 
     if (name === TABS_UPDATE_CONNECT) {
 
@@ -28,8 +30,8 @@ import "./libs/actions/content"
 
           // Float Action Button
           if (use_fab) {
-            FABLoader(cfg)
-            FAPLoader(cfg)
+            FABLoader(cfg, port)
+            FAPLoader(cfg, port)
           }
         })
       })

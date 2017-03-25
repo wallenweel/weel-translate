@@ -168,7 +168,7 @@ try {
   })
 
   $('.voice.-js', outputStream).register('click', ev => {
-    synth($inputText.textArea().out() || 'test')
+    synth($inputText.textArea().out() || '')
   })
 
   $('.copy.-js', outputStream).register('click', ev => {

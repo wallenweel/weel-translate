@@ -1,7 +1,10 @@
 import { do_action, add_action } from "../functions"
+import { selectedText } from "../ui/selection"
 import {
   RENDER_FLOAT_ACTION_PANEL,
 } from "../actions/types"
+
+import synth from "../services/synth"
 
 const { runtime } = browser
 
@@ -21,9 +24,32 @@ function loadFAPElement(cfg) {
   .then(content => {
     const parser = new DOMParser()
     const html = parser.parseFromString(content, 'text/html')
-    const app = html.querySelector(WEEL_FAP)
+    const fap = html.querySelector(WEEL_FAP)
 
-    document.body.appendChild(app)
+    document.body.appendChild(fap)
+
+    fap.addEventListener('mousedown', ev => {
+      // ev.preventDefault()
+      ev.stopPropagation()
+    }, false)
+
+    fap.querySelector(`${WEEL_FAP}--i-hearing`).addEventListener('mousedown', ev => {
+
+      synth(selectedText() || '')
+    }, false)
+
+    fap.querySelector(`${WEEL_FAP}--i-copy`).addEventListener('click', ev => {
+      ev.preventDefault()
+      ev.stopPropagation()
+
+      const target = ev.currentTarget.nextElementSibling
+      const textarea = target.nextElementSibling
+
+      textarea.value = target.innerText
+      textarea.select()
+
+      document.execCommand('copy')
+    }, false)
   })
 
 }

@@ -28,22 +28,27 @@ runtime.onConnect.addListener(port => {
   case CONNECT_WITH_TRANSLATING:
     return onMessage.addListener(data => do_action(MESSAGE_IN_BACKGROUND, data, port))
 
+  case CONNECT_FROM_CONTENT:
+    return onMessage.addListener(data => {
+      do_action(MESSAGE_IN_BACKGROUND, data, port)
+    })
+
   default:
     return onMessage.addListener(data => do_action(NO_CONNECT_NAME, data, port))
 
   }
 })
 
-runtime.onMessage.addListener(({ type, meta = {}, payload = {} }) => {
-  switch (type) {
-  case FAB_TRIGGERED:
-    console.log(payload)
-    console.log(browser.extension.getViews())
-    break
-  default:
-
-  }
-})
+// runtime.onMessage.addListener(({ type, meta = {}, payload = {} }) => {
+//   switch (type) {
+//   case FAB_TRIGGERED:
+//     console.log(payload)
+//     console.log(browser.extension.getViews())
+//     break
+//   default:
+//
+//   }
+// })
 
 tabs.onUpdated.addListener((id , { status }) => {
   if (!status) return void 0

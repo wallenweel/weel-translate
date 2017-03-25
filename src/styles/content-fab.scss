@@ -11,9 +11,19 @@ weel {
   &#weel__float-action-button {
     $sz: 28px;
 
-    left: 100px;
-    top: 100px;
+    transition: visibility .25s ease, opacity .25s ease;
+
+    visibility: hidden;
+    opacity: 0;
+
+    left: -$sz;
+    top: -$sz;
     position: absolute;
+
+    &._on {
+      visibility: visible;
+      opacity: 1;
+    }
 
     &--container {
       @include box_shadow;
@@ -21,8 +31,8 @@ weel {
       cursor: default;
       user-select: none;
 
-      border: 1px solid #eee;
-      border-radius: 4px;
+      border: 1px solid grey(9.2);
+      border-radius: 2px;
       background-color: grey(9.8);
 
       height: $sz;
@@ -32,7 +42,7 @@ weel {
     }
 
     &--icon {
-      $sz: 16px;
+      $sz: 20px;
 
       font-family: 'weel-translate' !important;
       font-style: normal;
@@ -42,7 +52,7 @@ weel {
       line-height: 1;
 
       background-size: cover;
-      color: $primary-color_lighter;
+      color: $primary-color_darker;
 
       height: $sz;
       width: $sz;
@@ -56,7 +66,7 @@ weel {
       font-size: $sz;
 
       &::before {
-        content: "";
+        content: "\e927";
       }
     }
   }

@@ -8,10 +8,6 @@ export const log = (...params) => {
   console.log(...params)
 }
 
-export const getConfig = (name = '') => {
-
-}
-
 export const i18n = {
   get(msg = '') {
     let r = ''
@@ -56,7 +52,7 @@ export const apiParse = (preset, type = 'text') => {
     const { url, params } = preset[type](args)
 
     for (let el of params) s.append(el[0], el[1])
-    
+
     return fetch(`${url}?${s}`, { mode: 'no-cors' })
       .then(res => res[preset.dataType]())
       .then(data => preset.parse(data, args))

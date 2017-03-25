@@ -77,5 +77,10 @@
   "UNINSTALL_DIALOG_MESSAGE": {
     "message": "你确定要删除这个扩展吗？如果只是手滑，请关闭这个对话框。",
     "description": ""
+  },
+
+  "SWITCH_TRANSLATOR": {
+    "message": "切换来源",
+    "description": ""
   }
 }

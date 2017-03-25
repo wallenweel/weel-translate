@@ -163,8 +163,19 @@ try {
 
   $('.translate.-js', streamBehavior).register('click', ev => doTransalte())
 
-  $('.full-text.-js', streamBehavior).register('click', ev => {
-    console.log('全文翻译')
+  $('.switch-translator.-js', streamBehavior).register('click', ev => {
+    const apis = apiPick()
+
+    settings('api_src').get(({ api_src }) => {
+      apis.forEach((api, i) => {
+        if (api_src === api.slug) {
+          const src = apis[((i < apis.length - 1) ? (i + 1) : 0)]['slug']
+          
+          settings().set({ api_src: src })
+          _initLanguagesBar(src)
+        }
+      })
+    })
   })
 
   $('.voice.-js', outputStream).register('click', ev => {
@@ -177,6 +188,7 @@ try {
 
     textarea.value = target.innerText
     textarea.select()
+
     document.execCommand('copy')
   })
 

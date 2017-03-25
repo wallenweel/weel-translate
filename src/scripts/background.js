@@ -39,17 +39,6 @@ runtime.onConnect.addListener(port => {
   }
 })
 
-// runtime.onMessage.addListener(({ type, meta = {}, payload = {} }) => {
-//   switch (type) {
-//   case FAB_TRIGGERED:
-//     console.log(payload)
-//     console.log(browser.extension.getViews())
-//     break
-//   default:
-//
-//   }
-// })
-
 tabs.onUpdated.addListener((id , { status }) => {
   if (!status) return void 0
 

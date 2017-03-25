@@ -5,6 +5,8 @@ import bing from '../api/bing'
 import baidu from '../api/baidu'
 
 export const apiPick = src => {
+  if (!src) return [google, youdao, baidu]
+
   switch (src) {
 
   case 'youdao': return youdao

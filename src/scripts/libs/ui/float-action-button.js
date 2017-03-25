@@ -45,7 +45,8 @@ function loadFABElement(cfg, port) {
 
       const interval = up_time - down_time
 
-      if (interval > (fab_hide_timeout || 1500)) {
+      console.log(interval)
+      if (interval > (fab_hide_timeout || 2000)) {
         document.body.removeChild(fab)
         document.body.removeEventListener('mousedown', handleMousedown, false)
         document.body.removeEventListener('mouseup', handleMouseup, false)

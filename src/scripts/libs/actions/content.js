@@ -15,7 +15,7 @@ add_action(SELECTED_TEXT_IN_CONTENT, (text, ev) => {
 
   const { clientX, clientY } = ev
 
-  fab.style.webkitTransform = `translate3D(${clientX}px, ${clientY}px, 0)`
+  fab.style.webkitTransform = `translate3D(${clientX + 2}px, ${clientY + 2}px, 0)`
 
   fab.classList.add('_on')
 })

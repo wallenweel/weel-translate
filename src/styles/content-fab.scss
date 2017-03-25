@@ -33,7 +33,7 @@ weel {
       user-select: none;
 
       border: 1px solid grey(9.2);
-      border-radius: 2px;
+      border-radius: 4px;
       background-color: grey(9.8);
 
       height: $sz;
@@ -53,16 +53,16 @@ weel {
       line-height: 1;
 
       background-size: cover;
-      color: $primary-color_darker;
+      color: $primary-color_lighter;
 
       height: $sz;
       width: $sz;
 
       margin: auto;
-      left: 0;
+      left: -1px;
       bottom: 0;
       right: 0;
-      top: 0;
+      top: -1px;
       position: absolute;
       font-size: $sz;
 

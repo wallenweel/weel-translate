@@ -20,7 +20,6 @@ import "./libs/actions/content"
     const { name, onMessage } = _port
 
     if (name === TABS_UPDATE_CONNECT) {
-
       selection()()
 
       onMessage.addListener(({ type, meta = {}, payload = {} }) => {
@@ -30,9 +29,10 @@ import "./libs/actions/content"
 
             cfg.content_url = runtime.getURL('content.html')
 
-            // Float Action Button
             if (use_fab) {
+              // Float Action Button
               FABLoader(cfg, port)
+              // Float Action Panel
               FAPLoader(cfg, port)
             }
           })

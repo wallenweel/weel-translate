@@ -1,9 +1,13 @@
-import Weel, { weel as $ } from "./libs/Weel"
-import { wave, select, setTitle, inquiry } from "./libs/ui/common"
+import { weel as $ } from "./libs/Weel"
+import { wave, select } from "./libs/ui/common"
 import { swapLanguages } from "./libs/ui/translation"
 import { translate_from } from "./libs/actions"
 import { log, do_action, add_action, i18n } from "./libs/functions"
-import { settings } from './libs/ui/config'
+import { settings } from "./libs/ui/config"
+import {
+  container, toolbar, mask, drawer,
+  closeDrawer, setTitle, inquiry, closeInquiry,
+} from "./libs/ui/popup"
 import {
   PROPAGATION_OUTERMOST,
   MASK_MANUAL_HIDDEN,
@@ -37,13 +41,7 @@ try {
  * Application Container
  * @type {Closure}
  */
-;(container => {
-  const toolbar = container.querySelector('header.toolbar')
-  const mask = container.querySelector('.mask.-js')
-  const drawer = container.querySelector('.drawer')
-
-  const closeDrawer = () => ($(container).data('actived-ui').del('drawer') || $(mask).off())
-
+;(() => {
   $('body').delegate('click',
     ev => do_action(PROPAGATION_OUTERMOST, ev),
     wave,
@@ -64,12 +62,16 @@ try {
   $(mask).register('click', ev => {
     const $target = $(ev.currentTarget)
 
+    closeInquiry()
+
     if (!$target.isOn()) return 0
 
     closeDrawer()
 
     do_action(MASK_MANUAL_HIDDEN, ev)
   })
+
+  $(drawer).localizeHTML()
 
   $('nav.link-list > a.item', drawer)
   .localizeHTML()
@@ -80,7 +82,7 @@ try {
 
     $('main.content .page', container).pageSwitcher(target)
   })
-})(document.querySelector('.container'))
+})()
 
 /**
  * Entry Page
@@ -267,8 +269,13 @@ try {
   $('.-interaction input[type="checkbox"][name]', page).register('change', _updateSettings)
 
   $('.reset-settings.-js', page).register('click', ev => {
-    // settings().reset()
-    console.log(ev)
+    inquiry('确定要清除扩展的数据？', '操作会让扩展恢复到初次安装的状态。', {
+      ok: ev => {
+        settings().reset()
+        browser.runtime.reload()
+      },
+      cancel: ev => void 0,
+    })
   })
 
   $('.uninstall.-js', page).register('click', ev => {

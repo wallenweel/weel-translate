@@ -6,31 +6,6 @@ import {
   SELECT_OPTION_CHANGED,
  } from '../actions/types'
 
-export const setTitle = (title = '', localize = 1) => {
-  const r = !localize ? title : i18n.get(title)
-
-  document.querySelector('header.toolbar > h1.title').innerText = r
-}
-
-/**
- * Alert Component
- * @param  {String}   [title=''] Alert heading
- * @param  {String}   [msg='']   Message about topic
- * @param  {Array}    callback   Actions's function e.g. click "Yes[0]" or "No[1]" button to do something
- * @return Void
- */
-export const inquiry = (title = '', msg = '', ...callback) => {
-  const $alert = $('.alert')
-  const types = {
-    it() {
-      $alert.on()
-    },
-    confirm() {},
-  }
-
-  return types[type || 'it']()
-}
-
 export const wave = ev => {
   const target = ev.target
 
@@ -39,6 +14,8 @@ export const wave = ev => {
   const wave = document.createElement('span')
 
   target.appendChild(wave)
+
+  if (!wave.offsetParent) return void 0
 
   const rect = wave.offsetParent.getBoundingClientRect()
   const [ left, top ] = [
@@ -73,25 +50,4 @@ export const select = ev => {
   $('.select.-js._on', ev.currentTarget).off()
 
   target.classList.add('_on')
-}
-
-Weel.prototype.pageSwitcher = function ({ href, innerText }) {
-  const [ page, name ] = /\/([\w\-\_\.]+)\.html/.exec(href)
-  const aim = this.sight(`.-${name}`)
-
-  if ($(aim[0]).hasClass('_on') || !aim.length) return void 0
-
-  do_action(PAGE_IS_SWITCHING, name)
-  do_action(`${PAGE_IS_SWITCHING}_${name.toUpperCase()}`, name)
-
-  setTitle(innerText, 0)
-
-  this.off(this.elems)
-  this.on(aim)
-}
-
-Weel.prototype.localizeHTML = function () {
-  this.elems.forEach(elem => i18n.html(elem))
-
-  return this
 }

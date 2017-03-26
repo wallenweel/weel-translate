@@ -9,6 +9,11 @@
     "description": "Name of the extension."
   },
 
+  "EXTENSION_SHORT_NAME": {
+    "message": "Weel Translate",
+    "description": ""
+  },
+
   "EXTENSION_DESCRIPTION": {
     "message": "Nothing Think Of",
     "description": "Description of the add-on."
@@ -82,5 +87,16 @@
   "SWITCH_TRANSLATOR": {
     "message": "Switch Translator",
     "description": ""
+  },
+
+  "OKAY": {
+    "message": "Okay",
+    "description": ""
+  },
+
+  "CANCEL": {
+    "message": "Cancel",
+    "description": ""
   }
+
 }

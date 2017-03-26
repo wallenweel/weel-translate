@@ -9,8 +9,13 @@
     "description": "扩展的名称。"
   },
 
+  "EXTENSION_SHORT_NAME": {
+    "message": "Weel Translate",
+    "description": ""
+  },
+
   "EXTENSION_DESCRIPTION": {
-    "message": "希望是一个还算好用的翻译扩展，为墙内的火狐用户而开发。",
+    "message": "希望能会是一个还算好用的翻译扩展，为墙内的火狐用户。",
     "description": "扩展的描述。"
   },
 
@@ -82,5 +87,16 @@
   "SWITCH_TRANSLATOR": {
     "message": "切换来源",
     "description": ""
+  },
+
+  "OKAY": {
+    "message": "确定",
+    "description": ""
+  },
+
+  "CANCEL": {
+    "message": "取消",
+    "description": ""
   }
+
 }

@@ -4,11 +4,13 @@ import {
   SELECTED_TEXT_IN_CONTENT,
   REMOVED_SELECTION_IN_CONTENT,
   FAB_TRIGGERED,
+  REMOVE_FAB_IN_CURRENT,
 } from "../actions/types"
 
 const { runtime } = browser
 
 export const WEEL_FAB = 'weel#weel__float-action-button'
+export const getFAB = context => (context || document).querySelector(WEEL_FAB)
 
 export default (cfg, port) => {
   loadFABElement(cfg, port)
@@ -45,13 +47,8 @@ function loadFABElement(cfg, port) {
 
       const interval = up_time - down_time
 
-      console.log(interval)
       if (interval > (fab_hide_timeout || 2000)) {
-        document.body.removeChild(fab)
-        document.body.removeEventListener('mousedown', handleMousedown, false)
-        document.body.removeEventListener('mouseup', handleMouseup, false)
-
-        return void 0
+        return do_action(REMOVE_FAB_IN_CURRENT)
       }
 
       do_action(FAB_TRIGGERED, port, selectedText(), fab)

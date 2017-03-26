@@ -16,7 +16,7 @@ export default class WeeL {
 
     if (fn.type(selector) === 'nodelist') return [...selector]
 
-    return [...(!scope ? document : scope).querySelectorAll(selector)]
+    return [...(!scope ? document : (scope.elem || scope)).querySelectorAll(selector)]
   }
 
   ready(callback) {
@@ -234,7 +234,7 @@ export default class WeeL {
  * @param  {String} selector Param "selector" of Weel's constructor
  * @return {Object}          Weel's instance
  */
-export const weel = selector => new WeeL(selector)
+export const weel = (selector, scope) => new WeeL(selector, scope)
 
 weel.type = fn.type
 weel.log = fn.log

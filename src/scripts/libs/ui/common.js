@@ -12,6 +12,25 @@ export const setTitle = (title = '', localize = 1) => {
   document.querySelector('header.toolbar > h1.title').innerText = r
 }
 
+/**
+ * Alert Component
+ * @param  {String}   [title=''] Alert heading
+ * @param  {String}   [msg='']   Message about topic
+ * @param  {Array}    callback   Actions's function e.g. click "Yes[0]" or "No[1]" button to do something
+ * @return Void
+ */
+export const inquiry = (title = '', msg = '', ...callback) => {
+  const $alert = $('.alert')
+  const types = {
+    it() {
+      $alert.on()
+    },
+    confirm() {},
+  }
+
+  return types[type || 'it']()
+}
+
 export const wave = ev => {
   const target = ev.target
 

@@ -9,6 +9,7 @@ import synth from "../services/synth"
 const { runtime } = browser
 
 export const WEEL_FAP = 'weel#weel__float-action-panel'
+export const getFAP = context => (context || document).querySelector(WEEL_FAP)
 
 export default cfg => {
   loadFAPElement(cfg)

@@ -1,4 +1,5 @@
 import { do_action, add_action } from '../functions'
+import { handleMousedown, handleMouseup } from "../ui/selection"
 import { WEEL_FAB } from "../ui/float-action-button"
 import { WEEL_FAP } from "../ui/float-action-panel"
 import {
@@ -6,6 +7,7 @@ import {
   REMOVED_SELECTION_IN_CONTENT,
   FAB_TRIGGERED,
   RENDER_FLOAT_ACTION_PANEL,
+  REMOVE_FAB_IN_CURRENT,
 } from "./types"
 
 add_action(SELECTED_TEXT_IN_CONTENT, (text, ev) => {
@@ -67,4 +69,15 @@ add_action(RENDER_FLOAT_ACTION_PANEL, (port, action, transform) => {
     fap.classList.add('_on')
 
   })
+})
+
+add_action(REMOVE_FAB_IN_CURRENT, () => {
+  const fab = document.querySelector(WEEL_FAB)
+  const fap = document.querySelector(WEEL_FAP)
+
+  document.body.removeChild(fab)
+  document.body.removeChild(fap)
+
+  document.body.removeEventListener('mousedown', handleMousedown, false)
+  document.body.removeEventListener('mouseup', handleMouseup, false)
 })

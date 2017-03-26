@@ -1,5 +1,5 @@
 import Weel, { weel as $ } from "./libs/Weel"
-import { wave, select, setTitle } from "./libs/ui/common"
+import { wave, select, setTitle, inquiry } from "./libs/ui/common"
 import { swapLanguages } from "./libs/ui/translation"
 import { translate_from } from "./libs/actions"
 import { log, do_action, add_action, i18n } from "./libs/functions"
@@ -252,6 +252,8 @@ try {
         page.querySelector(`textarea[name="custom_api"]`).value = custom_api
         page.querySelector(`input[name="use_fab"]`).checked = use_fab
         page.querySelector(`input[name="auto_translate_selection"]`).checked = auto_translate_selection
+
+        // TODO: Unable to trigger popup page with `browserAction` by content script
         // page.querySelector(`input[name="auto_popup"]`).checked = auto_popup
         // page.querySelector(`input[name="use_fap"]`).checked = use_fap
       })
@@ -263,6 +265,11 @@ try {
   $('.-customAPI textarea[name]', page).register('blur', _updateSettings)
 
   $('.-interaction input[type="checkbox"][name]', page).register('change', _updateSettings)
+
+  $('.reset-settings.-js', page).register('click', ev => {
+    // settings().reset()
+    console.log(ev)
+  })
 
   $('.uninstall.-js', page).register('click', ev => {
     browser.management.uninstallSelf({
@@ -286,7 +293,5 @@ try {
 
     settings().set({ [name]: value })
       .then(() => do_action(SETTINGS_SET_SUCCESS, name, value))
-
-    settings().log()
   }
 })(document.querySelector('.page.-settings'))

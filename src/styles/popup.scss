@@ -414,7 +414,8 @@ h1, h2, h3, h4, h5, h6 {
         }
       }
 
-      &.-settings {
+      &.-settings,
+      &.-preferences {
         // background-color: grey(10);
         padding: 16px;
         z-index: 2;
@@ -438,19 +439,33 @@ h1, h2, h3, h4, h5, h6 {
             border-radius: 12px;
             text-align: center;
             background-color: grey(9);
-            font-size: 12px;
+            font-size: 11px;
             color: grey(6);
             line-height: 1.25;
             margin: 16px 0;
             padding: 2px 8px;
+
             code {
               color: hsl(0, 78%, 72%);
+              margin: 0 4px;
+            }
+
+            em {
+              color: hsl(217, 96%, 58%);
+              font-weight: bold;
               margin: 0 4px;
             }
           }
 
           .item {
             font-size: 14px;
+
+            &.-range, &.-radio {
+              label {
+                margin-bottom: 8px;
+                display: block;
+              }
+            }
 
             &.-textarea {
               textarea {
@@ -551,7 +566,7 @@ h1, h2, h3, h4, h5, h6 {
                 width: 100%;
               }
 
-              $sz: 20; $h: 3px; $w: 48px;
+              $sz: 16; $h: 3px; $w: 48px;
               $rd: 1.8;
 
               > input[type="checkbox"] {
@@ -620,6 +635,26 @@ h1, h2, h3, h4, h5, h6 {
                 }
               }
             }
+
+            &.-button {
+              button {
+                @include ordinary('button');
+
+                border-radius: 2px;
+                background-color: grey(8);
+                color: grey(3);
+                height: 48px;
+                width: 100%;
+                margin: 8px 0;
+                overflow: hidden;
+                position: relative;
+
+                &.-warning {
+                  background-color: hsl(0, 90%, 45%);
+                  color: grey(10);
+                }
+              }
+            }
           }
 
           &.-translator {
@@ -630,25 +665,12 @@ h1, h2, h3, h4, h5, h6 {
               }
             }
           }
-
-          button.uninstall {
-            @include ordinary('button');
-
-            border-radius: 2px;
-            background-color: hsl(0, 90%, 45%);
-            color: grey(10);
-            height: 48px;
-            width: 100%;
-            margin: 16px 0;
-            overflow: hidden;
-            position: relative;
-          }
         }
       }
     }
   }
 
-  .drawer, .mask {
+  .drawer, .mask, .inquiry {
       @include position(absolute, 0 0 0 0);
     }
 
@@ -723,6 +745,69 @@ h1, h2, h3, h4, h5, h6 {
           margin-right: 8px;
           font-size: 24px;
           text-align: center;
+        }
+      }
+    }
+  }
+
+  .inquiry {
+    @include stealth;
+    @include box_shadow(4);
+
+    border-radius: 2px;
+    background-color: grey(10);
+
+    max-height: 100px;
+    max-width: 82%;
+
+    padding: 16px;
+    margin: auto;
+
+    z-index: 54;
+
+    &._on {
+      @include stealth(1);
+      opacity: 1;
+    }
+
+    header.-heading {
+      font-size: 14px;
+      font-weight: bold;
+      // margin-bottom: 4px;
+    }
+
+    p.-body {
+      margin: 0;
+      font-size: 12px;
+      color: grey(5);
+    }
+
+    footer.-actions {
+      bottom: 0;
+      right: 0;
+      margin: 8px;
+      position: absolute;
+
+      button {
+        @include ordinary('button');
+
+        cursor: default;
+        background-color: grey(9);
+
+        height: 24px;
+
+        color: grey(3);
+        font-size: 14px;
+        padding: 0 16px;
+
+        overflow: hidden;
+        position: relative;
+
+        &:hover {
+          transition: background-color .25s ease, color .25s ease;
+
+          background-color: $primary-color2;
+          color: grey(10);
         }
       }
     }

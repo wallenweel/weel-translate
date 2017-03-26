@@ -279,9 +279,11 @@ try {
   })
 
   $('.uninstall.-js', page).register('click', ev => {
-    browser.management.uninstallSelf({
-      showConfirmDialog: true,
-      dialogMessage: i18n.get('UNINSTALL_DIALOG_MESSAGE'),
+    inquiry('确定要卸载 ...(｡•ˇ‸ˇ•｡) ... ？', i18n.get('UNINSTALL_DIALOG_MESSAGE'), {
+      ok: ev => {
+        browser.management.uninstallSelf()
+      },
+      cancel: ev => void 0,
     })
   })
 

@@ -80,7 +80,7 @@
   },
 
   "UNINSTALL_DIALOG_MESSAGE": {
-    "message": "你确定要删除这个扩展吗？如果只是手滑，请关闭这个对话框。",
+    "message": "你真的要删除这个扩展吗？如果只是手滑，请点击取消按钮~👻。",
     "description": ""
   },
 

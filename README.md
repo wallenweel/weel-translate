@@ -18,16 +18,16 @@
 + √ 手动选择语言进行翻译
 + √ ~~中文~~、英文音标
 + √ ~~中文~~、英文朗读
-+ 选词翻译
++ √ 选词翻译
 + 节选翻译段落
-+ 全文翻译
-+ 多种交互方式
++ ~~全文翻译~~
++ √ 多种交互方式
 + √ 可配置选项（~~同步账户~~）
 + 简易词汇收藏
 + ……
 
 ## 项目进展状态
-`pre-Alpha √👻` ==> `Alpha` ==> `Beta` => `RC`
+`pre-Alpha` ==> `Alpha √👻` ==> `Beta` => `RC`
 
 ## 截图预览
 
@@ -38,6 +38,8 @@
 ![Settings page 2](extras/screenshots/settings_b.png)
 
 ![Drawer navigator](extras/screenshots/drawer.png)
+![Drawer navigator](extras/screenshots/fab.png)
+![Drawer navigator](extras/screenshots/fap.png)
 
 ## 编译源码
 > 仓库的 master 分支为稳定版本（可编译通过，没有明显 bug），项目使用的自动化工具（gulp-next）是我根据自己习惯定制的，也同时在仓库的项目中可以找到。

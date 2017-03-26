@@ -8,8 +8,20 @@ export const log = (...params) => {
   console.log(...params)
 }
 
-export const getConfig = (name = '') => {
+export const injectHTML = (content, obj) => {
+  if (!content) return void 0
+  let doms = [content]
 
+  if (type(content, 'string')) {
+    const parser = new DOMParser()
+
+    doms = [...parser.parseFromString(content, 'text/html').body.childNodes]
+  }
+
+  const target = obj
+  while (target.firstChild) target.removeChild(target.firstChild)
+
+  doms.forEach(dom => target.appendChild(dom))
 }
 
 export const i18n = {
@@ -31,7 +43,7 @@ export const i18n = {
     const str = obj.innerHTML.toString()
     const msg = str.replace(/\_\_MSG\_(\w+)\_\_/g, (match, $1) => $1 ? this.get($1) : '')
 
-    if (msg !== str) obj.innerHTML = msg
+    if (msg !== str) injectHTML(msg, obj)
   },
 }
 
@@ -56,7 +68,7 @@ export const apiParse = (preset, type = 'text') => {
     const { url, params } = preset[type](args)
 
     for (let el of params) s.append(el[0], el[1])
-    
+
     return fetch(`${url}?${s}`, { mode: 'no-cors' })
       .then(res => res[preset.dataType]())
       .then(data => preset.parse(data, args))

@@ -1,9 +1,13 @@
-import Weel, { weel as $ } from "./libs/Weel"
-import { wave, select, setTitle } from "./libs/ui/common"
+import { weel as $ } from "./libs/Weel"
+import { wave, select } from "./libs/ui/common"
 import { swapLanguages } from "./libs/ui/translation"
 import { translate_from } from "./libs/actions"
-import { log, do_action, add_action } from "./libs/functions"
-import { settings } from './libs/ui/config'
+import { log, do_action, add_action, i18n } from "./libs/functions"
+import { settings } from "./libs/ui/config"
+import {
+  container, toolbar, mask, drawer,
+  closeDrawer, setTitle, inquiry, closeInquiry,
+} from "./libs/ui/popup"
 import {
   PROPAGATION_OUTERMOST,
   MASK_MANUAL_HIDDEN,
@@ -33,18 +37,11 @@ try {
   port.onMessage.addListener(data => do_action(MESSAGE_IN_POPUP, data))
 } catch (e) {}
 
-
 /**
  * Application Container
  * @type {Closure}
  */
-;(container => {
-  const toolbar = container.querySelector('header.toolbar')
-  const mask = container.querySelector('.mask.-js')
-  const drawer = container.querySelector('.drawer')
-
-  const closeDrawer = () => ($(container).data('actived-ui').del('drawer') || $(mask).off())
-
+;(() => {
   $('body').delegate('click',
     ev => do_action(PROPAGATION_OUTERMOST, ev),
     wave,
@@ -65,12 +62,16 @@ try {
   $(mask).register('click', ev => {
     const $target = $(ev.currentTarget)
 
+    closeInquiry()
+
     if (!$target.isOn()) return 0
 
     closeDrawer()
 
     do_action(MASK_MANUAL_HIDDEN, ev)
   })
+
+  $(drawer).localizeHTML()
 
   $('nav.link-list > a.item', drawer)
   .localizeHTML()
@@ -81,7 +82,7 @@ try {
 
     $('main.content .page', container).pageSwitcher(target)
   })
-})(document.querySelector('.container'))
+})()
 
 /**
  * Entry Page
@@ -92,9 +93,9 @@ try {
   _initLanguagesBar()
 
   // Render Settings Page
-  add_action(`${PAGE_IS_SWITCHING}_ENTRY`, name => {
-    setTitle('TRANSLATION')
-  })
+  // add_action(`${PAGE_IS_SWITCHING}_ENTRY`, name => {
+  //   setTitle('TRANSLATION')
+  // })
 
   add_action(`CHANGED_SETTING_${'api_src'.toUpperCase()}`, _initLanguagesBar)
 
@@ -111,9 +112,9 @@ try {
       nextElementSibling,
     } = elem
 
-    $('.-opt', previousElementSibling).register('click', ({ target }) => {
-      console.log(target)
-    })
+    // $('.-opt', previousElementSibling).register('click', ({ target }) => {
+    //   console.log(target)
+    // })
 
     try {
       settings(['lang_from', 'lang_to']).get(({ lang_from, lang_to }) => {
@@ -133,20 +134,54 @@ try {
   $('.clear.-js', streamBehavior).register('click', $inputText.textArea().clear)
 
   // TODO: Test input, keep in mind that remove this
-  $inputText.textArea().in('全文翻译')
+  // $inputText.textArea().in('全文翻译')
 
-  $('.translate.-js', streamBehavior).register('click', ev => do_action(TRANSLATE_IN_POPUP, port, {
-    q: $inputText.textArea().out(),
-    from: $('.language .-origin', inputStream).getAttr('data-value'),
-    to: $('.language .-target', inputStream).getAttr('data-value'),
-  }))
+  const doTransalte = () => do_action(TRANSLATE_IN_POPUP, port)
 
-  $('.full-text.-js', streamBehavior).register('click', ev => {
-    console.log('全文翻译')
+  try {
+    /** Auto Translate Selection That Selected From Content */
+    settings('auto_translate_selection').get(({ auto_translate_selection }) => {
+      if (!auto_translate_selection) return void 0
+
+      browser.tabs.executeScript({
+        code: 'window.getSelection().toString().trim();',
+      }, selection => {
+        if (!selection[0]) return void 0
+
+        $inputText.textArea().in(selection[0])
+        doTransalte()
+      })
+    })
+  } catch (e) {}
+
+  $inputText.register('keydown', ev => {
+    const { keyCode, ctrlKey } = ev
+
+    // Ctrl + Enter
+    if (ctrlKey && keyCode === 13) {
+      doTransalte()
+    }
+  })
+
+  $('.translate.-js', streamBehavior).register('click', ev => doTransalte())
+
+  $('.switch-translator.-js', streamBehavior).register('click', ev => {
+    const apis = apiPick()
+
+    settings('api_src').get(({ api_src }) => {
+      apis.forEach((api, i) => {
+        if (api_src === api.slug) {
+          const src = apis[((i < apis.length - 1) ? (i + 1) : 0)]['slug']
+
+          settings().set({ api_src: src })
+          _initLanguagesBar(src)
+        }
+      })
+    })
   })
 
   $('.voice.-js', outputStream).register('click', ev => {
-    synth($inputText.textArea().out() || 'test')
+    synth($inputText.textArea().out() || '')
   })
 
   $('.copy.-js', outputStream).register('click', ev => {
@@ -155,6 +190,7 @@ try {
 
     textarea.value = target.innerText
     textarea.select()
+
     document.execCommand('copy')
   })
 
@@ -201,19 +237,27 @@ try {
 ;(page => {
   // Render Settings Page
   add_action(`${PAGE_IS_SWITCHING}_SETTINGS`, name => {
-    setTitle('SETTINGS')
+    // setTitle('SETTINGS')
 
     try {
       const localStorage = browser.storage.local
 
       localStorage.get().then(cfg => {
-        const { api_src, use_fab, auto_popup, use_fap, custom_api } = cfg
+        const {
+          api_src,
+          custom_api,
+          use_fab, auto_translate_selection,
+          auto_popup, use_fap,
+        } = cfg
 
         page.querySelector(`input[name="api_src"][value="${api_src}"]`).checked = true
         page.querySelector(`textarea[name="custom_api"]`).value = custom_api
         page.querySelector(`input[name="use_fab"]`).checked = use_fab
-        page.querySelector(`input[name="auto_popup"]`).checked = auto_popup
-        page.querySelector(`input[name="use_fap"]`).checked = use_fap
+        page.querySelector(`input[name="auto_translate_selection"]`).checked = auto_translate_selection
+
+        // TODO: Unable to trigger popup page with `browserAction` by content script
+        // page.querySelector(`input[name="auto_popup"]`).checked = auto_popup
+        // page.querySelector(`input[name="use_fap"]`).checked = use_fap
       })
     } catch (e) {}
   })
@@ -224,8 +268,35 @@ try {
 
   $('.-interaction input[type="checkbox"][name]', page).register('change', _updateSettings)
 
+  $('.reset-settings.-js', page).register('click', ev => {
+    inquiry('确定要清除扩展的数据？', '操作会让扩展恢复到初次安装的状态。', {
+      ok: ev => {
+        settings().reset()
+        browser.runtime.reload()
+      },
+      cancel: ev => void 0,
+    })
+  })
+
+  $('.uninstall.-js', page).register('click', ev => {
+    inquiry('确定要卸载 ...(｡•ˇ‸ˇ•｡) ... ？', i18n.get('UNINSTALL_DIALOG_MESSAGE'), {
+      ok: ev => {
+        browser.management.uninstallSelf()
+      },
+      cancel: ev => void 0,
+    })
+  })
+
   function _updateSettings(ev) {
     let { name, value, type, checked } = ev.target
+
+    if (name === 'custom_api') {
+      try {
+        JSON.parse(value)
+      } catch (e) {
+        return alert('请确保 JSON 格式正确！')
+      }
+    }
 
     if (type === 'checkbox') value = checked
 

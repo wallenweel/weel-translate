@@ -16,7 +16,7 @@ export default class WeeL {
 
     if (fn.type(selector) === 'nodelist') return [...selector]
 
-    return [...(!scope ? document : scope).querySelectorAll(selector)]
+    return [...(!scope ? document : (scope.elem || scope)).querySelectorAll(selector)]
   }
 
   ready(callback) {
@@ -210,19 +210,7 @@ export default class WeeL {
   }
 
   html(content, obj) {
-    if (!content) return void 0
-    let doms = [content]
-
-    if (fn.type(content, 'string')) {
-      const parser = new DOMParser()
-
-      doms = [...parser.parseFromString(content, 'text/html').body.childNodes]
-    }
-
-    const target = obj || this.elem
-    while (target.firstChild) target.removeChild(target.firstChild)
-
-    doms.forEach(dom => target.appendChild(dom))
+    fn.injectHTML(content, obj || this.elem)
 
     return this
   }
@@ -234,7 +222,7 @@ export default class WeeL {
  * @param  {String} selector Param "selector" of Weel's constructor
  * @return {Object}          Weel's instance
  */
-export const weel = selector => new WeeL(selector)
+export const weel = (selector, scope) => new WeeL(selector, scope)
 
 weel.type = fn.type
 weel.log = fn.log

@@ -4,8 +4,8 @@
   font-family: 'weel-translate';
   src:
     url('#{$icomoon-font-path}/weel-translate.ttf?5s0hv7') format('truetype'),
-    url('#{$icomoon-font-path}/weel-translate.woff?5s0hv7') format('woff'),
-    url('#{$icomoon-font-path}/weel-translate.svg?5s0hv7#weel-translate') format('svg');
+    url('#{$icomoon-font-path}/weel-translate.woff?5s0hv7') format('woff');
+    // url('#{$icomoon-font-path}/weel-translate.svg?5s0hv7#weel-translate') format('svg');
   font-weight: normal;
   font-style: normal;
 }
@@ -520,4 +520,3 @@
     content: $i-tune;
   }
 }
-

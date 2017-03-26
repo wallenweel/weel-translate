@@ -9,6 +9,11 @@
     "description": "Name of the extension."
   },
 
+  "EXTENSION_SHORT_NAME": {
+    "message": "Weel Translate",
+    "description": ""
+  },
+
   "EXTENSION_DESCRIPTION": {
     "message": "Nothing Think Of",
     "description": "Description of the add-on."
@@ -72,5 +77,26 @@
   "AUTOMATIC": {
     "message": "Auto",
     "description": ""
+  },
+
+  "UNINSTALL_DIALOG_MESSAGE": {
+    "message": "Are You Sure Uninstall this Extension? If Not Click 'Keep Installed'.",
+    "description": ""
+  },
+
+  "SWITCH_TRANSLATOR": {
+    "message": "Switch Translator",
+    "description": ""
+  },
+
+  "OKAY": {
+    "message": "Okay",
+    "description": ""
+  },
+
+  "CANCEL": {
+    "message": "Cancel",
+    "description": ""
   }
+
 }

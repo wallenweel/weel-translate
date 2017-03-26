@@ -1,0 +1,74 @@
+@import "settings";
+
+weel {
+  box-sizing: border-box;
+  display: block;
+
+  *, *::before, *::after {
+    box-sizing: inherit;
+  }
+
+  &#weel__float-action-button {
+    $sz: 28px;
+
+    transition: visibility .25s ease, opacity .25s ease;
+
+    // visibility: hidden;
+    // opacity: 0;
+
+    left: 0;
+    top: 0;
+    position: fixed;
+    z-index: 9999999999999999999999;
+
+    &._on {
+      visibility: visible !important;
+      opacity: 1 !important;
+    }
+
+    &--container {
+      @include box_shadow;
+
+      cursor: default;
+      user-select: none;
+
+      border: 1px solid grey(9.2);
+      border-radius: 4px;
+      background-color: grey(9.8);
+
+      height: $sz;
+      width: $sz;
+
+      position: relative;
+    }
+
+    &--icon {
+      $sz: 20px;
+
+      font-family: 'weel-translate' !important;
+      font-style: normal;
+      font-weight: normal;
+      font-variant: normal;
+      text-transform: none;
+      line-height: 1;
+
+      background-size: cover;
+      color: $primary-color_lighter;
+
+      height: $sz;
+      width: $sz;
+
+      margin: auto;
+      left: -1px;
+      bottom: 0;
+      right: 0;
+      top: -1px;
+      position: absolute;
+      font-size: $sz;
+
+      &::before {
+        content: "\e927";
+      }
+    }
+  }
+}

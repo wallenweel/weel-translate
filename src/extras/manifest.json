@@ -13,6 +13,13 @@
     "url": "https://github.com/wallenweel"
   },
 
+  "applications": {
+    "gecko": {
+      "id": "@weel-translate",
+      "strict_min_version": "50.0"
+    }
+  },
+
   "default_locale": "en",
 
   "icons": {

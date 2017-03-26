@@ -1,4 +1,4 @@
-import { do_action, add_action } from '../functions'
+import { do_action, add_action, injectHTML } from '../functions'
 import { handleMousedown, handleMouseup } from "../ui/selection"
 import { WEEL_FAB } from "../ui/float-action-button"
 import { WEEL_FAP } from "../ui/float-action-panel"
@@ -37,7 +37,7 @@ add_action(REMOVED_SELECTION_IN_CONTENT, text => {
 
 add_action(FAB_TRIGGERED, (port, text, fab) => {
   fab.classList.remove('_on')
-  
+
   const transform = fab.style.webkitTransform
   const action = {
     type: FAB_TRIGGERED,
@@ -65,7 +65,7 @@ add_action(RENDER_FLOAT_ACTION_PANEL, (port, action, transform) => {
 
     _phonetic.innerText = `[ ${phonetic[0] || '...'} ]`
     _explain.innerText = `${translation.join(' ')}`
-    _detail.innerHTML = `${explains.join('<br>')}`
+    injectHTML(`${explains.join('<br>')}`, _detail)
 
     fap.style.webkitTransform = transform
     fap.classList.add('_on')

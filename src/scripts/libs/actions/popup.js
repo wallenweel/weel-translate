@@ -1,14 +1,16 @@
 import { weel as $ } from "../Weel"
 import { log, do_action, add_action } from "../functions"
 import { translate_from } from "./"
+import { getTranslationParams } from '../ui/translation'
 import { settings } from '../ui/config'
 import {
   SELECT_LACK_OPTIONS,
 
+  CONNECT_WITH_TRANSLATING,
   MESSAGE_IN_POPUP,
-  TRANSLATE_IN_POPUP,
 
   RESPOND_TRANSLATING,
+  TRANSLATE_IN_POPUP,
   TRANSLATE_QUERY_NONE,
 
   SETTINGS_SET_SUCCESS,
@@ -31,7 +33,10 @@ add_action(MESSAGE_IN_POPUP, ({ type, meta, payload }) => {
   }
 })
 
-add_action(TRANSLATE_IN_POPUP, (port, params) => {
+add_action(TRANSLATE_IN_POPUP, (
+  port,
+  params = getTranslationParams()
+) => {
   if (!params.q.length) return do_action(TRANSLATE_QUERY_NONE)
 
   port.postMessage(translate_from(scope, params))
@@ -70,9 +75,11 @@ add_action(SELECT_OPTION_CHANGED, (target, select) => {
 
 add_action(TRANSLATE_QUERY_NONE, () => console.error('Need Enter Some Words For Translating!'))
 
-add_action(SET_LANGUAGES_FROM_TO, function setLanguages([fObj, fCfg], [tObj, tCfg]) {
-  fObj.setAttribute('data-text', fCfg.text)
-  fObj.setAttribute('data-value', fCfg.value)
-  tObj.setAttribute('data-text', tCfg.text)
-  tObj.setAttribute('data-value', tCfg.value)
+add_action(SET_LANGUAGES_FROM_TO, function setLanguages([origin, lang_from], [target, lang_to]) {
+  origin.setAttribute('data-text', lang_from.text)
+  origin.setAttribute('data-value', lang_from.value)
+  target.setAttribute('data-text', lang_to.text)
+  target.setAttribute('data-value', lang_to.value)
+
+  settings(['lang_from', 'lang_to']).set({ lang_from, lang_to })
 })

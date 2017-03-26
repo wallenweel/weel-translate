@@ -25,10 +25,10 @@ export default {
     ]),
   }),
 
-  text: ({ q, id, key }) => ({
+  text: ({ q, keyfrom, key }) => ({
     url: 'http://fanyi.youdao.com/openapi.do',
     params: new Set([
-      ['keyfrom', id || 'weel-translate'],
+      ['keyfrom', keyfrom || 'weel-translate'],
       ['key', key || '554026358'],
       ['type', 'data'],
       ['doctype', 'json'],

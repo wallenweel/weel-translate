@@ -1,0 +1,155 @@
+@import "settings";
+
+weel {
+  box-sizing: border-box;
+  display: block;
+
+  *, *::before, *::after {
+    box-sizing: inherit;
+  }
+
+  &#weel__float-action-panel {
+    $sz: 28px;
+
+    transition: visibility .25s ease, opacity .25s ease;
+
+    // visibility: hidden;
+    // opacity: 0;
+
+    // transform: translate3D(200px,200px,0);
+
+    left: 0;
+    top: 0;
+    position: fixed;
+    z-index: 9999999999999999999999;
+
+    &._on {
+      visibility: visible !important;
+      opacity: 1 !important;
+    }
+
+    &--container {
+      @include box_shadow;
+
+      // cursor: default;
+      // user-select: none;
+
+      border: 1px solid grey(9.2);
+      border-radius: 2px;
+      background-color: grey(10);
+
+      // height: $sz;
+      width: 240px;
+
+      position: relative;
+    }
+
+    &--i {
+      &-hearing {
+        &::before {
+          content: "\e023";
+        }
+      }
+      &-copy {
+        &::before {
+          content: "\e14d";
+        }
+      }
+      &-hearing, &-copy {
+        cursor: default;
+        user-select: none;
+
+        font-family: 'weel-translate' !important;
+        font-style: normal;
+        font-weight: normal;
+        font-variant: normal;
+        text-transform: none;
+        line-height: 1;
+
+        height: $sz;
+        width: $sz;
+        color: grey(4);
+        line-height: $sz;
+        margin-left: 0px;
+        position: absolute;
+        overflow: hidden;
+        &:hover {
+          color: $primary-color_lighter;
+        }
+        &:active {
+          color: grey(5);
+        }
+      }
+    }
+
+    &--output-stream {
+      &-result {
+        background-color: grey(10);
+        padding: 16px;
+        // display: none;
+
+        &._on {
+          display: block;
+        }
+      }
+
+      &-phonetic, &-explain {
+        $sz: 32px;
+
+        position: relative;
+        // display: none;
+
+        &._on {
+          display: block;
+        }
+
+        &-plain {
+          font-size: 14px;
+          line-height: 1.35;
+          padding-top: 6px;
+          text-indent: 24px;
+          padding-right: 16px;
+          width: 100%;
+        }
+      }
+
+      &-phonetic {
+        color: grey(6);
+        margin-bottom: 6px;
+      }
+
+      &-explain {
+        &-plain {
+          font-weight: 600;
+          & + textarea {
+            opacity: 0;
+            height: 0;
+            width: 100%;
+            border: none;
+            position: absolute;
+          }
+        }
+        &-detail {
+          max-height: 120px;
+
+          overflow-x: hidden;
+          overflow-y: auto;
+
+          border-top: 1px solid grey(9.6);
+          font-size: 12px;
+          line-height: 1.75;
+          padding-top: 8px;
+          margin: 8px 0;
+          color: grey(3);
+
+          // display: none;
+
+          &._on {
+            display: block;
+          }
+        }
+      }
+    }
+
+  }
+}

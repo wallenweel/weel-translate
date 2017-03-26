@@ -6,7 +6,7 @@
 
 #### Firefox >=48
 0. 从 [Releases](https://github.com/wallenweel/weel-translation-extension/releases) 下载最新版本的压缩包，解压到本地（或者使用下面 **编译源码** 编译项目）
-0. 打开 [附加组件调试](about:debugging#addons) 页面
+0. 打开 `[附加组件调试](about:debugging#addons)` 页面
 0. 点击右上角的 **临时加载附加组件** 按钮
 0. 找到解压目录（或者编译出来的 dist 或 build 目录），选中打开 `manifest.json` 文件
 0. 成功之后，附加组件就多出了一个和项目同名的项，浏览器工具栏也出现了相同的图标按钮
@@ -18,16 +18,16 @@
 + √ 手动选择语言进行翻译
 + √ ~~中文~~、英文音标
 + √ ~~中文~~、英文朗读
-+ 选词翻译
++ √ 选词翻译
 + 节选翻译段落
-+ 全文翻译
-+ 多种交互方式
++ ~~全文翻译~~
++ √ 多种交互方式
 + √ 可配置选项（~~同步账户~~）
 + 简易词汇收藏
 + ……
 
 ## 项目进展状态
-`pre-Alpha √👻` ==> `Alpha` ==> `Beta` => `RC`
+`pre-Alpha` ==> `Alpha √👻` ==> `Beta` => `RC`
 
 ## 截图预览
 
@@ -38,6 +38,8 @@
 ![Settings page 2](extras/screenshots/settings_b.png)
 
 ![Drawer navigator](extras/screenshots/drawer.png)
+![Drawer navigator](extras/screenshots/fab.png)
+![Drawer navigator](extras/screenshots/fap.png)
 
 ## 编译源码
 > 仓库的 master 分支为稳定版本（可编译通过，没有明显 bug），项目使用的自动化工具（gulp-next）是我根据自己习惯定制的，也同时在仓库的项目中可以找到。

@@ -9,8 +9,13 @@
     "description": "扩展的名称。"
   },
 
+  "EXTENSION_SHORT_NAME": {
+    "message": "Weel Translate",
+    "description": ""
+  },
+
   "EXTENSION_DESCRIPTION": {
-    "message": "希望是一个还算好用的翻译扩展，为墙内的火狐用户而开发。",
+    "message": "希望能会是一个还算好用的翻译扩展，为墙内的火狐用户。",
     "description": "扩展的描述。"
   },
 
@@ -65,12 +70,33 @@
   },
 
   "INPUT_SOMETHING": {
-    "message": "输入点什么",
+    "message": "Tip：使用 Ctrl + Enter 进行翻译",
     "description": ""
   },
 
   "AUTOMATIC": {
     "message": "自动",
     "description": ""
+  },
+
+  "UNINSTALL_DIALOG_MESSAGE": {
+    "message": "你真的要删除这个扩展吗？如果只是手滑，请点击取消按钮~👻。",
+    "description": ""
+  },
+
+  "SWITCH_TRANSLATOR": {
+    "message": "切换来源",
+    "description": ""
+  },
+
+  "OKAY": {
+    "message": "确定",
+    "description": ""
+  },
+
+  "CANCEL": {
+    "message": "取消",
+    "description": ""
   }
+
 }

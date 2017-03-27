@@ -1,8 +1,9 @@
 import { weel as $ } from "../Weel"
 import { log, do_action, add_action } from "../functions"
 import { translate_from } from "./"
-import { getTranslationParams } from '../ui/translation'
-import { settings } from '../ui/config'
+import { toast } from "../ui/popup"
+import { getTranslationParams } from "../ui/translation"
+import { settings } from "../ui/config"
 import {
   SELECT_LACK_OPTIONS,
 
@@ -48,7 +49,7 @@ add_action(SETTINGS_SET_SUCCESS, (name, value) => {
   case 'api_src':
     return do_action(`CHANGED_SETTING_${name.toUpperCase()}`, value)
   default:
-
+    return toast('设置已更改')
   }
 })
 

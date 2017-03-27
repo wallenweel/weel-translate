@@ -129,6 +129,7 @@ h1, h2, h3, h4, h5, h6 {
         position: relative;
       }
 
+
       &.-entry {
         section {
 
@@ -667,10 +668,68 @@ h1, h2, h3, h4, h5, h6 {
           }
         }
       }
+
+      &.-preferences {
+        .group {
+          &.-fab-position {
+            .item.-radio {
+              $sz: 32px;
+
+              label {
+                height: $sz;
+
+                line-height: $sz;
+                text-align: center;
+              }
+            }
+          }
+
+          &.-voice-tts {
+            .item.-range {
+              input {
+                width: 100%;
+              }
+            }
+          }
+        }
+      }
+
+      &.-feedback {
+        font-size: 13px;
+
+        padding: 16px;
+        padding-top: 0;
+        padding-bottom: 56px;
+
+        h4 {
+          @include ordinary('h');
+
+          font-size: 16px;
+          font-weight: bold;
+          text-indent: .25em;
+          margin-top: 1.75em;
+
+          border-left: 4px solid grey(8);
+        }
+
+        p {
+          line-height: 1.35;
+        }
+
+        a {
+          text-decoration: none;
+          color: $primary-color_lighter;
+        }
+
+        li {
+          margin: 8px 0;
+          list-style: circle;
+        }
+      }
     }
   }
 
-  .drawer, .mask, .inquiry {
+  .drawer, .mask, .inquiry, .toast {
       @include position(absolute, 0 0 0 0);
     }
 
@@ -754,8 +813,43 @@ h1, h2, h3, h4, h5, h6 {
     }
   }
 
+  .toast {
+    @include fade-in;
+
+    height: 1.75em;
+
+    text-align: center;
+
+    margin: auto;
+    margin-bottom: 50px;
+
+    z-index: 75;
+
+    p.-body {
+      opacity: .65;
+      border-radius: 16px;
+      background-color: hsl(0, 0%, 0%);
+
+      max-width: 86%;
+      min-width: 10em;
+
+      color: grey(10);
+      font-size: 13px;
+      line-height: 1;
+      white-space: nowrap;
+      text-overflow: ellipsis;
+
+      padding: 8px 16px;
+      margin: 0;
+
+      overflow: hidden;
+
+      display: inline-block;
+    }
+  }
+
   .inquiry {
-    @include stealth;
+    @include fade-in;
     @include box_shadow(4);
 
     border-radius: 2px;
@@ -768,11 +862,6 @@ h1, h2, h3, h4, h5, h6 {
     margin: auto;
 
     z-index: 54;
-
-    &._on {
-      @include stealth(1);
-      opacity: 1;
-    }
 
     header.-heading {
       font-size: 14px;
@@ -819,15 +908,10 @@ h1, h2, h3, h4, h5, h6 {
   }
 
   .mask {
-    @include stealth;
+    @include fade-in(.85);
 
     background-color: hsl(0, 0%, 5%);
     z-index: 34;
-
-    &._on {
-      @include stealth(1);
-      opacity: .85;
-    }
   }
 
 }

@@ -35,15 +35,15 @@ add_action(REMOVED_SELECTION_IN_CONTENT, text => {
   }
 })
 
-add_action(FAB_TRIGGERED, (port, text, fab) => {
+add_action(FAB_TRIGGERED, (port, q, fab) => {
   fab.classList.remove('_on')
+
+  if (!q) return void 0
 
   const transform = fab.style.webkitTransform
   const action = {
     type: FAB_TRIGGERED,
-    payload: {
-      q: text,
-    },
+    payload: { q },
   }
 
   port.postMessage(action)

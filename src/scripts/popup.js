@@ -6,7 +6,7 @@ import { log, do_action, add_action, i18n } from "./libs/functions"
 import { settings } from "./libs/ui/config"
 import {
   container, toolbar, mask, drawer,
-  closeDrawer, setTitle, inquiry, closeInquiry,
+  closeDrawer, setTitle, inquiry, closeInquiry, toast,
 } from "./libs/ui/popup"
 import {
   PROPAGATION_OUTERMOST,
@@ -291,6 +291,8 @@ try {
     let { name, value, type, checked } = ev.target
 
     if (name === 'custom_api') {
+      if (!value) return void 0
+
       try {
         JSON.parse(value)
       } catch (e) {

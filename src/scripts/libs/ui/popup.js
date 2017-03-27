@@ -29,8 +29,24 @@ export const setTitle = (title = '', localize = 1) => {
 export const closeInquiry = () => {
   $(mask).off()
   $inquiry.off()
-  
+
   $('.-actions', $inquiry).elem.innerHTML = ''
+}
+
+export const toast = msg => {
+  if (!msg) return void 0
+
+  const $toast = $('.toast.-js')
+
+  if ($toast.isOn()) $toast.off()
+
+  $('.-body', $toast).text(msg)
+  $toast.on()
+
+  const _timeout = setTimeout(() => {
+    $toast.off()
+    clearTimeout(_timeout)
+  }, 2000)
 }
 
 /**

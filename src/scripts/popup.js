@@ -145,7 +145,7 @@ try {
 
       browser.tabs.executeScript({
         code: 'window.getSelection().toString().trim();',
-      }, selection => {
+      }, (selection = []) => {
         if (!selection[0]) return void 0
 
         $inputText.textArea().in(selection[0])

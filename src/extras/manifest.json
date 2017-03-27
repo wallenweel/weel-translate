@@ -4,13 +4,13 @@
   "name": "__MSG_EXTENSION_NAME__",
   "short_name": "__MSG_EXTENSION_SHORT_NAME__",
   "description": "__MSG_EXTENSION_DESCRIPTION__",
-  "version": "0.2.1",
+  "version": "0.2.2",
 
   "homepage_url": "https://github.com/wallenweel/weel-translation-extension",
 
   "developer": {
     "name": "Walen Weel",
-    "url": "https://github.com/wallenweel"
+    "url": "https://github.com/wallenweel/weel-translation-extension"
   },
 
   "applications": {

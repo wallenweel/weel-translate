@@ -65,6 +65,8 @@ add_action(RENDER_FLOAT_ACTION_PANEL, (port, action, transform) => {
 
     _phonetic.innerText = `[ ${phonetic[0] || '...'} ]`
     _explain.innerText = `${translation.join(' ')}`
+
+    _detail.classList[explains.length ? 'add' : 'remove']('_on')
     injectHTML(`${explains.join('<br>')}`, _detail)
 
     fap.style.webkitTransform = transform

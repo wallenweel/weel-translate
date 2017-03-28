@@ -181,7 +181,7 @@ export default class WeeL {
       del: value => {
         this.elem.setAttribute(attrName, values.filter(val => (val !== value)).join(' '))
       },
-      set: value => {
+      add: value => {
         if (~values.indexOf(value)) return 0
 
         values.push(value)
@@ -189,6 +189,7 @@ export default class WeeL {
         this.elem.setAttribute(attrName, values.join(' '))
       },
       get: () => origin,
+      set: value => this.elem.setAttribute(attrName, value),
       clear: () => this.elem.setAttribute(attrName, ''),
     })
   }

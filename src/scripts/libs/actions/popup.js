@@ -3,7 +3,7 @@ import { log, do_action, add_action } from "../functions"
 import { translate_from } from "./"
 import { toast } from "../ui/popup"
 import { getTranslationParams } from "../ui/translation"
-import { settings } from "../ui/config"
+import { settings } from "../config"
 import {
   SELECT_LACK_OPTIONS,
 
@@ -56,7 +56,8 @@ add_action(SETTINGS_SET_SUCCESS, (name, value) => {
 add_action(SELECT_LACK_OPTIONS, select => {
   if (!$(select.parentElement).hasClass('language')) return 0
 
-  console.log(`${$(select.parentElement).data('src').get()} 不支持选择语言。`)
+  // console.log(`${$(select.parentElement).data('src').get()} 不支持选择语言。`)
+  toast(`${$(select.parentElement).data('src').get()} 不支持选择语言。`)
 })
 
 add_action(SELECT_OPTION_CHANGED, (target, select) => {

@@ -3,7 +3,7 @@ import { wave, select } from "./libs/ui/common"
 import { swapLanguages } from "./libs/ui/translation"
 import { translate_from } from "./libs/actions"
 import { log, do_action, add_action, i18n } from "./libs/functions"
-import { settings } from "./libs/ui/config"
+import { settings } from "./libs/config"
 import {
   container, toolbar, mask, drawer,
   closeDrawer, setTitle, inquiry, closeInquiry, toast,
@@ -55,7 +55,7 @@ try {
   })
 
   $('.drawer-menu.-js', toolbar).register('click', ev => {
-    $(container).data('actived-ui').set('drawer')
+    $(container).data('actived-ui').add('drawer')
     $(mask).on()
   })
 
@@ -237,7 +237,7 @@ try {
 ;(page => {
   // Render Settings Page
   add_action(`${PAGE_IS_SWITCHING}_SETTINGS`, name => {
-    // setTitle('SETTINGS')
+    // setTitle('SETTINGS'
 
     try {
       const localStorage = browser.storage.local

@@ -1,6 +1,6 @@
 import Weel, { weel as $ } from '../Weel'
 import { do_action, add_action, i18n } from '../functions'
-import config, { settings } from '../ui/config'
+import config, { settings } from '../config'
 import {
   SET_LANGUAGES_FROM_TO,
   SWAP_LANGUAGE_COMPLETED,

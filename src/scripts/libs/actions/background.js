@@ -1,6 +1,6 @@
 import { add_action } from "../functions"
 import { translate_to } from "./"
-import { settings } from "../ui/config"
+import { settings } from "../config"
 import {
   MESSAGE_IN_BACKGROUND,
 } from "./types"

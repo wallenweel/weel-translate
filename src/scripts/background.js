@@ -1,6 +1,6 @@
 import { do_action, add_action } from "./libs/functions"
 import { translate_to } from "./libs/actions"
-import { settings } from "./libs/ui/config"
+import { settings } from "./libs/config"
 import {
   MESSAGE_IN_BACKGROUND,
   NO_CONNECT_NAME,

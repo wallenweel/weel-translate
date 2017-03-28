@@ -1,4 +1,4 @@
-import { i18n } from '../functions'
+import { i18n } from './functions'
 
 const defaultConfig = {
   api_src: 'google',

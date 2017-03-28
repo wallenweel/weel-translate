@@ -235,6 +235,54 @@ try {
  * @type {Closure}
  */
 ;(page => {
+  add_action(`${PAGE_IS_SWITCHING}_PREFERENCES`, name => {
+    config_to_render(page)
+  })
+
+  $(page.querySelectorAll('input, textarea'))
+  .filter(target => target.name.length)
+  .register('change', ({ target }) => {
+    const { name, value } = target
+
+    try {
+      settings().set({ [name]: value })
+      do_action(SETTINGS_SET_SUCCESS, name, value)
+    } catch (e) {}
+  })
+
+  function config_to_render(scope) {
+    try {
+      settings().get().then(cfg => {
+        let targets = scope.querySelectorAll('input, textarea')
+
+        targets = ([...targets]).filter(target => target.name.length)
+
+        targets.forEach(target => {
+          const { name, value } = target
+
+          switch (target.type) {
+
+          case 'radio':
+            return (value === cfg[name]) ? (target.checked = true) : void 0
+
+          case 'checkbox':
+            return target.checked = cfg[name]
+
+          default:
+            return target.value = cfg[name]
+
+          }
+        })
+      })
+    } catch (e) {}
+  }
+})(document.querySelector('.page.-preferences'))
+
+/**
+ * Settings Page
+ * @type {Closure}
+ */
+;(page => {
   // Render Settings Page
   add_action(`${PAGE_IS_SWITCHING}_SETTINGS`, name => {
     // setTitle('SETTINGS'
@@ -296,7 +344,7 @@ try {
       try {
         JSON.parse(value)
       } catch (e) {
-        return alert('请确保 JSON 格式正确！')
+        return toast('请确保 JSON 格式正确！')
       }
     }
 

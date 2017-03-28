@@ -97,6 +97,11 @@
   "CANCEL": {
     "message": "Cancel",
     "description": ""
+  },
+
+  "PLEASE_ENTER_WORD": {
+    "message": "Need Enter Some Words For Translating!",
+    "description": ""
   }
 
 }

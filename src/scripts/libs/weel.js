@@ -85,6 +85,13 @@ export default class WeeL {
     return this
   }
 
+  filter(callback) {
+    this.elems = this.elems.filter(callback)
+    this.elem = this.elems[0]
+    
+    return this
+  }
+
   /**
    * Set Listeners of NodeList
    * @param  {String} type Listener method type, [add|remove]

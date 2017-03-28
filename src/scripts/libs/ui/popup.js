@@ -37,16 +37,15 @@ export const toast = msg => {
   if (!msg) return void 0
 
   const $toast = $('.toast.-js')
+  const _timeout = setTimeout(() => $toast.off() && clearTimeout(_timeout), 2000)
 
-  if ($toast.isOn()) $toast.off()
+  if ($toast.isOn()) {
+    $toast.off()
+    clearTimeout(_timeout)
+  }
 
   $('.-body', $toast).text(msg)
   $toast.on()
-
-  const _timeout = setTimeout(() => {
-    $toast.off()
-    clearTimeout(_timeout)
-  }, 2000)
 }
 
 /**

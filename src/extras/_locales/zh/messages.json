@@ -97,6 +97,11 @@
   "CANCEL": {
     "message": "取消",
     "description": ""
+  },
+
+  "PLEASE_ENTER_WORD": {
+    "message": "请输入要翻译的内容！",
+    "description": ""
   }
 
 }

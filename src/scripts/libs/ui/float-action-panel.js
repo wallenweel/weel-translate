@@ -1,4 +1,4 @@
-import { do_action, add_action } from "../functions"
+import { do_action, add_action, injectHTML } from '../functions'
 import { selectedText } from "../ui/selection"
 import {
   RENDER_FLOAT_ACTION_PANEL,
@@ -11,13 +11,12 @@ const { runtime } = browser
 export const WEEL_FAP = 'weel#weel__float-action-panel'
 export const getFAP = context => (context || document).querySelector(WEEL_FAP)
 
-export default cfg => {
-  loadFAPElement(cfg)
+export default (cfg, port) => {
+  loadFAPElement(cfg, port)
   loadFAPStyles(cfg)
 }
 
-function loadFAPElement(cfg) {
-
+function loadFAPElement(cfg, port) {
   const { content_url, fab_hide_timeout } = cfg
 
   fetch(content_url)
@@ -29,13 +28,14 @@ function loadFAPElement(cfg) {
 
     document.body.appendChild(fap)
 
+    listener(port)
+
     fap.addEventListener('mousedown', ev => {
       ev.preventDefault()
       ev.stopPropagation()
     }, false)
 
     fap.querySelector(`${WEEL_FAP}--i-hearing`).addEventListener('mousedown', ev => {
-
       synth(selectedText() || '')
     }, false)
 
@@ -80,4 +80,8 @@ function loadFAPStyles(cfg) {
 
     document.head.appendChild(style)
   })
+}
+
+function listener(port) {
+  port.onMessage.addListener(action => do_action(RENDER_FLOAT_ACTION_PANEL, action))
 }

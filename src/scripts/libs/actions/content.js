@@ -47,32 +47,44 @@ add_action(FAB_TRIGGERED, (port, q, fab) => {
   }
 
   port.postMessage(action)
-
-  do_action(RENDER_FLOAT_ACTION_PANEL, port, action, transform)
 })
 
-add_action(RENDER_FLOAT_ACTION_PANEL, (port, action, transform) => {
+add_action(RENDER_FLOAT_ACTION_PANEL, ({ payload = {} }) => {
   const fap = document.querySelector(WEEL_FAP)
 
   if (!fap) return void 0
 
-  port.onMessage.addListener(({ type, meta, payload }) => {
-    const { explains, phonetic, translation } = payload
+  const fab = document.querySelector(WEEL_FAB)
+  const transform = fab.style.webkitTransform
 
-    const _phonetic = fap.querySelector('weel[id$="-phonetic-plain"]')
-    const _explain = fap.querySelector('weel[id$="-explain-plain"]')
-    const _detail = fap.querySelector('weel[id$="-explain-detail"]')
+  const { explains, phonetic, translation } = payload
 
-    _phonetic.innerText = `[ ${phonetic[0] || '...'} ]`
-    _explain.innerText = `${translation.join(' ')}`
+  const _phonetic = fap.querySelector('weel[id$="-phonetic-plain"]')
+  const _explain = fap.querySelector('weel[id$="-explain-plain"]')
+  const _detail = fap.querySelector('weel[id$="-explain-detail"]')
 
-    _detail.classList[explains.length ? 'add' : 'remove']('_on')
-    injectHTML(`${explains.join('<br>')}`, _detail)
+  _phonetic.innerText = `[ ${phonetic[0] || '...'} ]`
+  _explain.innerText = `${translation.join(' ')}`
 
-    fap.style.webkitTransform = transform
-    fap.classList.add('_on')
+  _detail.classList[explains.length ? 'add' : 'remove']('_on')
+  injectHTML(`${explains.join('<br>')}`, _detail)
 
-  })
+  /** @type {Array} FAB Position */
+  let pos = transform.match(/(\d+)px/gi).map(e => +e.match(/\d+/)[0])
+
+  const [pW, pH] = [fap.clientWidth, fap.clientHeight]
+  const [wW, wH] = [window.innerWidth, window.innerHeight]
+
+  if (pos[0] + pW >= wW) {
+    pos[0] = wW - pW
+  }
+
+  if (pos[1] + pH >= wH) {
+    pos[1] = wH - pH
+  }
+
+  fap.style.webkitTransform = `translate3d(${pos.map(e => `${e}px`).join(', ')})`
+  fap.classList.add('_on')
 })
 
 add_action(REMOVE_FAB_IN_CURRENT, () => {

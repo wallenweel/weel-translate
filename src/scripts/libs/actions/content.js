@@ -1,5 +1,5 @@
 import { do_action, add_action, injectHTML } from '../functions'
-import { handleMousedown, handleMouseup } from "../ui/selection"
+import { selectionRect, handleMouseup } from "../ui/selection"
 import { WEEL_FAB } from "../ui/float-action-button"
 import { WEEL_FAP } from "../ui/float-action-panel"
 import {
@@ -16,9 +16,13 @@ add_action(SELECTED_TEXT_IN_CONTENT, (text, ev) => {
   if (!fab) return void 0
 
   const { clientX, clientY } = ev
+  const { clientHeight, clientWidth } = fab
+  const { x, y, height, width } = selectionRect()
 
-  fab.style.webkitTransform = `translate3D(${clientX + 2}px, ${clientY + 2}px, 0)`
+  const pos_x = clientX + 2
+  const pos_y = (clientY - y) > (height / 2) ? (y + height) : (clientY - clientHeight)
 
+  fab.style.webkitTransform = `translate3D(${pos_x}px, ${pos_y}px, 0)`
   fab.classList.add('_on')
 })
 
@@ -35,12 +39,13 @@ add_action(REMOVED_SELECTION_IN_CONTENT, text => {
   }
 })
 
-add_action(FAB_TRIGGERED, (port, q, fab) => {
+add_action(FAB_TRIGGERED, (port, q, ev) => {
+  const fab = ev.currentTarget
+
   fab.classList.remove('_on')
 
   if (!q) return do_action(REMOVED_SELECTION_IN_CONTENT, q)
 
-  const transform = fab.style.webkitTransform
   const action = {
     type: FAB_TRIGGERED,
     payload: { q },
@@ -69,21 +74,60 @@ add_action(RENDER_FLOAT_ACTION_PANEL, ({ payload = {} }) => {
   _detail.classList[explains.length ? 'add' : 'remove']('_on')
   injectHTML(`${explains.join('<br>')}`, _detail)
 
-  /** @type {Array} FAB Position */
-  let pos = transform.match(/(\d+)px/gi).map(e => +e.match(/\d+/)[0])
-
-  const [pW, pH] = [fap.clientWidth, fap.clientHeight]
   const [wW, wH] = [window.innerWidth, window.innerHeight]
+  const [pW, pH] = [fap.clientWidth, fap.clientHeight]
 
-  if (pos[0] + pW >= wW) {
-    pos[0] = wW - pW
+  const show_by_fab = () => {
+    /** @type {Array} FAB Position */
+    let pos = transform.match(/([\d\.]+)px/gi).map(e => +e.match(/\d+/)[0])
+
+    if (pos[0] + pW >= wW) {
+      pos[0] = wW - pW
+    }
+
+    if (pos[1] + pH >= wH) {
+      pos[1] = wH - pH
+    }
+
+    fap.classList.add('_no-arrow')
+    fap.style.width = 'auto'
+    fap.style.webkitTransform = `translate3d(${pos.map(e => `${e}px`).join(', ')})`
   }
 
-  if (pos[1] + pH >= wH) {
-    pos[1] = wH - pH
+  const show_by_selection = () => {
+    const { clientHeight, clientWidth } = fap
+    const { x, y, height, width } = selectionRect()
+
+    const midd_x = (x + width / 2) - (clientWidth / 2)
+    const pos_x = midd_x
+    const pos_y = (y + height + clientHeight) < wH ? fap.classList.remove('_reverse') || (y + height) : fap.classList.add('_reverse') || (y - clientHeight)
+
+    fap.style.webkitTransform = `translate3D(${pos_x}px, ${pos_y}px, 0)`
+
+    const fapContainer = fap.querySelector(`${WEEL_FAP}--container`)
+    let offset_x = fapContainer.clientWidth / 2
+
+    if ((midd_x + offset_x) >= wW) {
+      offset_x += (midd_x + offset_x - wW)
+    }
+
+    if (midd_x <= offset_x) {
+      offset_x -= (wW - (midd_x + offset_x))
+    }
+
+    fapContainer.style.left = `-${offset_x}px`
   }
 
-  fap.style.webkitTransform = `translate3d(${pos.map(e => `${e}px`).join(', ')})`
+  const show_at_br = () => {
+    fap.classList.add('_no-arrow')
+    fap.style.width = 'auto'
+    fap.style.webkitTransform = `translate3D(${wW - pW}px, ${wH - pH - 12}px, 0)`
+  }
+
+  // show_by_fab()
+  // show_by_selection()
+  show_at_br()
+
   fap.classList.add('_on')
 })
 
@@ -94,6 +138,5 @@ add_action(REMOVE_FAB_IN_CURRENT, () => {
   document.body.removeChild(fab)
   document.body.removeChild(fap)
 
-  document.body.removeEventListener('mousedown', handleMousedown, false)
   document.body.removeEventListener('mouseup', handleMouseup, false)
 })

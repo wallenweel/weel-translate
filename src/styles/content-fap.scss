@@ -9,9 +9,10 @@ weel {
   }
 
   &#weel__float-action-panel {
-    $sz: 28px;
-
     transition: visibility .25s ease, opacity .25s ease;
+
+    width: 24px;
+    padding: 12px 0;
 
     // visibility: hidden;
     // opacity: 0;
@@ -20,8 +21,71 @@ weel {
 
     left: 0;
     top: 0;
-    position: fixed;
     z-index: 9999999999999999999999;
+    position: fixed;
+
+    &::before, &::after {
+      content: "";
+
+      border: 10px solid transparent;
+      border-bottom-color: white;
+
+      height: 0;
+      width: 0;
+
+      margin: auto;
+
+      left: 0;
+      right: 0;
+      top: 0;
+      position: absolute;
+      display: block;
+    }
+
+    &::before {
+      filter: blur(1px);
+
+      border-width: 12px;
+      border-bottom-color: rgba(122, 122, 122, .24);
+
+      top: - 10px;
+      z-index: 1;
+    }
+
+    &::after {
+      top: - 6px;
+      z-index: 2;
+    }
+
+
+    &._reverse {
+      &::before {
+        filter: blur(1px);
+
+        border-width: 12px;
+        border-bottom-color: transparent;
+        border-top-color: rgba(122, 122, 122, .24);
+
+        bottom: - 10px;
+        top: initial;
+        z-index: 1;
+      }
+
+      &::after {
+        border-bottom-color: transparent;
+        border-top-color: white;
+
+        top: initial;
+        bottom: - 6px;
+        z-index: 2;
+      }
+    }
+
+    &._no-arrow {
+      &::before, &::after {
+        display: none;
+      }
+    }
 
     &._on {
       visibility: visible !important;
@@ -39,12 +103,15 @@ weel {
       background-color: grey(10);
 
       // height: $sz;
-      width: 240px;
+      width: 220px;
 
+      z-index: 2;
       position: relative;
     }
 
     &--i {
+      $sz: 24px;
+
       &-hearing {
         &::before {
           content: "\e023";
@@ -106,7 +173,7 @@ weel {
         &-plain {
           font-size: 14px;
           line-height: 1.35;
-          padding-top: 6px;
+          padding-top: 4px;
           text-indent: 24px;
           padding-right: 16px;
           width: 100%;

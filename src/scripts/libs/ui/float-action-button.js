@@ -63,7 +63,7 @@ function loadFABElement(cfg, port) {
 
       if (intervalID) clearInterval(intervalID)
 
-      do_action(FAB_TRIGGERED, port, selectedText(), fab)
+      do_action(FAB_TRIGGERED, port, selectedText(), ev)
     })
   })
 }

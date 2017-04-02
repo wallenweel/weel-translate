@@ -30,7 +30,7 @@ function loadFAPElement(cfg, port) {
 
     listener(port)
 
-    fap.addEventListener('mousedown', ev => {
+    fap.addEventListener('mouseup', ev => {
       ev.preventDefault()
       ev.stopPropagation()
     }, false)

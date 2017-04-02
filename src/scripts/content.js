@@ -30,10 +30,8 @@ import "./libs/actions/content"
             cfg.content_url = runtime.getURL('content.html')
 
             if (use_fab) {
-              // Float Action Button
-              FABLoader(cfg, port)
-              // Float Action Panel
-              FAPLoader(cfg, port)
+              FABLoader(cfg, port) // Float Action Button
+              FAPLoader(cfg, port) // Float Action Panel
             }
           })
         }

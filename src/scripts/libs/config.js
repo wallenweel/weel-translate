@@ -17,7 +17,7 @@ const defaultConfig = {
     text: i18n.get('LANG_TRANS_ZH'),
     value: 'zh',
   },
-  fab_pos: 'cursor',
+  fab_pos: 'fab',
   tts_pitch: 1,
   tts_rate: 1,
 }

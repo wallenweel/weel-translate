@@ -38,7 +38,7 @@ add_action(REMOVED_SELECTION_IN_CONTENT, text => {
 add_action(FAB_TRIGGERED, (port, q, fab) => {
   fab.classList.remove('_on')
 
-  if (!q) return void 0
+  if (!q) return do_action(REMOVED_SELECTION_IN_CONTENT, q)
 
   const transform = fab.style.webkitTransform
   const action = {

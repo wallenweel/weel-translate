@@ -2,7 +2,6 @@ import { do_action, add_action } from "../functions"
 import { selectedText, handleMousedown, handleMouseup } from "../ui/selection"
 import {
   SELECTED_TEXT_IN_CONTENT,
-  REMOVED_SELECTION_IN_CONTENT,
   FAB_TRIGGERED,
   REMOVE_FAB_IN_CURRENT,
 } from "../actions/types"
@@ -29,29 +28,42 @@ function loadFABElement(cfg, port) {
 
     document.body.appendChild(fab)
 
-    let down_time = 0
-    let up_time = 0
+    let intervalID = 0
+
+    const countdown = callback => {
+      let time = 0
+      intervalID = 0
+
+      const timeout = setInterval(() => {
+        time++
+
+        if (callback) {
+          if ((time * 1000) > (fab_hide_timeout || 2000)) {
+            clearInterval(timeout)
+
+            return callback()
+          }
+        }
+      }, 1000)
+
+      return timeout
+    }
 
     fab.addEventListener('mousedown', ev => {
       ev.preventDefault()
       ev.stopPropagation()
 
-      down_time = ev.timeStamp
+      if (intervalID) clearInterval(intervalID)
+      intervalID = countdown(() => do_action(REMOVE_FAB_IN_CURRENT))
     }, false)
 
     fab.addEventListener('mouseup', ev => {
       ev.preventDefault()
       ev.stopPropagation()
 
-      up_time = ev.timeStamp
+      if (intervalID) clearInterval(intervalID)
 
-      const interval = up_time - down_time
-
-      if (interval > (fab_hide_timeout || 2000)) {
-        return do_action(REMOVE_FAB_IN_CURRENT)
-      }
-
-      do_action(FAB_TRIGGERED, port, selectedText(), fab)
+      do_action(FAB_TRIGGERED, port, selectedText(), ev)
     })
   })
 }

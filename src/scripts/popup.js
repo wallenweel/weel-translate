@@ -1,12 +1,12 @@
 import { weel as $ } from "./libs/Weel"
 import { wave, select } from "./libs/ui/common"
-import { swapLanguages } from "./libs/ui/translation"
+import { swapLanguages, config_to_render, option_to_config } from "./libs/ui/translation"
 import { translate_from } from "./libs/actions"
 import { log, do_action, add_action, i18n } from "./libs/functions"
-import { settings } from "./libs/ui/config"
+import { settings } from "./libs/config"
 import {
   container, toolbar, mask, drawer,
-  closeDrawer, setTitle, inquiry, closeInquiry,
+  closeDrawer, setTitle, inquiry, closeInquiry, toast,
 } from "./libs/ui/popup"
 import {
   PROPAGATION_OUTERMOST,
@@ -55,8 +55,14 @@ try {
   })
 
   $('.drawer-menu.-js', toolbar).register('click', ev => {
-    $(container).data('actived-ui').set('drawer')
+    $(container).data('actived-ui').add('drawer')
     $(mask).on()
+  })
+
+  $('.treat-paragraph.-js', toolbar).register('click', ev => {
+    inquiry('暂未实现的“段落翻译”', '这种功能会占用太多翻译资源（免费），所以目前枚有继续开发👹。', {
+      ok: ev => void 0,
+    })
   })
 
   $(mask).register('click', ev => {
@@ -145,7 +151,7 @@ try {
 
       browser.tabs.executeScript({
         code: 'window.getSelection().toString().trim();',
-      }, selection => {
+      }, (selection = []) => {
         if (!selection[0]) return void 0
 
         $inputText.textArea().in(selection[0])
@@ -181,7 +187,7 @@ try {
   })
 
   $('.voice.-js', outputStream).register('click', ev => {
-    synth($inputText.textArea().out() || '')
+    settings().get(cfg => synth($inputText.textArea().out(), cfg))
   })
 
   $('.copy.-js', outputStream).register('click', ev => {
@@ -231,42 +237,56 @@ try {
 })(document.querySelector('.page.-entry'))
 
 /**
+ * Preferences Page
+ * @type {Closure}
+ */
+;(page => {
+  add_action(`${PAGE_IS_SWITCHING}_PREFERENCES`, name => {
+    config_to_render(page)
+  })
+
+  $(page.querySelectorAll('input, textarea'))
+  .filter(target => target.name.length)
+  .register('change', ({ target }) => {
+    const { name, value } = target
+
+    try {
+      option_to_config(target)
+      do_action(SETTINGS_SET_SUCCESS, name, value)
+    } catch (e) {}
+  })
+})(document.querySelector('.page.-preferences'))
+
+/**
  * Settings Page
  * @type {Closure}
  */
 ;(page => {
   // Render Settings Page
   add_action(`${PAGE_IS_SWITCHING}_SETTINGS`, name => {
-    // setTitle('SETTINGS')
-
-    try {
-      const localStorage = browser.storage.local
-
-      localStorage.get().then(cfg => {
-        const {
-          api_src,
-          custom_api,
-          use_fab, auto_translate_selection,
-          auto_popup, use_fap,
-        } = cfg
-
-        page.querySelector(`input[name="api_src"][value="${api_src}"]`).checked = true
-        page.querySelector(`textarea[name="custom_api"]`).value = custom_api
-        page.querySelector(`input[name="use_fab"]`).checked = use_fab
-        page.querySelector(`input[name="auto_translate_selection"]`).checked = auto_translate_selection
-
-        // TODO: Unable to trigger popup page with `browserAction` by content script
-        // page.querySelector(`input[name="auto_popup"]`).checked = auto_popup
-        // page.querySelector(`input[name="use_fap"]`).checked = use_fap
-      })
-    } catch (e) {}
+    config_to_render(page)
   })
 
-  $('.-translator input[type="radio"][name]', page).register('change', _updateSettings)
+  $(page.querySelectorAll('input, textarea'))
+  .filter(target => target.name.length)
+  .register('change', ({ target }) => {
+    const { name, value } = target
 
-  $('.-customAPI textarea[name]', page).register('blur', _updateSettings)
+    if (name === 'custom_api') {
+      if (!value) return void 0
 
-  $('.-interaction input[type="checkbox"][name]', page).register('change', _updateSettings)
+      try {
+        JSON.parse(value)
+      } catch (e) {
+        return toast('请确保 JSON 格式正确！')
+      }
+    }
+
+    try {
+      option_to_config(target)
+      do_action(SETTINGS_SET_SUCCESS, name, value)
+    } catch (e) {}
+  })
 
   $('.reset-settings.-js', page).register('click', ev => {
     inquiry('确定要清除扩展的数据？', '操作会让扩展恢复到初次安装的状态。', {
@@ -286,21 +306,4 @@ try {
       cancel: ev => void 0,
     })
   })
-
-  function _updateSettings(ev) {
-    let { name, value, type, checked } = ev.target
-
-    if (name === 'custom_api') {
-      try {
-        JSON.parse(value)
-      } catch (e) {
-        return alert('请确保 JSON 格式正确！')
-      }
-    }
-
-    if (type === 'checkbox') value = checked
-
-    settings().set({ [name]: value })
-      .then(() => do_action(SETTINGS_SET_SUCCESS, name, value))
-  }
 })(document.querySelector('.page.-settings'))

@@ -1,6 +1,6 @@
 import Weel, { weel as $ } from '../Weel'
 import { do_action, add_action, i18n } from '../functions'
-import config, { settings } from '../ui/config'
+import config, { settings } from '../config'
 import {
   SET_LANGUAGES_FROM_TO,
   SWAP_LANGUAGE_COMPLETED,
@@ -101,4 +101,47 @@ export const getTranslationParams = context => {
     from: $('.language .-origin', inputStream).getAttr('data-value'),
     to: $('.language .-target', inputStream).getAttr('data-value'),
   })
+}
+
+export const option_to_config = target => {
+  const { name, value } = target
+
+  switch (target.type) {
+
+  case 'checkbox':
+    return settings().set({ [name]: target.checked })
+
+  default:
+    return settings().set({ [name]: value })
+
+  }
+}
+
+export const config_to_option = (cfg, target) => {
+  const { name, value } = target
+
+  switch (target.type) {
+
+  case 'radio':
+    return (value === cfg[name]) ? (target.checked = true) : void 0
+
+  case 'checkbox':
+    return target.checked = cfg[name]
+
+  default:
+    return target.value = cfg[name]
+
+  }
+}
+
+export const config_to_render = scope => {
+  try {
+    settings().get().then(cfg => {
+      let targets = scope.querySelectorAll('input, textarea')
+
+      targets = ([...targets]).filter(target => target.name.length)
+
+      targets.forEach(target => config_to_option(cfg, target))
+    })
+  } catch (e) {}
 }

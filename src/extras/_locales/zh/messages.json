@@ -1,9 +1,4 @@
 {
-  "demo": {
-    "message": "",
-    "description": ""
-  },
-
   "EXTENSION_NAME": {
     "message": "A Weel Translation",
     "description": "扩展的名称。"
@@ -96,6 +91,16 @@
 
   "CANCEL": {
     "message": "取消",
+    "description": ""
+  },
+
+  "PLEASE_ENTER_WORD": {
+    "message": "请输入要翻译的内容！",
+    "description": ""
+  },
+
+  "SETTING_CHAGED_NEED_REFRESH": {
+    "message": "刷新页面让改变生效。",
     "description": ""
   }
 

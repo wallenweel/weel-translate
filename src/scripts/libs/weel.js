@@ -85,6 +85,13 @@ export default class WeeL {
     return this
   }
 
+  filter(callback) {
+    this.elems = this.elems.filter(callback)
+    this.elem = this.elems[0]
+    
+    return this
+  }
+
   /**
    * Set Listeners of NodeList
    * @param  {String} type Listener method type, [add|remove]
@@ -181,7 +188,7 @@ export default class WeeL {
       del: value => {
         this.elem.setAttribute(attrName, values.filter(val => (val !== value)).join(' '))
       },
-      set: value => {
+      add: value => {
         if (~values.indexOf(value)) return 0
 
         values.push(value)
@@ -189,6 +196,7 @@ export default class WeeL {
         this.elem.setAttribute(attrName, values.join(' '))
       },
       get: () => origin,
+      set: value => this.elem.setAttribute(attrName, value),
       clear: () => this.elem.setAttribute(attrName, ''),
     })
   }

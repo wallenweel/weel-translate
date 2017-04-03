@@ -11,114 +11,184 @@ html(lang="")
       main.content
         include inc/page-entry.pug
         
+        
+        
+        
         .page.-preferences
-          .group
-            h3 调整读音（TTS）[待]
-            .item.-range.-js
-              label 音调
-              input(type="range" name="" value="0" min="-100" max="100" step="10")
-            .item.-range.-js
-              label 语速
-              input(type="range" name="" value="0" min="-100" max="100" step="10")
-            
-            .info
-              | 发声语音调用的是系统接口的
-              em TTS
-              | 不同系统或者浏览器版本之间可能会有差异，可在此进行微调
+          .-wrap
+            .group.-fab-position
+              h3 浮动面板展现的位置
+              .item.-radio
+                input(type="radio" name="fab_pos" value="near_fab")
+                label 浮动按钮的位置
+              .item.-radio
+                input(type="radio" name="fab_pos" value="text_bc")
+                label 首个选区的边缘中间位置
+              .item.-radio
+                input(type="radio" name="fab_pos" value="page_br")
+                label 页面的右下角
+                
+              .info
+                | 在
+                code 设置
+                | 页启用
+                em 浮动按钮
+                | 后可用
+                
+            .group.-voice-tts
+              h3 语音发声微调（TTS）
+              .item.-range.-js
+                label 音量
+                input(type="range" name="tts_volume" value=".65" min="0" max="1" step=".01")
+              .item.-range.-js
+                label 音调
+                input(type="range" name="tts_pitch" value="1" min="0" max="2" step=".01")
+              .item.-range.-js
+                label 语速
+                input(type="range" name="tts_rate" value="1" min="0" max="2" step=".01")
               
-              
-          .group
-            h3 杂项 [待]
-            .item.-range.-js
-              label 悬浮按钮长按延时（毫秒）
-              input(type="number" name="" value="0" min="0" step="100")
+              .info
+                | 发声语音调用的是系统接口的
+                em TTS
+                | 不同系统或者浏览器版本之间可能会有差异，可在此进行微调
+                
+            .group
+              h3 杂项
+              .item.-range.-js
+                label 悬浮按钮长按延时（毫秒）
+                input(type="number" name="fab_hide_timeout" value="0" min="0" step="100")
+                  
+                  
+                
           
         .page.-settings
-          .group.-translator
-            h3 选择翻译引擎
-            .item.-radio
-              input(type="radio" name="api_src" value="google")
-              label Google
-            .item.-radio
-              input(type="radio" name="api_src" value="youdao")
-              label 有道
-            .item.-radio
-              input(type="radio" name="api_src" value="baidu")
-              label 百度
+          .-wrap
+            .group.-translator
+              h3 选择翻译引擎
+              .item.-radio
+                input(type="radio" name="api_src" value="google")
+                label Google
+              .item.-radio
+                input(type="radio" name="api_src" value="youdao")
+                label 有道
+              .item.-radio
+                input(type="radio" name="api_src" value="baidu")
+                label 百度
+                
+            .group.-customAPI
+              h3 应用自己的 API
+              .item.-textarea
+                textarea(name="custom_api")
+              .info
+                | 填写
+                code JSON 格式数组对象
+                | 当前只支持有道，其他来源不需要自己申请 API
+
+            .group.-interaction
+              h3 选择交互方式
+
+              .item.-checkbox
+                label 使用浮动按钮
+                input(type="checkbox" name="use_fab")
+                i.-fake
+              .item.-checkbox
+                label 点击浏览器按钮立即翻译
+                input(type="checkbox" name="auto_translate_selection")
+                i.-fake
+              //- .item.-checkbox
+              //-   label 自动显示弹出面板
+              //-   input(type="checkbox" name="auto_popup")
+              //-   i.-fake
+              //- .item.-checkbox
+              //-   label 浮动结果面板
+              //-   input(type="checkbox" name="use_fap")
+              //-   i.-fake
               
-          .group.-customAPI
-            h3 应用自己的 API
-            .item.-textarea
-              textarea(name="custom_api")
-            .info
-              | 填写
-              code JSON 格式数组对象
-              | 当前只支持有道，其他来源不需要自己申请 API
+              .info
+                | 全都不选的话，为手动打开
 
-          .group.-interaction
-            h3 选择交互方式
+            .group
+              h3 扩展管理
+              .item.-button
+                button(type="button").reset-settings.wave.-js 清除设置
+              .item.-button
+                button(type="button").uninstall.wave.-js.-warning 卸载扩展
+          
+          .-scroll
+            .-wrap
+              .-bar.-js
+          
+              
+              
 
-            .item.-checkbox
-              label 使用浮动按钮
-              input(type="checkbox" name="use_fab")
-              i.-fake
-            .item.-checkbox
-              label 点击浏览器按钮立即翻译
-              input(type="checkbox" name="auto_translate_selection")
-              i.-fake
-            //- .item.-checkbox
-            //-   label 自动显示弹出面板
-            //-   input(type="checkbox" name="auto_popup")
-            //-   i.-fake
-            //- .item.-checkbox
-            //-   label 浮动结果面板
-            //-   input(type="checkbox" name="use_fap")
-            //-   i.-fake
-            
-            .info
-              | 全都不选的话，为手动打开
-
-          .group
-            h3 扩展管理
-            .item.-button
-              button(type="button").reset-settings.wave.-js 清除设置
-            .item.-button
-              button(type="button").uninstall.wave.-js.-warning 卸载扩展
-
-        .page.-support
-          h4 快了……
+        //- .page.-support
+        //-   h4 快了……
+          
+          
+          
 
         .page.-feedback
-          h4 快了……
+          h4 一点说明
+          p 这个翻译扩展开始的时候仅仅是为了辅助浏览英文资源时快速查词的需要，所以没有设计什么复杂的功能。
+          p 因为使用的是免费（有道）和翻译服务的网页接口，为了避免日后使用出现问题，不准备加入全文翻译这种会大量消耗额度的功能特性，计划中的段落暂放。
+          
+          h4 问题反馈
+          p
+            li Github 仓库： 
+              a(href="https://github.com/wallenweel/weel-translation-extension" target="_blank") https://github.com/wallenweel/weel-translation-extension
+            li 问题提交： 
+              a(href="https://github.com/wallenweel/weel-translation-extension/issues" target="_blank") https://github.com/wallenweel/weel-translation-extension/issues
+            
+          h4 联系作者
+          p
+            b 邮箱:&nbsp;&nbsp;&nbsp;&nbsp;
+            | wallen_weel@outlook.com
+          p
+            b QQ:&nbsp;&nbsp;&nbsp;&nbsp;
+            | 252518374
+            
+          
 
       section.drawer
-        header.user-area
-          .avatar
-            img(alt="avatar" src="")
-          .username __MSG_EXTENSION_SHORT_NAME__
-        
-        nav.link-list
-          a(href="entry.html").item.wave.-js
-            i.i-home
-            span __MSG_TRANSLATION__
-          //- a(href="preferences.html").item.wave.-js
-          //-   i.i-style
-          //-   span __MSG_PREFERENCES__
-          a(href="settings.html").item.wave.-js
-            i.i-tune
-            span __MSG_SETTINGS__
-          a(href="support.html").item.wave.-js
-            i.i-all_inclusive
-            span __MSG_DONATE__
-          a(href="feedback.html").item.wave.-js
-            i.i-bug_report
-            span __MSG_FEEDBACK__
+        .-wrap
+          header.user-area
+            .avatar
+              img(alt="avatar" src="")
+            .username __MSG_EXTENSION_SHORT_NAME__
+          
+          nav.link-list
+            a(href="entry.html").item.wave.-js
+              i.i-home
+              span __MSG_TRANSLATION__
+            a(href="preferences.html").item.wave.-js
+              i.i-style
+              span __MSG_PREFERENCES__
+            a(href="settings.html").item.wave.-js
+              i.i-tune
+              span __MSG_SETTINGS__
+            //- a(href="support.html").item.wave.-js
+            //-   i.i-all_inclusive
+            //-   span __MSG_DONATE__
+            a(href="feedback.html").item.wave.-js
+              i.i-bug_report
+              span __MSG_FEEDBACK__
+            
+        .-scroll
+          .-wrap
+            .-bar.-js
+              
 
       section.inquiry.-js
         header.-heading
         p.-body
         footer.-actions
+          
+      
+      section.toast.-js
+        p.-body
+          
       
       section.mask.-js
 
+    script(src="js/simple-scrollbar.min.js")
     script(src="js/popup.js")

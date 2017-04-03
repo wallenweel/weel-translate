@@ -1,6 +1,7 @@
-import { i18n } from '../functions'
+import { i18n } from './functions'
 
 const defaultConfig = {
+  version: '0.0.0',
   api_src: 'google',
   custom_api: '[{ "src": "youdao", "keyfrom": "", "key": "" }]',
   use_fab: true,
@@ -16,10 +17,16 @@ const defaultConfig = {
     text: i18n.get('LANG_TRANS_ZH'),
     value: 'zh',
   },
+  fab_pos: 'text_bc',
+  tts_volume: .65,
+  tts_pitch: 1,
+  tts_rate: 1,
+  tmp: {},
 }
 
 export const settings = params => {
-  const localStorage = browser.storage.local
+  const { storage, runtime } = browser
+  const localStorage = storage.local
 
   return ({
     set: cfg => localStorage.set(cfg),
@@ -30,7 +37,17 @@ export const settings = params => {
 
     init() {
       this.get(cfg => {
+        const manifest = runtime.getManifest()
+        const calc = (ver = '0.0.0') => ver.split(/\./).reduce((p, n) => (+p) + (+n), 0)
+
+        if (calc(cfg.version) < calc(manifest.version)) {
+          this.set({ version: manifest.version })
+
+          Object.keys(defaultConfig).forEach(k => !Object.keys(cfg).includes(k) && this.set({ [k]: defaultConfig[k] }))
+        }
+
         if (Object.keys(cfg).length > 0) return void 0
+
         this.set(defaultConfig)
       })
     },

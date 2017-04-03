@@ -100,21 +100,22 @@ add_action(RENDER_FLOAT_ACTION_PANEL, ({ payload = {} }, cfg) => {
     const { clientHeight, clientWidth } = fap
     const { x, y, height, width } = selectionRect()
 
-    const midd_x = (x + width / 2) - (clientWidth / 2)
+    const midd_x = (x + width / 2) - 12
     const pos_x = midd_x
     const pos_y = (y + height + clientHeight) < wH ? fap.classList.remove('_reverse') || (y + height) : fap.classList.add('_reverse') || (y - clientHeight)
 
     fap.style.webkitTransform = `translate3D(${pos_x}px, ${pos_y}px, 0)`
 
     const fapContainer = fap.querySelector(`${WEEL_FAP}--container`)
-    let offset_x = fapContainer.clientWidth / 2
+    let halfCon = fapContainer.clientWidth / 2 - 12
+    let offset_x = halfCon
 
-    if ((midd_x + offset_x) >= wW) {
-      offset_x += (midd_x + offset_x - wW)
+    if ((midd_x + halfCon) >= wW) {
+      offset_x = halfCon * 2 - 12
     }
 
-    if (midd_x <= offset_x) {
-      offset_x -= (wW - (midd_x + offset_x))
+    if (midd_x <= halfCon) {
+      offset_x = 12
     }
 
     fapContainer.style.left = `-${offset_x}px`

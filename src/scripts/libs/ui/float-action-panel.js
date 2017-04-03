@@ -45,7 +45,7 @@ function loadFAPElement(cfg, port) {
       ev.stopPropagation()
     }, false)
 
-    fap.querySelector(`${WEEL_FAP}--i-hearing`).addEventListener('mouseup', ev => {
+    fap.querySelector(`${WEEL_FAP}--i-voice`).addEventListener('mouseup', ev => {
       synth(selection, cfg)
     }, false)
 

@@ -40,6 +40,62 @@ h1, h2, h3, h4, h5, h6 {
   }
 }
 
+.slim-scroll-container {
+  overflow: hidden !important;
+
+  > .-wrap {
+    height: 100%;
+    overflow: hidden !important;
+  }
+
+  &:hover {
+    .-scroll {
+      .-wrap {
+        .-bar {
+          @include stealth(1);
+        }
+      }
+    }
+  }
+
+  .-scroll {
+    bottom: 0;
+    right: 2px;
+    top: 0;
+    position: absolute;
+
+    // &._on, &:hover {
+    // }
+
+    .-wrap {
+      border-radius: 4px;
+      overflow: hidden;
+
+      // background-color: hsla(0, 0%, 18%, 0.28);
+
+      height: 98%;
+      width: 4px;
+
+      margin: auto;
+
+      bottom: 0;
+      right: 0;
+      top: 0;
+      position: absolute;
+
+      .-bar {
+        @include stealth;
+        @include fade-in;
+
+        border-radius: 4px;
+        background-color: hsla(0, 0%, 18%, 0.5);
+        height: 50%;
+
+      }
+    }
+  }
+}
+
 .container {
   background-color: hsl(0, 0%, 100%);
   max-height: inherit;
@@ -128,7 +184,6 @@ h1, h2, h3, h4, h5, h6 {
         z-index: 2;
         position: relative;
       }
-
 
       &.-entry {
         section {
@@ -418,8 +473,11 @@ h1, h2, h3, h4, h5, h6 {
       &.-settings,
       &.-preferences {
         // background-color: grey(10);
-        padding: 16px;
         z-index: 2;
+
+        > .-wrap {
+          padding: 16px;
+        }
 
         .group {
           margin-bottom: 24px;

@@ -59,6 +59,12 @@ try {
     $(mask).on()
   })
 
+  $('.treat-paragraph.-js', toolbar).register('click', ev => {
+    inquiry('暂未实现的“段落翻译”', '这种功能会占用太多翻译资源（免费），所以目前枚有继续开发👹。', {
+      ok: ev => void 0,
+    })
+  })
+
   $(mask).register('click', ev => {
     const $target = $(ev.currentTarget)
 
@@ -181,7 +187,7 @@ try {
   })
 
   $('.voice.-js', outputStream).register('click', ev => {
-    synth($inputText.textArea().out() || '')
+    settings().get(cfg => synth($inputText.textArea().out(), cfg))
   })
 
   $('.copy.-js', outputStream).register('click', ev => {

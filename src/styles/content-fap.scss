@@ -112,9 +112,9 @@ weel {
     &--i {
       $sz: 24px;
 
-      &-hearing {
+      &-voice {
         &::before {
-          content: "\e023";
+          content: "\e050";
         }
       }
       &-copy {
@@ -122,7 +122,7 @@ weel {
           content: "\e14d";
         }
       }
-      &-hearing, &-copy {
+      &-voice, &-copy {
         cursor: default;
         user-select: none;
 

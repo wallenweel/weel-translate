@@ -1,9 +1,4 @@
 {
-  "demo": {
-    "message": "",
-    "description": ""
-  },
-
   "EXTENSION_NAME": {
     "message": "A Weel Translation",
     "description": "Name of the extension."

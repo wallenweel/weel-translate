@@ -55,8 +55,7 @@ add_action(SETTINGS_SET_SUCCESS, (name, value) => {
 
 add_action(SELECT_LACK_OPTIONS, select => {
   if (!$(select.parentElement).hasClass('language')) return 0
-
-  // console.log(`${$(select.parentElement).data('src').get()} 不支持选择语言。`)
+  
   toast(`${$(select.parentElement).data('src').get()} 不支持选择语言。`)
 })
 

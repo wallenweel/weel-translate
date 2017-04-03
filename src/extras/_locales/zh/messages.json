@@ -102,6 +102,11 @@
   "PLEASE_ENTER_WORD": {
     "message": "请输入要翻译的内容！",
     "description": ""
+  },
+
+  "SETTING_CHAGED_NEED_REFRESH": {
+    "message": "刷新页面让改变生效。",
+    "description": ""
   }
 
 }

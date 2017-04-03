@@ -102,6 +102,11 @@
   "PLEASE_ENTER_WORD": {
     "message": "Need Enter Some Words For Translating!",
     "description": ""
+  },
+
+  "SETTING_CHAGED_NEED_REFRESH": {
+    "message": "Refresh Page To Take Effect.",
+    "description": ""
   }
 
 }

@@ -19,7 +19,7 @@ html(lang="")
           .group.-fab-position
             h3 浮动面板展现的位置
             .item.-radio
-              input(type="radio" name="fab_pos" value="fab")
+              input(type="radio" name="fab_pos" value="near_fab")
               label 浮动按钮的位置
             .item.-radio
               input(type="radio" name="fab_pos" value="text_bc")
@@ -36,13 +36,16 @@ html(lang="")
               | 后可用
               
           .group.-voice-tts
-            h3 发声微调（TTS）[待]
+            h3 语音发声微调（TTS）
+            .item.-range.-js
+              label 音量
+              input(type="range" name="tts_volume" value=".65" min="0" max="1" step=".01")
             .item.-range.-js
               label 音调
-              input(type="range" name="tts_pitch" value="0" min="-100" max="100" step="10")
+              input(type="range" name="tts_pitch" value="1" min="0" max="2" step=".01")
             .item.-range.-js
               label 语速
-              input(type="range" name="tts_rate" value="0" min="-100" max="100" step="10")
+              input(type="range" name="tts_rate" value="1" min="0" max="2" step=".01")
             
             .info
               | 发声语音调用的是系统接口的
@@ -50,7 +53,7 @@ html(lang="")
               | 不同系统或者浏览器版本之间可能会有差异，可在此进行微调
               
           .group
-            h3 杂项 [待]
+            h3 杂项
             .item.-range.-js
               label 悬浮按钮长按延时（毫秒）
               input(type="number" name="fab_hide_timeout" value="0" min="0" step="100")

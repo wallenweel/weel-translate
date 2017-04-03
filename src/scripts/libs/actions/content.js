@@ -54,13 +54,10 @@ add_action(FAB_TRIGGERED, (port, q, ev) => {
   port.postMessage(action)
 })
 
-add_action(RENDER_FLOAT_ACTION_PANEL, ({ payload = {} }) => {
+add_action(RENDER_FLOAT_ACTION_PANEL, ({ payload = {} }, cfg) => {
   const fap = document.querySelector(WEEL_FAP)
 
-  if (!fap) return void 0
-
-  const fab = document.querySelector(WEEL_FAB)
-  const transform = fab.style.webkitTransform
+  if (!fap) return do_action(REMOVED_SELECTION_IN_CONTENT)
 
   const { explains, phonetic, translation } = payload
 
@@ -77,7 +74,12 @@ add_action(RENDER_FLOAT_ACTION_PANEL, ({ payload = {} }) => {
   const [wW, wH] = [window.innerWidth, window.innerHeight]
   const [pW, pH] = [fap.clientWidth, fap.clientHeight]
 
-  const show_by_fab = () => {
+  const show = {}
+
+  show['near_fab'] = () => {
+    const fab = document.querySelector(WEEL_FAB)
+    const transform = fab.style.webkitTransform
+
     /** @type {Array} FAB Position */
     let pos = transform.match(/([\d\.]+)px/gi).map(e => +e.match(/\d+/)[0])
 
@@ -94,7 +96,7 @@ add_action(RENDER_FLOAT_ACTION_PANEL, ({ payload = {} }) => {
     fap.style.webkitTransform = `translate3d(${pos.map(e => `${e}px`).join(', ')})`
   }
 
-  const show_by_selection = () => {
+  show['text_bc'] = () => {
     const { clientHeight, clientWidth } = fap
     const { x, y, height, width } = selectionRect()
 
@@ -118,15 +120,13 @@ add_action(RENDER_FLOAT_ACTION_PANEL, ({ payload = {} }) => {
     fapContainer.style.left = `-${offset_x}px`
   }
 
-  const show_at_br = () => {
+  show['page_br'] = () => {
     fap.classList.add('_no-arrow')
     fap.style.width = 'auto'
     fap.style.webkitTransform = `translate3D(${wW - pW}px, ${wH - pH - 12}px, 0)`
   }
 
-  // show_by_fab()
-  // show_by_selection()
-  show_at_br()
+  show[cfg.fab_pos || 'text_bc']()
 
   fap.classList.add('_on')
 })

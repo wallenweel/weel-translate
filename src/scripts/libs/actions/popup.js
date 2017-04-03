@@ -49,7 +49,7 @@ add_action(SETTINGS_SET_SUCCESS, (name, value) => {
   case 'api_src':
     return do_action(`CHANGED_SETTING_${name.toUpperCase()}`, value)
   default:
-    return toast('设置已更改')
+    return toast(i18n.get('SETTING_CHAGED_NEED_REFRESH'))
   }
 })
 

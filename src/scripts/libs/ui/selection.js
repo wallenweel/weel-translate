@@ -26,7 +26,7 @@ export function handleMouseup(ev) {
 
   const coll = window.getSelection().isCollapsed
   const isOn = getFAP().classList.contains('_on')
-  
+
   if (coll || isOn) return do_action(REMOVED_SELECTION_IN_CONTENT, selectedText, ev)
 
   const fixSelection = setTimeout(() => {

@@ -18,8 +18,10 @@ const defaultConfig = {
     value: 'zh',
   },
   fab_pos: 'text_bc',
+  tts_volume: .65,
   tts_pitch: 1,
   tts_rate: 1,
+  tmp: {},
 }
 
 export const settings = params => {

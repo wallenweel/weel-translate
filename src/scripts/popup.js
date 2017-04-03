@@ -231,7 +231,7 @@ try {
 })(document.querySelector('.page.-entry'))
 
 /**
- * Settings Page
+ * Preferences Page
  * @type {Closure}
  */
 ;(page => {

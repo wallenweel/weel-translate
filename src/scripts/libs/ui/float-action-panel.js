@@ -28,15 +28,25 @@ function loadFAPElement(cfg, port) {
 
     document.body.appendChild(fap)
 
-    listener(port)
+    listener(port, cfg)
+
+    let selection = ''
+
+    fap.addEventListener('mousedown', ev => {
+      const txt = selectedText()
+
+      if (!txt) return true
+
+      selection = txt
+    })
 
     fap.addEventListener('mouseup', ev => {
       ev.preventDefault()
       ev.stopPropagation()
     }, false)
 
-    fap.querySelector(`${WEEL_FAP}--i-hearing`).addEventListener('mousedown', ev => {
-      synth(selectedText() || '')
+    fap.querySelector(`${WEEL_FAP}--i-hearing`).addEventListener('mouseup', ev => {
+      synth(selection, cfg)
     }, false)
 
     fap.querySelector(`${WEEL_FAP}--i-copy`).addEventListener('click', ev => {
@@ -82,6 +92,6 @@ function loadFAPStyles(cfg) {
   })
 }
 
-function listener(port) {
-  port.onMessage.addListener(action => do_action(RENDER_FLOAT_ACTION_PANEL, action))
+function listener(port, cfg) {
+  port.onMessage.addListener(action => do_action(RENDER_FLOAT_ACTION_PANEL, action, cfg))
 }

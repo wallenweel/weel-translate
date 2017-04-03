@@ -47,7 +47,7 @@ add_action(SETTINGS_SET_SUCCESS, (name, value) => {
   switch (name) {
 
   case 'api_src':
-    return do_action(`CHANGED_SETTING_${name.toUpperCase()}`, value)
+    do_action(`CHANGED_SETTING_${name.toUpperCase()}`, value)
   default:
     return toast(i18n.get('SETTING_CHAGED_NEED_REFRESH'))
   }

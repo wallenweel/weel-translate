@@ -102,3 +102,30 @@ export const getTranslationParams = context => {
     to: $('.language .-target', inputStream).getAttr('data-value'),
   })
 }
+
+export function config_to_render(scope) {
+  try {
+    settings().get().then(cfg => {
+      let targets = scope.querySelectorAll('input, textarea')
+
+      targets = ([...targets]).filter(target => target.name.length)
+
+      targets.forEach(target => {
+        const { name, value } = target
+
+        switch (target.type) {
+
+        case 'radio':
+          return (value === cfg[name]) ? (target.checked = true) : void 0
+
+        case 'checkbox':
+          return target.checked = cfg[name]
+
+        default:
+          return target.value = cfg[name]
+
+        }
+      })
+    })
+  } catch (e) {}
+}

@@ -1,6 +1,6 @@
 import { weel as $ } from "./libs/Weel"
 import { wave, select } from "./libs/ui/common"
-import { swapLanguages } from "./libs/ui/translation"
+import { swapLanguages, config_to_render } from "./libs/ui/translation"
 import { translate_from } from "./libs/actions"
 import { log, do_action, add_action, i18n } from "./libs/functions"
 import { settings } from "./libs/config"
@@ -249,33 +249,6 @@ try {
       do_action(SETTINGS_SET_SUCCESS, name, value)
     } catch (e) {}
   })
-
-  function config_to_render(scope) {
-    try {
-      settings().get().then(cfg => {
-        let targets = scope.querySelectorAll('input, textarea')
-
-        targets = ([...targets]).filter(target => target.name.length)
-
-        targets.forEach(target => {
-          const { name, value } = target
-
-          switch (target.type) {
-
-          case 'radio':
-            return (value === cfg[name]) ? (target.checked = true) : void 0
-
-          case 'checkbox':
-            return target.checked = cfg[name]
-
-          default:
-            return target.value = cfg[name]
-
-          }
-        })
-      })
-    } catch (e) {}
-  }
 })(document.querySelector('.page.-preferences'))
 
 /**
@@ -285,36 +258,29 @@ try {
 ;(page => {
   // Render Settings Page
   add_action(`${PAGE_IS_SWITCHING}_SETTINGS`, name => {
-    // setTitle('SETTINGS'
-
-    try {
-      const localStorage = browser.storage.local
-
-      localStorage.get().then(cfg => {
-        const {
-          api_src,
-          custom_api,
-          use_fab, auto_translate_selection,
-          auto_popup, use_fap,
-        } = cfg
-
-        page.querySelector(`input[name="api_src"][value="${api_src}"]`).checked = true
-        page.querySelector(`textarea[name="custom_api"]`).value = custom_api
-        page.querySelector(`input[name="use_fab"]`).checked = use_fab
-        page.querySelector(`input[name="auto_translate_selection"]`).checked = auto_translate_selection
-
-        // TODO: Unable to trigger popup page with `browserAction` by content script
-        // page.querySelector(`input[name="auto_popup"]`).checked = auto_popup
-        // page.querySelector(`input[name="use_fap"]`).checked = use_fap
-      })
-    } catch (e) {}
+    config_to_render(page)
   })
 
-  $('.-translator input[type="radio"][name]', page).register('change', _updateSettings)
+  $(page.querySelectorAll('input, textarea'))
+  .filter(target => target.name.length)
+  .register('change', ({ target }) => {
+    const { name, value } = target
 
-  $('.-customAPI textarea[name]', page).register('blur', _updateSettings)
+    if (name === 'custom_api') {
+      if (!value) return void 0
 
-  $('.-interaction input[type="checkbox"][name]', page).register('change', _updateSettings)
+      try {
+        JSON.parse(value)
+      } catch (e) {
+        return toast('请确保 JSON 格式正确！')
+      }
+    }
+
+    try {
+      settings().set({ [name]: value })
+      do_action(SETTINGS_SET_SUCCESS, name, value)
+    } catch (e) {}
+  })
 
   $('.reset-settings.-js', page).register('click', ev => {
     inquiry('确定要清除扩展的数据？', '操作会让扩展恢复到初次安装的状态。', {
@@ -334,23 +300,4 @@ try {
       cancel: ev => void 0,
     })
   })
-
-  function _updateSettings(ev) {
-    let { name, value, type, checked } = ev.target
-
-    if (name === 'custom_api') {
-      if (!value) return void 0
-
-      try {
-        JSON.parse(value)
-      } catch (e) {
-        return toast('请确保 JSON 格式正确！')
-      }
-    }
-
-    if (type === 'checkbox') value = checked
-
-    settings().set({ [name]: value })
-      .then(() => do_action(SETTINGS_SET_SUCCESS, name, value))
-  }
 })(document.querySelector('.page.-settings'))

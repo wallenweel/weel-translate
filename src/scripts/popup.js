@@ -1,6 +1,6 @@
 import { weel as $ } from "./libs/Weel"
 import { wave, select } from "./libs/ui/common"
-import { swapLanguages, config_to_render } from "./libs/ui/translation"
+import { swapLanguages, config_to_render, option_to_config } from "./libs/ui/translation"
 import { translate_from } from "./libs/actions"
 import { log, do_action, add_action, i18n } from "./libs/functions"
 import { settings } from "./libs/config"
@@ -251,7 +251,7 @@ try {
     const { name, value } = target
 
     try {
-      settings().set({ [name]: value })
+      option_to_config(target)
       do_action(SETTINGS_SET_SUCCESS, name, value)
     } catch (e) {}
   })
@@ -283,7 +283,7 @@ try {
     }
 
     try {
-      settings().set({ [name]: value })
+      option_to_config(target)
       do_action(SETTINGS_SET_SUCCESS, name, value)
     } catch (e) {}
   })

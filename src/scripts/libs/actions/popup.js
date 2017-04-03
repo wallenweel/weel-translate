@@ -48,14 +48,16 @@ add_action(SETTINGS_SET_SUCCESS, (name, value) => {
 
   case 'api_src':
     do_action(`CHANGED_SETTING_${name.toUpperCase()}`, value)
+    
   default:
     return toast(i18n.get('SETTING_CHAGED_NEED_REFRESH'))
+
   }
 })
 
 add_action(SELECT_LACK_OPTIONS, select => {
   if (!$(select.parentElement).hasClass('language')) return 0
-  
+
   toast(`${$(select.parentElement).data('src').get()} 不支持选择语言。`)
 })
 

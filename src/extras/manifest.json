@@ -30,8 +30,7 @@
   "permissions": [
     "<all_urls>",
     "tabs",
-    "storage",
-    "cookies"
+    "storage"
   ],
 
   "web_accessible_resources": [

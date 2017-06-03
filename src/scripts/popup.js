@@ -177,12 +177,13 @@ try {
     settings('api_src').get(({ api_src }) => {
       apis.forEach((api, i) => {
         if (api_src === api.slug) {
-          const src = apis[((i < apis.length - 1) ? (i + 1) : 0)]['slug']
+          const next_api = apis[((i < apis.length - 1) ? (i + 1) : 0)]
+          const src = next_api['slug']
 
           settings().set({ api_src: src })
           _initLanguagesBar(src)
 
-          toast(`已切换到 ${api.name}`)
+          toast(`已切换到 ${next_api['name']}`)
         }
       })
     })

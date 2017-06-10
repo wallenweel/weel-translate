@@ -4,7 +4,7 @@
   "name": "__MSG_EXTENSION_NAME__",
   "short_name": "__MSG_EXTENSION_SHORT_NAME__",
   "description": "__MSG_EXTENSION_DESCRIPTION__",
-  "version": "0.2.4",
+  "version": "0.2.6",
 
   "homepage_url": "https://github.com/wallenweel/weel-translation-extension",
 
@@ -30,8 +30,7 @@
   "permissions": [
     "<all_urls>",
     "tabs",
-    "storage",
-    "cookies"
+    "storage"
   ],
 
   "web_accessible_resources": [

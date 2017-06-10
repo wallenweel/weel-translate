@@ -60,7 +60,7 @@ try {
   })
 
   $('.treat-paragraph.-js', toolbar).register('click', ev => {
-    inquiry('暂未实现的“段落翻译”', '这种功能会占用太多翻译资源（免费），所以目前枚有继续开发👹。', {
+    inquiry('暂未实现的“段落翻译”', '这种功能会占用太多翻译资源（免费），所以目前没有继续开发👹。', {
       ok: ev => void 0,
     })
   })
@@ -177,10 +177,13 @@ try {
     settings('api_src').get(({ api_src }) => {
       apis.forEach((api, i) => {
         if (api_src === api.slug) {
-          const src = apis[((i < apis.length - 1) ? (i + 1) : 0)]['slug']
+          const next_api = apis[((i < apis.length - 1) ? (i + 1) : 0)]
+          const src = next_api['slug']
 
           settings().set({ api_src: src })
           _initLanguagesBar(src)
+
+          toast(`已切换到 ${next_api['name']}`)
         }
       })
     })

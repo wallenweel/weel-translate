@@ -2,6 +2,9 @@ import { do_action, add_action, injectHTML } from '../functions'
 import { selectedText } from "../ui/selection"
 import {
   RENDER_FLOAT_ACTION_PANEL,
+  CONNECT_FROM_CONTEXT_MENU,
+  TRANSLATE_WITH_CONTEXT_MENU,
+  FAB_TRIGGERED,
 } from "../actions/types"
 
 import synth from "../services/synth"
@@ -61,6 +64,18 @@ function loadFAPElement(cfg, port) {
 
       document.execCommand('copy')
     }, false)
+
+    runtime.onConnect.addListener(_port => {
+      const { name, onMessage } = _port
+
+      if (name === CONNECT_FROM_CONTEXT_MENU) {
+        onMessage.addListener(({ type, meta = {}, payload = {} }) => {
+          if (type === TRANSLATE_WITH_CONTEXT_MENU) {
+            do_action(FAB_TRIGGERED, port, payload.q, {})
+          }
+        })
+      }
+    })
   })
 
 }

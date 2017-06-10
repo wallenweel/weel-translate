@@ -6,6 +6,8 @@ import {
   SWAP_LANGUAGE_COMPLETED,
   TRANSLATE_WITH_CONTEXT_MENU,
   FAB_TRIGGERED,
+
+  CONNECT_FROM_CONTEXT_MENU,
 } from '../actions/types'
 
 import { apiPick } from "../services/translation"
@@ -158,10 +160,18 @@ export const register_contextMenus = active => {
       contexts: ["all"],
     })
 
-    browser.contextMenus.onClicked.addListener(function(info, tab) {
-      if (info.menuItemId === TRANSLATE_WITH_CONTEXT_MENU) {
-        console.log(info.menuItemId)
-        do_action(FAB_TRIGGERED)
+    browser.contextMenus.onClicked.addListener(({ menuItemId, selectionText }, tab) => {
+      const { id } = tab
+
+      if (menuItemId === TRANSLATE_WITH_CONTEXT_MENU) {
+        const port = browser.tabs.connect(id, { name: CONNECT_FROM_CONTEXT_MENU })
+
+        port.postMessage({
+          type: TRANSLATE_WITH_CONTEXT_MENU,
+          payload: {
+            q: selectionText,
+          },
+        })
       }
     })
   }

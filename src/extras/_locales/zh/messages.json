@@ -102,6 +102,11 @@
   "SETTING_CHAGED_NEED_REFRESH": {
     "message": "刷新页面让改变生效。",
     "description": ""
+  },
+
+  "TRANSLATE_SELECTED_CONTENT": {
+    "message": "翻译选中内容...",
+    "description": ""
   }
 
 }

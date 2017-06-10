@@ -4,6 +4,8 @@ import config, { settings } from '../config'
 import {
   SET_LANGUAGES_FROM_TO,
   SWAP_LANGUAGE_COMPLETED,
+  TRANSLATE_WITH_CONTEXT_MENU,
+  FAB_TRIGGERED,
 } from '../actions/types'
 
 import { apiPick } from "../services/translation"
@@ -144,4 +146,23 @@ export const config_to_render = scope => {
       targets.forEach(target => config_to_option(cfg, target))
     })
   } catch (e) {}
+}
+
+export const register_contextMenus = active => {
+  if (active === false) {
+    browser.contextMenus.remove(TRANSLATE_WITH_CONTEXT_MENU)
+  } else {
+    browser.contextMenus.create({
+      id: TRANSLATE_WITH_CONTEXT_MENU,
+      title: i18n.get('TRANSLATE_SELECTED_CONTENT'),
+      contexts: ["all"],
+    })
+
+    browser.contextMenus.onClicked.addListener(function(info, tab) {
+      if (info.menuItemId === TRANSLATE_WITH_CONTEXT_MENU) {
+        console.log(info.menuItemId)
+        do_action(FAB_TRIGGERED)
+      }
+    })
+  }
 }

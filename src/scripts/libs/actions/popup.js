@@ -2,7 +2,7 @@ import { weel as $ } from "../Weel"
 import { log, do_action, add_action, i18n } from "../functions"
 import { translate_from } from "./"
 import { toast } from "../ui/popup"
-import { getTranslationParams } from "../ui/translation"
+import { getTranslationParams, register_contextMenus } from "../ui/translation"
 import { settings } from "../config"
 import {
   SELECT_LACK_OPTIONS,
@@ -48,11 +48,17 @@ add_action(SETTINGS_SET_SUCCESS, (name, value) => {
 
   case 'api_src':
     do_action(`CHANGED_SETTING_${name.toUpperCase()}`, value)
-    
-  default:
-    return toast(i18n.get('SETTING_CHAGED_NEED_REFRESH'))
+
+    break
+
+  case 'context_menu_translate':
+    register_contextMenus(value)
+
+    break
 
   }
+
+  return toast(i18n.get('SETTING_CHAGED_NEED_REFRESH'))
 })
 
 add_action(SELECT_LACK_OPTIONS, select => {

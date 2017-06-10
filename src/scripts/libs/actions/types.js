@@ -23,6 +23,9 @@ export const TRANSLATE_IN_POPUP = "TRANSLATE_IN_POPUP"
 // Translation result appears in float panel of content
 export const TRANSLATE_IN_FLOAT = "TRANSLATE_IN_FLOAT"
 
+// Translation result appears in float panel in clicking context menu
+export const TRANSLATE_WITH_CONTEXT_MENU = "TRANSLATE_WITH_CONTEXT_MENU"
+
 export const CONNECT_WITH_TRANSLATING = "CONNECT_WITH_TRANSLATING"
 export const CONNECT_FROM_BACKGROUND = "CONNECT_FROM_BACKGROUND"
 export const CONNECT_FROM_CONTENT = "CONNECT_FROM_CONTENT"

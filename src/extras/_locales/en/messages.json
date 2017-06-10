@@ -102,6 +102,11 @@
   "SETTING_CHAGED_NEED_REFRESH": {
     "message": "Refresh Page To Take Effect.",
     "description": ""
+  },
+
+  "TRANSLATE_SELECTED_CONTENT": {
+    "message": "Translate Selected Content...",
+    "description": ""
   }
 
 }

@@ -30,19 +30,15 @@ add_action(REMOVED_SELECTION_IN_CONTENT, text => {
   const fab = document.querySelector(WEEL_FAB)
   const fap = document.querySelector(WEEL_FAP)
 
-  if (fab) {
-    fab.classList.remove('_on')
-  }
+  if (!!fab) fab.classList.remove('_on')
 
-  if (fap) {
-    fap.classList.remove('_on')
-  }
+  if (!!fap) fap.classList.remove('_on')
 })
 
 add_action(FAB_TRIGGERED, (port, q, ev) => {
   const fab = ev.currentTarget
 
-  fab.classList.remove('_on')
+  if (!!fab) fab.classList.remove('_on')
 
   if (!q) return do_action(REMOVED_SELECTION_IN_CONTENT, q)
 

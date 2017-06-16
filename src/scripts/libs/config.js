@@ -9,6 +9,7 @@ const defaultConfig = {
   use_fap: false,
   fab_hide_timeout: 1500,
   auto_translate_selection: false,
+  context_menu_translate: true,
   lang_from: {
     text: i18n.get('LANG_TRANS_EN'),
     value: 'en',

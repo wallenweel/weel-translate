@@ -25,12 +25,18 @@ import "./libs/actions/content"
       onMessage.addListener(({ type, meta = {}, payload = {} }) => {
         if (type === TABS_UPDATE_COMPLETE) {
           storage.local.get(cfg => {
-            const { api_src, use_fab } = cfg
+            const { api_src, use_fab, context_menu_translate } = cfg
 
             cfg.content_url = runtime.getURL('content.html')
 
             if (use_fab) {
               FABLoader(cfg, port) // Float Action Button
+              FAPLoader(cfg, port) // Float Action Panel
+
+              return
+            }
+
+            if (context_menu_translate) {
               FAPLoader(cfg, port) // Float Action Panel
             }
           })

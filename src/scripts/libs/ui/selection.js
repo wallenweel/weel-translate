@@ -17,7 +17,7 @@ export const selectedText = () => window.getSelection().toString().trim()
 
 export default () => {
   return () => {
-    document.body.addEventListener('mouseup', handleMouseup, false)
+    document.addEventListener('mouseup', handleMouseup, false)
   }
 }
 
@@ -27,7 +27,9 @@ export function handleMouseup(ev) {
   const coll = window.getSelection().isCollapsed
   const isOn = getFAP().classList.contains('_on')
 
-  if (coll || isOn) return do_action(REMOVED_SELECTION_IN_CONTENT, selectedText, ev)
+  if (coll || isOn) {
+    return do_action(REMOVED_SELECTION_IN_CONTENT, selectedText, ev)
+  }
 
   const fixSelection = setTimeout(() => {
     do_action(SELECTED_TEXT_IN_CONTENT, selectedText, ev)

@@ -12,7 +12,7 @@ add_action(MESSAGE_IN_BACKGROUND, ({ type, meta = {}, payload = {} }, port) => {
     const { api_src, lang_from, lang_to, custom_api } = cfg
     const { q, from = lang_from.value, to = lang_to.value } = payload
     const params = { q, from, to }
-
+    
     if (api_src === 'youdao') {
       const custom = JSON.parse(custom_api)
 

@@ -4,6 +4,23 @@ export const type = (obj, val = '') => {
   return !val ? str : (val === str)
 }
 
+export const getInputMeta = target => {
+  const { name } = target
+  let value
+
+  switch (target.type) {
+
+  case 'checkbox':
+    value = target.checked
+    break
+
+  default:
+    value = target.value
+  }
+
+  return [name, value]
+}
+
 export const log = (...params) => {
   console.log(...params)
 }

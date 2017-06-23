@@ -37,6 +37,14 @@ export default {
     ]),
   }),
 
+  voice: ({ q, from }) => ({
+    url: 'http://dict.youdao.com/dictvoice',
+    params: new Set([
+      ['le', from],
+      ['audio', q],
+    ]),
+  }),
+
   presets() {
     const { languages } = this
 
@@ -50,6 +58,15 @@ export default {
         value: languages[0].code,
       },
     })
+  },
+
+  uniform(code) {
+    return ({
+      'zh': 'zh',
+      'zh-CN': 'zh',
+      'en': 'en',
+      'jp': 'jap',
+    })[code]
   },
 
   languages: [{

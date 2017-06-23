@@ -50,6 +50,16 @@ export default {
     ]),
   }),
 
+  voice: ({ q, from }) => ({
+    url: 'https://translate.google.com/translate_tts',
+    params: new Set([
+      ['tl', from],
+      ['q', q],
+      ['client', 'gtx'],
+      ['ie', 'UTF-8'],
+    ]),
+  }),
+
   presets() {
     const { languages } = this
 
@@ -63,6 +73,15 @@ export default {
         value: languages[1].code,
       },
     })
+  },
+
+  uniform(code) {
+    return ({
+      'zh': 'zh',
+      'zh-CN': 'zh',
+      'en': 'en',
+      'jp': 'ja',
+    })[code]
   },
 
   languages: [{

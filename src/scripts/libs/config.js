@@ -22,6 +22,7 @@ const defaultConfig = {
   tts_volume: .65,
   tts_pitch: 1,
   tts_rate: 1,
+  api_speaking: true,
   tmp: {},
 }
 

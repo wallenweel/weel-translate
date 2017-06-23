@@ -75,16 +75,19 @@ export const apiParse = (preset, type = 'text') => {
 
   /**
    * Beginning the fetch
-   * @param  {Object} [args={}] API's params
-   * @return {Response}         Use `then` method to recevie a json data
+   * @param  {Object}  [args={}] API's params
+   * @param  {Boolean} getURL    Whether or not return URL string
+   * @return {Response}          Use `then` method to recevie a json data
    */
-  return (args = {}) => {
+  return (args = {}, getURL = false) => {
     if (!args.q) return console.error('Required Content to Translating!')
 
     const s = new URLSearchParams()
     const { url, params } = preset[type](args)
 
     for (let el of params) s.append(el[0], el[1])
+
+    if (getURL) return `${url}?${s}`
 
     return fetch(`${url}?${s}`, { mode: 'no-cors' })
       .then(res => res[preset.dataType]())
@@ -130,4 +133,14 @@ export const add_action = (name, callback) => {
   callbacks.add(callback)
 
   doActions.set(name, callbacks)
+}
+
+// TODO:
+export const detectLanguage = (text, aim) => {
+  const other = {
+    'zh': /[^\u4e00-\u9fa5]/,
+    'ja/jp': /[^\u0800-\u4e00]/,
+  }
+
+
 }

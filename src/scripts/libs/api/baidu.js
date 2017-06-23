@@ -51,6 +51,16 @@ export default {
     ]),
   }),
 
+  voice: ({ q, from }) => ({
+    url: 'https://fanyi.baidu.com/gettts',
+    params: new Set([
+      ['lan', from],
+      ['text', q],
+      ['spd', 5],
+      ['source', 'web'],
+    ]),
+  }),
+
   presets() {
     const { languages } = this
 
@@ -64,6 +74,15 @@ export default {
         value: languages[1].code,
       },
     })
+  },
+
+  uniform(code) {
+    return ({
+      'zh': 'zh',
+      'zh-CN': 'zh',
+      'en': 'en',
+      'jp': 'jp',
+    })[code]
   },
 
   languages: [{

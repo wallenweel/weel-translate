@@ -1,5 +1,6 @@
-import { do_action, add_action, injectHTML } from '../functions'
+import { do_action, add_action, injectHTML, detectLanguage } from '../functions'
 import { selectionRect, handleMouseup } from "../ui/selection"
+import { apiPick } from "../services/translation"
 import { WEEL_FAB } from "../ui/float-action-button"
 import { WEEL_FAP } from "../ui/float-action-panel"
 import {
@@ -14,6 +15,18 @@ add_action(SELECTED_TEXT_IN_CONTENT, (text, ev) => {
   const fab = document.querySelector(WEEL_FAB)
 
   if (!fab) return void 0
+
+  if (/true/.test(fab.getAttribute('data-check-aim'))) {
+    const src = fab.getAttribute('data-api-src')
+    const from = fab.getAttribute('data-lang-from')
+    const api = apiPick(src)
+
+    if (src !== 'youdao') {
+      if (detectLanguage(text(), api.uniform) !== from) {
+        return void 0
+      }
+    }
+  }
 
   const { clientX, clientY } = ev
   const { clientHeight, clientWidth } = fab

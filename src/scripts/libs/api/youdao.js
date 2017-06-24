@@ -17,14 +17,6 @@ export default {
     return ({ phonetic, explains, translation })
   },
 
-  voice: ({ q, type = 2 }) => ({
-    url: 'http://dict.youdao.com/dictvoice',
-    params: new Map([
-      ['audio', q],
-      ['type', type],
-    ]),
-  }),
-
   text: ({ q, keyfrom, key }) => ({
     url: 'http://fanyi.youdao.com/openapi.do',
     params: new Set([

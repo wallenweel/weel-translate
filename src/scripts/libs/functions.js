@@ -135,12 +135,30 @@ export const add_action = (name, callback) => {
   doActions.set(name, callbacks)
 }
 
-// TODO:
-export const detectLanguage = (text, aim) => {
-  const other = {
-    'zh': /[^\u4e00-\u9fa5]/,
-    'ja/jp': /[^\u0800-\u4e00]/,
+/**
+ * Detect Language's Type, Default return 'en'
+ * @param  {String}   text    Some words are needed detecting
+ * @param  {Function} uniform A callback to covert standard code to API's language code
+ * @return {String}           Language code
+ */
+export const detectLanguage = (text, uniform) => {
+  const languages = {
+    'zh': /[^\u4e00-\u9fa5\s\。\，\“\”\；\：\！\？\、\/\‘\’]/,
+    'jp': /[^\u0800-\u4e00\s\。\，\“\”\；\：\！\？\、\/\‘\’]/,
+    'en': /[^a-zA-Z\s\,\.\/\;\:\'\"\-\!\@\#\$\%\&\*]/,
   }
 
+  for (let lang in languages) {
+    if (languages.hasOwnProperty(lang)) {
+      if (!languages[lang].test(text)) {
+        if (!!uniform) {
+          return uniform(lang) || lang
+        } else {
+          return lang
+        }
+      }
+    }
+  }
 
+  return ''
 }

@@ -5,6 +5,7 @@ const defaultConfig = {
   api_src: 'google',
   custom_api: '[{ "src": "youdao", "keyfrom": "", "key": "" }]',
   use_fab: true,
+  check_aim_lang: false,
   auto_popup: false,
   use_fap: false,
   fab_hide_timeout: 1500,

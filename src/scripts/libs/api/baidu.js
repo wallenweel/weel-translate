@@ -1,5 +1,7 @@
 import { i18n } from '../functions'
 
+export const domain = 'http://fanyi.baidu.com'
+
 export default {
   name: '百度翻译',
   slug: 'baidu',
@@ -41,7 +43,7 @@ export default {
   },
 
   text: ({ q, from, to }) => ({
-    url: 'http://fanyi.baidu.com/v2transapi',
+    url: `${domain}/v2transapi`,
     params: new Set([
       ['from', from],
       ['to', to],
@@ -52,7 +54,7 @@ export default {
   }),
 
   voice: ({ q, from }) => ({
-    url: 'https://fanyi.baidu.com/gettts',
+    url: `${domain}/gettts`,
     params: new Set([
       ['lan', from],
       ['text', q],

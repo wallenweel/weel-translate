@@ -1,11 +1,16 @@
-import { apiParse } from "../functions"
+import { apiParse, detectLanguage } from "../functions"
 import { apiPick } from "../services/translation"
 
 const synth = window.speechSynthesis
 
 export const voices = synth.getVoices()
 
-// TODO:
+/**
+ * APISpeaking use API's voice to speak content
+ * @param {[type]} q         [description]
+ * @param {[type]} api_src   [description]
+ * @param {[type]} lang_from [description]
+ */
 export const APISpeaking = (q, { api_src, lang_from: { value } }) => {
   let lang = value
   const api = apiPick(api_src)
@@ -17,13 +22,18 @@ export const APISpeaking = (q, { api_src, lang_from: { value } }) => {
   const url = apiParse(api, 'voice')({ q, from: lang }, true)
   const audio = new Audio()
 
-  console.log(url)
-
   audio.src = url
 
   audio.play()
 }
 
+/**
+ * TTSSpeaking use TTS to speak content
+ * @param {[type]} content    [description]
+ * @param {[type]} tts_pitch  [description]
+ * @param {[type]} tts_rate   [description]
+ * @param {[type]} tts_volume [description]
+ */
 export const TTSSpeaking = (content, { tts_pitch, tts_rate, tts_volume }) => {
   const utterThis = new SpeechSynthesisUtterance(content)
 
@@ -39,8 +49,8 @@ export default (content = '', cfg) => {
   const { api_speaking } = cfg
 
   if (!!api_speaking) {
-    TTSSpeaking(content, cfg)
-  } else {
     APISpeaking(content, cfg)
+  } else {
+    TTSSpeaking(content, cfg)
   }
 }

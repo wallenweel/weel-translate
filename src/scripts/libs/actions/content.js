@@ -13,8 +13,9 @@ import {
 
 add_action(SELECTED_TEXT_IN_CONTENT, (text, ev) => {
   const fab = document.querySelector(WEEL_FAB)
+  const q = (text() || '').trim()
 
-  if (!fab) return void 0
+  if (!fab || !q.length) return void 0
 
   if (/true/.test(fab.getAttribute('data-check-aim'))) {
     const src = fab.getAttribute('data-api-src')
@@ -22,7 +23,7 @@ add_action(SELECTED_TEXT_IN_CONTENT, (text, ev) => {
     const api = apiPick(src)
 
     if (src !== 'youdao') {
-      if (detectLanguage(text(), api.uniform) !== from) {
+      if (detectLanguage(q, api.uniform) !== from) {
         return void 0
       }
     }

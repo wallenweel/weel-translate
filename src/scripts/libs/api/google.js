@@ -1,5 +1,7 @@
 import { i18n } from '../functions'
 
+export const domain = 'https://translate.google.cn'
+
 export default {
   name: 'Google Translate',
   slug: 'google',
@@ -20,7 +22,7 @@ export default {
   },
 
   text: ({ q, from, to }) => ({
-    url: 'https://translate.google.cn/translate_a/single',
+    url: `${domain}/translate_a/single`,
     params: new Set([
       ['client', 'gtx'],
       // ['tk', '313938.164950'],
@@ -50,6 +52,16 @@ export default {
     ]),
   }),
 
+  voice: ({ q, from }) => ({
+    url: `${domain}/translate_tts`,
+    params: new Set([
+      ['tl', from],
+      ['q', q],
+      ['client', 'gtx'],
+      ['ie', 'UTF-8'],
+    ]),
+  }),
+
   presets() {
     const { languages } = this
 
@@ -63,6 +75,15 @@ export default {
         value: languages[1].code,
       },
     })
+  },
+
+  uniform(code) {
+    return ({
+      'zh': 'zh',
+      'zh-CN': 'zh',
+      'en': 'en',
+      'jp': 'ja',
+    })[code]
   },
 
   languages: [{

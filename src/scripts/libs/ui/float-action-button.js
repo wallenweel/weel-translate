@@ -26,6 +26,11 @@ function loadFABElement(cfg, port) {
     const html = parser.parseFromString(content, 'text/html')
     const fab = html.querySelector(WEEL_FAB)
 
+    fab.setAttribute('data-check-aim', cfg.check_aim_lang || false)
+    fab.setAttribute('data-api-src', cfg.api_src)
+    fab.setAttribute('data-lang-from', cfg.lang_from.value)
+    fab.setAttribute('data-lang-to', cfg.lang_to.value)
+
     document.body.appendChild(fab)
 
     let intervalID = 0

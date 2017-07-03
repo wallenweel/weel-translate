@@ -85,11 +85,23 @@ html(lang="")
                 | 当前只支持有道，其他来源不需要自己申请 API
 
             .group.-interaction
+              h3 选择发音方式
+
+              .item.-checkbox
+                label 使用网络发音
+                input(type="checkbox" name="api_speaking")
+                i.-fake
+                  
+            .group.-interaction
               h3 选择交互方式
 
               .item.-checkbox
                 label 使用浮动按钮
                 input(type="checkbox" name="use_fab")
+                i.-fake
+              .item.-checkbox
+                label 仅目标语言显示按钮
+                input(type="checkbox" name="check_aim_lang")
                 i.-fake
               .item.-checkbox
                 label 点击浏览器按钮立即翻译

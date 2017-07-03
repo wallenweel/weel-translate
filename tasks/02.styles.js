@@ -9,7 +9,7 @@ export default (gulp, c, cfg) => {
 
       .pipe(autoprefixer(c.autoprefixer))
 
-      .pipe(gulp.if(cfg.env.prod, cssnano()))
+      .pipe(gulp.if(cfg.env.prod, cssnano({ zindex: false })))
       .pipe(gulp.if(cfg.env.prod, gulp.rename({
         suffix: c.min,
       })))

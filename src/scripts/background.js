@@ -46,13 +46,15 @@ runtime.onConnect.addListener(port => {
 })
 
 tabs.onUpdated.addListener((id , { status }) => {
-  if (!status) return void 0
+  // if (!status) return void 0
 
-  const port = tabs.connect(id, { name: TABS_UPDATE_CONNECT })
+  // const port = tabs.connect(id, { name: TABS_UPDATE_CONNECT })
+  
+  if (status !== 'complete') return void 0
 
-  port.postMessage({
+  tabs.sendMessage(id, {
     type: `TABS_UPDATE_${status.toUpperCase()}`,
     meta: { status, id },
     payload: {},
-  })
+  }).catch(err => console.error(`Error: ${err}`))
 })

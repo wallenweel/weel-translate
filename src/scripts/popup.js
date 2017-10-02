@@ -169,7 +169,7 @@ try {
       const _val = ev.currentTarget.value
 
       ev.currentTarget.value = `${_val}\n`
-      
+
       return
     } else if (keyCode === 13) {
       ev.stopPropagation()

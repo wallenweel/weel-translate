@@ -1,5 +1,6 @@
 import { apiParse, detectLanguage } from "../functions"
 import { apiPick } from "../services/translation"
+import { CONNECT_FROM_SYNTH } from "../actions/types"
 
 const synth = window.speechSynthesis
 
@@ -48,9 +49,13 @@ export const TTSSpeaking = (content, { tts_pitch, tts_rate, tts_volume }) => {
 export default (content = '', cfg) => {
   const { api_speaking } = cfg
 
-  if (!!api_speaking) {
-    APISpeaking(content, cfg)
-  } else {
-    TTSSpeaking(content, cfg)
-  }
+  const port = browser.runtime.connect({ name: CONNECT_FROM_SYNTH })
+
+  port.postMessage({ content, cfg })
+
+  // if (!!api_speaking) {
+  //   APISpeaking(content, cfg)
+  // } else {
+  //   TTSSpeaking(content, cfg)
+  // }
 }

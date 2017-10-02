@@ -164,7 +164,17 @@ try {
     const { keyCode, ctrlKey } = ev
 
     // Ctrl + Enter
+    // if (ctrlKey && keyCode === 13) {
     if (ctrlKey && keyCode === 13) {
+      const _val = ev.currentTarget.value
+
+      ev.currentTarget.value = `${_val}\n`
+      
+      return
+    } else if (keyCode === 13) {
+      ev.stopPropagation()
+      ev.preventDefault()
+
       doTransalte()
     }
   })

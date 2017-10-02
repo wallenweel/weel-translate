@@ -49,7 +49,7 @@ tabs.onUpdated.addListener((id , { status }) => {
   // if (!status) return void 0
 
   // const port = tabs.connect(id, { name: TABS_UPDATE_CONNECT })
-  
+
   if (status !== 'complete') return void 0
 
   tabs.sendMessage(id, {

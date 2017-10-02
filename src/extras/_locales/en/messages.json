@@ -10,7 +10,7 @@
   },
 
   "EXTENSION_DESCRIPTION": {
-    "message": "Nothing Think Of",
+    "message": "A Translation Tool.",
     "description": "Description of the add-on."
   },
 
@@ -65,7 +65,7 @@
   },
 
   "INPUT_SOMETHING": {
-    "message": "Input Something Here",
+    "message": "Tip: Use Enter to Translate Content.",
     "description": ""
   },
 

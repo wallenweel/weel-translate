@@ -2,7 +2,7 @@ import { i18n } from './functions'
 
 const defaultConfig = {
   version: '0.0.0',
-  api_src: 'google',
+  api_src: 'baidu',
   custom_api: '[{ "src": "youdao", "keyfrom": "", "key": "" }]',
   use_fab: true,
   check_aim_lang: false,

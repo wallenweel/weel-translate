@@ -10,7 +10,7 @@
   },
 
   "EXTENSION_DESCRIPTION": {
-    "message": "希望能会是一个还算好用的翻译扩展，为墙内的火狐用户。",
+    "message": "个人制作的小小翻译扩展。",
     "description": "扩展的描述。"
   },
 
@@ -65,7 +65,7 @@
   },
 
   "INPUT_SOMETHING": {
-    "message": "Tip：使用 Ctrl + Enter 进行翻译",
+    "message": "Tip：使用 Enter 进行翻译, Ctrl + Enter 换行.",
     "description": ""
   },
 

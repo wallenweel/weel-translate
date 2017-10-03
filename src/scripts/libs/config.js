@@ -25,6 +25,8 @@ const defaultConfig = {
   tts_rate: 1,
   api_speaking: true,
   tmp: {},
+  select_to_translate: false,
+  // context_menu_translate_popup: false,
 }
 
 export const settings = params => {

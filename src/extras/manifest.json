@@ -27,6 +27,14 @@
     "96": "img/icons/icon.svg"
   },
 
+  "commands": {
+    "_execute_browser_action": {
+      "suggested_key": {
+        "default": "Alt+Shift+W"
+      }
+    }
+  },
+
   "permissions": [
     "<all_urls>",
     "tabs",

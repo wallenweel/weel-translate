@@ -11,9 +11,15 @@ import {
   REMOVE_FAB_IN_CURRENT,
 } from "./types"
 
-add_action(SELECTED_TEXT_IN_CONTENT, (text, ev) => {
+add_action(SELECTED_TEXT_IN_CONTENT, (text, { ev, cfg, port }) => {
   const fab = document.querySelector(WEEL_FAB)
   const q = (text() || '').trim()
+  const { select_to_translate } = cfg
+
+  // At once Translate after Selected
+  if (!!select_to_translate) {
+    do_action(FAB_TRIGGERED, port, q, ev)
+  }
 
   if (!fab || !q.length) return void 0
 

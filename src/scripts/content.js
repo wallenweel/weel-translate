@@ -17,10 +17,12 @@ import "./libs/actions/content"
   const port = runtime.connect({ name: CONNECT_FROM_CONTENT })
 
   runtime.onMessage.addListener(({ type, meta = {}, payload = {} }) => {
-    selection()()
+    if (!document.body || !!document.querySelector('weel')) return
 
     if (type === TABS_UPDATE_COMPLETE) {
       storage.local.get(cfg => {
+        selection(cfg)(port)
+
         const { api_src, use_fab, context_menu_translate } = cfg
 
         cfg.content_url = runtime.getURL('content.html')

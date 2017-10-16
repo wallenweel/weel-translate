@@ -1,6 +1,6 @@
 import { i18n } from '../functions'
 
-export const domain = 'https://translate.google.cn'
+export const domain = 'https://translate.google.com'
 
 export default {
   name: 'Google Translate',

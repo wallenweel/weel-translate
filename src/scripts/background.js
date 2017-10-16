@@ -6,6 +6,7 @@ import {
   MESSAGE_IN_BACKGROUND,
   NO_CONNECT_NAME,
   CONNECT_FROM_CONTENT,
+  CONNECT_FROM_SYNTH,
   RESPONSE_FROM_BACKGROUND,
   CONNECT_WITH_TRANSLATING,
   TABS_UPDATE_CONNECT,
@@ -14,6 +15,7 @@ import {
 } from "./libs/actions/types"
 
 import translate from "./libs/services/translation"
+import { APISpeaking, TTSSpeaking } from "./libs/services/synth"
 import "./libs/actions/background"
 
 const scope = 'background'
@@ -38,6 +40,16 @@ runtime.onConnect.addListener(port => {
     return onMessage.addListener(data => {
       do_action(MESSAGE_IN_BACKGROUND, data, port)
     })
+  case CONNECT_FROM_SYNTH:
+    return onMessage.addListener(({ content, cfg }) => {
+      const { api_speaking } = cfg
+
+      if (!!api_speaking) {
+        APISpeaking(content, cfg)
+      } else {
+        TTSSpeaking(content, cfg)
+      }
+    })
 
   default:
     return onMessage.addListener(data => do_action(NO_CONNECT_NAME, data, port))
@@ -46,13 +58,15 @@ runtime.onConnect.addListener(port => {
 })
 
 tabs.onUpdated.addListener((id , { status }) => {
-  if (!status) return void 0
+  // if (!status) return void 0
 
-  const port = tabs.connect(id, { name: TABS_UPDATE_CONNECT })
+  // const port = tabs.connect(id, { name: TABS_UPDATE_CONNECT })
 
-  port.postMessage({
+  if (status !== 'complete') return void 0
+
+  tabs.sendMessage(id, {
     type: `TABS_UPDATE_${status.toUpperCase()}`,
     meta: { status, id },
     payload: {},
-  })
+  }).catch(err => console.error(`Error: ${err}`))
 })

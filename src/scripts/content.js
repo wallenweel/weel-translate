@@ -16,30 +16,26 @@ import "./libs/actions/content"
 
   const port = runtime.connect({ name: CONNECT_FROM_CONTENT })
 
-  runtime.onConnect.addListener(_port => {
-    const { name, onMessage } = _port
+  runtime.onMessage.addListener(({ type, meta = {}, payload = {} }) => {
+    if (!document.body || !!document.querySelector('weel')) return
 
-    if (name === TABS_UPDATE_CONNECT) {
-      selection()()
+    if (type === TABS_UPDATE_COMPLETE) {
+      storage.local.get(cfg => {
+        selection(cfg)(port)
 
-      onMessage.addListener(({ type, meta = {}, payload = {} }) => {
-        if (type === TABS_UPDATE_COMPLETE) {
-          storage.local.get(cfg => {
-            const { api_src, use_fab, context_menu_translate } = cfg
+        const { api_src, use_fab, context_menu_translate } = cfg
 
-            cfg.content_url = runtime.getURL('content.html')
+        cfg.content_url = runtime.getURL('content.html')
 
-            if (use_fab) {
-              FABLoader(cfg, port) // Float Action Button
-              FAPLoader(cfg, port) // Float Action Panel
+        if (use_fab) {
+          FABLoader(cfg, port) // Float Action Button
+          FAPLoader(cfg, port) // Float Action Panel
 
-              return
-            }
+          return
+        }
 
-            if (context_menu_translate) {
-              FAPLoader(cfg, port) // Float Action Panel
-            }
-          })
+        if (context_menu_translate) {
+          FAPLoader(cfg, port) // Float Action Panel
         }
       })
     }

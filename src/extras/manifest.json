@@ -4,7 +4,7 @@
   "name": "__MSG_EXTENSION_NAME__",
   "short_name": "__MSG_EXTENSION_SHORT_NAME__",
   "description": "__MSG_EXTENSION_DESCRIPTION__",
-  "version": "0.2.8",
+  "version": "0.3.2",
 
   "homepage_url": "https://github.com/wallenweel/weel-translation-extension",
 
@@ -27,6 +27,14 @@
     "96": "img/icons/icon.svg"
   },
 
+  "commands": {
+    "_execute_browser_action": {
+      "suggested_key": {
+        "default": "Alt+Shift+W"
+      }
+    }
+  },
+
   "permissions": [
     "<all_urls>",
     "tabs",
@@ -47,7 +55,8 @@
     {
       "matches": ["<all_urls>"],
       "js": ["js/content.js"],
-      "all_frames": true
+      "all_frames": true,
+      "run_at": "document_start"
     }
   ],
 

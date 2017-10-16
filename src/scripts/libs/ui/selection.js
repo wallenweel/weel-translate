@@ -15,13 +15,13 @@ export const selectionRect = () => {
 
 export const selectedText = () => window.getSelection().toString().trim()
 
-export default () => {
-  return () => {
-    document.addEventListener('mouseup', handleMouseup, false)
+export default (cfg) => {
+  return (port) => {
+    document.addEventListener('mouseup', ev => handleMouseup(ev, cfg, port), false)
   }
 }
 
-export function handleMouseup(ev) {
+export function handleMouseup(ev, cfg, port) {
   if (ev.button === 2) return void 0
 
   const coll = window.getSelection().isCollapsed
@@ -32,7 +32,7 @@ export function handleMouseup(ev) {
   }
 
   const fixSelection = setTimeout(() => {
-    do_action(SELECTED_TEXT_IN_CONTENT, selectedText, ev)
+    do_action(SELECTED_TEXT_IN_CONTENT, selectedText, { ev, cfg, port })
 
     clearTimeout(fixSelection)
   }, 100)

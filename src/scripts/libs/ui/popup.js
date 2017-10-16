@@ -4,7 +4,7 @@ import {
   PAGE_IS_SWITCHING,
   SELECT_LACK_OPTIONS,
   SELECT_OPTION_CHANGED,
- } from '../actions/types'
+} from '../actions/types'
 
 export const container = document.querySelector('.container')
 export const toolbar = container.querySelector('header.toolbar')

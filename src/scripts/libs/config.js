@@ -2,7 +2,7 @@ import { i18n } from './functions'
 
 const defaultConfig = {
   version: '0.0.0',
-  api_src: 'google',
+  api_src: 'baidu',
   custom_api: '[{ "src": "youdao", "keyfrom": "", "key": "" }]',
   use_fab: true,
   check_aim_lang: false,
@@ -25,6 +25,8 @@ const defaultConfig = {
   tts_rate: 1,
   api_speaking: true,
   tmp: {},
+  select_to_translate: false,
+  // context_menu_translate_popup: false,
 }
 
 export const settings = params => {

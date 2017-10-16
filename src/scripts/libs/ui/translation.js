@@ -157,7 +157,8 @@ export const register_contextMenus = active => {
     browser.contextMenus.create({
       id: TRANSLATE_WITH_CONTEXT_MENU,
       title: i18n.get('TRANSLATE_SELECTED_CONTENT'),
-      contexts: ["all"],
+      contexts: [ "all" ],
+      // command: "_execute_browser_action",
     })
 
     browser.contextMenus.onClicked.addListener(({ menuItemId, selectionText }, tab) => {

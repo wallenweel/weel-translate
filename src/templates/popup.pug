@@ -100,17 +100,25 @@ html(lang="")
                 input(type="checkbox" name="use_fab")
                 i.-fake
               .item.-checkbox
+                label 选中后立即翻译
+                input(type="checkbox" name="select_to_translate")
+                i.-fake
+              .item.-checkbox
                 label 仅目标语言显示按钮
                 input(type="checkbox" name="check_aim_lang")
                 i.-fake
               .item.-checkbox
-                label 点击浏览器按钮立即翻译
+                label 激活弹出面板时翻译
                 input(type="checkbox" name="auto_translate_selection")
                 i.-fake
               .item.-checkbox
-                label 右键菜单翻译
+                label 右键菜单翻译(浮动面板)
                 input(type="checkbox" name="context_menu_translate")
                 i.-fake
+              //- .item.-checkbox
+              //-   label 右键菜单翻译(弹出面板)
+              //-   input(type="checkbox" name="context_menu_translate_popup")
+              //-   i.-fake
               //- .item.-checkbox
               //-   label 自动显示弹出面板
               //-   input(type="checkbox" name="auto_popup")
@@ -120,8 +128,8 @@ html(lang="")
               //-   input(type="checkbox" name="use_fap")
               //-   i.-fake
               
-              .info
-                | 全都不选的话，为手动打开
+              //- .info
+              //-   | 启用“右键菜单翻译(弹出面板)”时请勾选“激活弹出面板时翻译”
 
             .group
               h3 扩展管理

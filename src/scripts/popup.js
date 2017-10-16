@@ -60,7 +60,7 @@ try {
   })
 
   $('.treat-paragraph.-js', toolbar).register('click', ev => {
-    inquiry('暂未实现的“段落翻译”', '这种功能会占用太多翻译资源（免费），所以目前没有继续开发👹。', {
+    inquiry('暂未实现的“段落翻译”', '这种功能会占用太多免费翻译资源，所以目前没有继续开发👹。', {
       ok: ev => void 0,
     })
   })
@@ -164,7 +164,17 @@ try {
     const { keyCode, ctrlKey } = ev
 
     // Ctrl + Enter
+    // if (ctrlKey && keyCode === 13) {
     if (ctrlKey && keyCode === 13) {
+      const _val = ev.currentTarget.value
+
+      ev.currentTarget.value = `${_val}\n`
+
+      return
+    } else if (keyCode === 13) {
+      ev.stopPropagation()
+      ev.preventDefault()
+
       doTransalte()
     }
   })

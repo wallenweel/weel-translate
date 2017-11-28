@@ -12,14 +12,14 @@ export default {
     dict,
   }, args) => {
     // console.log(sentences)
-    const [{ trans }, { src_translit }] = sentences
-    const phonetic = {
-      0: src_translit,
-      us: src_translit,
+    const phonetic = sentences[1] ? {
+      0: sentences[1].src_translit,
+      us: sentences[1].src_translit,
       uk: '',
-    }
+    } : {}
+
     const explains = dict ? dict[0].terms : []
-    const translation = [trans]
+    const translation = [sentences[0].trans || '']
 
     return ({ phonetic, explains, translation })
   },

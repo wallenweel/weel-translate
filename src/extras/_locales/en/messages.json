@@ -94,6 +94,66 @@
     "description": ""
   },
 
+  "FLOATTING_PANEL_POSITION": {
+    "message": "浮动面板展现的位置",
+    "description": ""
+  },
+
+  "FLOATTING_ACTION_BUTTON_POSITION": {
+    "message": "浮动按钮的位置",
+    "description": ""
+  },
+
+  "FIRST_SELECTION_CENTER": {
+    "message": "首个选区的边缘中间位置",
+    "description": ""
+  },
+
+  "THE_PAGE_BOTTOM_RIGHT": {
+    "message": "页面的右下角",
+    "description": ""
+  },
+
+  "FLOATTING_PANEL_POSITION_INFO": {
+    "message": "在<code>设置</code>页启用<em>浮动面板</em>后可用",
+    "description": ""
+  },
+
+  "TTS_TUNING": {
+    "message": "语音发声微调（TTS）",
+    "description": ""
+  },
+
+  "VOLUME": {
+    "message": "音量",
+    "description": ""
+  },
+
+  "TTS_PITCH": {
+    "message": "音调",
+    "description": ""
+  },
+
+  "TTS_RATE": {
+    "message": "语速",
+    "description": ""
+  },
+
+  "TTS_TUNING_INFO": {
+    "message": "发声语音调用的是系统接口的 <em>TTS</em> 不同系统或者浏览器版本之间可能会有差异，可在此进行微调",
+    "description": ""
+  },
+
+  "MISC": {
+    "message": "杂项",
+    "description": ""
+  },
+
+  "FAB_HIDE_DELAY": {
+    "message": "浮动按钮长按隐藏延迟（毫秒）",
+    "description": ""
+  },
+
   "SELECT_TRANSLATION_SERVICE": {
     "message": "Select Translation Service",
     "description": ""
@@ -120,7 +180,62 @@
   },
 
   "CUSTOM_TRANS_API_INFO": {
-    "message": "Input <code>JSON</code> Array，Only Support Youdao Service Now.",
+    "message": "填写<code> JSON 格式数组对象 </code>当前只支持有道，其他来源不需要自己申请 API",
+    "description": ""
+  },
+
+  "SELECT_VOICE_TYPE": {
+    "message": "选择发音方式",
+    "description": ""
+  },
+
+  "BY_REMOTE_VOICE": {
+    "message": "使用网络发音",
+    "description": ""
+  },
+
+  "SELECT_UI_FEATURES": {
+    "message": "选择交互方式",
+    "description": ""
+  },
+
+  "USE_FLOATTING_ACTION_BUTTON": {
+    "message": "使用浮动按钮",
+    "description": ""
+  },
+
+  "TRANSLATE_AFTER_SELECTING": {
+    "message": "选中后立即翻译",
+    "description": ""
+  },
+
+  "JUST_ON_TARGET_LANG": {
+    "message": "仅目标语言显示按钮",
+    "description": ""
+  },
+
+  "TRANSLATE_AFTER_POPUP": {
+    "message": "激活弹出面板时翻译",
+    "description": ""
+  },
+
+  "CONTEXT_MENU_TRANSLATE_ENTRY": {
+    "message": "右键菜单翻译(浮动面板)",
+    "description": ""
+  },
+
+  "EXTENSION_MANAGEMENT": {
+    "message": "扩展管理",
+    "description": ""
+  },
+
+  "RESET_EXTENSION_CONFIG": {
+    "message": "清除设置",
+    "description": ""
+  },
+
+  "UNINSTALL_THE_EXTENSION": {
+    "message": "卸载扩展",
     "description": ""
   },
 

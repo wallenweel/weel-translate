@@ -140,7 +140,7 @@ try {
   $('.clear.-js', streamBehavior).register('click', $inputText.textArea().clear)
 
   // TODO: Test input, keep in mind that remove this
-  $inputText.textArea().in('extensions')
+  // $inputText.textArea().in('extensions')
 
   const doTransalte = () => do_action(TRANSLATE_IN_POPUP, port)
 

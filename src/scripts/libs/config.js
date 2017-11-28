@@ -43,11 +43,22 @@ export const settings = params => {
 
     init() {
       this.get(cfg => {
-        const manifest = runtime.getManifest()
-        const calc = (ver = '0.0.0') => ver.split(/\./).reduce((p, n) => (+p) + (+n), 0)
+        const newVer = runtime.getManifest().version
+        const oldVer = cfg.version || defaultConfig.version
 
-        if (calc(cfg.version) < calc(manifest.version)) {
-          this.set({ version: manifest.version })
+        const isUpdateCfg = () => {
+          const n = newVer.split('.')
+          const o = oldVer.split('.')
+
+          for (let i = 0; i < n.length; i++) {
+            if (n[i] > o[i]) return true
+          }
+
+          return false
+        }
+
+        if (isUpdateCfg()) {
+          this.set({ version: newVer })
 
           Object.keys(defaultConfig).forEach(k => !Object.keys(cfg).includes(k) && this.set({ [k]: defaultConfig[k] }))
         }
@@ -62,7 +73,7 @@ export const settings = params => {
       this.init()
     },
 
-    log() { this.get(cfg => console.table(cfg) ) },
+    log() { this.get(cfg => console.log(cfg) ) },
   })
 }
 

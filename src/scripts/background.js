@@ -21,7 +21,9 @@ const scope = 'background'
 const { runtime, tabs } = browser
 
 // Initial Settings
+// settings().clear()
 settings().init()
+// settings().log()
 
 settings().get(({ context_menu_translate }) => {
   register_contextMenus(context_menu_translate)

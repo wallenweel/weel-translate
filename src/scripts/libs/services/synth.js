@@ -12,7 +12,7 @@ export const voices = synth.getVoices()
  * @param {[type]} api_src   [description]
  * @param {[type]} lang_from [description]
  */
-export const APISpeaking = (q, { api_src, lang_from: { value } }) => {
+export const APISpeaking = (q, { api_google_src, api_src, lang_from: { value } }) => {
   let lang = value
   const api = apiPick(api_src)
 
@@ -20,7 +20,16 @@ export const APISpeaking = (q, { api_src, lang_from: { value } }) => {
     lang = detectLanguage(q, api.uniform) || ''
   }
 
-  const url = apiParse(api, 'voice')({ q, from: lang }, true)
+  const params = {
+    q,
+    from: lang,
+  }
+
+  if (api_src === 'google') {
+    params.domain_suffix = api_google_src
+  }
+
+  const url = apiParse(api, 'voice')(params, true)
   const audio = new Audio()
 
   audio.src = url

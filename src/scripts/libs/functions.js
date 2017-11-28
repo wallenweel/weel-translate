@@ -88,7 +88,7 @@ export const apiParse = (preset, type = 'text') => {
     for (let el of params) s.append(el[0], el[1])
 
     if (getURL) return `${url}?${s}`
-
+    
     return fetch(`${url}?${s}`, { mode: 'no-cors' })
       .then(res => res[preset.dataType]())
       .then(data => preset.parse(data, args))

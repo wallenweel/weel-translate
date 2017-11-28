@@ -255,7 +255,7 @@ try {
  */
 ;(page => {
   $(page).localizeHTML()
-  
+
   add_action(`${PAGE_IS_SWITCHING}_PREFERENCES`, name => {
     config_to_render(page)
   })

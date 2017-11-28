@@ -27,6 +27,7 @@ const defaultConfig = {
   tmp: {},
   select_to_translate: false,
   // context_menu_translate_popup: false,
+  api_google_src: 'cn',
 }
 
 export const settings = params => {

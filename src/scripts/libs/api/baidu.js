@@ -11,30 +11,44 @@ export default {
     dict_result = {},
     trans_result = {},
   }, args) => {
+    // console.log(dict_result)
     const explains = []
     const phonetic = {}
 
     if (Object.keys(dict_result).length) {
-      const { simple_means: { symbols } } = dict_result
-      const { ph_am, ph_en, parts } = symbols[0]
+      const { simple_means, content, voice } = dict_result
 
-      phonetic[0] = ph_am
-      phonetic[1] = ph_en
+      if (!!simple_means) {
+        const { ph_am, ph_en, parts } = simple_means.symbols[0]
 
-      parts.forEach(({
-        part,
-        part_name,
-        means,
-      }) => {
-        const _p = part || part_name || ''
-        const { has_mean } = means[0]
+        phonetic['us'] = ph_am
+        phonetic['uk'] = ph_en
 
-        if (!parseInt(has_mean)) {
-          return explains.push(`${_p} ${means.join(', ')}`)
-        } else {
-          return explains.push(`${_p} ${means[0].text}`)
-        }
-      })
+        parts.forEach(({
+          part,
+          part_name,
+          means,
+        }) => {
+          const _p = part || part_name || ''
+          const { has_mean } = means[0]
+
+          if (!parseInt(has_mean)) {
+            return explains.push(`${_p} ${means.join(', ')}`)
+          } else {
+            return explains.push(`${_p} ${means[0].text}`)
+          }
+        })
+      } else if (!!voice) {
+        phonetic['us'] = voice[1].us_phonic
+        phonetic['uk'] = voice[0].en_phonic
+
+        content ? content[0].mean.forEach(({
+          cont,
+          pre,
+        }) => {
+          return explains.push(`${pre} ${Object.keys(cont)[0]}`)
+        }) : ''
+      }
     }
 
     const translation = [trans_result['data'][0].dst]

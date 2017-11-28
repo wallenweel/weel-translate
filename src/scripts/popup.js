@@ -140,7 +140,7 @@ try {
   $('.clear.-js', streamBehavior).register('click', $inputText.textArea().clear)
 
   // TODO: Test input, keep in mind that remove this
-  // $inputText.textArea().in('全文翻译')
+  $inputText.textArea().in('extensions')
 
   const doTransalte = () => do_action(TRANSLATE_IN_POPUP, port)
 
@@ -224,7 +224,7 @@ try {
     $(result).on()
 
     $('.-phonetic', result).on()
-      .children('.-plain').text(`[ ${phonetic[0] || '...'} ]`)
+      .children('.-plain').text(`us[ ${phonetic['us'] || '...'} ] uk[ ${phonetic['uk'] || '...'} ]`)
 
     $('.-explain', result).on()
       .children('.-plain').text(`${translation.join(' ')}`)

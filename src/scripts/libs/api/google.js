@@ -11,9 +11,12 @@ export default {
     sentences,
     dict,
   }, args) => {
+    // console.log(sentences)
     const [{ trans }, { src_translit }] = sentences
     const phonetic = {
       0: src_translit,
+      us: src_translit,
+      uk: '',
     }
     const explains = dict ? dict[0].terms : []
     const translation = [trans]

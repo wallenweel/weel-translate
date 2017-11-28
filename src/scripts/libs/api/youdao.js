@@ -17,14 +17,6 @@ export default {
     return ({ phonetic, explains, translation })
   },
 
-  voice: ({ q, type = 2 }) => ({
-    url: 'http://dict.youdao.com/dictvoice',
-    params: new Map([
-      ['audio', q],
-      ['type', type],
-    ]),
-  }),
-
   text: ({ q, keyfrom, key }) => ({
     url: 'http://fanyi.youdao.com/openapi.do',
     params: new Set([
@@ -34,6 +26,14 @@ export default {
       ['doctype', 'json'],
       ['version', 1.1],
       ['q', q],
+    ]),
+  }),
+
+  voice: ({ q, from }) => ({
+    url: 'http://dict.youdao.com/dictvoice',
+    params: new Set([
+      ['le', from],
+      ['audio', q],
     ]),
   }),
 
@@ -50,6 +50,15 @@ export default {
         value: languages[0].code,
       },
     })
+  },
+
+  uniform(code) {
+    return ({
+      'zh': 'zh',
+      'zh-CN': 'zh',
+      'en': 'en',
+      'jp': 'jap',
+    })[code]
   },
 
   languages: [{

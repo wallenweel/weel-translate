@@ -1,8 +1,9 @@
 import { weel as $ } from "../Weel"
-import { log, do_action, add_action } from "../functions"
+import { log, do_action, add_action, i18n } from "../functions"
 import { translate_from } from "./"
-import { getTranslationParams } from '../ui/translation'
-import { settings } from '../ui/config'
+import { toast } from "../ui/popup"
+import { getTranslationParams, register_contextMenus } from "../ui/translation"
+import { settings } from "../config"
 import {
   SELECT_LACK_OPTIONS,
 
@@ -46,16 +47,24 @@ add_action(SETTINGS_SET_SUCCESS, (name, value) => {
   switch (name) {
 
   case 'api_src':
-    return do_action(`CHANGED_SETTING_${name.toUpperCase()}`, value)
-  default:
+    do_action(`CHANGED_SETTING_${name.toUpperCase()}`, value)
+
+    break
+
+  case 'context_menu_translate':
+    register_contextMenus(value)
+
+    break
 
   }
+
+  return toast(i18n.get('SETTING_CHAGED_NEED_REFRESH'))
 })
 
 add_action(SELECT_LACK_OPTIONS, select => {
   if (!$(select.parentElement).hasClass('language')) return 0
 
-  console.log(`${$(select.parentElement).data('src').get()} 不支持选择语言。`)
+  toast(`${$(select.parentElement).data('src').get()} 不支持选择语言。`)
 })
 
 add_action(SELECT_OPTION_CHANGED, (target, select) => {
@@ -73,7 +82,7 @@ add_action(SELECT_OPTION_CHANGED, (target, select) => {
   settings().set({ [cfgName]: cfg })
 })
 
-add_action(TRANSLATE_QUERY_NONE, () => console.error('Need Enter Some Words For Translating!'))
+add_action(TRANSLATE_QUERY_NONE, () => toast(i18n.get('PLEASE_ENTER_WORD')))
 
 add_action(SET_LANGUAGES_FROM_TO, function setLanguages([origin, lang_from], [target, lang_to]) {
   origin.setAttribute('data-text', lang_from.text)

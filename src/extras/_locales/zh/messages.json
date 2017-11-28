@@ -1,9 +1,4 @@
 {
-  "demo": {
-    "message": "",
-    "description": ""
-  },
-
   "EXTENSION_NAME": {
     "message": "A Weel Translation",
     "description": "扩展的名称。"
@@ -15,7 +10,7 @@
   },
 
   "EXTENSION_DESCRIPTION": {
-    "message": "希望能会是一个还算好用的翻译扩展，为墙内的火狐用户。",
+    "message": "个人制作的小小翻译扩展。",
     "description": "扩展的描述。"
   },
 
@@ -70,7 +65,7 @@
   },
 
   "INPUT_SOMETHING": {
-    "message": "Tip：使用 Ctrl + Enter 进行翻译",
+    "message": "Tip：使用 Enter 进行翻译, Ctrl + Enter 换行.",
     "description": ""
   },
 
@@ -96,6 +91,21 @@
 
   "CANCEL": {
     "message": "取消",
+    "description": ""
+  },
+
+  "PLEASE_ENTER_WORD": {
+    "message": "请输入要翻译的内容！",
+    "description": ""
+  },
+
+  "SETTING_CHAGED_NEED_REFRESH": {
+    "message": "刷新页面让改变生效。",
+    "description": ""
+  },
+
+  "TRANSLATE_SELECTED_CONTENT": {
+    "message": "翻译选中内容...",
     "description": ""
   }
 

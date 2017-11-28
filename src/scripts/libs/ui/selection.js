@@ -1,35 +1,38 @@
 import { do_action } from "../functions"
+import { getFAP } from "./float-action-panel"
 import {
   SELECTED_TEXT_IN_CONTENT,
   REMOVED_SELECTION_IN_CONTENT,
 } from "../actions/types"
 
+export const selectionRect = () => {
+  const selection = window.getSelection()
+  const range = selection.getRangeAt(0)
+  const rect = range.getBoundingClientRect()
+
+  return selection.toString().trim() ? rect : {}
+}
+
 export const selectedText = () => window.getSelection().toString().trim()
 
-export default () => {
-  return () => {
-    document.body.addEventListener('mousedown', handleMousedown, false)
-    document.body.addEventListener('mouseup', handleMouseup, false)
+export default (cfg) => {
+  return (port) => {
+    document.addEventListener('mouseup', ev => handleMouseup(ev, cfg, port), false)
   }
 }
 
-export function handleMousedown(ev) {
+export function handleMouseup(ev, cfg, port) {
   if (ev.button === 2) return void 0
 
-  if (!selectedText()) return void 0
+  const coll = window.getSelection().isCollapsed
+  const isOn = getFAP().classList.contains('_on')
 
-  do_action(REMOVED_SELECTION_IN_CONTENT, selectedText(), ev)
-}
-
-export function handleMouseup(ev) {
-  if (ev.button === 2) return void 0
-
-  if (!selectedText()) return void 0
+  if (coll || isOn) {
+    return do_action(REMOVED_SELECTION_IN_CONTENT, selectedText, ev)
+  }
 
   const fixSelection = setTimeout(() => {
-    if (!selectedText()) return do_action(REMOVED_SELECTION_IN_CONTENT, selectedText(), ev)
-
-    do_action(SELECTED_TEXT_IN_CONTENT, selectedText(), ev)
+    do_action(SELECTED_TEXT_IN_CONTENT, selectedText, { ev, cfg, port })
 
     clearTimeout(fixSelection)
   }, 100)

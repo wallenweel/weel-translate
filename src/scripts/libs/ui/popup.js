@@ -4,7 +4,7 @@ import {
   PAGE_IS_SWITCHING,
   SELECT_LACK_OPTIONS,
   SELECT_OPTION_CHANGED,
- } from '../actions/types'
+} from '../actions/types'
 
 export const container = document.querySelector('.container')
 export const toolbar = container.querySelector('header.toolbar')
@@ -29,8 +29,23 @@ export const setTitle = (title = '', localize = 1) => {
 export const closeInquiry = () => {
   $(mask).off()
   $inquiry.off()
-  
+
   $('.-actions', $inquiry).elem.innerHTML = ''
+}
+
+export const toast = msg => {
+  if (!msg) return void 0
+
+  const $toast = $('.toast.-js')
+  const _timeout = setTimeout(() => $toast.off() && clearTimeout(_timeout), 2000)
+
+  if ($toast.isOn()) {
+    $toast.off()
+    clearTimeout(_timeout)
+  }
+
+  $('.-body', $toast).text(msg)
+  $toast.on()
 }
 
 /**

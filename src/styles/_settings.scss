@@ -29,13 +29,13 @@ $clr-grey-6: hsl(0, 0%, 60%);
   -moz-osx-font-smoothing: grayscale;
 }
 
-@mixin stealth($on: 0) {
+@mixin stealth($on: 0, $alpha_in: 1, $alpha_out: 0) {
   @if $on == 0 {
     visibility: hidden;
-    opacity: 0;
+    opacity: $alpha_out;
   } @else {
     visibility: visible;
-    opacity: 1;
+    opacity: $alpha_in;
   }
 }
 
@@ -60,5 +60,15 @@ $clr-grey-6: hsl(0, 0%, 60%);
   } @elseif $node == 'a' {
     text-decoration: initial;
     color: grey(2);
+  }
+}
+
+@mixin fade-in($alpha: 1) {
+  @include stealth;
+
+  transition: visibility .25s ease, opacity .25s ease;
+
+  &._on {
+    @include stealth(1, $alpha);
   }
 }

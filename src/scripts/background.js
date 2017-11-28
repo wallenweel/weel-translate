@@ -57,7 +57,7 @@ runtime.onConnect.addListener(port => {
   }
 })
 
-tabs.onUpdated.addListener((id , { status }) => {
+tabs.onUpdated.addListener((id , {}, { status }) => {
   // if (!status) return void 0
 
   // const port = tabs.connect(id, { name: TABS_UPDATE_CONNECT })

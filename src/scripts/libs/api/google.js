@@ -2,6 +2,8 @@ import { i18n } from '../functions'
 
 export const domain = 'https://translate.google.com'
 
+const domain_pre = 'https://translate.google.'
+
 export default {
   name: 'Google Translate',
   slug: 'google',
@@ -11,18 +13,21 @@ export default {
     sentences,
     dict,
   }, args) => {
-    const [{ trans }, { src_translit }] = sentences
-    const phonetic = {
-      0: src_translit,
-    }
+    // console.log(sentences)
+    const phonetic = sentences[1] ? {
+      0: sentences[1].src_translit,
+      us: sentences[1].src_translit,
+      uk: '',
+    } : {}
+
     const explains = dict ? dict[0].terms : []
-    const translation = [trans]
+    const translation = [sentences[0].trans || '']
 
     return ({ phonetic, explains, translation })
   },
 
-  text: ({ q, from, to }) => ({
-    url: `${domain}/translate_a/single`,
+  text: ({ q, from, to, domain_suffix }) => ({
+    url: `${domain_suffix ? domain_pre + domain_suffix : domain}/translate_a/single`,
     params: new Set([
       ['client', 'gtx'],
       // ['tk', '313938.164950'],
@@ -52,8 +57,8 @@ export default {
     ]),
   }),
 
-  voice: ({ q, from }) => ({
-    url: `${domain}/translate_tts`,
+  voice: ({ q, from, domain_suffix }) => ({
+    url: `${domain_suffix ? domain_pre + domain_suffix : domain}/translate_tts`,
     params: new Set([
       ['tl', from],
       ['q', q],

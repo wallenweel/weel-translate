@@ -49,8 +49,8 @@ export const i18n = {
       r = browser.i18n.getMessage(msg)
     } catch (e) {
       r = msg
-      .replace(/\_+/g, ' ').toLowerCase()
-      .replace(/( |^)[a-z]/g, a => a.toUpperCase())
+        .replace(/\_+/g, ' ').toLowerCase()
+        .replace(/( |^)[a-z]/g, a => a.toUpperCase())
     }
 
     return r
@@ -88,7 +88,7 @@ export const apiParse = (preset, type = 'text') => {
     for (let el of params) s.append(el[0], el[1])
 
     if (getURL) return `${url}?${s}`
-
+    
     return fetch(`${url}?${s}`, { mode: 'no-cors' })
       .then(res => res[preset.dataType]())
       .then(data => preset.parse(data, args))

@@ -6,6 +6,7 @@ export default {
   dataType: 'json',
 
   parse: (json, args) => {
+    // console.log(json)
     const { basic = {}, translation = [] } = json
     const phonetic = {
       0: basic['phonetic'] || '',

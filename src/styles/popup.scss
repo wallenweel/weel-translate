@@ -526,6 +526,10 @@ h1, h2, h3, h4, h5, h6 {
               }
             }
 
+            &.-radio {
+              @include effect-button;
+            }
+
             &.-textarea {
               textarea {
                 transition: color .25s ease;
@@ -698,6 +702,7 @@ h1, h2, h3, h4, h5, h6 {
             &.-button {
               button {
                 @include ordinary('button');
+                @include effect-button;
 
                 border-radius: 2px;
                 background-color: grey(8);
@@ -719,8 +724,12 @@ h1, h2, h3, h4, h5, h6 {
           &.-translator {
             .item {
               &.-radio {
-                display: inline-block;
                 margin-right: 4px;
+                display: inline-block;
+
+                label {
+                  margin-bottom: 0;
+                }
               }
             }
           }

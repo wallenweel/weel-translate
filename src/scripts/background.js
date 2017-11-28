@@ -14,7 +14,6 @@ import {
   TRANSLATE_WITH_CONTEXT_MENU,
 } from "./libs/actions/types"
 
-import translate from "./libs/services/translation"
 import { APISpeaking, TTSSpeaking } from "./libs/services/synth"
 import "./libs/actions/background"
 
@@ -22,7 +21,9 @@ const scope = 'background'
 const { runtime, tabs } = browser
 
 // Initial Settings
+// settings().clear()
 settings().init()
+// settings().log()
 
 settings().get(({ context_menu_translate }) => {
   register_contextMenus(context_menu_translate)
@@ -57,16 +58,16 @@ runtime.onConnect.addListener(port => {
   }
 })
 
-tabs.onUpdated.addListener((id , { status }) => {
-  // if (!status) return void 0
-
+// TODO: Need to fix mutiple complete status when open
+// link from search engine, e.g. baidu
+tabs.onUpdated.addListener((id , {}, { status, url }) => {
   // const port = tabs.connect(id, { name: TABS_UPDATE_CONNECT })
 
-  if (status !== 'complete') return void 0
+  if (status !== 'complete' || url === 'about:blank') return void 0
 
   tabs.sendMessage(id, {
     type: `TABS_UPDATE_${status.toUpperCase()}`,
     meta: { status, id },
     payload: {},
-  }).catch(err => console.error(`Error: ${err}`))
+  }).catch(err => undefined && console.error(`Error: ${err}`))
 })

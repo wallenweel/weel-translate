@@ -24,6 +24,8 @@ add_action(MESSAGE_IN_BACKGROUND, ({ type, meta = {}, payload = {} }, port) => {
         params.keyfrom = keyfrom
         params.key = key
       }
+    } else if (api_src === 'google') {
+      params.domain_suffix = cfg.api_google_src
     }
 
     translate(api_src, params).then(json => {

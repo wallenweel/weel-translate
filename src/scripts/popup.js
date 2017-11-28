@@ -80,14 +80,14 @@ try {
   $(drawer).localizeHTML()
 
   $('nav.link-list > a.item', drawer)
-  .localizeHTML()
-  .register('click', ev => {
-    ev.preventDefault()
+    .localizeHTML()
+    .register('click', ev => {
+      ev.preventDefault()
 
-    const target = ev.currentTarget
+      const target = ev.currentTarget
 
-    $('main.content .page', container).pageSwitcher(target)
-  })
+      $('main.content .page', container).pageSwitcher(target)
+    })
 })()
 
 /**
@@ -140,7 +140,7 @@ try {
   $('.clear.-js', streamBehavior).register('click', $inputText.textArea().clear)
 
   // TODO: Test input, keep in mind that remove this
-  // $inputText.textArea().in('全文翻译')
+  // $inputText.textArea().in('extensions')
 
   const doTransalte = () => do_action(TRANSLATE_IN_POPUP, port)
 
@@ -224,14 +224,14 @@ try {
     $(result).on()
 
     $('.-phonetic', result).on()
-    .children('.-plain').text(`[ ${phonetic[0] || '...'} ]`)
+      .children('.-plain').text(`us[ ${phonetic['us'] || '...'} ] uk[ ${phonetic['uk'] || '...'} ]`)
 
     $('.-explain', result).on()
-    .children('.-plain').text(`${translation.join(' ')}`)
+      .children('.-plain').text(`${translation.join(' ')}`)
 
     $('.-explain', result).on()
-    .children('.-detail')[explains[0] ? 'on' : 'off']()
-    .html(`${explains.join('<br>')}`)
+      .children('.-detail')[explains[0] ? 'on' : 'off']()
+      .html(`${explains.join('<br>')}`)
   })
 
   add_action(SET_LANGUAGES_FROM_TO, () => {
@@ -242,7 +242,7 @@ try {
   function _initLanguagesBar(src) {
     try {
       browser.storage.local.get('api_src')
-      .then(({ api_src }) => $('.language', inputStream).initLanguages(apiPick(api_src), src))
+        .then(({ api_src }) => $('.language', inputStream).initLanguages(apiPick(api_src), src))
     } catch (e) {
       $('.language', inputStream).initLanguages(apiPick('youdao'), src)
     }
@@ -254,20 +254,22 @@ try {
  * @type {Closure}
  */
 ;(page => {
+  $(page).localizeHTML()
+
   add_action(`${PAGE_IS_SWITCHING}_PREFERENCES`, name => {
     config_to_render(page)
   })
 
   $(page.querySelectorAll('input, textarea'))
-  .filter(target => target.name.length)
-  .register('change', ({ target }) => {
-    const { name, value } = target
+    .filter(target => target.name.length)
+    .register('change', ({ target }) => {
+      const { name, value } = target
 
-    try {
-      option_to_config(target)
-      do_action(SETTINGS_SET_SUCCESS, ...getInputMeta(target))
-    } catch (e) {}
-  })
+      try {
+        option_to_config(target)
+        do_action(SETTINGS_SET_SUCCESS, ...getInputMeta(target))
+      } catch (e) {}
+    })
 })(document.querySelector('.page.-preferences'))
 
 /**
@@ -276,31 +278,33 @@ try {
  */
 ;(page => {
   // Render Settings Page
+  $(page).localizeHTML()
+
   add_action(`${PAGE_IS_SWITCHING}_SETTINGS`, name => {
     config_to_render(page)
   })
 
   $(page.querySelectorAll('input, textarea'))
-  .filter(target => target.name.length)
-  .register('change', ({ target }) => {
-    const { name, value } = target
+    .filter(target => target.name.length)
+    .register('change', ({ target }) => {
+      const { name, value } = target
 
-    if (name === 'custom_api') {
-      if (!value) return void 0
+      if (name === 'custom_api') {
+        if (!value) return void 0
+
+        try {
+          JSON.parse(value)
+        } catch (e) {
+          return toast('请确保 JSON 格式正确！')
+        }
+      }
 
       try {
-        JSON.parse(value)
-      } catch (e) {
-        return toast('请确保 JSON 格式正确！')
-      }
-    }
+        option_to_config(target)
 
-    try {
-      option_to_config(target)
-
-      do_action(SETTINGS_SET_SUCCESS, ...getInputMeta(target))
-    } catch (e) {}
-  })
+        do_action(SETTINGS_SET_SUCCESS, ...getInputMeta(target))
+      } catch (e) {}
+    })
 
   $('.reset-settings.-js', page).register('click', ev => {
     inquiry('确定要清除扩展的数据？', '操作会让扩展恢复到初次安装的状态。', {

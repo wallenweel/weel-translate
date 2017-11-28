@@ -4,7 +4,7 @@
   "name": "__MSG_EXTENSION_NAME__",
   "short_name": "__MSG_EXTENSION_SHORT_NAME__",
   "description": "__MSG_EXTENSION_DESCRIPTION__",
-  "version": "0.3.2",
+  "version": "0.4.1",
 
   "homepage_url": "https://github.com/wallenweel/weel-translation-extension",
 
@@ -67,11 +67,6 @@
     },
     "default_title": "Weel Translate",
     "default_popup": "popup.html"
-  },
-
-  "options_ui": {
-    "page": "options.html",
-    "open_in_tab": true
   }
 
 }

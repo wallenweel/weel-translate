@@ -72,3 +72,15 @@ $clr-grey-6: hsl(0, 0%, 60%);
     @include stealth(1, $alpha);
   }
 }
+
+@mixin effect-button($type: 'normal') {
+  @if $type == 'normal' {
+    transition: box-shadow .25s ease, filter .25s ease;
+
+    &:hover {
+      @include box_shadow(2);
+
+      filter: brightness(.85);
+    }
+  }
+}

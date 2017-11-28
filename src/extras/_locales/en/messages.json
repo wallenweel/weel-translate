@@ -94,6 +94,36 @@
     "description": ""
   },
 
+  "SELECT_TRANSLATION_SERVICE": {
+    "message": "Select Translation Service",
+    "description": ""
+  },
+
+  "GOOGLE": {
+    "message": "Google",
+    "description": ""
+  },
+
+  "YOUDAO": {
+    "message": "YouDao",
+    "description": ""
+  },
+
+  "BAIDU": {
+    "message": "Baidu",
+    "description": ""
+  },
+
+  "CUSTOM_TRANS_API": {
+    "message": "Custom Translation API",
+    "description": ""
+  },
+
+  "CUSTOM_TRANS_API_INFO": {
+    "message": "Input <code>JSON</code> Array，Only Support Youdao Service Now.",
+    "description": ""
+  },
+
   "PLEASE_ENTER_WORD": {
     "message": "Need Enter Some Words For Translating!",
     "description": ""

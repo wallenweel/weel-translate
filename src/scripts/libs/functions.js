@@ -49,8 +49,8 @@ export const i18n = {
       r = browser.i18n.getMessage(msg)
     } catch (e) {
       r = msg
-      .replace(/\_+/g, ' ').toLowerCase()
-      .replace(/( |^)[a-z]/g, a => a.toUpperCase())
+        .replace(/\_+/g, ' ').toLowerCase()
+        .replace(/( |^)[a-z]/g, a => a.toUpperCase())
     }
 
     return r

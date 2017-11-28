@@ -94,6 +94,36 @@
     "description": ""
   },
 
+  "SELECT_TRANSLATION_SERVICE": {
+    "message": "选择翻译引擎",
+    "description": ""
+  },
+
+  "GOOGLE": {
+    "message": "谷歌",
+    "description": ""
+  },
+
+  "YOUDAO": {
+    "message": "有道",
+    "description": ""
+  },
+
+  "BAIDU": {
+    "message": "百度",
+    "description": ""
+  },
+
+  "CUSTOM_TRANS_API": {
+    "message": "自定义翻译 API",
+    "description": ""
+  },
+
+  "CUSTOM_TRANS_API_INFO": {
+    "message": "填写<code> JSON 格式数组对象 </code>当前只支持有道，其他来源不需要自己申请 API",
+    "description": ""
+  },
+
   "PLEASE_ENTER_WORD": {
     "message": "请输入要翻译的内容！",
     "description": ""

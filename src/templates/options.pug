@@ -64,23 +64,25 @@ html(lang="")
         .page.-settings
           .-wrap
             .group.-translator
-              h3 __MSG_SELECT_TRANSLATION_SERVICE__
+              h3 选择翻译引擎
               .item.-radio
                 input(type="radio" name="api_src" value="google")
-                label __MSG_GOOGLE__
+                label Google
               .item.-radio
                 input(type="radio" name="api_src" value="youdao")
-                label __MSG_YOUDAO__
+                label 有道
               .item.-radio
                 input(type="radio" name="api_src" value="baidu")
-                label __MSG_BAIDU__
+                label 百度
                 
             .group.-customAPI
-              h3 __MSG_CUSTOM_TRANS_API__
+              h3 应用自己的 API
               .item.-textarea
                 textarea(name="custom_api")
               .info
-                |__MSG_CUSTOM_TRANS_API_INFO__
+                | 填写
+                code JSON 格式数组对象
+                | 当前只支持有道，其他来源不需要自己申请 API
 
             .group.-interaction
               h3 选择发音方式

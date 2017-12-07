@@ -6,20 +6,18 @@
   "private": true,
   "scripts": {
     "start": "npm run dev:watch",
-
     "unit": "cross-env BABEL_ENV=test karma start test/unit/karma.conf.js --single-run",
     "test": "npm run unit",
     "lint": "eslint --ext .js,.vue src test/unit/specs",
-    
     "dev:ext": "web-ext run -s=dist --browser-console --start-url localhost:3030/dist/popup",
     "dev:watch": "npm run build:dev -- --watch",
     "dev:server": "webpack-dev-server --inline --progress --config build/webpack.dev.conf.js",
-
     "build:ext": "web-ext build -s=dist",
-    "build:dev": "webpack --progress --config build/webpack.dev.conf.js",
+    "build:dev": "rimraf dist/ && webpack --progress --config build/webpack.dev.conf.js",
     "build:pro": "node build/build.js"
   },
   "dependencies": {
+    "normalize.css": "^7.0.0",
     "vue": "^2.5.2",
     "vue-router": "^3.0.1"
   },
@@ -63,6 +61,7 @@
     "karma-webpack": "^2.0.2",
     "mocha": "^3.2.0",
     "node-notifier": "^5.1.2",
+    "node-sass": "^4.7.2",
     "optimize-css-assets-webpack-plugin": "^3.2.0",
     "ora": "^1.2.0",
     "phantomjs-prebuilt": "^2.1.14",
@@ -72,6 +71,8 @@
     "pug": "^2.0.0-rc.4",
     "pug-loader": "^2.3.0",
     "rimraf": "^2.6.0",
+    "sass-loader": "^6.0.6",
+    "sass-resources-loader": "^1.3.1",
     "semver": "^5.3.0",
     "shelljs": "^0.7.6",
     "sinon": "^4.0.0",

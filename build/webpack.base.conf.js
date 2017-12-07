@@ -23,7 +23,10 @@ const createLintingRule = () => ({
 module.exports = {
   context: path.resolve(__dirname, '../'),
   entry: {
-    app: './src/main.js'
+    // app: './src/main.js'
+    'background': './src/background.js',
+    'popup/app': './src/pages/popup/main.js',
+    'options/app': './src/pages/options/main.js'
   },
   output: {
     path: config.build.assetsRoot,
@@ -42,6 +45,10 @@ module.exports = {
   module: {
     rules: [
       ...(config.dev.useEslint ? [createLintingRule()] : []),
+      {
+        test: /\.pug$/,
+        loader: 'pug-loader'
+      },
       {
         test: /\.vue$/,
         loader: 'vue-loader',

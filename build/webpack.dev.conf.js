@@ -47,9 +47,16 @@ const devWebpackConfig = merge(baseWebpackConfig, {
     new webpack.NoEmitOnErrorsPlugin(),
     // https://github.com/ampedandwired/html-webpack-plugin
     new HtmlWebpackPlugin({
-      filename: 'index.html',
-      template: 'index.html',
-      inject: true
+      filename: 'popup/index.html',
+      template: 'src/templates/popup.pug',
+      inject: true,
+      chunks: ["popup/app"]
+    }),
+    new HtmlWebpackPlugin({
+      filename: 'options/index.html',
+      template: 'src/templates/options.pug',
+      inject: true,
+      chunks: ["options/app"]
     }),
   ]
 })

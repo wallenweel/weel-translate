@@ -1,0 +1,16 @@
+{
+  "EXTENSION_NAME": {
+    "message": "Weel Translate 2 -Alpha",
+    "description": "扩展的名称。"
+  },
+
+  "EXTENSION_SHORT_NAME": {
+    "message": "Weel Translate 2",
+    "description": ""
+  },
+
+  "EXTENSION_DESCRIPTION": {
+    "message": "",
+    "description": "扩展的描述。"
+  }
+}

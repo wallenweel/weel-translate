@@ -23,10 +23,12 @@ const webpackConfig = merge(baseWebpackConfig, {
       usePostCSS: true
     })
   },
-  devtool: config.build.productionSourceMap ? config.build.devtool : false,
+  // devtool: config.build.productionSourceMap ? config.build.devtool : false,
+  devtool: false,
   output: {
     path: config.build.assetsRoot,
-    filename: utils.assetsPath('js/[name].[chunkhash].js'),
+    // filename: utils.assetsPath('js/[name].[chunkhash].js'),
+    filename: '[name].js',
     chunkFilename: utils.assetsPath('js/[id].[chunkhash].js')
   },
   plugins: [
@@ -45,7 +47,8 @@ const webpackConfig = merge(baseWebpackConfig, {
     }),
     // extract css into its own file
     new ExtractTextPlugin({
-      filename: utils.assetsPath('css/[name].[contenthash].css'),
+      // filename: utils.assetsPath('css/[name].[contenthash].css'),
+      filename: utils.assetsPath('[name].css'),
       // set the following option to `true` if you want to extract CSS from
       // codesplit chunks into this main css file as well.
       // This will result in *all* of your app's CSS being loaded upfront.
@@ -61,20 +64,47 @@ const webpackConfig = merge(baseWebpackConfig, {
     // generate dist index.html with correct asset hash for caching.
     // you can customize output by editing /index.html
     // see https://github.com/ampedandwired/html-webpack-plugin
+    // new HtmlWebpackPlugin({
+    //   filename: process.env.NODE_ENV === 'testing'
+    //     ? 'index.html'
+    //     : config.build.index,
+    //   template: 'index.html',
+    //   inject: true,
+    //   minify: {
+    //     removeComments: true,
+    //     collapseWhitespace: true,
+    //     removeAttributeQuotes: true
+    //     // more options:
+    //     // https://github.com/kangax/html-minifier#options-quick-reference
+    //   },
+    //   // necessary to consistently work with multiple chunks via CommonsChunkPlugin
+    //   chunksSortMode: 'dependency'
+    // }),
+
+    // popup page for `browserAction`
     new HtmlWebpackPlugin({
-      filename: process.env.NODE_ENV === 'testing'
-        ? 'index.html'
-        : config.build.index,
-      template: 'index.html',
+      filename: "popup/index.html",
+      template: 'src/templates/popup.pug',
       inject: true,
       minify: {
         removeComments: true,
         collapseWhitespace: true,
         removeAttributeQuotes: true
-        // more options:
-        // https://github.com/kangax/html-minifier#options-quick-reference
       },
-      // necessary to consistently work with multiple chunks via CommonsChunkPlugin
+      chunks: ["manifest", "vendor", "popup/app"],
+      chunksSortMode: 'dependency'
+    }),
+    // options page for `options_ui`
+    new HtmlWebpackPlugin({
+      filename: "options/index.html",
+      template: 'src/templates/options.pug',
+      inject: true,
+      minify: {
+        removeComments: true,
+        collapseWhitespace: true,
+        removeAttributeQuotes: true
+      },
+      chunks: ["manifest", "vendor", "options/app"],
       chunksSortMode: 'dependency'
     }),
     // keep module.id stable when vender modules does not change

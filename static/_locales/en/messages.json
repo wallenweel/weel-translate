@@ -1,0 +1,16 @@
+{
+  "EXTENSION_NAME": {
+    "message": "Weel Translate 2 -Alpha",
+    "description": "Name of the extension."
+  },
+
+  "EXTENSION_SHORT_NAME": {
+    "message": "Weel Translate 2",
+    "description": ""
+  },
+
+  "EXTENSION_DESCRIPTION": {
+    "message": "A Translation Tool.",
+    "description": "Description of the add-on."
+  }
+}

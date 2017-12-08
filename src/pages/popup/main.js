@@ -3,9 +3,13 @@
 import Vue from 'vue'
 import App from './App'
 import router from '@/router'
-import 'normalize.css'
+import Vuetify from 'vuetify'
+// import 'normalize.css'
+import 'vuetify/dist/vuetify.min.css'
+import 'material-design-icons/iconfont/material-icons.css'
 
 Vue.config.productionTip = false
+Vue.use(Vuetify)
 
 /* eslint-disable no-new */
 new Vue({

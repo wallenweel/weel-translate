@@ -1,7 +1,7 @@
 $primary-color_darker: hsl(220, 66%, 51%);
 $primary-color_lighter: hsl(217, 89%, 60%);
 
-@mixin head {
+@mixin preset {
   html,
   body {
     box-sizing: border-box;

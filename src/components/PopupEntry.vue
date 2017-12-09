@@ -7,13 +7,13 @@
       color="transparent"
       style="left: 0;"
     )
-      v-btn(flat color="teal" value="translate")
+      v-btn(flat color="primary" value="translate")
         span Translation
         v-icon translate
-      v-btn(flat color="teal" value="recent")
+      v-btn(flat color="primary" value="recent")
         span Recent
         v-icon history
-      v-btn(flat color="teal" value="dictionary")
+      v-btn(flat color="primary" value="dictionary")
         span Collection
         v-icon style
 </template>

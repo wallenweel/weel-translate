@@ -6,6 +6,8 @@
     width="220"
     v-model="drawer"
   )
+    v-toolbar(flat)
+      span {{ i18n.getMessage('EXTENSION_NAME') }}
     v-list
       v-list-tile(v-for="item in items" :key="item.title" @click="")
         v-list-tile-action

@@ -5,6 +5,7 @@ import Vuex from 'vuex'
 import Vuetify from 'vuetify'
 import router from '@/router'
 import store from '@/store'
+import WebExtUtils from '@/plugins/WebExtUtils'
 import 'material-design-icons/iconfont/material-icons.css'
 import 'vuetify/dist/vuetify.min.css'
 import App from './App'
@@ -20,6 +21,8 @@ Vue.use(Vuetify, {
     error: '#FF5722'
   }
 })
+
+Vue.use(WebExtUtils)
 
 /* eslint-disable no-new */
 new Vue({

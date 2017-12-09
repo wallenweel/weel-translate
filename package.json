@@ -9,7 +9,7 @@
     "unit": "cross-env BABEL_ENV=test karma start test/unit/karma.conf.js --single-run",
     "test": "npm run unit",
     "lint": "eslint --ext .js,.vue src test/unit/specs",
-    "dev:ext": "web-ext run -s=dist --browser-console --start-url localhost:3030/dist/popup",
+    "dev:ext": "web-ext run -s=dist --start-url localhost:3030/dist/popup --browser-console -p ./web-ext-profile --keep-profile-changes",
     "dev:watch": "npm run build:dev -- --watch",
     "dev:server": "webpack-dev-server --inline --progress --config build/webpack.dev.conf.js",
     "build:ext": "web-ext build -s=dist",
@@ -21,7 +21,8 @@
     "normalize.css": "^7.0.0",
     "vue": "^2.5.2",
     "vue-router": "^3.0.1",
-    "vuetify": "^0.17.4"
+    "vuetify": "^0.17.4",
+    "vuex": "^3.0.1"
   },
   "devDependencies": {
     "autoprefixer": "^7.1.2",

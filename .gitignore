@@ -1,7 +1,7 @@
 .DS_Store
 node_modules/
 /dist/
-/web-ext-artifacts/
+/web-ext-*/
 npm-debug.log*
 yarn-debug.log*
 yarn-error.log*

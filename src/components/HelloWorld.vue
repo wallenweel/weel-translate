@@ -21,21 +21,31 @@
 </template>
 
 <script>
+import { mapState } from 'vuex'
+
 export default {
   name: 'HelloWorld',
   data () {
     return {
-      msg: 'Welcome to Your Vue.js App00'
+      msg: 'Welcome to Your Vue.js App'
     }
   },
   computed: {
-    count () {
-      return Object.keys(this).length
-    }
+    // count () {
+    //   // return Object.keys(this).length
+    //   return this.$store.state.count
+    // }
+    // ...mapState({
+    //   count: ({ count }) => count
+    // })
+    ...mapState([
+      'count'
+    ])
   },
   methods: {
     onClick () {
       console.log(new Date())
+      this.$store.commit('increment')
     }
   }
 }

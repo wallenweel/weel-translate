@@ -8062,6 +8062,10 @@ vuetify@^0.17.4:
   version "0.17.4"
   resolved "http://registry.npm.taobao.org/vuetify/download/vuetify-0.17.4.tgz#6afc01e661f920be4ff58089f846b590cd0bdd29"
 
+vuex@^3.0.1:
+  version "3.0.1"
+  resolved "http://registry.npm.taobao.org/vuex/download/vuex-3.0.1.tgz#e761352ebe0af537d4bb755a9b9dc4be3df7efd2"
+
 walkdir@^0.0.11:
   version "0.0.11"
   resolved "http://registry.npm.taobao.org/walkdir/download/walkdir-0.0.11.tgz#a16d025eb931bd03b52f308caed0f40fcebe9532"

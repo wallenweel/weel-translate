@@ -1,32 +1,20 @@
 <template lang="pug">
-v-app
-  //- v-navigation-drawer(app floating)
-    v-list
-      v-list-tile(v-for="item in items" :key="item.title" @click="")
-        v-list-tile-action
-          v-icon
-            |{{ item.icon }}
-        v-list-tile-content
-          v-list-tile-title
-            |{{ item.title }}
-  v-toolbar(app)
-  v-content
-    v-container(fluid)
+  v-app(light)
+    popup-toolbar
+    popup-navigation-drawer
+    v-content
       router-view
-  v-footer(app)
 </template>
 
 <script>
+import PopupToolbar from '@/components/PopupToolbar'
+import PopupNavigationDrawer from '@/components/PopupNavigationDrawer'
+
 export default {
   name: 'app',
-  data () {
-    return {
-      items: [
-        { title: 'Dashboard', icon: 'dashboard' },
-        { title: 'Account', icon: 'account_box' },
-        { title: 'Admin', icon: 'gavel' }
-      ]
-    }
+  components: {
+    PopupToolbar,
+    PopupNavigationDrawer
   }
 }
 </script>
@@ -34,25 +22,34 @@ export default {
 <style lang="scss">
 @include preset;
 
+html,
 body {
-  background-color: $primary-color_lighter;
+  background-color: $color-secondary;
+  overflow: hidden;
 }
 
 #app {
-  font-family: 'Avenir', Helvetica, Arial, sans-serif;
-  -webkit-font-smoothing: antialiased;
-  -moz-osx-font-smoothing: grayscale;
-  text-align: center;
-  color: #2c3e50;
-
   background-color: hsl(0, 100%, 100%);
 
-  height: auto;
-  max-height: 48rem;
-  width: 32rem;
-  max-width: 32rem;
-
+  height: $app-height;
+  max-height: $app-height;
+  min-height: $app-height;
+  width: $app-width;
+  max-width: $app-width;
+  min-width: $app-width;
+  
   margin: auto;
+
+  position: relative;
   // overflow: hidden;
+
+  .application--wrap {
+    height: inherit;
+    max-height: inherit;
+    min-height: inherit;
+    width: inherit;
+    max-width: inherit;
+    min-width: inherit;
+  }
 }
 </style>

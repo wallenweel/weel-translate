@@ -5,15 +5,21 @@ import Vuex from 'vuex'
 import Vuetify from 'vuetify'
 import router from '@/router'
 import store from '@/store'
-import App from './App'
-// import 'normalize.css'
-import 'vuetify/dist/vuetify.min.css'
 import 'material-design-icons/iconfont/material-icons.css'
+import 'vuetify/dist/vuetify.min.css'
+import App from './App'
 
 Vue.config.productionTip = false
 
 Vue.use(Vuex)
-Vue.use(Vuetify)
+Vue.use(Vuetify, {
+  theme: {
+    primary: '#2196F3',
+    secondary: '#1976D2',
+    accent: '#FF9800',
+    error: '#FF5722'
+  }
+})
 
 /* eslint-disable no-new */
 new Vue({
@@ -21,6 +27,5 @@ new Vue({
   store,
   router,
   render: h => h(App),
-  // template: '<App/>',
   components: { App }
 })

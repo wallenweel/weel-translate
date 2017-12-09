@@ -5,7 +5,8 @@ import * as mutations from './mutations'
 Vue.use(Vuex)
 
 export const state = {
-  count: 100
+  count: 100,
+  drawerOpened: null
 }
 
 const store = new Vuex.Store({

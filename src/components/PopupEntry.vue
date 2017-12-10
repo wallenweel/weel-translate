@@ -1,19 +1,20 @@
 <template lang="pug">
-  v-layout
+  v-layout {{ i18n.getUILanguage() }}
+    router-view
     v-bottom-nav(
       absolute
       :value="true"
-      :active.sync="navFirst"
+      :active.sync="navActive"
       color="transparent"
       style="left: 0;"
     )
-      v-btn(flat color="primary" value="translate")
+      v-btn(flat color="primary" value="translation")
         span Translation
         v-icon translate
       v-btn(flat color="primary" value="recent")
         span Recent
         v-icon history
-      v-btn(flat color="primary" value="dictionary")
+      v-btn(flat color="primary" value="collection")
         span Collection
         v-icon style
 </template>
@@ -25,7 +26,7 @@ export default {
   name: 'HelloWorld',
   data () {
     return {
-      navFirst: 'translate'
+      navActive: 'translation'
     }
   },
   computed: {
@@ -37,6 +38,11 @@ export default {
     onClick () {
       console.log(new Date())
       this.$store.commit('increment')
+    }
+  },
+  watch: {
+    navActive (v) {
+      this.$router.push(v)
     }
   }
 }

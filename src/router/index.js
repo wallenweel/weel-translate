@@ -1,40 +1,42 @@
 import Vue from 'vue'
 import Router from 'vue-router'
-import PopupEntry from '@/components/PopupEntry'
-import PopupEntryTranslation from '@/components/PopupEntryTranslation'
-import PopupEntryRecent from '@/components/PopupEntryRecent'
-import PopupEntryCollection from '@/components/PopupEntryCollection'
+import PopupHome from '@/components/PopupHome'
+import PopupHomeTranslation from '@/components/PopupHomeTranslation'
+import PopupHomeRecent from '@/components/PopupHomeRecent'
+import PopupHomeCollection from '@/components/PopupHomeCollection'
 
 Vue.use(Router)
+
+export const home = {
+  path: '/home',
+  name: 'PopupHome',
+  component: PopupHome,
+  children: [
+    {
+      path: '',
+      redirect: 'translation'
+    },
+    {
+      path: 'translation',
+      component: PopupHomeTranslation
+    },
+    {
+      path: 'recent',
+      component: PopupHomeRecent
+    },
+    {
+      path: 'collection',
+      component: PopupHomeCollection
+    }
+  ]
+}
 
 export default new Router({
   routes: [
     {
       path: '/',
-      redirect: '/entry'
+      redirect: '/home'
     },
-    {
-      path: '/entry',
-      name: 'PopupEntry',
-      component: PopupEntry,
-      children: [
-        {
-          path: '',
-          redirect: 'translation'
-        },
-        {
-          path: 'translation',
-          component: PopupEntryTranslation
-        },
-        {
-          path: 'recent',
-          component: PopupEntryRecent
-        },
-        {
-          path: 'collection',
-          component: PopupEntryCollection
-        }
-      ]
-    }
+    home
   ]
 })

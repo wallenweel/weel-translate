@@ -9,7 +9,13 @@
     v-toolbar(flat)
       span {{ i18n.getMessage('EXTENSION_NAME') }}
     v-list
-      v-list-tile(v-for="item in items" :key="item.title" @click="")
+      v-list-tile(
+        ripple
+        v-for="item in items"
+        :key="item.title"
+        @click=""
+        :to="item.path"
+      )
         v-list-tile-action
           v-icon
             |{{ item.icon }}
@@ -27,9 +33,10 @@ export default {
     return {
       drawer: null,
       items: [
-        { title: 'Dashboard', icon: 'dashboard' },
-        { title: 'Account', icon: 'account_box' },
-        { title: 'Admin', icon: 'gavel' }
+        { title: 'Home', icon: 'dashboard', path: '/home' },
+        { title: 'Preferences', icon: 'account_box', path: '/preferences' },
+        { title: 'Settings', icon: 'gavel', path: '/settings' },
+        { title: 'Feedback', icon: 'gavel', path: '/feedback' }
       ]
     }
   },

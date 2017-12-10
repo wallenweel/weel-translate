@@ -1,9 +1,9 @@
 <template lang="pug">
-  v-container Translation
+  v-container Collection
 </template>
 
 <script>
 export default {
-  name: 'PopupEntryTranslation'
+  name: 'PopupHomeCollection'
 }
 </script>

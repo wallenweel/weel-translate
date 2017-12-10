@@ -1,5 +1,5 @@
 <template lang="pug">
-  v-layout {{ i18n.getUILanguage() }}
+  v-layout
     router-view
     v-bottom-nav(
       absolute
@@ -23,7 +23,7 @@
 import { mapState } from 'vuex'
 
 export default {
-  name: 'HelloWorld',
+  name: 'PopupHome',
   data () {
     return {
       navActive: 'translation'

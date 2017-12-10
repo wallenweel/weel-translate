@@ -1,6 +1,7 @@
 <template lang="pug">
   v-layout
-    router-view
+    transition(:name="transitionName")
+      router-view(class="child-view")
     v-bottom-nav(
       absolute
       :value="true"
@@ -26,8 +27,22 @@ export default {
   name: 'PopupHome',
   data () {
     return {
-      navActive: 'translation'
+      navActive: 'translation',
+      transitionName: 'slide-left'
     }
+  },
+  created () {
+    this.keepNavBtn()
+  },
+  beforeRouteUpdate (to, from, next) {
+    const arrQueue = ['translation', 'recent', 'collection']
+    const toTarget = to.path.split('/')[to.path.split('/').length - 1]
+    const fromTarget = from.path.split('/')[from.path.split('/').length - 1]
+    const [ toIndex, fromIndex ] = [ arrQueue.indexOf(toTarget), arrQueue.indexOf(fromTarget) ]
+
+    this.transitionName = toIndex < fromIndex ? 'slide-right' : 'slide-left'
+
+    next()
   },
   computed: {
     ...mapState([
@@ -35,9 +50,11 @@ export default {
     ])
   },
   methods: {
-    onClick () {
-      console.log(new Date())
-      this.$store.commit('increment')
+    keepNavBtn () {
+      const currentPath = this.$router.history.current.path
+      const currentView = currentPath.split('/').pop()
+
+      this.navActive = currentView
     }
   },
   watch: {
@@ -48,5 +65,22 @@ export default {
 }
 </script>
 
-<style>
+<style lang="scss">
+.child-view {
+  position: absolute;
+  transition: all 1.5s cubic-bezier(.55,0,.1,1);
+}
+
+.slide-left-enter, .slide-right-leave-active {
+  opacity: 0;
+  -webkit-transform: translate(30px, 0);
+  transform: translate(30px, 0);
+}
+
+.slide-left-leave-active, .slide-right-enter {
+  opacity: 0;
+  -webkit-transform: translate(-30px, 0);
+  transform: translate(-30px, 0);
+}
 </style>
+

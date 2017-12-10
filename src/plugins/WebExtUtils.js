@@ -8,7 +8,7 @@ try {
   window.browser = {}
 
   console.info(
-    `%c  You Are Not In The Browser Extension Environment.  `,
+    `%c  You Are Running In A Normal Browser Environment.  `,
     'color: #FF9800; font-weight: bold; border: solid 1px #FF9800; border-radius: 2px;'
   )
 }

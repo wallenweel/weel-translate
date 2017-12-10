@@ -1,9 +1,12 @@
 $color-primary: #2196F3;
 $color-secondary: #1976d2;
+$color-background: #fafafa;
 
 $app-height: 48rem;
 $app-width: 32rem;
 
+$head-toolbar-height: 6.4rem;
+$home-bottomNav-height: 5.6rem;
 
 @mixin preset {
   html,

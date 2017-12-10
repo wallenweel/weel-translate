@@ -3,63 +3,59 @@
     transition(:name="transitionName")
       router-view(class="child-view")
     v-bottom-nav(
+      style="left: 0;"
+      color
       absolute
       :value="true"
       :active.sync="navActive"
-      color="transparent"
-      style="left: 0;"
-    )
-      v-btn(flat color="primary" value="translation")
-        span Translation
-        v-icon translate
-      v-btn(flat color="primary" value="recent")
-        span Recent
-        v-icon history
-      v-btn(flat color="primary" value="collection")
-        span Collection
-        v-icon style
+      )
+      v-btn(
+        flat color="primary"
+        v-for="(v, k) in navItems"
+        :value="k"
+        :to="k"
+        :key="k"
+        )
+        span {{ v[0] }}
+        v-icon {{ v[1] }}
 </template>
 
 <script>
-import { mapState } from 'vuex'
-
 export default {
   name: 'PopupHome',
   data () {
     return {
+      navItems: {
+        translation: ['Translation', 'translate'],
+        recent: ['Recent', 'history'],
+        collection: ['Collection', 'style']
+      },
       navActive: 'translation',
       transitionName: 'slide-left'
     }
   },
   created () {
-    this.keepNavBtn()
+    // restore bottom navition's actived button
+    // after page reload
+    this.restoreNavBtn()
   },
   beforeRouteUpdate (to, from, next) {
     const arrQueue = ['translation', 'recent', 'collection']
-    const toTarget = to.path.split('/')[to.path.split('/').length - 1]
-    const fromTarget = from.path.split('/')[from.path.split('/').length - 1]
-    const [ toIndex, fromIndex ] = [ arrQueue.indexOf(toTarget), arrQueue.indexOf(fromTarget) ]
+    const toTarget = to.path.split('/').pop()
+    const fromTarget = from.path.split('/').pop()
 
-    this.transitionName = toIndex < fromIndex ? 'slide-right' : 'slide-left'
+    this.transitionName = arrQueue.indexOf(toTarget) < arrQueue.indexOf(fromTarget)
+      ? 'slide-right'
+      : 'slide-left'
 
     next()
   },
-  computed: {
-    ...mapState([
-      'count'
-    ])
-  },
   methods: {
-    keepNavBtn () {
+    restoreNavBtn () {
       const currentPath = this.$router.history.current.path
       const currentView = currentPath.split('/').pop()
 
       this.navActive = currentView
-    }
-  },
-  watch: {
-    navActive (v) {
-      this.$router.push(v)
     }
   }
 }
@@ -67,8 +63,20 @@ export default {
 
 <style lang="scss">
 .child-view {
+  transition: all 1.5s cubic-bezier(.55, 0, .1, 1);
+
+  // background-color: $color-background;
+
+  padding: 0;
+
+  left: 0;
+  bottom: 56px;
+  right: 0;
+  top: 0;
   position: absolute;
-  transition: all 1.5s cubic-bezier(.55,0,.1,1);
+
+  overflow-x: hidden;
+  overflow-y: auto;
 }
 
 .slide-left-enter, .slide-right-leave-active {

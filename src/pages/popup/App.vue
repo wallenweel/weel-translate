@@ -1,8 +1,8 @@
 <template lang="pug">
-  v-app(light)
+  v-app(dark=false :class="$style.app")
     popup-toolbar
     popup-navigation-drawer
-    v-content
+    v-content(:class="$style.content")
       router-view
 </template>
 
@@ -19,7 +19,7 @@ export default {
 }
 </script>
 
-<style lang="scss">
+<style lang="scss" module>
 @include preset;
 
 html,
@@ -28,9 +28,16 @@ body {
   overflow: hidden;
 }
 
-#app {
-  background-color: hsl(0, 100%, 100%);
+:global(.application--wrap) {
+  height: inherit;
+  max-height: inherit;
+  min-height: inherit;
+  width: inherit;
+  max-width: inherit;
+  min-width: inherit;
+}
 
+.app {
   height: $app-height;
   max-height: $app-height;
   min-height: $app-height;
@@ -38,18 +45,17 @@ body {
   max-width: $app-width;
   min-width: $app-width;
   
-  margin: auto;
+  // margin: auto;
 
   position: relative;
   // overflow: hidden;
+}
 
-  .application--wrap {
-    height: inherit;
-    max-height: inherit;
-    min-height: inherit;
-    width: inherit;
-    max-width: inherit;
-    min-width: inherit;
-  }
+.content {
+  height: $app-height - $head-toolbar-height;
+  
+  position: relative;
+  overflow-x: hidden;
+  overflow-y: auto;
 }
 </style>

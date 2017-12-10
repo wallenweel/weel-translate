@@ -1,5 +1,10 @@
 <template lang="pug">
-  v-toolbar(app dark color="primary")
+  v-toolbar(
+    app
+    dark
+    color="primary"
+    style="z-index: 4;"
+    )
     v-toolbar-side-icon(@click.stop="handleDrawer")
     v-toolbar-title {{ title }}
     v-spacer

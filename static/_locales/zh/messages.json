@@ -12,5 +12,15 @@
   "EXTENSION_DESCRIPTION": {
     "message": "",
     "description": "扩展的描述。"
+  },
+  
+  "DEMO": {
+    "message": "示例",
+    "description": ""
+  },
+
+  "AUTO": {
+    "message": "自动",
+    "description": ""
   }
 }

@@ -12,5 +12,15 @@
   "EXTENSION_DESCRIPTION": {
     "message": "A Translation Tool.",
     "description": "Description of the add-on."
+  },
+
+  "DEMO": {
+    "message": "Demo",
+    "description": ""
+  },
+
+  "AUTO": {
+    "message": "auto",
+    "description": ""
   }
 }

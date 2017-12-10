@@ -2,17 +2,16 @@ $color-primary: #2196F3;
 $color-secondary: #1976d2;
 $color-background: #fafafa;
 
-$app-height: 48rem;
-$app-width: 32rem;
+$app-height: 480px;
+$app-width: 320px;
 
-$head-toolbar-height: 6.4rem;
-$home-bottomNav-height: 5.6rem;
+$head-toolbar-height: 64px;
+$home-bottomNav-height: 56px;
 
 @mixin preset {
   html,
   body {
     box-sizing: border-box;
-    font-size: 160%;
   }
 
   *,
@@ -22,6 +21,6 @@ $home-bottomNav-height: 5.6rem;
   }
 
   html {
-    font-size: 62.5%;
+    font-size: 100%;
   }
 }

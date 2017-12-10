@@ -9,10 +9,11 @@
     v-toolbar-title {{ title }}
     v-spacer
     v-spacer
+    v-spacer
     v-switch(
       color="secondary"
       style="margin-right: 17px;"
-      class="keep-up"
+      :class="$style.keepUp"
       hide-details
       v-model="keepUp"
     )
@@ -35,32 +36,34 @@ export default {
 }
 </script>
 
-<style lang="scss">
-.keep-up {
-  .input-group--selection-controls__ripple {
-    &::before {
-      content: "lock_open";
-
-      opacity: 1;
-      background: none;
-      
-      width: 20px;
-      height: 20px;
-      
-      color: $color-secondary;
-      font-size: 48px;
-      font-family: 'Material Icons';
-
-      top: 32%;
-      left: 42%;
-      z-index: 10;
-    }
-
-    &--active {
+<style lang="scss" module>
+.keepUp {
+  :global {
+    .input-group--selection-controls__ripple {
       &::before {
-        content: "lock_outline";
-
-        color: $color-primary;
+        content: "lock_open";
+  
+        opacity: 1;
+        background: none;
+        
+        width: 20px;
+        height: 20px;
+        
+        color: $color-secondary;
+        font-size: 48px;
+        font-family: 'Material Icons';
+  
+        top: 31%;
+        left: 41%;
+        z-index: 10;
+      }
+  
+      &--active {
+        &::before {
+          content: "lock_outline";
+  
+          color: $color-primary;
+        }
       }
     }
   }

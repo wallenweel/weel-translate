@@ -4,6 +4,9 @@ import PopupHome from '@/components/PopupHome'
 import PopupHomeTranslation from '@/components/PopupHomeTranslation'
 import PopupHomeRecent from '@/components/PopupHomeRecent'
 import PopupHomeCollection from '@/components/PopupHomeCollection'
+import PopupPreferences from '@/components/PopupPreferences'
+import PopupSettings from '@/components/PopupSettings'
+import PopupFeedback from '@/components/PopupFeedback'
 
 Vue.use(Router)
 
@@ -31,12 +34,33 @@ export const home = {
   ]
 }
 
+export const preferences = {
+  path: '/preferences',
+  name: 'PopupPreferences',
+  component: PopupPreferences
+}
+
+export const settings = {
+  path: '/settings',
+  name: 'PopupSettings',
+  component: PopupSettings
+}
+
+export const feedback = {
+  path: '/feedback',
+  name: 'PopupFeedback',
+  component: PopupFeedback
+}
+
 export default new Router({
   routes: [
     {
       path: '/',
       redirect: '/home'
     },
-    home
+    home,
+    preferences,
+    settings,
+    feedback
   ]
 })

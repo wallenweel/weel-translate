@@ -33,10 +33,10 @@ export default {
     return {
       drawer: null,
       items: [
-        { title: 'Home', icon: 'dashboard', path: '/home' },
-        { title: 'Preferences', icon: 'account_box', path: '/preferences' },
-        { title: 'Settings', icon: 'gavel', path: '/settings' },
-        { title: 'Feedback', icon: 'gavel', path: '/feedback' }
+        { title: 'Home', icon: 'home', path: '/home' },
+        { title: 'Preferences', icon: 'tune', path: '/preferences' },
+        { title: 'Settings', icon: 'settings', path: '/settings' },
+        { title: 'Feedback', icon: 'feedback', path: '/feedback' }
       ]
     }
   },

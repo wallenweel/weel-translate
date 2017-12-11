@@ -9,9 +9,28 @@
 <script>
 import PopupToolbar from '@/components/PopupToolbar'
 import PopupNavigationDrawer from '@/components/PopupNavigationDrawer'
+import {
+  sendMessage
+} from '@/functions/runtime'
+import {
+  STORAGE_CHANGE
+} from '@/actions/types'
 
 export default {
   name: 'app',
+  created () {
+    const sender = sendMessage({
+      type: STORAGE_CHANGE,
+      payload: {
+        version: '0.0.3'
+      }
+    })
+
+    sender.then(res => {
+      console.log(res)
+    })
+    console.log('res')
+  },
   components: {
     PopupToolbar,
     PopupNavigationDrawer

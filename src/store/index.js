@@ -9,9 +9,12 @@ export const state = {
   drawerOpened: null
 }
 
+export const config = {}
+
 const store = new Vuex.Store({
   state,
-  mutations
+  mutations,
+  config
 })
 
 if (module.hot) {

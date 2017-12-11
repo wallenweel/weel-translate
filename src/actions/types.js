@@ -1,0 +1,1 @@
+export const STORAGE_CHANGE = 'STORAGE_CHANGE'

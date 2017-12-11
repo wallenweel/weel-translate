@@ -1,1 +1,5 @@
 export const STORAGE_CHANGE = 'STORAGE_CHANGE'
+
+export const STORAGE_LOCAL = 'STORAGE_LOCAL'
+
+export const STORAGE_SYNC = 'STORAGE_SYNC'

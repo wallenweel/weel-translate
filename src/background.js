@@ -1,15 +1,15 @@
+import { whattype } from '@/globals'
 import { onMessage } from '@/functions/runtime'
+import * as storage from '@/functions/storage'
 import {
-  STORAGE_CHANGE
+  STORAGE_CHANGE,
+  STORAGE_LOCAL,
+  STORAGE_SYNC
 } from '@/actions/types'
-
-const {
-  storage
-} = window.browser
 
 // storage.sync.clear()
 storage.sync.set({
-  test: true
+  test: false
 })
 storage.sync.get().then(res => {
   console.log(res)
@@ -27,6 +27,16 @@ onMessage.addListener((message, from, send) => {
       send(payload)
       break
 
+    case STORAGE_LOCAL:
+      if (whattype(payload) === 'object') {
+        // set
+      } else {
+        // get
+      }
+      break
+    case STORAGE_SYNC:
+      break
+
     default:
       console.log(
         `%cYou Must Provide A Object Data Contains 'type' Key At Least When You Call '[type].sendMessage'!`,
@@ -36,3 +46,7 @@ onMessage.addListener((message, from, send) => {
       break
   }
 })
+
+if (module.hot) {
+  module.hot.accept()
+}

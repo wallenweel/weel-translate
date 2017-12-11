@@ -9,9 +9,7 @@
 <script>
 import PopupToolbar from '@/components/PopupToolbar'
 import PopupNavigationDrawer from '@/components/PopupNavigationDrawer'
-import {
-  sendMessage
-} from '@/functions/runtime'
+import { sendMessage } from '@/functions/runtime'
 import {
   STORAGE_CHANGE
 } from '@/actions/types'

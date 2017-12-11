@@ -22,8 +22,7 @@ export const { i18n, runtime, storage } = window[env]
 export default window[env]
 
 /**
- * two envrionments helper
- *
+ * Two envrionments helper
  * @param {callback} right       run in right environment
  * @param {callback} substitute  other stutas
  * @returns
@@ -35,3 +34,12 @@ export const aid = (right, substitute = () => null) => {
     return substitute()
   }
 }
+
+/**
+ * What is its type
+ * @param {any} thing something is need to get type
+ * @return {string} type name in lower case, e.g. object ...
+ */
+export const whattype = thing =>
+  Object.prototype.toString.call(thing)
+  .match(/\w+/g)[1].toLowerCase()

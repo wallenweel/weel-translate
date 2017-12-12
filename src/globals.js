@@ -43,3 +43,20 @@ export const aid = (right, substitute = () => null) => {
 export const whattype = thing =>
   Object.prototype.toString.call(thing)
   .match(/\w+/g)[1].toLowerCase()
+
+export const injectHTML = (content, obj) => {
+  if (!content) return void 0
+
+  const target = obj
+  let doms = [content]
+
+  if (whattype(content) === 'string') {
+    const parser = new DOMParser()
+
+    doms = [...parser.parseFromString(content, 'text/html').body.childNodes]
+  }
+
+  while (target.firstChild) target.removeChild(target.firstChild)
+
+  doms.forEach(dom => target.appendChild(dom))
+}

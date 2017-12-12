@@ -39,26 +39,39 @@
           row justify-space-around
           :class="$style.tools"
           )
+          //- delete button
           v-btn(flat depressed @click="deleteContent")
-            //- delete button
             v-icon(color="blue-grey") delete
           //- translation button
           v-btn(fab dark medium color="primary" :class="$style.translate")
             v-icon(dark) done_all
+          //- speak out content button
           v-btn(flat depressed)
-            //- speak out content button
             v-icon(color="blue-grey") volume_up
         
       v-flex(:class="$style.selection")
         v-btn(block medium dark color="accent" @click="switchSource")
-          //- v-icon(small) loop
           |source&nbsp;:&nbsp;&nbsp;
           b(v-model="source") {{ source.text }}
+          img(style="margin-left: 4px;" height=16 width=16 src="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAABgAAAAYCAYAAADgdz34AAAAAXNSR0IArs4c6QAAAARnQU1BAACxjwv8YQUAAAAJcEhZcwAACxMAAAsTAQCanBgAAAHnSURBVEhLtZU9S8NAGMeTilVBBMUWQXCx0DpZ5+qi7gqufgLBXb+IOghOWhVFXC2uLjo4iIWKgzoIHYQivoGk/i73JCVt3mjwB3+eu+ftklxyMf4bU2wozWYzjSYZjiFVU0cPqVTqB9s9lmWVUBm9s4AHfF/oFM1LenwoyqIT6RWJWggzKuXhkJxHT7o0PtTsSQsPnj0gKYO5MU1zQns01H9iLlEVWaiAFskbxKp4hfEyUnnByK26MFdsM+y4ffwjaBedoz5xB0NSSbfVMFesSzgQUntkGA7Nyrq1hvmBhJJDvzQN3VdRXTqo9z4x9ibTbIoNurc9wBq3fEQzMvVAbEOGgZDzTH3rCbDAvLpyB+ZlCXUgKaFQfyfpRkpsO7GOkBD6xboLvIp1yIvtloZYvQDP/5E7+7A9mumgTSZvyEdLEnaoiW1Bw0MSXZjvSygS0o91lYbaNQm1wD9LwNIp7qsa+aGRsyolNsy/MepY74Sg31GxxdDvqBhAm+hXZ2uY70iKTfthl8Vcsyd+h10FVYmZzNX+LDAcVnEH/C+YIt/Am/b4QFKBhbo5ruuYorQJh+QMOtOl0ZB7hXJSHh+K5tARakgvF3zql3mBVpgGfbDxvlga9KIcz3xcNcelfvq1xD/95BjGH64vwr9Y/F6UAAAAAElFTkSuQmCC")
 
       v-flex(:class="$style.selection")
         v-card(:class="$style.result")
           v-layout(column wrap)
-            span result
+            v-flex
+              v-btn(flat small icon)
+                v-icon(color="blue-grey") volume_up
+              span [ 'ɑːnsə ]
+            v-flex
+              v-btn(flat small icon)
+                v-icon(color="blue-grey") content_copy
+              span(:class="$style.translation") 答案
+            v-divider
+            v-card-text(class="body-2")
+              div n. 工作；[物] 功；产品；操作；职业；行为；事业；工厂；著作；文学、音乐或艺术作品
+              div vt. 使工作；操作；经营；使缓慢前进
+              div vi. 工作；运作；起作用
+              div n. （英、埃塞）沃克（人名）
 </template>
 
 <script>
@@ -152,12 +165,19 @@ export default {
 
 .selection {
   padding: 10px 16px 0;
-  // padding-bottom: 0;
+
+  &:last-child {
+    padding-bottom: 24px;
+  }
 }
 
 .result {
-  min-height: 8px;
-  padding: 16px;
+  min-height: 120px;
+  padding: 8px 6px;
+}
+
+.translation {
+  font-weight: bold;
 }
 </style>
 

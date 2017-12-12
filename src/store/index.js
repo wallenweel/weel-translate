@@ -4,17 +4,27 @@ import * as mutations from './mutations'
 
 Vue.use(Vuex)
 
-export const state = {
-  count: 100,
-  drawerOpened: null
+export const config = {
+  local: {
+    sources: [
+      // Google
+      `{
+        "id": "google"
+      }`
+    ]
+  },
+  sync: {}
 }
 
-export const config = {}
+export const state = {
+  count: 100,
+  drawerOpened: null,
+  ...config
+}
 
 const store = new Vuex.Store({
   state,
-  mutations,
-  config
+  mutations
 })
 
 if (module.hot) {

@@ -6,7 +6,24 @@ import {
   STORAGE_LOCAL,
   STORAGE_SYNC
 } from '@/actions/types'
+import languagesJSON from '@/api/languages.json'
 
+try {
+  const sources = [
+    // Google
+    `{
+      "id": "google",
+      "name": "Google",
+      "languages": ${JSON.stringify(languagesJSON)},
+      "support": ["zh"]
+    }`
+  ]
+
+  console.log(sources)
+
+  console.log(JSON.parse(sources[0]))
+} catch (error) {
+}
 // storage.sync.clear()
 storage.sync.set({
   test: false

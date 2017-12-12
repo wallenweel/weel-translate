@@ -3,6 +3,7 @@
   "version": "1.0.0",
   "description": "A Vue.js project",
   "author": "wallen <wallen_weel@outlook.com>",
+  "license": "MIT",
   "private": true,
   "scripts": {
     "start": "npm run dev:watch",

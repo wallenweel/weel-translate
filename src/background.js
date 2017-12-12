@@ -6,22 +6,44 @@ import {
   STORAGE_LOCAL,
   STORAGE_SYNC
 } from '@/actions/types'
-import languagesJSON from '@/api/languages.json'
+import languageHelper from '@/api/languages'
 
 try {
-  const sources = [
+  const storageSources = [
     // Google
     `{
       "id": "google",
       "name": "Google",
-      "languages": ${JSON.stringify(languagesJSON)},
-      "support": ["zh"]
+      "icon": "base64:",
+
+      "url": "https://translate.google.com",
+      
+      "parser": "phonetic/translation/explain",
+      "parser": {
+        "phonetic": {
+          "us": "$1.src_translit",
+          "uk": "$1.src_translit"
+        },
+        "translation": ["$0.trans", "$1.trans"],
+        "explain": "$2",
+        "variables": ["$.sentences[0]", "$.sentences[1]", "$.dict"]
+      },
+      
+      "support": ["zh", "jp"],
+      
+      "languages": [{
+        "code": "zh-cn",
+        "name": "Chinese Simplified",
+        "locale": "中文(简体)"
+      }, {
+        "code": "jp",
+        "name": "Japanese",
+        "locale": "日文"
+      }]
     }`
   ]
 
-  console.log(sources)
-
-  console.log(JSON.parse(sources[0]))
+  languageHelper(storageSources)
 } catch (error) {
 }
 // storage.sync.clear()
@@ -29,7 +51,7 @@ storage.sync.set({
   test: false
 })
 storage.sync.get().then(res => {
-  console.log(res)
+  // console.log(res)
 })
 
 onMessage.addListener((message, from, send) => {

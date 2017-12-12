@@ -7,43 +7,10 @@ import {
   STORAGE_SYNC
 } from '@/actions/types'
 import languageHelper from '@/api/languages'
+import { storageSources } from '@/api/mocks'
 
 try {
-  const storageSources = [
-    // Google
-    `{
-      "id": "google",
-      "name": "Google",
-      "icon": "base64:",
-
-      "url": "https://translate.google.com",
-      
-      "parser": "phonetic/translation/explain",
-      "parser": {
-        "phonetic": {
-          "us": "$1.src_translit",
-          "uk": "$1.src_translit"
-        },
-        "translation": ["$0.trans", "$1.trans"],
-        "explain": "$2",
-        "variables": ["$.sentences[0]", "$.sentences[1]", "$.dict"]
-      },
-      
-      "support": ["zh", "jp"],
-      
-      "languages": [{
-        "code": "zh-cn",
-        "name": "Chinese Simplified",
-        "locale": "中文(简体)"
-      }, {
-        "code": "jp",
-        "name": "Japanese",
-        "locale": "日文"
-      }]
-    }`
-  ]
-
-  languageHelper(storageSources)
+  console.log(languageHelper(storageSources))
 } catch (error) {
 }
 // storage.sync.clear()

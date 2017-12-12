@@ -1,31 +1,74 @@
-const stringToPath = str => {
-  if (!str) return []
+import { istype } from '@/globals'
+import { translatingResult } from '@/api/mocks'
 
-  const s = str.replace(/\[['"]{0,1}([\d\w-]+)['"]{0,1}\]/g, '.$1')
-
-  return s.split('.')
+ // 'obj.a[0].b[1]' -> [obj, a, 0, b, 1]
+const stringToPath = (str, start = 0) => {
+  if (!istype(str, 'string') || !str) return []
+  return str
+    // -> obj.a.0.b.1    rewrite all basket([$]) to dot(.$)
+    .replace(/\[['"]{0,1}([\d\w-]+)['"]{0,1}\]/g, '.$1')
+    .split('.').slice(start)
 }
 
-const parserGet = (str, json) => {
-  const s = str.replace(/^\$[\d]*\./, '') // delete "$" data placeholder
-  const path = stringToPath(s)
+/**
+ * get object's value by string as key
+ * @param {String} str string path
+ * @param {Object} obj plain object
+ * @param {Number} start see same param in stringToPath
+ * @return {Any}
+ */
+const lazyGet = (str, obj, start = 1) =>
+  stringToPath(str, start)
+  .reduce((prev, curr) => !prev ? null : prev[curr], obj)
 
-  return path.reduce((prev, curr) => {
-    return prev[curr]
-  }, json)
+/**
+ * recursive loop for parsing real result
+ * @param {Object} obj referenced object contains phonetic/translation/explain
+ * @param {Object} prevObj prevrious referenced object
+ * @param {String/Integer} prevKey the key that need to be replaced value
+ */
+const loopParse = (obj, result, prevObj, prevKey) => {
+  if (istype(obj, 'string') && /^\$\./.test(obj)) {
+    return (prevObj[prevKey] = lazyGet(obj, result))
+  }
+
+  Object.keys(obj).forEach(key => loopParse(obj[key], result, obj, key))
 }
 
 export const languageHelper = sources => {
-  const json = JSON.parse(sources[0])
-  // console.log(json)
+  // string language service configs
+  const source = JSON.parse(sources[0])
 
-  let s = `$.parser.variables[1]`
+  // fetch translating result
+  const mockResponse = translatingResult
 
-  console.log(parserGet(s, json))
+  // get translating result parser
+  const { parser = {} } = source
 
-  // console.log(json['parser']['variables'][1])
+  const {
+    phonetic = {},
+    translation = [],
+    explain = [],
+    variable = []
+  } = parser
 
-  return []
+  let result = { phonetic, translation, explain }
+
+  if (istype(variable, 'array') && variable.length) {
+    result = JSON.stringify({phonetic, translation, explain})
+
+    // replace variables placeholder, e.g. $0/$1/...
+    result = variable.reduce((prev, curr, i, arr) =>
+      prev.replace(new RegExp(`\\$${i}`, 'gm'), arr[i]),
+      JSON.stringify({phonetic, translation, explain})
+    )
+
+    result = JSON.parse(result)
+  }
+
+  loopParse(result, mockResponse)
+
+  return result
 }
 
 export default languageHelper

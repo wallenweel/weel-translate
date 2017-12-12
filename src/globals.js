@@ -1,7 +1,9 @@
 /**
  * some global variables/functions
  */
-export const env = 'browser' // "chrome" to Chrome
+
+// "chrome" to Chrome
+export const env = 'browser'
 
 try {
   const extensionError = window[env].runtime.lastError
@@ -23,8 +25,8 @@ export default window[env]
 
 /**
  * Two envrionments helper
- * @param {callback} right       run in right environment
- * @param {callback} substitute  other stutas
+ * @param {Callback} right run in right environment
+ * @param {Callback} substitute other stutas
  * @returns
  */
 export const aid = (right, substitute = () => null) => {
@@ -37,12 +39,20 @@ export const aid = (right, substitute = () => null) => {
 
 /**
  * What is its type
- * @param {any} thing something is need to get type
- * @return {string} type name in lower case, e.g. object ...
+ * @param {Any} thing something is need to get type
+ * @return {String} type name in lower case, e.g. object ...
  */
 export const whattype = thing =>
   Object.prototype.toString.call(thing)
   .match(/\w+/g)[1].toLowerCase()
+
+/**
+ * Judge type
+ * @param {Any} thing see whattype()
+ * @param {String} type compare with whattype's result
+ * @return {Boolean}
+ */
+export const istype = (thing, type) => whattype(thing) === type
 
 export const injectHTML = (content, obj) => {
   if (!content) return void 0

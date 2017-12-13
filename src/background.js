@@ -14,6 +14,7 @@ import languageHelper from '@/functions/languageHelper'
 
 try {
   console.log(languageHelper())
+  // console.log(languageHelper().reduce((a, b) => a + b.name + ', ', ''))
 } catch (error) {
 }
 // storage.sync.clear()

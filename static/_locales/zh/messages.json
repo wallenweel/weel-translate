@@ -19,8 +19,528 @@
     "description": ""
   },
 
-  "AUTO": {
+  "AUTOMATIC": {
     "message": "自动",
     "description": ""
-  }
+  },
+  
+  "AFRIKAANS": {
+    "message": "南非荷兰语",
+    "description": ""
+  },
+  
+  "ALBANIAN": {
+    "message": "阿尔巴尼亚语",
+    "description": ""
+  },
+  
+  "AMHARIC": {
+    "message": "阿姆哈拉语",
+    "description": ""
+  },
+  
+  "ARABIC": {
+    "message": "阿拉伯",
+    "description": ""
+  },
+  
+  "ARMENIAN": {
+    "message": "亚美尼亚",
+    "description": ""
+  },
+  
+  "AZERBAIJANI": {
+    "message": "阿塞拜疆",
+    "description": ""
+  },
+  
+  "BASQUE": {
+    "message": "巴斯克",
+    "description": ""
+  },
+  
+  "BELARUSIAN": {
+    "message": "白俄罗斯",
+    "description": ""
+  },
+  
+  "BENGALI": {
+    "message": "孟加拉",
+    "description": ""
+  },
+  
+  "BOSNIAN": {
+    "message": "波斯尼亚",
+    "description": ""
+  },
+  
+  "BULGARIAN": {
+    "message": "保加利亚语",
+    "description": ""
+  },
+  
+  "CATALAN": {
+    "message": "加泰罗尼亚",
+    "description": ""
+  },
+  
+  "CEBUANO": {
+    "message": "宿务",
+    "description": ""
+  },
+  
+  "CHICHEWA": {
+    "message": "奇切瓦",
+    "description": ""
+  },
+  
+  "CHINESE_SIMPLIFIED": {
+    "message": "中文 简体",
+    "description": ""
+  },
+  
+  "CHINESE_TRADITIONAL": {
+    "message": "中文 繁体",
+    "description": ""
+  },
+  
+  "CORSICAN": {
+    "message": "科西嘉",
+    "description": ""
+  },
+  
+  "CROATIAN": {
+    "message": "克罗地亚",
+    "description": ""
+  },
+  
+  "CZECH": {
+    "message": "捷克",
+    "description": ""
+  },
+  
+  "DANISH": {
+    "message": "丹麦",
+    "description": ""
+  },
+  
+  "DUTCH": {
+    "message": "荷兰语",
+    "description": ""
+  },
+  
+  "ENGLISH": {
+    "message": "英语",
+    "description": ""
+  },
+  
+  "ESPERANTO": {
+    "message": "世界语",
+    "description": ""
+  },
+  
+  "ESTONIAN": {
+    "message": "爱沙尼亚语",
+    "description": ""
+  },
+  
+  "FILIPINO": {
+    "message": "菲律宾",
+    "description": ""
+  },
+  
+  "FINNISH": {
+    "message": "芬兰",
+    "description": ""
+  },
+  
+  "FRENCH": {
+    "message": "法国",
+    "description": ""
+  },
+  
+  "FRISIAN": {
+    "message": "弗里斯兰",
+    "description": ""
+  },
+  
+  "GALICIAN": {
+    "message": "加利西亚",
+    "description": ""
+  },
+  
+  "GEORGIAN": {
+    "message": "格鲁吉亚",
+    "description": ""
+  },
+  
+  "GERMAN": {
+    "message": "德语",
+    "description": ""
+  },
+  
+  "GREEK": {
+    "message": "希腊语",
+    "description": ""
+  },
+  
+  "GUJARATI": {
+    "message": "古吉拉特语",
+    "description": ""
+  },
+  
+  "HAITIAN_CREOLE": {
+    "message": "海地克里奥尔语",
+    "description": ""
+  },
+  
+  "HAUSA": {
+    "message": "豪萨语",
+    "description": ""
+  },
+  
+  "HAWAIIAN": {
+    "message": "夏威夷",
+    "description": ""
+  },
+  
+  "HEBREW": {
+    "message": "希伯来语",
+    "description": ""
+  },
+  
+  "HINDI": {
+    "message": "印地语",
+    "description": ""
+  },
+  
+  "HMONG": {
+    "message": "苗族",
+    "description": ""
+  },
+  
+  "HUNGARIAN": {
+    "message": "匈牙利",
+    "description": ""
+  },
+  
+  "ICELANDIC": {
+    "message": "冰岛语",
+    "description": ""
+  },
+  
+  "IGBO": {
+    "message": "伊博",
+    "description": ""
+  },
+  
+  "INDONESIAN": {
+    "message": "印度尼西亚",
+    "description": ""
+  },
+  
+  "IRISH": {
+    "message": "爱尔兰的",
+    "description": ""
+  },
+  
+  "ITALIAN": {
+    "message": "意大利",
+    "description": ""
+  },
+  
+  "JAPANESE": {
+    "message": "日语",
+    "description": ""
+  },
+  
+  "JAVANESE": {
+    "message": "爪哇",
+    "description": ""
+  },
+  
+  "KANNADA": {
+    "message": "卡纳达语",
+    "description": ""
+  },
+  
+  "KAZAKH": {
+    "message": "哈萨克语",
+    "description": ""
+  },
+  
+  "KHMER": {
+    "message": "高棉",
+    "description": ""
+  },
+  
+  "KOREAN": {
+    "message": "朝鲜语",
+    "description": ""
+  },
+  
+  "KURDISH_KURMANJI": {
+    "message": "库尔德语",
+    "description": ""
+  },
+  
+  "KYRGYZ": {
+    "message": "吉尔吉斯",
+    "description": ""
+  },
+  
+  "LAO": {
+    "message": "老挝",
+    "description": ""
+  },
+  
+  "LATIN": {
+    "message": "拉丁",
+    "description": ""
+  },
+  
+  "LATVIAN": {
+    "message": "拉脱维亚",
+    "description": ""
+  },
+  
+  "LITHUANIAN": {
+    "message": "立陶宛",
+    "description": ""
+  },
+  
+  "LUXEMBOURGISH": {
+    "message": "卢森堡",
+    "description": ""
+  },
+  
+  "MACEDONIAN": {
+    "message": "马其顿",
+    "description": ""
+  },
+  
+  "MALAGASY": {
+    "message": "马尔加什",
+    "description": ""
+  },
+  
+  "MALAY": {
+    "message": "马来语",
+    "description": ""
+  },
+  
+  "MALAYALAM": {
+    "message": "马拉雅拉姆语",
+    "description": ""
+  },
+  
+  "MALTESE": {
+    "message": "马耳他语",
+    "description": ""
+  },
+  
+  "MAORI": {
+    "message": "毛利",
+    "description": ""
+  },
+  
+  "MARATHI": {
+    "message": "马拉",
+    "description": ""
+  },
+  
+  "MONGOLIAN": {
+    "message": "蒙古语",
+    "description": ""
+  },
+  
+  "MYANMAR_BURMESE": {
+    "message": "缅甸（缅甸）",
+    "description": ""
+  },
+  
+  "NEPALI": {
+    "message": "尼泊尔",
+    "description": ""
+  },
+  
+  "NORWEGIAN": {
+    "message": "挪威",
+    "description": ""
+  },
+  
+  "PASHTO": {
+    "message": "普什图语",
+    "description": ""
+  },
+  
+  "PERSIAN": {
+    "message": "波斯语",
+    "description": ""
+  },
+  
+  "POLISH": {
+    "message": "抛光",
+    "description": ""
+  },
+  
+  "PORTUGUESE": {
+    "message": "葡萄牙语",
+    "description": ""
+  },
+  
+  "PUNJABI": {
+    "message": "旁遮普",
+    "description": ""
+  },
+  
+  "ROMANIAN": {
+    "message": "罗马尼亚",
+    "description": ""
+  },
+  
+  "RUSSIAN": {
+    "message": "俄语",
+    "description": ""
+  },
+  
+  "SAMOAN": {
+    "message": "萨摩亚",
+    "description": ""
+  },
+  
+  "SCOTS_GAELIC": {
+    "message": "苏格兰盖尔语",
+    "description": ""
+  },
+  
+  "SERBIAN": {
+    "message": "塞尔维亚",
+    "description": ""
+  },
+  
+  "SESOTHO": {
+    "message": "塞索托语",
+    "description": ""
+  },
+  
+  "SHONA": {
+    "message": "绍纳语",
+    "description": ""
+  },
+  
+  "SINDHI": {
+    "message": "信德",
+    "description": ""
+  },
+  
+  "SINHALA": {
+    "message": "僧伽罗语",
+    "description": ""
+  },
+  
+  "SLOVAK": {
+    "message": "斯洛伐克",
+    "description": ""
+  },
+  
+  "SLOVENIAN": {
+    "message": "斯洛文尼亚",
+    "description": ""
+  },
+  
+  "SOMALI": {
+    "message": "索马里",
+    "description": ""
+  },
+  
+  "SPANISH": {
+    "message": "西班牙语",
+    "description": ""
+  },
+  
+  "SUNDANESE": {
+    "message": "巽他语",
+    "description": ""
+  },
+  
+  "SWAHILI": {
+    "message": "斯瓦希里",
+    "description": ""
+  },
+  
+  "SWEDISH": {
+    "message": "瑞典",
+    "description": ""
+  },
+  
+  "TAJIK": {
+    "message": "塔吉克",
+    "description": ""
+  },
+  
+  "TAMIL": {
+    "message": "泰米尔语",
+    "description": ""
+  },
+  
+  "TELUGU": {
+    "message": "泰卢固语",
+    "description": ""
+  },
+  
+  "THAI": {
+    "message": "泰语",
+    "description": ""
+  },
+  
+  "TURKISH": {
+    "message": "土耳其",
+    "description": ""
+  },
+  
+  "UKRAINIAN": {
+    "message": "乌克兰",
+    "description": ""
+  },
+  
+  "URDU": {
+    "message": "乌尔都语",
+    "description": ""
+  },
+  
+  "UZBEK": {
+    "message": "乌兹别克",
+    "description": ""
+  },
+  
+  "VIETNAMESE": {
+    "message": "越南",
+    "description": ""
+  },
+  
+  "WELSH": {
+    "message": "威尔士语",
+    "description": ""
+  },
+  
+  "XHOSA": {
+    "message": "科萨",
+    "description": ""
+  },
+  
+  "YIDDISH": {
+    "message": "意第绪语",
+    "description": ""
+  },
+  
+  "YORUBA": {
+    "message": "约鲁巴",
+    "description": ""
+  },
+  
+  "ZULU": {
+    "message": "祖鲁",
+    "description": ""
+  }  
 }

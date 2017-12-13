@@ -19,8 +19,528 @@
     "description": ""
   },
 
-  "AUTO": {
-    "message": "auto",
+  "AUTOMATIC": {
+    "message": "Automatic",
+    "description": ""
+  },
+  
+  "AFRIKAANS": {
+    "message": "Afrikaans",
+    "description": ""
+  },
+  
+  "ALBANIAN": {
+    "message": "Albanian",
+    "description": ""
+  },
+  
+  "AMHARIC": {
+    "message": "Amharic",
+    "description": ""
+  },
+  
+  "ARABIC": {
+    "message": "Arabic",
+    "description": ""
+  },
+  
+  "ARMENIAN": {
+    "message": "Armenian",
+    "description": ""
+  },
+  
+  "AZERBAIJANI": {
+    "message": "Azerbaijani",
+    "description": ""
+  },
+  
+  "BASQUE": {
+    "message": "Basque",
+    "description": ""
+  },
+  
+  "BELARUSIAN": {
+    "message": "Belarusian",
+    "description": ""
+  },
+  
+  "BENGALI": {
+    "message": "Bengali",
+    "description": ""
+  },
+  
+  "BOSNIAN": {
+    "message": "Bosnian",
+    "description": ""
+  },
+  
+  "BULGARIAN": {
+    "message": "Bulgarian",
+    "description": ""
+  },
+  
+  "CATALAN": {
+    "message": "Catalan",
+    "description": ""
+  },
+  
+  "CEBUANO": {
+    "message": "Cebuano",
+    "description": ""
+  },
+  
+  "CHICHEWA": {
+    "message": "Chichewa",
+    "description": ""
+  },
+  
+  "CHINESE_SIMPLIFIED": {
+    "message": "Chinese Simplified",
+    "description": ""
+  },
+  
+  "CHINESE_TRADITIONAL": {
+    "message": "Chinese Traditional",
+    "description": ""
+  },
+  
+  "CORSICAN": {
+    "message": "Corsican",
+    "description": ""
+  },
+  
+  "CROATIAN": {
+    "message": "Croatian",
+    "description": ""
+  },
+  
+  "CZECH": {
+    "message": "Czech",
+    "description": ""
+  },
+  
+  "DANISH": {
+    "message": "Danish",
+    "description": ""
+  },
+  
+  "DUTCH": {
+    "message": "Dutch",
+    "description": ""
+  },
+  
+  "ENGLISH": {
+    "message": "English",
+    "description": ""
+  },
+  
+  "ESPERANTO": {
+    "message": "Esperanto",
+    "description": ""
+  },
+  
+  "ESTONIAN": {
+    "message": "Estonian",
+    "description": ""
+  },
+  
+  "FILIPINO": {
+    "message": "Filipino",
+    "description": ""
+  },
+  
+  "FINNISH": {
+    "message": "Finnish",
+    "description": ""
+  },
+  
+  "FRENCH": {
+    "message": "French",
+    "description": ""
+  },
+  
+  "FRISIAN": {
+    "message": "Frisian",
+    "description": ""
+  },
+  
+  "GALICIAN": {
+    "message": "Galician",
+    "description": ""
+  },
+  
+  "GEORGIAN": {
+    "message": "Georgian",
+    "description": ""
+  },
+  
+  "GERMAN": {
+    "message": "German",
+    "description": ""
+  },
+  
+  "GREEK": {
+    "message": "Greek",
+    "description": ""
+  },
+  
+  "GUJARATI": {
+    "message": "Gujarati",
+    "description": ""
+  },
+  
+  "HAITIAN_CREOLE": {
+    "message": "Haitian Creole",
+    "description": ""
+  },
+  
+  "HAUSA": {
+    "message": "Hausa",
+    "description": ""
+  },
+  
+  "HAWAIIAN": {
+    "message": "Hawaiian",
+    "description": ""
+  },
+  
+  "HEBREW": {
+    "message": "Hebrew",
+    "description": ""
+  },
+  
+  "HINDI": {
+    "message": "Hindi",
+    "description": ""
+  },
+  
+  "HMONG": {
+    "message": "Hmong",
+    "description": ""
+  },
+  
+  "HUNGARIAN": {
+    "message": "Hungarian",
+    "description": ""
+  },
+  
+  "ICELANDIC": {
+    "message": "Icelandic",
+    "description": ""
+  },
+  
+  "IGBO": {
+    "message": "Igbo",
+    "description": ""
+  },
+  
+  "INDONESIAN": {
+    "message": "Indonesian",
+    "description": ""
+  },
+  
+  "IRISH": {
+    "message": "Irish",
+    "description": ""
+  },
+  
+  "ITALIAN": {
+    "message": "Italian",
+    "description": ""
+  },
+  
+  "JAPANESE": {
+    "message": "Japanese",
+    "description": ""
+  },
+  
+  "JAVANESE": {
+    "message": "Javanese",
+    "description": ""
+  },
+  
+  "KANNADA": {
+    "message": "Kannada",
+    "description": ""
+  },
+  
+  "KAZAKH": {
+    "message": "Kazakh",
+    "description": ""
+  },
+  
+  "KHMER": {
+    "message": "Khmer",
+    "description": ""
+  },
+  
+  "KOREAN": {
+    "message": "Korean",
+    "description": ""
+  },
+  
+  "KURDISH_KURMANJI": {
+    "message": "Kurdish (Kurmanji)",
+    "description": ""
+  },
+  
+  "KYRGYZ": {
+    "message": "Kyrgyz",
+    "description": ""
+  },
+  
+  "LAO": {
+    "message": "Lao",
+    "description": ""
+  },
+  
+  "LATIN": {
+    "message": "Latin",
+    "description": ""
+  },
+  
+  "LATVIAN": {
+    "message": "Latvian",
+    "description": ""
+  },
+  
+  "LITHUANIAN": {
+    "message": "Lithuanian",
+    "description": ""
+  },
+  
+  "LUXEMBOURGISH": {
+    "message": "Luxembourgish",
+    "description": ""
+  },
+  
+  "MACEDONIAN": {
+    "message": "Macedonian",
+    "description": ""
+  },
+  
+  "MALAGASY": {
+    "message": "Malagasy",
+    "description": ""
+  },
+  
+  "MALAY": {
+    "message": "Malay",
+    "description": ""
+  },
+  
+  "MALAYALAM": {
+    "message": "Malayalam",
+    "description": ""
+  },
+  
+  "MALTESE": {
+    "message": "Maltese",
+    "description": ""
+  },
+  
+  "MAORI": {
+    "message": "Maori",
+    "description": ""
+  },
+  
+  "MARATHI": {
+    "message": "Marathi",
+    "description": ""
+  },
+  
+  "MONGOLIAN": {
+    "message": "Mongolian",
+    "description": ""
+  },
+  
+  "MYANMAR_BURMESE": {
+    "message": "Myanmar (Burmese)",
+    "description": ""
+  },
+  
+  "NEPALI": {
+    "message": "Nepali",
+    "description": ""
+  },
+  
+  "NORWEGIAN": {
+    "message": "Norwegian",
+    "description": ""
+  },
+  
+  "PASHTO": {
+    "message": "Pashto",
+    "description": ""
+  },
+  
+  "PERSIAN": {
+    "message": "Persian",
+    "description": ""
+  },
+  
+  "POLISH": {
+    "message": "Polish",
+    "description": ""
+  },
+  
+  "PORTUGUESE": {
+    "message": "Portuguese",
+    "description": ""
+  },
+  
+  "PUNJABI": {
+    "message": "Punjabi",
+    "description": ""
+  },
+  
+  "ROMANIAN": {
+    "message": "Romanian",
+    "description": ""
+  },
+  
+  "RUSSIAN": {
+    "message": "Russian",
+    "description": ""
+  },
+  
+  "SAMOAN": {
+    "message": "Samoan",
+    "description": ""
+  },
+  
+  "SCOTS_GAELIC": {
+    "message": "Scots Gaelic",
+    "description": ""
+  },
+  
+  "SERBIAN": {
+    "message": "Serbian",
+    "description": ""
+  },
+  
+  "SESOTHO": {
+    "message": "Sesotho",
+    "description": ""
+  },
+  
+  "SHONA": {
+    "message": "Shona",
+    "description": ""
+  },
+  
+  "SINDHI": {
+    "message": "Sindhi",
+    "description": ""
+  },
+  
+  "SINHALA": {
+    "message": "Sinhala",
+    "description": ""
+  },
+  
+  "SLOVAK": {
+    "message": "Slovak",
+    "description": ""
+  },
+  
+  "SLOVENIAN": {
+    "message": "Slovenian",
+    "description": ""
+  },
+  
+  "SOMALI": {
+    "message": "Somali",
+    "description": ""
+  },
+  
+  "SPANISH": {
+    "message": "Spanish",
+    "description": ""
+  },
+  
+  "SUNDANESE": {
+    "message": "Sundanese",
+    "description": ""
+  },
+  
+  "SWAHILI": {
+    "message": "Swahili",
+    "description": ""
+  },
+  
+  "SWEDISH": {
+    "message": "Swedish",
+    "description": ""
+  },
+  
+  "TAJIK": {
+    "message": "Tajik",
+    "description": ""
+  },
+  
+  "TAMIL": {
+    "message": "Tamil",
+    "description": ""
+  },
+  
+  "TELUGU": {
+    "message": "Telugu",
+    "description": ""
+  },
+  
+  "THAI": {
+    "message": "Thai",
+    "description": ""
+  },
+  
+  "TURKISH": {
+    "message": "Turkish",
+    "description": ""
+  },
+  
+  "UKRAINIAN": {
+    "message": "Ukrainian",
+    "description": ""
+  },
+  
+  "URDU": {
+    "message": "Urdu",
+    "description": ""
+  },
+  
+  "UZBEK": {
+    "message": "Uzbek",
+    "description": ""
+  },
+  
+  "VIETNAMESE": {
+    "message": "Vietnamese",
+    "description": ""
+  },
+  
+  "WELSH": {
+    "message": "Welsh",
+    "description": ""
+  },
+  
+  "XHOSA": {
+    "message": "Xhosa",
+    "description": ""
+  },
+  
+  "YIDDISH": {
+    "message": "Yiddish",
+    "description": ""
+  },
+  
+  "YORUBA": {
+    "message": "Yoruba",
+    "description": ""
+  },
+  
+  "ZULU": {
+    "message": "Zulu",
     "description": ""
   }
 }

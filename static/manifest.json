@@ -20,7 +20,7 @@
     }
   },
 
-  "default_locale": "zh",
+  "default_locale": "en",
 
   "icons": {
     "48": "icons/icon.svg",

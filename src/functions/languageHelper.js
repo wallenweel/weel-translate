@@ -65,7 +65,7 @@ export default (
   return languages.concat(...languageList
     .reduce((prev, curr, i, list) => {
       // localize language's name in "locale" key
-      // curr.locale = i18n.getMessage(curr.locale)
+      curr.locale = i18n.getMessage(curr.locale)
 
       if (exclude && !inObject(curr.code, exCodes)) prev.push(curr)
 

@@ -61,11 +61,11 @@
 }, {
   "code": "zh-cn",
   "name": "Chinese Simplified",
-  "locale": "CHINESE SIMPLIFIED"
+  "locale": "CHINESE_SIMPLIFIED"
 }, {
   "code": "zh-tw",
   "name": "Chinese Traditional",
-  "locale": "CHINESE TRADITIONAL"
+  "locale": "CHINESE_TRADITIONAL"
 }, {
   "code": "co",
   "name": "Corsican",
@@ -137,7 +137,7 @@
 }, {
   "code": "ht",
   "name": "Haitian Creole",
-  "locale": "HAITIAN CREOLE"
+  "locale": "HAITIAN_CREOLE"
 }, {
   "code": "ha",
   "name": "Hausa",
@@ -209,7 +209,7 @@
 }, {
   "code": "ku",
   "name": "Kurdish (Kurmanji)",
-  "locale": "KURDISH (KURMANJI)"
+  "locale": "KURDISH_KURMANJI"
 }, {
   "code": "ky",
   "name": "Kyrgyz",
@@ -217,205 +217,309 @@
 }, {
   "code": "lo",
   "name": "Lao",
-  "locale": "LATIN"
+  "locale": "LAO"
 }, {
   "code": "la",
   "name": "Latin",
-  "locale": "LATVIAN"
+  "locale": "LATIN"
 }, {
   "code": "lv",
   "name": "Latvian",
-  "locale": "LITHUANIAN"
+  "locale": "LATVIAN"
 }, {
   "code": "lt",
   "name": "Lithuanian",
-  "locale": "LUXEMBOURGISH"
+  "locale": "LITHUANIAN"
 }, {
   "code": "lb",
   "name": "Luxembourgish",
-  "locale": "MACEDONIAN"
+  "locale": "LUXEMBOURGISH"
 }, {
   "code": "mk",
   "name": "Macedonian",
-  "locale": "MALAGASY"
+  "locale": "MACEDONIAN"
 }, {
   "code": "mg",
   "name": "Malagasy",
-  "locale": "MALAY"
+  "locale": "MALAGASY"
 }, {
   "code": "ms",
   "name": "Malay",
-  "locale": "MALAYALAM"
+  "locale": "MALAY"
 }, {
   "code": "ml",
   "name": "Malayalam",
-  "locale": "MALTESE"
+  "locale": "MALAYALAM"
 }, {
   "code": "mt",
   "name": "Maltese",
-  "locale": "MAORI"
+  "locale": "MALTESE"
 }, {
   "code": "mi",
   "name": "Maori",
-  "locale": "MARATHI"
+  "locale": "MAORI"
 }, {
   "code": "mr",
   "name": "Marathi",
-  "locale": "MONGOLIAN"
+  "locale": "MARATHI"
 }, {
   "code": "mn",
   "name": "Mongolian",
-  "locale": "MYANMAR (BURMESE)"
+  "locale": "MONGOLIAN"
 }, {
   "code": "my",
   "name": "Myanmar (Burmese)",
-  "locale": "NEPALI"
+  "locale": "MYANMAR_BURMESE"
 }, {
   "code": "ne",
   "name": "Nepali",
-  "locale": "NORWEGIAN"
+  "locale": "NEPALI"
 }, {
   "code": "no",
   "name": "Norwegian",
-  "locale": "PASHTO"
+  "locale": "NORWEGIAN"
 }, {
   "code": "ps",
   "name": "Pashto",
-  "locale": "PERSIAN"
+  "locale": "PASHTO"
 }, {
   "code": "fa",
   "name": "Persian",
-  "locale": "POLISH"
+  "locale": "PERSIAN"
 }, {
   "code": "pl",
   "name": "Polish",
-  "locale": "PORTUGUESE"
+  "locale": "POLISH"
 }, {
   "code": "pt",
   "name": "Portuguese",
-  "locale": "PUNJABI"
+  "locale": "PORTUGUESE"
 }, {
   "code": "ma",
   "name": "Punjabi",
-  "locale": "ROMANIAN"
+  "locale": "PUNJABI"
 }, {
   "code": "ro",
   "name": "Romanian",
-  "locale": "RUSSIAN"
+  "locale": "ROMANIAN"
 }, {
   "code": "ru",
   "name": "Russian",
-  "locale": "SAMOAN"
+  "locale": "RUSSIAN"
 }, {
   "code": "sm",
   "name": "Samoan",
-  "locale": "SCOTS GAELIC"
+  "locale": "SAMOAN"
 }, {
   "code": "gd",
   "name": "Scots Gaelic",
-  "locale": "SERBIAN"
+  "locale": "SCOTS_GAELIC"
 }, {
   "code": "sr",
   "name": "Serbian",
-  "locale": "SESOTHO"
+  "locale": "SERBIAN"
 }, {
   "code": "st",
   "name": "Sesotho",
-  "locale": "SHONA"
+  "locale": "SESOTHO"
 }, {
   "code": "sn",
   "name": "Shona",
-  "locale": "SINDHI"
+  "locale": "SHONA"
 }, {
   "code": "sd",
   "name": "Sindhi",
-  "locale": "SINHALA"
+  "locale": "SINDHI"
 }, {
   "code": "si",
   "name": "Sinhala",
-  "locale": "SLOVAK"
+  "locale": "SINHALA"
 }, {
   "code": "sk",
   "name": "Slovak",
-  "locale": "SLOVENIAN"
+  "locale": "SLOVAK"
 }, {
   "code": "sl",
   "name": "Slovenian",
-  "locale": "SOMALI"
+  "locale": "SLOVENIAN"
 }, {
   "code": "so",
   "name": "Somali",
-  "locale": "SPANISH"
+  "locale": "SOMALI"
 }, {
   "code": "es",
   "name": "Spanish",
-  "locale": "SUNDANESE"
+  "locale": "SPANISH"
 }, {
   "code": "su",
   "name": "Sundanese",
-  "locale": "SWAHILI"
+  "locale": "SUNDANESE"
 }, {
   "code": "sw",
   "name": "Swahili",
-  "locale": "SWEDISH"
+  "locale": "SWAHILI"
 }, {
   "code": "sv",
   "name": "Swedish",
-  "locale": "TAJIK"
+  "locale": "SWEDISH"
 }, {
   "code": "tg",
   "name": "Tajik",
-  "locale": "TAMIL"
+  "locale": "TAJIK"
 }, {
   "code": "ta",
   "name": "Tamil",
-  "locale": "TELUGU"
+  "locale": "TAMIL"
 }, {
   "code": "te",
   "name": "Telugu",
-  "locale": "THAI"
+  "locale": "TELUGU"
 }, {
   "code": "th",
   "name": "Thai",
-  "locale": "TURKISH"
+  "locale": "THAI"
 }, {
   "code": "tr",
   "name": "Turkish",
-  "locale": "UKRAINIAN"
+  "locale": "TURKISH"
 }, {
   "code": "uk",
   "name": "Ukrainian",
-  "locale": "URDU"
+  "locale": "UKRAINIAN"
 }, {
   "code": "ur",
   "name": "Urdu",
-  "locale": "UZBEK"
+  "locale": "URDU"
 }, {
   "code": "uz",
   "name": "Uzbek",
-  "locale": "VIETNAMESE"
+  "locale": "UZBEK"
 }, {
   "code": "vi",
   "name": "Vietnamese",
-  "locale": "WELSH"
+  "locale": "VIETNAMESE"
 }, {
   "code": "cy",
   "name": "Welsh",
-  "locale": "XHOSA"
+  "locale": "WELSH"
 }, {
   "code": "xh",
   "name": "Xhosa",
-  "locale": "YIDDISH"
+  "locale": "XHOSA"
 }, {
   "code": "yi",
   "name": "Yiddish",
-  "locale": "YORUBA"
+  "locale": "YIDDISH"
 }, {
   "code": "yo",
   "name": "Yoruba",
-  "locale": "ZULU"
+  "locale": "YORUBA"
 }, {
   "code": "zu",
   "name": "Zulu",
-  "locale": ""
+  "locale": "ZULU"
 }]
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+

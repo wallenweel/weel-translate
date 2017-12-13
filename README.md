@@ -17,20 +17,22 @@ Open `options page` then find ....
   "name": "Google",
 
   // get languages list from `[project root]/src/api/languages.json`
-  "support": ["en", "zh-cn", "ja"], // array
+  "include": ["en", "zh-cn", "ja"], // array
   // or
-  "support": "en/zh-cn/ja", // split by '/'
+  "include": "en/zh-cn/ja", // split by '/'
   // if you need to change language's code, like 'ja' -> 'jp'
-  "support": ["en", "zh-cn", "ja:>jp"],
-  "support": "en/zh-cn/ja:>jp",
+  "include": ["en", "zh-cn", "ja:>jp"],
+  "include": "en/zh-cn/ja:>jp",
+
+  "exclude": ["fr", "zh"], // same with "include" but will ignore "include"
 
   // if you supply "languages" key like below,
-  // extension's corresponding item will be override
-  // tip: you just use your new language's code in "support" key
+  // extension's corresponding item will be override.
+  // you don not need to put their 'code' in "include"
   "languages": [{
-    "code": "zh-cn",
-    "name": "Chinese Simplified",
-    "locale": "中文(简体)"
+    "code": "zh",
+    "name": "Chinese",
+    "locale": "中文"
   }, {
     "code": "jp",
     "name": "Japanese",

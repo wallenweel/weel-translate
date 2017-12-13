@@ -6,11 +6,14 @@ import {
   STORAGE_LOCAL,
   STORAGE_SYNC
 } from '@/actions/types'
-import languageHelper from '@/api/languages'
+
+// import languageHelper from '@/api/languages'
 import { storageSources } from '@/api/mocks'
 
+import languageHelper from '@/functions/languageHelper'
+
 try {
-  console.log(languageHelper(storageSources))
+  console.log(languageHelper())
 } catch (error) {
 }
 // storage.sync.clear()

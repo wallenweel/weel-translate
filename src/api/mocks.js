@@ -6,6 +6,20 @@ export const storageSources = [
     "icon": "base64:",
 
     "url": "https://translate.google.com",
+
+    "trans": {
+      "url": "{{url}}",
+      "params": [
+        ["q", "{{q}}", "default"],
+        ["from", "{{from}}", "en"],
+        ["to", "{{to}}", "zh"],
+
+        ["key", "d5sa4ea9jr"],
+        ["else", "something"]
+      ]
+    },
+
+    "voice": [],
     
     "parser": {
       "phonetic": {
@@ -17,7 +31,7 @@ export const storageSources = [
       "variable": ["$.certain[0]", "$.certain[1]"]
     },
     
-    "support": ["zh", "jp"],
+    "include": ["zh", "jp"],
     
     "languages": [{
       "code": "zh-cn",

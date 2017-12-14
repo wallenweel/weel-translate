@@ -1,4 +1,4 @@
-import { whattype } from '@/globals'
+import { whattype, runtime, tabs } from '@/globals'
 import { onMessage } from '@/functions/runtime'
 import * as storage from '@/functions/storage'
 import {
@@ -8,16 +8,10 @@ import {
   SERVICE_LANGUAGE_LIST
 } from '@/actions/types'
 
-// import languageHelper from '@/api/languages'
 // import { storageSources } from '@/api/mocks'
 
 import languageHelper from '@/functions/languageHelper'
 
-try {
-  console.log(languageHelper())
-  // console.log(languageHelper().reduce((a, b) => a + b.name + ', ', ''))
-} catch (error) {
-}
 // storage.sync.clear()
 storage.sync.set({
   test: false
@@ -49,6 +43,7 @@ onMessage.addListener((message, from, send) => {
       break
 
     case SERVICE_LANGUAGE_LIST:
+      send(languageHelper())
       break
 
     default:

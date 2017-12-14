@@ -20,6 +20,7 @@ export const config = {
 export const state = {
   count: 100,
   drawerOpened: null,
+  currentLanguages: [],
   ...config
 }
 

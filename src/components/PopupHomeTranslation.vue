@@ -5,11 +5,13 @@
         v-layout(row wrap :class="$style.languageToolbar")
           //- source language selection
           v-select(
-            :items="genLanguages"
             min-width=120
             label="Select"
             overflow hide-details
             auto dense
+            :items="currentLanguages.length ? currentLanguages : languages"
+            item-text="locale"
+            item-value="code"
             v-model="srcLanguage"
             )
           //- a mini button to swap two languages
@@ -17,11 +19,13 @@
             v-icon(color="primary" small) swap_horiz
           //- aim language selection
           v-select(
-            :items="genLanguages"
             min-width=120
             label="Select"
             overflow hide-details
             auto dense
+            :items="currentLanguages.length ? currentLanguages : languages"
+            item-text="locale"
+            item-value="code"
             v-model="aimLanguage"
             )
 
@@ -43,7 +47,11 @@
           v-btn(flat depressed @click="deleteContent")
             v-icon(color="blue-grey") delete
           //- translation button
-          v-btn(fab dark medium color="primary" :class="$style.translate")
+          v-btn(
+            fab dark medium color="primary"
+            :class="$style.translate"
+            @click="startTranslate"
+            )
             v-icon(dark) done_all
           //- speak out content button
           v-btn(flat depressed)
@@ -75,34 +83,47 @@
 </template>
 
 <script>
+import { mapState } from 'vuex'
+
 export default {
   name: 'PopupHomeTranslation',
   data () {
     return {
       srcLanguage: 'auto',
       aimLanguage: 'auto',
-      languages: [],
+      // languages: [],
+      languages: [{
+        'code': 'auto',
+        'name': 'Automatic',
+        'locale': 'AUTO MATIC AUTOMATIC AUTOMATIC'
+      }, {
+        'code': 'en',
+        'name': 'English',
+        'locale': 'ENGLISH'
+      }, {
+        'code': 'zh',
+        'name': 'Chinese',
+        'locale': 'CHINESE'
+      }],
       content: '',
       source: { text: 'Google', id: 'google' }
     }
   },
   created () {
-    // console.log(11)
+    // this.languageListGet()
+    this.$store.dispatch('languageListGet')
   },
   computed: {
-    genLanguages () {
-      const languages = [
-        { text: 'English', value: 'en' },
-        { text: '中文', value: 'zh-CN' },
-        { text: 'Japanese', value: 'ja' }
-      ]
-
-      languages.unshift({ text: this.i18n.getMessage('AUTO'), value: 'auto' })
-
-      return languages
-    }
+    ...mapState(['currentLanguages'])
   },
   methods: {
+    languageListGet () {
+      // console.log(this)
+      this.$store.dispatch('languageListGet')
+    },
+    startTranslate () {
+      this.$store.dispatch('languageListGet')
+    },
     swapLanguages () {
       [ this.aimLanguage, this.srcLanguage ] = [ this.srcLanguage, this.aimLanguage ]
     },
@@ -147,7 +168,21 @@ export default {
     .input-group__selections {
       user-select: none;
       width: 100% !important;
-      justify-content: center;
+      // justify-content: center;
+      &__comma {
+        width: 0;
+        white-space: nowrap;
+
+        &::after {
+          content: "";
+          background-image: linear-gradient(to left, white, transparent);
+          height: 100%;
+          width: 1em;
+          right: 0;
+          position: absolute;
+          display: inline-block;
+        }
+      }
     }
     .input-group__details {
       display: none;

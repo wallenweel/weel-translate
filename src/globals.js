@@ -19,7 +19,12 @@ try {
 
 // if app is not running in the extension,
 // these below variables will be undefined
-export const { i18n, runtime, storage } = window[env]
+export const {
+  i18n,
+  runtime,
+  storage,
+  tabs
+} = window[env]
 
 export default window[env]
 

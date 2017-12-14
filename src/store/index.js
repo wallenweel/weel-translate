@@ -1,6 +1,7 @@
 import Vue from 'vue'
 import Vuex from 'vuex'
 import * as mutations from './mutations'
+import * as actions from './actions'
 
 Vue.use(Vuex)
 
@@ -24,15 +25,18 @@ export const state = {
 
 const store = new Vuex.Store({
   state,
-  mutations
+  mutations,
+  actions
 })
 
 if (module.hot) {
   module.hot.accept([
-    './mutations'
+    './mutations',
+    './actions'
   ], () => {
     store.hotUpdate({
-      mutations: require('./mutations')
+      mutations: require('./mutations'),
+      actions: require('./actions')
     })
   })
 }

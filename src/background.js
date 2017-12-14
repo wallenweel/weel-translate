@@ -4,7 +4,8 @@ import * as storage from '@/functions/storage'
 import {
   STORAGE_CHANGE,
   STORAGE_LOCAL,
-  STORAGE_SYNC
+  STORAGE_SYNC,
+  SERVICE_LANGUAGE_LIST
 } from '@/actions/types'
 
 // import languageHelper from '@/api/languages'
@@ -45,6 +46,9 @@ onMessage.addListener((message, from, send) => {
       }
       break
     case STORAGE_SYNC:
+      break
+
+    case SERVICE_LANGUAGE_LIST:
       break
 
     default:

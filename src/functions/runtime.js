@@ -1,7 +1,5 @@
-import {
-  aid,
-  runtime
-} from '@/globals'
+import { runtime } from '@/globals'
+import { aid } from '@/functions/utils'
 
 // https://developer.mozilla.org/en-US/Add-ons/WebExtensions/API/runtime/sendMessage
 export const sendMessage = message => aid(

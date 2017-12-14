@@ -1,4 +1,4 @@
-import { whattype, runtime, tabs } from '@/globals'
+import { whattype } from '@/functions/utils'
 import { onMessage } from '@/functions/runtime'
 import * as storage from '@/functions/storage'
 import {

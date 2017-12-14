@@ -1,5 +1,5 @@
 import * as i18n from '@/functions/i18n'
-import { whattype, istype } from '@/globals'
+import { whattype, istype } from '@/functions/utils'
 import languageCollection from '@/api/languages.json'
 
 const toHash = obj => {

@@ -1,7 +1,5 @@
-import {
-  aid,
-  storage
-} from '@/globals'
+import { storage } from '@/globals'
+import { aid } from '@/functions/utils'
 
 // https://developer.mozilla.org/en-US/docs/Mozilla/Add-ons/WebExtensions/API/storage/sync
 export const sync = {

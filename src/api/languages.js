@@ -1,4 +1,4 @@
-import { istype } from '@/globals'
+import { istype } from '@/functions/utils'
 import { translatingResult } from '@/api/mocks'
 
  // 'obj.a[0].b[1]' -> [obj, a, 0, b, 1]

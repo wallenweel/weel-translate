@@ -8,7 +8,6 @@ export const languageListGet = ({ commit }, payload = []) => {
     type: SERVICE_LANGUAGE_LIST,
     payload
   }).then(list => {
-    // console.log(res)
     commit('currentLanguages', list)
   })
 }

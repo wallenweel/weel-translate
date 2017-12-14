@@ -24,28 +24,12 @@ const toHash = obj => {
   }
 }
 
-// const mock = [{
-//   'code': 'zh-cn',
-//   'name': 'Chinese',
-//   'locale': '中文'
-// }, {
-//   'code': 'jp',
-//   'name': 'Japanese',
-//   'locale': '日文'
-// }]
-
-// TODO: Remove these test codes
-export default (
-  languages = [], include, exclude
-  // languages = mock,
-  // include = { 'en': true, 'iw': true },
-  // include = ['en', 'zh-cn', 'ja'],
-  // include = ['en', 'zh-cn', 'ja:>jp'],
-  // include = 'en/zh-cn/ja',
-  // include = 'en/zh-cn/ja:>jp',
-  // exclude = ['fr', 'zh']
-  // exclude = 'fr/zh-cn/ja'
-) => {
+// param is source's json treated preset
+export default ({
+  include,
+  exclude,
+  languages = []
+}) => {
   const languageList = JSON.parse(JSON.stringify(languageCollection))
   const [inCodes, exCodes] = [toHash(include), toHash(exclude)]
   const inObject = (elem, obj) => Object.keys(obj).includes(elem)
@@ -54,7 +38,8 @@ export default (
     // merge exclude and deal with some languages's content e.g. "locale"
     Object.assign(exCodes, languages.reduce((prev, curr) => {
       // if can not get local text contiune with user's
-      curr.locale = i18n.getMessage(curr.locale) || curr.locale
+      curr.locale = curr.trans || i18n.getMessage(curr.locale) || curr.name
+      // delete curr.trans
 
       return (prev[curr.code] = true) && prev
     }, {}))

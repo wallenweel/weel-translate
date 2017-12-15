@@ -28,4 +28,3 @@ export const {
 } = window[env]
 
 export default window[env]
-console.log(window.browser)

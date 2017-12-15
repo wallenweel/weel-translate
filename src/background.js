@@ -14,8 +14,8 @@ import serviceHelper from '@/functions/serviceHelper'
 import storageHelper from '@/functions/storageHelper'
 
 try {
-  // console.log(serviceHelper(store.state, store))
-  storageHelper({}, store)
+  serviceHelper()
+  storageHelper()
 } catch (error) {
   console.log('!!!something is wrong!!!')
 }

@@ -1,11 +1,15 @@
 import { storage } from '@/globals'
 import store from '@/stores/background'
 
-store.watch(state => state.settings, (a, b) => {
-  console.log(a, b)
-})
-
-export default (airState, { commit }) => {
+export default () => {
+  const {
+    commit,
+    state
+  } = store
+  store.watch(state => state.settings, (a, b) => {
+    console.log(a, b)
+  })
+  console.log(state)
   // const {
   //   began = false, // storage is whether or not initialized
   //   settings,

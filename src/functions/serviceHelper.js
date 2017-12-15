@@ -1,19 +1,17 @@
-// import { istype } from '@/functions/utils'
+import store from '@/stores/background'
 import languageHelper from '@/functions/languageHelper'
-// import translatingHelper from '@/functions/translatingHelper'
-// import { google } from '@/api/mocks'
+import translatingHelper from '@/functions/translatingHelper'
 
-export default ({ sources }) => {
-  const presets = sources.preset
+export default () => {
+  const {
+    state: {
+      sources
+    }
+  } = store
 
-  // for (const id in presets) {
-  //   if (presets.hasOwnProperty(id)) {
-  //     const preset = JSON.parse(presets[id])
-  //     // console.log(translatingHelper(preset, google))
-  //     console.log(languageHelper(preset))
-  //   }
-  // }
-  const preset = JSON.parse(presets['google'])
-  console.log(languageHelper(preset))
-  return languageHelper(preset)
+  for (const [id, preset] of Object.entries(sources.preset)) {
+    const json = JSON.parse(preset)
+    console.log(languageHelper(json))
+    console.log(translatingHelper(json, id))
+  }
 }

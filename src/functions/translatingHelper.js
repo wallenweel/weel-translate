@@ -1,4 +1,5 @@
 import { istype } from '@/functions/utils'
+import * as mocks from '@/api/mocks'
 
  // 'obj.a[0].b[1]' -> [obj, a, 0, b, 1]
 const stringToPath = (str, start = 0) => {
@@ -12,26 +13,27 @@ const stringToPath = (str, start = 0) => {
 /**
  * get object's value by string as key
  * @param {String} str string path
- * @param {Object} obj plain object
+ * @param {Object} respond plain object
  * @param {Number} start see same param in stringToPath
  * @return {Any}
  */
-const lazyGet = (str, obj, start = 1) =>
+const lazyGet = (str, respond, start = 1) =>
   stringToPath(str, start)
-  .reduce((prev, curr) => !prev ? null : prev[curr], obj)
+  .reduce((prev, curr) => !prev ? null : prev[curr], respond)
 
 /**
  * recursive loop for parsing real result
- * @param {Object} obj referenced object contains phonetic/translation/explain
+ * @param {Object} object referenced object contains phonetic/translation/explain
+ * @param {Object} respond request's respond data
  * @param {Object} prevObj prevrious referenced object
  * @param {String/Integer} prevKey the key that need to be replaced value
  */
-const loopParse = (obj, result, prevObj, prevKey) => {
-  if (istype(obj, 'string') && /^\$\./.test(obj)) {
-    return (prevObj[prevKey] = lazyGet(obj, result))
+const loopParse = (object, respond, prevObj, prevKey) => {
+  if (istype(object, 'string') && /^\$\./.test(object)) {
+    return (prevObj[prevKey] = lazyGet(object, respond))
   }
 
-  Object.keys(obj).forEach(key => loopParse(obj[key], result, obj, key))
+  for (const [key, value] of Object.entries(object)) loopParse(value, respond, object, key)
 }
 
 // param is source's json treated preset
@@ -42,7 +44,11 @@ export default ({
     explain = [],
     variable = []
   }
-}, respond) => {
+}, apiID) => {
+  // TODO: here is mock respond data
+  // will update to AJAX request
+  const respond = mocks[apiID]
+
   let result = { phonetic, translation, explain }
 
   if (istype(variable, 'array') && variable.length) {

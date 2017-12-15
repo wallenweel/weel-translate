@@ -1,9 +1,14 @@
 import merge from 'deepmerge'
+import {
+  MERGE_STORAGE_STATE
+} from '@/types'
 
-export const mergeStorageToState = (state, storage = {}) => {
+const __ = {}
+
+__[MERGE_STORAGE_STATE] = (state, storage = {}) => {
   for (const [name, config] of Object.entries(storage)) {
     state[name] = merge(state[name], config, { arrayMerge: (des, src) => src })
   }
 }
 
-export const updateSettings = (state, payload) => {}
+export default __

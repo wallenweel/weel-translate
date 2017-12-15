@@ -86,6 +86,9 @@
 
 <script>
 import { mapState } from 'vuex'
+import {
+  GET_LANGUAGE_LIST
+} from '@/types'
 
 export default {
   name: 'PopupHomeTranslation',
@@ -112,8 +115,7 @@ export default {
     }
   },
   created () {
-    // this.languageListGet()
-    this.$store.dispatch('languageListGet')
+    this.$store.dispatch(GET_LANGUAGE_LIST)
   },
   computed: {
     ...mapState(['currentLanguages'])

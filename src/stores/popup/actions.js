@@ -1,13 +1,19 @@
 import { sendMessage } from '@/functions/runtime'
 import {
-  SERVICE_LANGUAGE_LIST
+  GET_LANGUAGE_LIST,
+  CURRENT_LANGUAGES
 } from '@/types'
 
-export const languageListGet = ({ commit }, payload = []) => {
+const __ = {}
+
+__[GET_LANGUAGE_LIST] = ({ commit }, payload = []) => {
   sendMessage({
-    type: SERVICE_LANGUAGE_LIST,
+    type: GET_LANGUAGE_LIST,
     payload
   }).then(list => {
-    commit('currentLanguages', list)
+    console.log('list', list)
+    commit(CURRENT_LANGUAGES, list)
   })
 }
+
+export default __

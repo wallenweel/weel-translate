@@ -4,7 +4,7 @@
     temporary
     absolute
     width="220"
-    v-model="drawer"
+    v-model="toggle"
     )
     v-toolbar(flat)
       span {{ i18n.getMessage('EXTENSION_NAME') }}
@@ -39,7 +39,7 @@ export default {
   name: 'popupNavigationDrawer',
   data () {
     return {
-      drawer: null,
+      toggle: false,
       items: [
         { title: 'Home', icon: 'home', path: '/home' },
         { title: 'Preferences', icon: 'tune', path: '/preferences' },
@@ -49,11 +49,11 @@ export default {
     }
   },
   computed: {
-    ...mapState(['drawerOpened'])
+    ...mapState(['drawerNavigationToggle'])
   },
   watch: {
-    drawerOpened () {
-      this.drawer = !this.drawer
+    drawerNavigationToggle () {
+      this.toggle = !this.toggle
     }
   },
   methods: {}

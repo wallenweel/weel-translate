@@ -10,7 +10,8 @@ export default (store) => {
 
   for (const [id, preset] of Object.entries(sources.preset)) {
     const json = JSON.parse(preset)
-    console.log(languageHelper(json))
-    console.log(translatingHelper(json, id))
+    // console.log(languageHelper(json))
+    // console.log(translatingHelper(json, id))
+    return languageHelper(json)
   }
 }

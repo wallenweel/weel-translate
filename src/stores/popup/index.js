@@ -1,7 +1,7 @@
 import Vue from 'vue'
 import Vuex from 'vuex'
-import * as mutations from './mutations'
-import * as actions from './actions'
+import mutations from './mutations'
+import actions from './actions'
 
 Vue.use(Vuex)
 
@@ -18,8 +18,7 @@ export const config = {
 }
 
 export const state = {
-  count: 100,
-  drawerOpened: null,
+  drawerNavigationToggle: false,
   currentLanguages: [],
   ...config
 }

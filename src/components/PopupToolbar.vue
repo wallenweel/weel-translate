@@ -20,6 +20,8 @@
 </template>
 
 <script>
+import { DRAWER_NAGIVATION_TOGGLE } from '@/types'
+
 export default {
   name: 'popupToolbar',
   data () {
@@ -30,7 +32,7 @@ export default {
   },
   methods: {
     handleDrawer () {
-      this.$store.commit('drawerToggle')
+      this.$store.commit(DRAWER_NAGIVATION_TOGGLE)
     }
   }
 }

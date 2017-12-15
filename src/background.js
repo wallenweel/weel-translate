@@ -1,29 +1,22 @@
+import merge from 'deepmerge'
 import store from '@/stores/background'
 import {
-  storage,
   runtime
 } from '@/globals'
 import {
-  STORAGE_CHANGE,
-  STORAGE_LOCAL,
-  STORAGE_SYNC,
-  SERVICE_LANGUAGE_LIST
+  BACKGROUND_INITIALIZE
 } from '@/types'
-import { whattype } from '@/functions/utils'
-import serviceHelper from '@/functions/serviceHelper'
-// import storageHelper from '@/functions/storageHelper'
 
 try {
-  // serviceHelper(store)
-  // storageHelper(store)
+  // watch change of some states that same with storage
   for (const name of store.state.inStorage) {
-    // watch change of some states that same with storage
     store.watch(state => state[name], (curr, prev) => {
       console.log(curr, prev)
     })
   }
 
-  store.dispatch('initial')
+  // initialize everything
+  store.dispatch(BACKGROUND_INITIALIZE)
 } catch (error) {
   console.log(
     '!!!something is wrong!!!'.toUpperCase(),
@@ -32,43 +25,8 @@ try {
   )
 }
 
-runtime.onMessage.addListener((message, from, send) => {
-  const {
-    type,
-    payload
-  } = message
+// forward message to vuex store's actions
+runtime.onMessage.addListener((action, source, emit) =>
+  !store.dispatch(merge({ source, emit }, action)))
 
-  switch (type) {
-    case STORAGE_CHANGE:
-      storage.sync.set(payload)
-      send(payload)
-      break
-
-    case STORAGE_LOCAL:
-      if (whattype(payload) === 'object') {
-        // set
-      } else {
-        // get
-      }
-      break
-    case STORAGE_SYNC:
-      break
-
-    case SERVICE_LANGUAGE_LIST:
-      // send(languageHelper({}))
-      send(serviceHelper(store.state, store))
-      break
-
-    default:
-      console.log(
-        `%cYou Must Provide A Object Data Contains 'type' Key At Least When You Call '[type].sendMessage'!`,
-        'background-color: crimson; color: white; display: block;',
-        `Yours: ${JSON.stringify(message)}`
-      )
-      break
-  }
-})
-
-// if (module.hot) {
-//   module.hot.accept()
-// }
+if (module.hot) module.hot.accept()

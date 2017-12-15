@@ -1,11 +1,16 @@
-export const increment = state => {
-  state.count++
+import {
+  CURRENT_LANGUAGES,
+  DRAWER_NAGIVATION_TOGGLE
+} from '@/types'
+
+const __ = {}
+
+__[DRAWER_NAGIVATION_TOGGLE] = state => {
+  state.drawerNavigationToggle = !state.drawerNavigationToggle
 }
 
-export const drawerToggle = state => {
-  state.drawerOpened = !state.drawerOpened
-}
-
-export const currentLanguages = (state, payload = []) => {
+__[CURRENT_LANGUAGES] = (state, payload = []) => {
   state.currentLanguages = payload
 }
+
+export default __

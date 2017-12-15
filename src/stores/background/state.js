@@ -1,4 +1,11 @@
-export const storage = {}
+export const settings = {}
+
+export const preferences = {}
+
+export const translation = {
+  history: [],
+  collection: []
+}
 
 export const sources = {
   api: {},
@@ -50,6 +57,10 @@ sources.preset.google = `{
 }`
 
 export default {
-  storage,
+  began: false,
+
+  settings,
+  preferences,
+  translation,
   sources
 }

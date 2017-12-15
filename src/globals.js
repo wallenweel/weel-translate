@@ -23,7 +23,9 @@ export const {
   i18n,
   runtime,
   storage,
-  tabs
+  tabs,
+  notifications
 } = window[env]
 
 export default window[env]
+console.log(window.browser)

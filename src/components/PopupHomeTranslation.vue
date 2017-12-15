@@ -13,6 +13,7 @@
             item-text="locale"
             item-value="code"
             v-model="srcLanguage"
+            :class="$style.from"
             )
           //- a mini button to swap two languages
           v-btn(icon style="min-width: 32px;" @click="swapLanguages")
@@ -27,6 +28,7 @@
             item-text="locale"
             item-value="code"
             v-model="aimLanguage"
+            :class="$style.to"
             )
 
       v-card
@@ -95,7 +97,7 @@ export default {
       languages: [{
         'code': 'auto',
         'name': 'Automatic',
-        'locale': 'AUTO MATIC AUTOMATIC AUTOMATIC'
+        'locale': 'AUTOAUTO AUTO AUTO'
       }, {
         'code': 'en',
         'name': 'English',
@@ -168,10 +170,11 @@ export default {
     .input-group__selections {
       user-select: none;
       width: 100% !important;
-      // justify-content: center;
+      // justify-content: end;
       &__comma {
         width: 0;
         white-space: nowrap;
+        display: inline-table;
 
         &::after {
           content: "";
@@ -186,6 +189,22 @@ export default {
     }
     .input-group__details {
       display: none;
+    }
+  }
+}
+
+.from {
+  :global {
+    .input-group__selections__comma {
+      margin-right: auto;
+    }
+  }
+}
+
+.to {
+  :global {
+    .input-group__selections__comma {
+      margin-left: auto;
     }
   }
 }

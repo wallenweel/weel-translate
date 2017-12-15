@@ -1,36 +1,26 @@
-import store from '@/store/background'
-import { whattype } from '@/functions/utils'
-import { onMessage } from '@/functions/runtime'
-import * as storage from '@/functions/storage'
-import languageHelper from '@/functions/languageHelper'
-import serviceHelper from '@/functions/serviceHelper'
+import store from '@/stores/background'
+import {
+  storage,
+  runtime
+} from '@/globals'
 import {
   STORAGE_CHANGE,
   STORAGE_LOCAL,
   STORAGE_SYNC,
   SERVICE_LANGUAGE_LIST
-} from '@/actions/types'
-
-store.watch(state => state.sources, (a, b) => {
-  console.log(a.test, b.test)
-})
-
-// storage.sync.clear()
-storage.sync.set({
-  test: false
-})
-storage.sync.get().then(config => {
-  store.commit('storageGet', config)
-  // console.log(store.state)
-})
+} from '@/types'
+import { whattype } from '@/functions/utils'
+import serviceHelper from '@/functions/serviceHelper'
+import storageHelper from '@/functions/storageHelper'
 
 try {
-  console.log(serviceHelper(store.state, store))
+  // console.log(serviceHelper(store.state, store))
+  storageHelper({}, store)
 } catch (error) {
   console.log('!!!something is wrong!!!')
 }
 
-onMessage.addListener((message, from, send) => {
+runtime.onMessage.addListener((message, from, send) => {
   const {
     type,
     payload
@@ -53,7 +43,6 @@ onMessage.addListener((message, from, send) => {
       break
 
     case SERVICE_LANGUAGE_LIST:
-      store.commit('storageGet', { test: 100 })
       // send(languageHelper({}))
       send(serviceHelper(store.state, store))
       break

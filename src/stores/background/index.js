@@ -8,7 +8,7 @@ export default new Vuex.Store({
   state,
   mutations: {
     storageGet (state, payload = {}) {
-      state.storage = payload
+      state.settings = payload
     }
   }
 })

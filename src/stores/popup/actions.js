@@ -1,7 +1,7 @@
 import { sendMessage } from '@/functions/runtime'
 import {
   SERVICE_LANGUAGE_LIST
-} from '@/actions/types'
+} from '@/types'
 
 export const languageListGet = ({ commit }, payload = []) => {
   sendMessage({

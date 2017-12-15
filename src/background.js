@@ -11,13 +11,25 @@ import {
 } from '@/types'
 import { whattype } from '@/functions/utils'
 import serviceHelper from '@/functions/serviceHelper'
-import storageHelper from '@/functions/storageHelper'
+// import storageHelper from '@/functions/storageHelper'
 
 try {
-  serviceHelper()
-  storageHelper()
+  // serviceHelper(store)
+  // storageHelper(store)
+  for (const name of store.state.inStorage) {
+    // watch change of some states that same with storage
+    store.watch(state => state[name], (curr, prev) => {
+      console.log(curr, prev)
+    })
+  }
+
+  store.dispatch('initial')
 } catch (error) {
-  console.log('!!!something is wrong!!!')
+  console.log(
+    '!!!something is wrong!!!'.toUpperCase(),
+    '\n',
+    error
+  )
 }
 
 runtime.onMessage.addListener((message, from, send) => {
@@ -57,6 +69,6 @@ runtime.onMessage.addListener((message, from, send) => {
   }
 })
 
-if (module.hot) {
-  module.hot.accept()
-}
+// if (module.hot) {
+//   module.hot.accept()
+// }

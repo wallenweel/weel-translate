@@ -1,8 +1,7 @@
-import store from '@/stores/background'
 import languageHelper from '@/functions/languageHelper'
 import translatingHelper from '@/functions/translatingHelper'
 
-export default () => {
+export default (store) => {
   const {
     state: {
       sources

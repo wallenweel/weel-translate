@@ -1,33 +1,34 @@
 import { storage } from '@/globals'
-import store from '@/stores/background'
+import merge from 'deepmerge'
 
-export default () => {
+export default (store) => {
   const {
     commit,
     state
   } = store
-  store.watch(state => state.settings, (a, b) => {
-    console.log(a, b)
-  })
-  console.log(state)
-  // const {
-  //   began = false, // storage is whether or not initialized
-  //   settings,
-  //   preferences,
-  //   translation,
-  //   sources
-  // } = store.state
 
-  // const [syncItems, localItems] = [[], []]
+  store.watch(state => state.settings, (curr, prev) => {
+    console.log(curr, prev)
+  })
+  console.log('state.merged', state.merged)
+
+  console.log(merge({
+    test: [true]
+  }, {
+    test: [false]
+  }, {
+    arrayMerge: (des, src) => src
+  }))
 
   // storage.sync.clear()
   // storage.sync.set({
-  //   test: false
+  //   settings: {
+  //     test: true
+  //   }
   // })
-  storage.sync.get().then(config => {
-    commit('storageGet', {
-      test: 'test'
-    })
-    console.log(config)
+  storage.sync.get([ 'settings', 'preferences', 'translation', 'sources' ])
+  .then(all => {
+    console.log('all', all)
+    commit('mergeStateWithStorage', all)
   })
 }

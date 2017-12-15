@@ -1,4 +1,6 @@
-export const settings = {}
+export const settings = {
+  foo: false
+}
 
 export const preferences = {}
 
@@ -57,7 +59,8 @@ sources.preset.google = `{
 }`
 
 export default {
-  began: false,
+  initialized: false,
+  inStorage: ['settings', 'preferences', 'translation', 'sources'],
 
   settings,
   preferences,

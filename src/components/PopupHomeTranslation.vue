@@ -96,20 +96,20 @@ export default {
     return {
       srcLanguage: 'auto',
       aimLanguage: 'auto',
-      // languages: [],
-      languages: [{
-        'code': 'auto',
-        'name': 'Automatic',
-        'locale': 'AUTOAUTO AUTO AUTO'
-      }, {
-        'code': 'en',
-        'name': 'English',
-        'locale': 'ENGLISH'
-      }, {
-        'code': 'zh',
-        'name': 'Chinese',
-        'locale': 'CHINESE'
-      }],
+      languages: [],
+      // languages: [{
+      //   'code': 'auto',
+      //   'name': 'Automatic',
+      //   'locale': 'AUTOAUTO AUTO AUTO'
+      // }, {
+      //   'code': 'en',
+      //   'name': 'English',
+      //   'locale': 'ENGLISH'
+      // }, {
+      //   'code': 'zh',
+      //   'name': 'Chinese',
+      //   'locale': 'CHINESE'
+      // }],
       content: '',
       source: { text: 'Google', id: 'google' }
     }

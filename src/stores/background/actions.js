@@ -1,38 +1,39 @@
+import merge from 'deepmerge'
 import { storage } from '@/globals'
 import {
   BACKGROUND_INITIALIZE,
   MERGE_STORAGE_STATE,
-  GET_LANGUAGE_LIST,
-  COMPILE_SERVICE_SOURCES
+  GET_LANGUAGE_LIST
 } from '@/types'
-// import * as mocks from '@/api/mocks'
 
 const __ = {}
 
 __[BACKGROUND_INITIALIZE] = ({ state, commit }) => {
-  // storage.sync.set({
-  //   test: false
-  // })
-  storage.sync.get(state.inStorage).then(all => {
-    // merge storage to state
+  storage.sync.get(state.storageSync).then(all => {
+    // merge sync storage to state
     commit(MERGE_STORAGE_STATE, all)
 
-    commit(COMPILE_SERVICE_SOURCES)
+    state.initialized.storageSync = true
+  }, () => { state.initialized.storageSync = false })
 
-    // console.log(state.api.google.parser(mocks['google']))
-    // console.log(state.api.google.query.audio({ q: 'test', from: 'en', to: 'zh' }))
-    console.log(JSON.stringify(state.api))
+  storage.local.get(state.storageLocal).then(all => {
+    // merge local storage to state
+    commit(MERGE_STORAGE_STATE, all)
 
-    // set success status
-    state.initialized = true
-  }, () => {
-    // set success status
-    state.initialized = false
-  })
+    state.initialized.storageLocal = true
+  }, () => { state.initialized.storageLocal = false })
 }
 
-__[GET_LANGUAGE_LIST] = ({ state }, { emit }) => {
-  // emit(serviceHelper({ state }))
+__[GET_LANGUAGE_LIST] = ({ state }, { payload: { id }, emit }) => {
+  const api = state.api[id] || Object.values(state.api)[0]
+
+  if (!api) {
+    // TODO: add alert
+    console.log('Must Supply One API Preset At Least!')
+    return
+  }
+
+  emit(merge([], api.languages))
 }
 
 export default __

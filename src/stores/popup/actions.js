@@ -6,12 +6,12 @@ import {
 
 const __ = {}
 
-__[GET_LANGUAGE_LIST] = ({ commit }, payload = []) => {
+__[GET_LANGUAGE_LIST] = ({ commit }, payload = { id: '' }) => {
   sendMessage({
     type: GET_LANGUAGE_LIST,
     payload
   }).then(list => {
-    console.log('list', list)
+    // console.log('list', list)
     commit(CURRENT_LANGUAGES, list)
   })
 }

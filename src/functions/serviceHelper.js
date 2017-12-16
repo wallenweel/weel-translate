@@ -22,7 +22,7 @@ export default (sources, __ = {}) => {
         ) incorrect = true
       }
       if (!istype(realPreset, 'object') || incorrect) {
-        // TODO: wrong alert
+        // TODO: add wrong alert to frontend
         console.log(
           'wrong preset is supplied and skipped',
           JSON.stringify(presetJSON)
@@ -31,9 +31,7 @@ export default (sources, __ = {}) => {
       }
 
       presetJSON = merge(
-        ...presetJSON.reduce((prev, curr) =>
-          prev.push(JSON.parse(presets[curr])) && prev
-        , []),
+        ...presetJSON.map(id => JSON.parse(presets[id])),
         realPreset,
         { arrayMerge: (des, src) => src }
       )

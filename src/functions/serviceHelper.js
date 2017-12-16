@@ -1,18 +1,18 @@
+import merge from 'deepmerge'
 import languageHelper from '@/functions/languageHelper'
-import translatingHelper from '@/functions/translatingHelper'
+import parserHelper from '@/functions/parserHelper'
+import queryHelper from '@/functions/queryHelper'
 
-// TODO: implement this
-export default (store) => {
-  const {
-    state: {
-      sources
-    }
-  } = store
-
+export default (sources, __ = {}) => {
   for (const [id, preset] of Object.entries(sources.preset)) {
-    const json = JSON.parse(preset)
-    // console.log(languageHelper(json))
-    // console.log(translatingHelper(json, id))
-    return languageHelper(json)
+    const presetJSON = JSON.parse(preset)
+
+    __[id] = merge(presetJSON, {
+      languages: languageHelper(presetJSON),
+      parser: parserHelper(presetJSON),
+      query: queryHelper(presetJSON)
+    }, { arrayMerge: (des, src) => src })
   }
+
+  return __
 }

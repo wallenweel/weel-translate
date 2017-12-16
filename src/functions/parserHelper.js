@@ -1,5 +1,4 @@
 import { istype } from '@/functions/utils'
-import * as mocks from '@/api/mocks'
 
  // 'obj.a[0].b[1]' -> [obj, a, 0, b, 1]
 const stringToPath = (str, start = 0) => {
@@ -44,26 +43,16 @@ export default ({
     explain = [],
     variable = []
   }
-}, apiID) => {
-  // TODO: here is mock respond data
-  // will update to AJAX request
-  const respond = mocks[apiID]
-
+}) => {
   let result = { phonetic, translation, explain }
 
   if (istype(variable, 'array') && variable.length) {
-    result = JSON.stringify({phonetic, translation, explain})
-
-    // replace variables placeholder, e.g. $0/$1/...
-    result = variable.reduce((prev, curr, i, arr) =>
-      prev.replace(new RegExp(`\\$${i}`, 'gm'), arr[i]),
-      JSON.stringify({phonetic, translation, explain})
+    result = JSON.parse(
+      JSON.stringify(result)
+      // replace variables placeholder, e.g. $0/$1/...
+      .replace(/\$(\d+)\./g, (pattern, index) => variable[index])
     )
-
-    result = JSON.parse(result)
   }
 
-  loopParse(result, respond)
-
-  return result
+  return (respond) => !loopParse(result, respond) && result
 }

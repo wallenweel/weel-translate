@@ -1,19 +1,27 @@
 import { storage } from '@/globals'
-import serviceHelper from '@/functions/serviceHelper'
 import {
   BACKGROUND_INITIALIZE,
   MERGE_STORAGE_STATE,
-  GET_LANGUAGE_LIST
+  GET_LANGUAGE_LIST,
+  COMPILE_SERVICE_SOURCES
 } from '@/types'
+// import * as mocks from '@/api/mocks'
 
 const __ = {}
 
 __[BACKGROUND_INITIALIZE] = ({ state, commit }) => {
+  // storage.sync.set({
+  //   test: false
+  // })
   storage.sync.get(state.inStorage).then(all => {
     // merge storage to state
     commit(MERGE_STORAGE_STATE, all)
 
-    console.log(process.env)
+    commit(COMPILE_SERVICE_SOURCES)
+
+    // console.log(state.api.google.parser(mocks['google']))
+    // console.log(state.api.google.query.audio({ q: 'test', from: 'en', to: 'zh' }))
+    console.log(state.api.google)
 
     // set success status
     state.initialized = true
@@ -24,7 +32,7 @@ __[BACKGROUND_INITIALIZE] = ({ state, commit }) => {
 }
 
 __[GET_LANGUAGE_LIST] = ({ state }, { emit }) => {
-  emit(serviceHelper({ state }))
+  // emit(serviceHelper({ state }))
 }
 
 export default __

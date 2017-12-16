@@ -10,7 +10,7 @@
     "unit": "cross-env BABEL_ENV=test karma start test/unit/karma.conf.js --single-run",
     "test": "npm run unit",
     "lint": "eslint --ext .js,.vue src test/unit/specs",
-    "dev:ext": "web-ext run -s=dist --start-url localhost:3030/dist/popup -p ./web-ext-profile --keep-profile-changes",
+    "dev:ext": "web-ext run -s=dist --start-url about:debugging#addons -p ./web-ext-profile --keep-profile-changes",
     "dev:watch": "npm run build:dev -- --watch",
     "dev:server": "webpack-dev-server --inline --progress --config build/webpack.dev.conf.js",
     "build:ext": "web-ext build -s=dist",

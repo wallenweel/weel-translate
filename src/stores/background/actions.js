@@ -13,6 +13,8 @@ __[BACKGROUND_INITIALIZE] = ({ state, commit }) => {
     // merge storage to state
     commit(MERGE_STORAGE_STATE, all)
 
+    console.log(process.env)
+
     // set success status
     state.initialized = true
   }, () => {

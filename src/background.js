@@ -11,7 +11,7 @@ try {
   // watch change of some states that same with storage
   for (const name of store.state.inStorage) {
     store.watch(state => state[name], (curr, prev) => {
-      console.log(curr, prev)
+      // console.log(curr, prev)
     })
   }
 

@@ -1,6 +1,7 @@
 import languageHelper from '@/functions/languageHelper'
 import translatingHelper from '@/functions/translatingHelper'
 
+// TODO: implement this
 export default (store) => {
   const {
     state: {

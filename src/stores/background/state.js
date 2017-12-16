@@ -24,7 +24,8 @@ __['translation'] = {
 
 __['sources'] = {
   preset: {
-    'google.cn': `["google", {
+    'google_cn': `["google", {
+      "id": "google_cn",
       "url": "https://translate.google.cn"
     }]`,
     'google': `{

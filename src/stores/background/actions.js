@@ -21,7 +21,7 @@ __[BACKGROUND_INITIALIZE] = ({ state, commit }) => {
 
     // console.log(state.api.google.parser(mocks['google']))
     // console.log(state.api.google.query.audio({ q: 'test', from: 'en', to: 'zh' }))
-    console.log(state.api.google)
+    console.log(JSON.stringify(state.api))
 
     // set success status
     state.initialized = true

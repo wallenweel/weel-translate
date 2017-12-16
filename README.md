@@ -9,15 +9,52 @@ to make your own translation service.
 
 Open `options page` then find ....
 
-### Example:
+### Simple Example:
 ```js
+"* Must"
+"~ Recommended"
+
 // JSON Format
 {
-  "id": "google",
-  "name": "Google",
+  *"id": "google",
+  ~"name": "Google",
+  ~"icon": "", // base64 or uri, just be support to <img>'s src property
 
+  ~"url": "https://translate.google.com",
+
+  *"query": {
+    *"text": {
+      *"url": "{{url}}",
+      ~"params": [
+        ["q", "{{q}}"],
+        ["sl", "{{from}}"],
+        ["tl", "{{to}}"],
+        ["other", "param"]
+      ]
+    },
+    ~"audio": {
+      *"url": "{{url}}/api_tts",
+      ~"params": [
+        ["q", "{{q}}"],
+        ["tl", "{{from}}"],
+        ["client", "gtx"],
+        ["ie", "UTF-8"]
+      ]
+    }
+  },
+
+  *"parser": {
+    *"phonetic": {
+      "us": "$1.phonetic.us",
+      "uk": "$1.phonetic.uk"
+    },
+    *"translation": ["$0.trans[0]", "$0.trans[2]"],
+    *"explain": "$.dict.nested[0].explains",
+    "variable": ["$.certain[0]", "$.certain[1]"]
+  }
+  
   // get languages list from `[project root]/src/api/languages.json`
-  "include": ["en", "zh-cn", "ja"], // array
+  ~"include": ["en", "zh-cn", "ja"], // array
   // or
   "include": "en/zh-cn/ja", // split by '/'
   // if you need to change language's code, like 'ja' -> 'jp'
@@ -39,7 +76,26 @@ Open `options page` then find ....
     "locale": "日文"
   }]
 }
+
 ```
+
+### Inherit From Other Service API
+```js
+// Use array type instead of object
+// the last element will be new api's preset and
+// it will deep merge and override to foregoing presets
+[
+  *"google", // other api's id
+
+  // "more", // no limit, support compose some api presets
+
+  {
+    *"id": "google_cn", // its
+    "url": "https://translate.google.cn"
+  }
+]
+```
+
 
 ## Custom Styles
 

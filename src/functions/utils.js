@@ -29,19 +29,12 @@ export const whattype = thing =>
  */
 export const istype = (thing, type) => whattype(thing) === type
 
-export const injectHTML = (content, obj) => {
-  if (!content) return void 0
-
-  const target = obj
-  let doms = [content]
-
-  if (whattype(content) === 'string') {
-    const parser = new DOMParser()
-
-    doms = [...parser.parseFromString(content, 'text/html').body.childNodes]
+export const generateWatchers = (store, callback) => {
+  for (const [type, states] of Object.entries(store.state.storage)) {
+    for (const key of states) {
+      store.watch(state => state[key], (curr, prev) => {
+        callback(type, key)
+      }, { deep: true })
+    }
   }
-
-  while (target.firstChild) target.removeChild(target.firstChild)
-
-  doms.forEach(dom => target.appendChild(dom))
 }

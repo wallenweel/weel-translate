@@ -1,12 +1,13 @@
 import merge from 'deepmerge'
 import store from '@/stores/background'
 import { runtime } from '@/globals'
+import { generateWatchers } from '@/functions/utils'
 import {
   BACKGROUND_INITIALIZE,
   STORAGE_TYPE_SET
 } from '@/types'
 
-const { state, dispatch } = store
+const { dispatch } = store
 
 try {
   ;(async () => [await dispatch(BACKGROUND_INITIALIZE)])()
@@ -15,13 +16,16 @@ try {
 
     // watch change of some states that should
     // be store in storage
-    for (const [type, states] of Object.entries(state.storage)) {
-      for (const key of states) {
-        store.watch(state => state[key], (curr, prev) => {
-          dispatch(STORAGE_TYPE_SET, { type, key })
-        }, { deep: true })
-      }
-    }
+    generateWatchers(store, (type, key) => {
+      dispatch(STORAGE_TYPE_SET, { type, key })
+    })
+    // for (const [type, states] of Object.entries(state.storage)) {
+    //   for (const key of states) {
+    //     store.watch(state => state[key], (curr, prev) => {
+    //       dispatch(STORAGE_TYPE_SET, { type, key })
+    //     }, { deep: true })
+    //   }
+    // }
   })
 
   // initialize everything

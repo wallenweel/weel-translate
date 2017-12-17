@@ -9,6 +9,9 @@ import WebExtUtils from '@/plugins/WebExtUtils'
 import 'material-design-icons/iconfont/material-icons.css'
 import 'vuetify/dist/vuetify.min.css'
 import App from './App'
+import {
+  POPUP_PAGE_INITIAL
+} from '@/types'
 
 Vue.config.productionTip = false
 
@@ -24,11 +27,16 @@ Vue.use(Vuetify, {
 
 Vue.use(WebExtUtils)
 
-/* eslint-disable no-new */
-new Vue({
-  el: '#app',
-  store,
-  router,
-  render: h => h(App),
-  components: { App }
+;(async () => [await store.dispatch(POPUP_PAGE_INITIAL)])()
+.then(([success]) => {
+  if (!success) return false
+
+  /* eslint-disable no-new */
+  new Vue({
+    el: '#app',
+    store,
+    router,
+    render: h => h(App),
+    components: { App }
+  })
 })

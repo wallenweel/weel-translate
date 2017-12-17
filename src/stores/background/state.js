@@ -1,24 +1,32 @@
 const __ = {}
 
-__['initialized'] = {
-  storageSync: false,
-  storageLocal: false
-}
+__['test'] = true
+
+__['initialized'] = false
+// __['initialized'] = {
+//   storageSync: false,
+//   storageLocal: false
+// }
 
 __['storage'] = {
   local: [
-    'translation-history',
+    'test',
+    'translation_history',
     'sources',
-    'current-translation-service'
+    'current_translation_service'
   ],
   sync: [
     'settings',
     'preferences',
-    'translation-collection'
+    'translation_collection'
   ]
 }
 
-__['current-translation-service'] = ''
+__['current_translation_service'] = ''
+
+__['translation_history'] = []
+
+__['translation_collection'] = []
 
 // contains Storage rejected
 // types e.g. <function>

@@ -9,8 +9,8 @@ __[DRAWER_NAGIVATION_TOGGLE] = state => {
   state.drawerNavigationToggle = !state.drawerNavigationToggle
 }
 
-__[CURRENT_LANGUAGES] = (state, payload = []) => {
-  state.currentLanguages = payload
+__[CURRENT_LANGUAGES] = (state, languages = []) => {
+  state.currentLanguages = languages
 }
 
 export default __

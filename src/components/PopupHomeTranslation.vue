@@ -9,7 +9,7 @@
             label="Select"
             overflow hide-details
             auto dense
-            :items="currentLanguages.length ? currentLanguages : languages"
+            :items="currentSource.languages.length ? currentSource.languages : languages"
             item-text="locale"
             item-value="code"
             v-model="srcLanguage"
@@ -24,7 +24,7 @@
             label="Select"
             overflow hide-details
             auto dense
-            :items="currentLanguages.length ? currentLanguages : languages"
+            :items="currentSource.languages.length ? currentSource.languages : languages"
             item-text="locale"
             item-value="code"
             v-model="aimLanguage"
@@ -87,7 +87,6 @@
 <script>
 import { mapState } from 'vuex'
 import {
-  // GET_LANGUAGE_LIST,
   NEXT_SERVICE_SOURCE
 } from '@/types'
 
@@ -102,20 +101,11 @@ export default {
       source: {}
     }
   },
-  beforeCreate () {
-    // this.$store.dispatch(GET_LANGUAGE_LIST)
-  },
   computed: {
-    ...mapState(['currentLanguages', 'currentSource'])
+    ...mapState(['currentSource'])
   },
   methods: {
-    languageListGet () {
-      // console.log(this)
-      this.$store.dispatch('languageListGet')
-    },
-    startTranslate () {
-      this.$store.dispatch('languageListGet')
-    },
+    startTranslate () {},
     swapLanguages () {
       [ this.aimLanguage, this.srcLanguage ] = [ this.srcLanguage, this.aimLanguage ]
     },

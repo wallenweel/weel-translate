@@ -1,5 +1,4 @@
 import {
-  CURRENT_LANGUAGES,
   DRAWER_NAGIVATION_TOGGLE,
   CURRENT_SERVICE_SOURCE,
   NEXT_SERVICE_SOURCE
@@ -9,10 +8,6 @@ const __ = {}
 
 __[DRAWER_NAGIVATION_TOGGLE] = state => {
   state.drawerNavigationToggle = !state.drawerNavigationToggle
-}
-
-__[CURRENT_LANGUAGES] = (state, languages = []) => {
-  state.currentLanguages = languages
 }
 
 __[CURRENT_SERVICE_SOURCE] = (state, {

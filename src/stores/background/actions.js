@@ -3,7 +3,6 @@ import { storage } from '@/globals'
 import {
   BACKGROUND_INITIALIZE,
   MERGE_STORAGE_STATE,
-  GET_LANGUAGE_LIST,
   STORAGE_TYPE_SET,
   POPUP_PAGE_INITIAL,
   COMPILE_SERVICE_SOURCES
@@ -56,18 +55,6 @@ __[STORAGE_TYPE_SET] = ({ state }, { type, key }) => {
       console.log(`storage.${type}.set fail\n`, error)
     }
   )
-}
-
-__[GET_LANGUAGE_LIST] = ({ state }, { payload: { id }, emit }) => {
-  const api = state.api[id] || Object.values(state.api)[0]
-
-  if (!api) {
-    // TODO: add alert
-    console.log('Must Supply One API Preset At Least!')
-    return
-  }
-
-  emit(merge([], api.languages))
 }
 
 __[POPUP_PAGE_INITIAL] = ({ state }, { payload, emit }) => {

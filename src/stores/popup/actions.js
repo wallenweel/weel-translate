@@ -1,7 +1,5 @@
 import { sendMessage } from '@/functions/runtime'
 import {
-  GET_LANGUAGE_LIST,
-  CURRENT_LANGUAGES,
   POPUP_PAGE_INITIAL,
   CURRENT_SERVICE_SOURCE
 } from '@/types'
@@ -21,7 +19,6 @@ __[POPUP_PAGE_INITIAL] = async ({ state, commit }) => {
 
     state.api = api
 
-    commit(CURRENT_LANGUAGES, api[current_service_id].languages)
     commit(CURRENT_SERVICE_SOURCE, api[current_service_id])
 
     success = true
@@ -35,16 +32,6 @@ __[POPUP_PAGE_INITIAL] = async ({ state, commit }) => {
   })
 
   return success
-}
-
-__[GET_LANGUAGE_LIST] = ({ commit }, payload = { id: '' }) => {
-  sendMessage({
-    type: GET_LANGUAGE_LIST,
-    payload
-  }).then(list => {
-    // console.log('list', list)
-    commit(CURRENT_LANGUAGES, list)
-  })
 }
 
 export default __

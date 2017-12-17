@@ -20,23 +20,19 @@ __[BACKGROUND_INITIALIZE] = async ({ state, commit }) => {
       state.initialized = true
     }, () => { state.initialized = false })
   }
-  // await storage.sync.get(state.storage.sync).then(all => {
-  //   // merge sync storage to state
-  //   commit(MERGE_STORAGE_STATE, all)
-
-  //   state.initialized.storageSync = true
-  // }, () => { state.initialized.storageSync = false })
-
-  // await storage.local.get(state.storageLocal).then(all => {
-  //   // merge local storage to state
-  //   commit(MERGE_STORAGE_STATE, all)
-
-  //   state.initialized.storageLocal = true
-  // }, () => { state.initialized.storageLocal = false })
 
   if (state.initialized === true) {
     // compile service "source.preset" to "api"
     commit(COMPILE_SERVICE_SOURCES)
+
+    const [id, ids] = [
+      state['current_service_id'],
+      Object.keys(state.api)
+    ]
+
+    if (!id || !ids.includes(id)) {
+      state['current_service_id'] = ids[0]
+    }
 
     return true
   }

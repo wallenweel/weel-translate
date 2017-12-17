@@ -13,7 +13,7 @@ __['storage'] = {
     'test',
     'translation_history',
     'sources',
-    'current_translation_service'
+    'current_service_id'
   ],
   sync: [
     'settings',
@@ -22,7 +22,7 @@ __['storage'] = {
   ]
 }
 
-__['current_translation_service'] = ''
+__['current_service_id'] = ''
 
 __['translation_history'] = []
 
@@ -46,7 +46,9 @@ __['sources'] = {
     'google_cn': `["google", {
       "id": "google_cn",
       "name": "Google cn",
-      "url": "https://translate.google.cn"
+      "url": "https://translate.google.cn",
+      "include": ["auto", "zh-cn", "en"],
+      "languages": []
     }]`,
     'google': `{
       "id": "google",

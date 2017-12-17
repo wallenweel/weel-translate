@@ -20,6 +20,7 @@ export const config = {
 export const state = {
   drawerNavigationToggle: false,
   currentLanguages: [],
+  currentSource: {},
   ...config
 }
 

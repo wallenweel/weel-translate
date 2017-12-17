@@ -61,9 +61,9 @@
         
       v-flex(:class="$style.selection")
         v-btn(block medium dark color="accent" @click="nextServiceSource")
-          |source&nbsp;:&nbsp;&nbsp;
-          b(v-model="source") {{ source.text }}
-          //- img(style="margin-left: 4px;" height=16 width=16 src="")
+          //- |source&nbsp;:&nbsp;&nbsp;
+          b(v-model="currentSource") {{ currentSource.name }}
+          img(style="margin-left: 4px;" height=16 width=16 :src="currentSource.icon")
 
       v-flex(:class="$style.selection")
         v-card(:class="$style.result")
@@ -87,7 +87,8 @@
 <script>
 import { mapState } from 'vuex'
 import {
-  GET_LANGUAGE_LIST
+  // GET_LANGUAGE_LIST,
+  NEXT_SERVICE_SOURCE
 } from '@/types'
 
 export default {
@@ -97,28 +98,15 @@ export default {
       srcLanguage: 'auto',
       aimLanguage: 'auto',
       languages: [],
-      // languages: [{
-      //   'code': 'auto',
-      //   'name': 'Automatic',
-      //   'locale': 'AUTOAUTO AUTO AUTO'
-      // }, {
-      //   'code': 'en',
-      //   'name': 'English',
-      //   'locale': 'ENGLISH'
-      // }, {
-      //   'code': 'zh',
-      //   'name': 'Chinese',
-      //   'locale': 'CHINESE'
-      // }],
       content: '',
-      source: { text: 'Google', id: 'google' }
+      source: {}
     }
   },
   beforeCreate () {
-    this.$store.dispatch(GET_LANGUAGE_LIST)
+    // this.$store.dispatch(GET_LANGUAGE_LIST)
   },
   computed: {
-    ...mapState(['currentLanguages'])
+    ...mapState(['currentLanguages', 'currentSource'])
   },
   methods: {
     languageListGet () {
@@ -135,20 +123,7 @@ export default {
       this.content = ''
     },
     nextServiceSource () {
-      const sources = [
-        { text: 'Google', id: 'google' },
-        { text: 'YouDao', id: 'youdao' },
-        { text: 'Baidu', id: 'baidu' }
-      ]
-
-      for (const source of sources) {
-        if (this.source.id === source.id) {
-          const [i, l] = [sources.indexOf(source), sources.length]
-
-          if (i < l - 1) return (this.source = sources[i + 1])
-          else return (this.source = sources[0])
-        }
-      }
+      this.$store.commit(NEXT_SERVICE_SOURCE)
     }
   },
   watch: {

@@ -1,10 +1,8 @@
 import merge from 'deepmerge'
 import store from '@/stores/background'
 import { runtime } from '@/globals'
-import { generateWatchers } from '@/functions/utils'
 import {
-  BACKGROUND_INITIALIZE,
-  STORAGE_TYPE_SET
+  BACKGROUND_INITIALIZE
 } from '@/types'
 
 try {
@@ -12,10 +10,8 @@ try {
   .then(([success]) => {
     if (!success) return false
 
-    // watch change of some states that should
-    // be store in storage
-    generateWatchers(store, (type, key) =>
-      typeof store.dispatch(STORAGE_TYPE_SET, { type, key }))
+    // do something after all initial successfully
+    // store.watch(state => state.settings.test, a => console.log(a))
   })
 
   // initialize everything
@@ -27,8 +23,11 @@ try {
   )
 }
 
-// forward message to vuex store's actions
+// auto forward message to vuex store's actions;
+// action just is message of `sendMessage` and must
+// accord with { type: 'SOME_ACTION_TYPE', [, payload] };
+// allow asynchronous emit(response).
 runtime.onMessage.addListener((action, sender, emit) =>
-  typeof store.dispatch(merge({ sender, emit }, action)))
+  (typeof store.dispatch(merge({ sender, emit }, action))) && true)
 
 if (module.hot) module.hot.accept()

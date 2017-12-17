@@ -10,5 +10,3 @@ export const mergeStorageState = (state, storage = {}) => {
 export const compileSourceAPI = (state) => {
   state.api = serviceHelper(state.sources)
 }
-
-export const emitMessage = (state, { emit, message }) => emit(message)

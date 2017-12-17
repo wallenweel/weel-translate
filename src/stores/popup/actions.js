@@ -35,7 +35,6 @@ __[POPUP_PAGE_INITIAL] = async ({ state, commit }) => {
 }
 
 __[UPDATE_STORAGE_STATE] = ({ state }, { type, key }) => {
-  // console.log('state', state)
   sendMessage({
     type: UPDATE_STORAGE_STATE,
     payload: {
@@ -43,8 +42,9 @@ __[UPDATE_STORAGE_STATE] = ({ state }, { type, key }) => {
       key,
       value: state[key]
     }
-  }).then(success => {
-    console.log(success)
+  }).then(over => {
+    // TODO: update storage over
+    // do something here, maybe an alert
   })
 }
 

@@ -38,33 +38,35 @@ __[BACKGROUND_INITIALIZE] = async ({ state, commit }) => {
   return false
 }
 
-__[STORAGE_TYPE_SET] = ({ state }, { type, key }) => {
-  const value = state[key]
-
+__[STORAGE_TYPE_SET] = async (
+  { state },
+  { type, key, value = state[key] }
+) => {
   // storage[sync|local]
-  storage[type].set({
+  await storage[type].set({
     [key]: typeof value === 'object' ? merge({}, value) : value
   }).then(
-    // TODO: remove here
     () => {
+      // update "state"
+      state[key] = value
+
       storage[type].get().then(all =>
         console.log(`storage.${type}.set success\n`, all))
     },
-    error => {
-      console.log(`storage.${type}.set fail\n`, error)
-    }
+    error => console.log(`storage.${type}.set fail\n`, error)
   )
 }
 
-__[POPUP_PAGE_INITIAL] = ({ state }, { payload, emit }) => {
-  emit(merge({}, state))
-}
+// feedback all of "state"
+__[POPUP_PAGE_INITIAL] = ({ state }, { emit }) => emit(merge({}, state))
 
-__[UPDATE_STORAGE_STATE] = ({ state, commit }, { emit, payload: {type, key, value} }) => {
-  console.log(type, key, value)
-  state[key] = value
-  commit('emitMessage', { emit, message: 'hahaha' })
-  // emit('success')
+__[UPDATE_STORAGE_STATE] = async (
+  { state, commit, dispatch },
+  { emit, payload: {type, key, value} }
+) => {
+  await dispatch(STORAGE_TYPE_SET, { type, key, value })
+
+  emit(true) // feedback status
 }
 
 export default __

@@ -5,16 +5,18 @@ __['initialized'] = {
   storageLocal: false
 }
 
-__['storageLocal'] = [
-  'translation-history',
-  'sources'
-]
-
-__['storageSync'] = [
-  'settings',
-  'preferences',
-  'translation-collection'
-]
+__['storage'] = {
+  local: [
+    'translation-history',
+    'sources',
+    'current-translation-service'
+  ],
+  sync: [
+    'settings',
+    'preferences',
+    'translation-collection'
+  ]
+}
 
 __['current-translation-service'] = ''
 
@@ -23,10 +25,13 @@ __['current-translation-service'] = ''
 __['api'] = {}
 
 __['settings'] = {
-  foo: false
+  foo: false,
+  test: false
 }
 
-__['preferences'] = {}
+__['preferences'] = {
+  test: false
+}
 
 __['sources'] = {
   preset: {

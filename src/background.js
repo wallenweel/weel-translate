@@ -5,27 +5,38 @@ import {
 } from '@/globals'
 import {
   BACKGROUND_INITIALIZE,
-  COMPILE_SERVICE_SOURCES
+  COMPILE_SERVICE_SOURCES,
+  STORAGE_TYPE_SET
 } from '@/types'
 
-try {
-  // watch change of some states that same with storage
-  for (const name of store.state.storageSync) {
-    store.watch(state => state[name], (curr, prev) => {
-      // console.log(curr, prev)
-    })
-  }
+const { state, commit, dispatch } = store
 
+try {
+  window.browser.storage.sync.get().then(all => {
+    console.log(all)
+  })
   store.watch(state => state.initialized, (curr, prev) => {
     if (!Object.values(curr).includes(false)) {
-      store.commit(COMPILE_SERVICE_SOURCES)
+      // compile service "source.preset" to "api"
+      commit(COMPILE_SERVICE_SOURCES)
 
-      console.log('store.state.api', store.state.api.google_cn.languages[0].name)
+      // watch change of some states that should
+      // be store in storage
+      for (const [type, states] of Object.entries(state.storage)) {
+        for (const key of states) {
+          store.watch(state => state[key], (curr, prev) => {
+            // console.log(curr.test, prev.test)
+            dispatch(STORAGE_TYPE_SET, { type, key })
+          })
+        }
+      }
+
+      console.log('state.api', state.api)
     }
   }, { deep: true })
 
   // initialize everything
-  store.dispatch(BACKGROUND_INITIALIZE)
+  dispatch(BACKGROUND_INITIALIZE)
 } catch (error) {
   console.log(
     '!!!something is wrong!!!'.toUpperCase(),
@@ -36,6 +47,6 @@ try {
 
 // forward message to vuex store's actions
 runtime.onMessage.addListener((action, sender, emit) =>
-  !store.dispatch(merge({ sender, emit }, action)))
+  !dispatch(merge({ sender, emit }, action)))
 
 if (module.hot) module.hot.accept()

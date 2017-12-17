@@ -63,7 +63,7 @@ export default {
 
 <style lang="scss">
 .child-view {
-  transition: all 1.5s cubic-bezier(.55, 0, .1, 1);
+  transition: all 1.25s cubic-bezier(.55, 0, .1, 1);
 
   // background-color: $color-background;
 

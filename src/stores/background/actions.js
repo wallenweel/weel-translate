@@ -3,13 +3,14 @@ import { storage } from '@/globals'
 import {
   BACKGROUND_INITIALIZE,
   MERGE_STORAGE_STATE,
-  GET_LANGUAGE_LIST
+  GET_LANGUAGE_LIST,
+  STORAGE_TYPE_SET
 } from '@/types'
 
 const __ = {}
 
 __[BACKGROUND_INITIALIZE] = ({ state, commit }) => {
-  storage.sync.get(state.storageSync).then(all => {
+  storage.sync.get(state.storage.sync).then(all => {
     // merge sync storage to state
     commit(MERGE_STORAGE_STATE, all)
 
@@ -24,6 +25,19 @@ __[BACKGROUND_INITIALIZE] = ({ state, commit }) => {
   }, () => { state.initialized.storageLocal = false })
 }
 
+__[STORAGE_TYPE_SET] = ({ state }, { type, key }) => {
+  storage[type].set({[key]: merge({}, state[key])}).then(
+    // TODO: remove here
+    () => {
+      storage[type].get().then(all =>
+        console.log(`storage.${type}.set success\n`, all))
+    },
+    error => {
+      console.log(`storage.${type}.set fail\n`, error)
+    }
+  )
+}
+
 __[GET_LANGUAGE_LIST] = ({ state }, { payload: { id }, emit }) => {
   const api = state.api[id] || Object.values(state.api)[0]
 
@@ -34,6 +48,10 @@ __[GET_LANGUAGE_LIST] = ({ state }, { payload: { id }, emit }) => {
   }
 
   emit(merge([], api.languages))
+
+  state.settings = {
+    test: 'emmm3'
+  }
 }
 
 export default __

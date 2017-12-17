@@ -114,7 +114,7 @@ export default {
       source: { text: 'Google', id: 'google' }
     }
   },
-  created () {
+  beforeCreate () {
     this.$store.dispatch(GET_LANGUAGE_LIST)
   },
   computed: {

@@ -7,25 +7,15 @@ import {
   STORAGE_TYPE_SET
 } from '@/types'
 
-const { dispatch } = store
-
 try {
-  ;(async () => [await dispatch(BACKGROUND_INITIALIZE)])()
+  ;(async () => [await store.dispatch(BACKGROUND_INITIALIZE)])()
   .then(([success]) => {
     if (!success) return false
 
     // watch change of some states that should
     // be store in storage
-    generateWatchers(store, (type, key) => {
-      dispatch(STORAGE_TYPE_SET, { type, key })
-    })
-    // for (const [type, states] of Object.entries(state.storage)) {
-    //   for (const key of states) {
-    //     store.watch(state => state[key], (curr, prev) => {
-    //       dispatch(STORAGE_TYPE_SET, { type, key })
-    //     }, { deep: true })
-    //   }
-    // }
+    generateWatchers(store, (type, key) =>
+      typeof store.dispatch(STORAGE_TYPE_SET, { type, key }))
   })
 
   // initialize everything
@@ -39,6 +29,6 @@ try {
 
 // forward message to vuex store's actions
 runtime.onMessage.addListener((action, sender, emit) =>
-  typeof dispatch(merge({ sender, emit }, action)))
+  typeof store.dispatch(merge({ sender, emit }, action)))
 
 if (module.hot) module.hot.accept()

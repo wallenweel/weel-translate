@@ -1,27 +1,20 @@
 import Vue from 'vue'
 import Vuex from 'vuex'
-import mutations from './mutations'
+import * as mutations from './mutations'
 import actions from './actions'
 
 Vue.use(Vuex)
 
-export const config = {
-  local: {
-    sources: [
-      // Google
-      `{
-        "id": "google"
-      }`
-    ]
-  },
-  sync: {}
-}
-
 export const state = {
+  test: true,
   drawerNavigationToggle: false,
-  currentLanguages: [],
   currentSource: {},
-  ...config
+  storage: {},
+  api: {},
+  settings: {
+    test: false
+  },
+  preferences: {}
 }
 
 const store = new Vuex.Store({

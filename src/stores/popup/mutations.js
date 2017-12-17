@@ -1,24 +1,16 @@
-import {
-  DRAWER_NAGIVATION_TOGGLE,
-  CURRENT_SERVICE_SOURCE,
-  NEXT_SERVICE_SOURCE
-} from '@/types'
-
-const __ = {}
-
-__[DRAWER_NAGIVATION_TOGGLE] = state => {
+export const drawerNavigationToggle = state => {
   state.drawerNavigationToggle = !state.drawerNavigationToggle
 }
 
-__[CURRENT_SERVICE_SOURCE] = (state, {
+export const currentServiceSource = (state, {
   id, name, icon,
   languages
 }) => {
-  // console.log(id, name, icon, languages)
   state.currentSource = { id, name, icon, languages }
 }
 
-__[NEXT_SERVICE_SOURCE] = (state) => {
+export const nextServiceSource = (state) => {
+  state.settings.test = new Date()
   const IDs = Object.keys(state.api)
 
   let nextIndex = IDs.indexOf(state.currentSource.id) + 1
@@ -26,5 +18,3 @@ __[NEXT_SERVICE_SOURCE] = (state) => {
 
   state.currentSource = Object.values(state.api)[nextIndex]
 }
-
-export default __

@@ -86,9 +86,6 @@
 
 <script>
 import { mapState } from 'vuex'
-import {
-  NEXT_SERVICE_SOURCE
-} from '@/types'
 
 export default {
   name: 'PopupHomeTranslation',
@@ -113,7 +110,7 @@ export default {
       this.content = ''
     },
     nextServiceSource () {
-      this.$store.commit(NEXT_SERVICE_SOURCE)
+      this.$store.commit('nextServiceSource')
     }
   },
   watch: {

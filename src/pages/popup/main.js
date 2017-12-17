@@ -3,14 +3,19 @@
 import Vue from 'vue'
 import Vuex from 'vuex'
 import Vuetify from 'vuetify'
+
+import 'material-design-icons/iconfont/material-icons.css'
+import 'vuetify/dist/vuetify.min.css'
+
 import router from '@/router'
 import store from '@/stores/popup'
 import WebExtUtils from '@/plugins/WebExtUtils'
-import 'material-design-icons/iconfont/material-icons.css'
-import 'vuetify/dist/vuetify.min.css'
+import { generateWatchers } from '@/functions/utils'
+
 import App from './App'
 import {
-  POPUP_PAGE_INITIAL
+  POPUP_PAGE_INITIAL,
+  UPDATE_STORAGE_STATE
 } from '@/types'
 
 Vue.config.productionTip = false
@@ -30,6 +35,9 @@ Vue.use(WebExtUtils)
 ;(async () => [await store.dispatch(POPUP_PAGE_INITIAL)])()
 .then(([success]) => {
   if (!success) return false
+
+  generateWatchers(store, (type, key) =>
+    typeof store.dispatch(UPDATE_STORAGE_STATE, { type, key }))
 
   /* eslint-disable no-new */
   new Vue({

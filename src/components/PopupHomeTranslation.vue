@@ -2,10 +2,13 @@
   v-container
     v-layout(column wrap)
       v-card
+        v-tooltip(v-model="needContent" bottom)
+          div(slot="activator")
+          span {{ tip }}
         v-layout(row wrap :class="$style.languageToolbar")
           //- source language selection
           v-select(
-            min-width=120
+            min-width=140
             label="Select"
             overflow hide-details
             auto dense
@@ -20,7 +23,7 @@
             v-icon(color="primary" small) swap_horiz
           //- aim language selection
           v-select(
-            min-width=120
+            min-width=140
             label="Select"
             overflow hide-details
             auto dense
@@ -97,7 +100,9 @@ export default {
       srcLanguage: 'auto',
       aimLanguage: 'auto',
       languages: [],
-      source: {}
+      source: {},
+      needContent: false,
+      tip: ``
     }
   },
   computed: {
@@ -105,6 +110,10 @@ export default {
   },
   methods: {
     startTranslate (ev) {
+      if (!this.content.length) {
+        return this.useTip(`Have you typed some words?`)
+      }
+
       const payload = {
         q: this.content,
         from: this.srcLanguage,
@@ -136,6 +145,11 @@ export default {
     },
     nextServiceSource () {
       this.$store.commit('nextServiceSource')
+    },
+    useTip (msg = '') {
+      this.tip = msg
+      setTimeout(() => (this.needContent = false), 2500)
+      this.needContent = true
     }
   },
   watch: {

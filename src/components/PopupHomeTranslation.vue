@@ -86,6 +86,7 @@
 
 <script>
 import { mapState } from 'vuex'
+import { REQUEST_TRANSLATION } from '@/types'
 
 export default {
   name: 'PopupHomeTranslation',
@@ -102,7 +103,9 @@ export default {
     ...mapState(['currentSource'])
   },
   methods: {
-    startTranslate () {},
+    startTranslate () {
+      this.$store.dispatch(REQUEST_TRANSLATION)
+    },
     swapLanguages () {
       [ this.aimLanguage, this.srcLanguage ] = [ this.srcLanguage, this.aimLanguage ]
     },

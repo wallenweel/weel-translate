@@ -15,7 +15,15 @@ export default ({
 
     let search = istype(params, 'string') ? params : ''
     if (istype(params, 'array') && params.length) {
-      for (const [name, value] of params) searchParams.append(name, value)
+      for (const [name, value] of params) {
+        if (istype(value, 'array')) {
+          value.forEach(v => {
+            searchParams.append(name, v)
+          })
+        } else {
+          searchParams.append(name, value)
+        }
+      }
 
       search = decodeURI(searchParams.toString())
     }

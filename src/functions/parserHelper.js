@@ -1,3 +1,4 @@
+import merge from 'deepmerge'
 import { istype } from '@/functions/utils'
 
  // 'obj.a[0].b[1]' -> [obj, a, 0, b, 1]
@@ -50,9 +51,19 @@ export default ({
     result = JSON.parse(
       JSON.stringify(result)
       // replace variables placeholder, e.g. $0/$1/...
-      .replace(/\$(\d+)\./g, (pattern, index) => variable[index])
+      .replace(/\$(\d+)\./g, (pattern, i) =>
+        // append . to [basket], e.g. $.global[0] -> $.global[0].
+        /\]$/.test(variable[i]) ? `${variable[i]}.` : variable[i]
+      )
     )
   }
 
-  return (respond) => !loopParse(result, respond) && result
+  return (respond) => {
+    // prevent treated result is cached
+    let _result = merge({}, result)
+
+    loopParse(_result, respond)
+
+    return _result
+  }
 }

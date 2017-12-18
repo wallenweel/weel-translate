@@ -2,16 +2,17 @@ import merge from 'deepmerge'
 import store from '@/stores/background'
 import { runtime } from '@/globals'
 import {
-  BACKGROUND_INITIALIZE
+  INITIAL_BACKGROUND_SCRIPT
 } from '@/types'
 
 try {
-  ;(async () => [await store.dispatch(BACKGROUND_INITIALIZE)])()
+  ;(async () => [await store.dispatch(INITIAL_BACKGROUND_SCRIPT)])()
   .then(([success]) => {
     if (!success) return false
 
     // do something after all initial successfully
     // store.watch(state => state.settings.test, a => console.log(a))
+    // store.dispatch('REQUEST_TRANSLATION', {})
   })
 
   // initialize everything

@@ -1,15 +1,16 @@
 import merge from 'deepmerge'
 import { storage } from '@/globals'
 import {
-  BACKGROUND_INITIALIZE,
+  INITIAL_BACKGROUND_SCRIPT,
   STORAGE_TYPE_SET,
-  POPUP_PAGE_INITIAL,
-  UPDATE_STORAGE_STATE
+  INITIAL_POPUP_SCRIPT,
+  UPDATE_STORAGE_STATE,
+  REQUEST_TRANSLATION
 } from '@/types'
 
 const __ = {}
 
-__[BACKGROUND_INITIALIZE] = async ({ state, commit }) => {
+__[INITIAL_BACKGROUND_SCRIPT] = async ({ state, commit }) => {
   for (const [type, states] of Object.entries(state.storage)) {
     await storage[type].get(states).then(all => {
       // merge sync storage to state
@@ -58,7 +59,7 @@ __[STORAGE_TYPE_SET] = async (
 }
 
 // feedback all of "state"
-__[POPUP_PAGE_INITIAL] = ({ state }, { emit }) => emit(merge({}, state))
+__[INITIAL_POPUP_SCRIPT] = ({ state }, { emit }) => emit(merge({}, state))
 
 __[UPDATE_STORAGE_STATE] = async (
   { state, commit, dispatch },
@@ -67,6 +68,24 @@ __[UPDATE_STORAGE_STATE] = async (
   await dispatch(STORAGE_TYPE_SET, { type, key, value })
 
   emit(true) // feedback status
+}
+
+__[REQUEST_TRANSLATION] = async (
+  { state: { api, current_service_id } },
+  { emit = () => {}, payload = { q: 'hello', from: 'en', to: 'zh-cn' } }
+) => {
+  const { query, parser } = api[current_service_id]
+
+  // console.log(query.text(payload))
+  await fetch(query.text(payload), { mode: 'no-cors' })
+  .then(res => {
+    return res.json()
+  })
+  .then(data => {
+    // console.log(data)
+    // console.log(parser(data))
+    emit(parser(data))
+  })
 }
 
 export default __

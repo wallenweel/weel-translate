@@ -1,16 +1,17 @@
 import { sendMessage } from '@/functions/runtime'
 import {
-  POPUP_PAGE_INITIAL,
-  UPDATE_STORAGE_STATE
+  INITIAL_POPUP_SCRIPT,
+  UPDATE_STORAGE_STATE,
+  REQUEST_TRANSLATION
 } from '@/types'
 
 const __ = {}
 
-__[POPUP_PAGE_INITIAL] = async ({ state, commit }) => {
+__[INITIAL_POPUP_SCRIPT] = async ({ state, commit }) => {
   let success = false
 
   await sendMessage({
-    type: POPUP_PAGE_INITIAL
+    type: INITIAL_POPUP_SCRIPT
   }).then(({
     api,
     storage,
@@ -45,6 +46,14 @@ __[UPDATE_STORAGE_STATE] = ({ state }, { type, key }) => {
   }).then(over => {
     // TODO: update storage over
     // do something here, maybe an alert
+  })
+}
+
+__[REQUEST_TRANSLATION] = ({ state }) => {
+  sendMessage({
+    type: REQUEST_TRANSLATION
+  }).then(result => {
+    console.log(result)
   })
 }
 

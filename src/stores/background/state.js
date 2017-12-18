@@ -59,7 +59,7 @@ __['sources'] = {
 
       "query": {
         "text": {
-          "url": "{{url}}",
+          "url": "{{url}}/translate_a/single",
           "params": [
             ["q", "{{q}}"],
             ["sl", "{{from}}"],
@@ -68,16 +68,7 @@ __['sources'] = {
             ["client", "gtx"],
             ["ie", "UTF-8"],
             ["oe", "UTF-8"],
-            ["dt", "at"],
-            ["dt", "bd"],
-            ["dt", "ex"],
-            ["dt", "ld"],
-            ["dt", "md"],
-            ["dt", "qca"],
-            ["dt", "rw"],
-            ["dt", "rm"],
-            ["dt", "ss"],
-            ["dt", "t"],
+            ["dt", ["at" ,"bd" ,"ex" ,"ld" ,"md" ,"qca" ,"rw" ,"rm" ,"ss" ,"t"]],
             ["dj", "1"],
             ["source", "icon"]
           ]
@@ -95,12 +86,12 @@ __['sources'] = {
 
       "parser": {
         "phonetic": {
-          "us": "$1.phonetic.us",
-          "uk": "$1.phonetic.uk"
+          "src": "$0.src_translit",
+          "des": "$0.translit"
         },
-        "translation": ["$0.trans[0]", "$0.trans[2]"],
-        "explain": "$.dict.nested[0].explains",
-        "variable": ["$.certain[0]", "$.certain[1]"]
+        "translation": "$.sentences[0].trans",
+        "explain": ["$1.pos", "$1.terms"],
+        "variable": ["$.sentences[1]", "$.dict[0]"]
       },
 
       "include": ["auto", "en", "iw"],

@@ -5,7 +5,7 @@ import * as mock from '@/api/mocks'
 // https://developer.mozilla.org/en-US/Add-ons/WebExtensions/API/runtime/sendMessage
 export const sendMessage = message => aid(
   () => runtime.sendMessage(message),
-  () => new Promise((resolve) => resolve(mock.state))
+  () => new Promise((resolve) => resolve(mock.actions[message.type]))
 )
 
 // https://developer.mozilla.org/en-US/Add-ons/WebExtensions/API/runtime/onMessage

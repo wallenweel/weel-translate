@@ -32,7 +32,7 @@
             )
 
       v-card
-        //- input of translating 
+        //- input of translating
         v-text-field(
           textarea
           placeholder="something else ..."
@@ -40,6 +40,7 @@
           hide-details
           full-width
           v-model="content"
+          ref="content"
           )
         v-layout(
           row justify-space-around
@@ -55,9 +56,9 @@
             @click="startTranslate"
             )
             v-icon(dark) done_all
-          //- speak out content button
-          v-btn(flat depressed)
-            v-icon(color="blue-grey") volume_up
+          //- paste content button
+          v-btn(flat depressed @click="pasteContent")
+            v-icon(color="blue-grey") content_paste
         
       v-flex(:class="$style.selection")
         v-btn(block medium dark color="accent" @click="nextServiceSource")
@@ -65,9 +66,7 @@
           b(v-model="currentSource") {{ currentSource.name }}
           img(style="margin-left: 4px;" height=16 width=16 :src="currentSource.icon")
 
-      v-flex(:class="$style.selection")
-        v-card(:class="$style.result")
-          div(ref="test") {{ mockDOM }}
+      div(ref="test" @click="handleCustomResult")
 
       v-flex(:class="$style.selection" v-show="result.over")
         v-card(:class="$style.result")
@@ -75,23 +74,20 @@
             v-flex
               v-btn(flat small icon)
                 v-icon(color="blue-grey") volume_up
-              span {{ result.phonetic.src }}
+              span [{{ result.phonetic.src }}]
             v-flex
               v-btn(flat small icon)
                 v-icon(color="blue-grey") content_copy
               span(:class="$style.translation") {{ result.translation }}
             v-divider
             v-card-text(class="body-2")
-              div n. 工作；[物] 功；产品；操作；职业；行为；事业；工厂；著作；文学、音乐或艺术作品
-              div vt. 使工作；操作；经营；使缓慢前进
-              div vi. 工作；运作；起作用
-              div n. （英、埃塞）沃克（人名）
+              div(v-for="item in result.explain") {{ item }}
 </template>
 
 <script>
 import { mapState } from 'vuex'
-import { injectHTML } from '@/functions/utils'
-// import { REQUEST_TRANSLATION } from '@/types'
+// import { injectHTML } from '@/functions/utils'
+import { REQUEST_TRANSLATION } from '@/types'
 
 export default {
   name: 'PopupHomeTranslation',
@@ -101,8 +97,7 @@ export default {
       srcLanguage: 'auto',
       aimLanguage: 'auto',
       languages: [],
-      source: {},
-      mockDOM: '0'
+      source: {}
     }
   },
   computed: {
@@ -110,32 +105,34 @@ export default {
   },
   methods: {
     startTranslate (ev) {
-      // const payload = {
-      //   q: this.content,
-      //   from: this.srcLanguage,
-      //   to: this.aimLanguage
-      // }
-      // this.$store.dispatch(REQUEST_TRANSLATION, payload)
+      const payload = {
+        q: this.content,
+        from: this.srcLanguage,
+        to: this.aimLanguage
+      }
+      this.$store.dispatch(REQUEST_TRANSLATION, payload)
 
-      let mock = `
-      <strong>{{aa}}</strong><br>
-      <strong>{{bb}}</strong><br>
-      <strong>{{aa}}</strong>
-      `
-      mock = mock.replace(/\{\{(aa|bb)\}\}/g, (pattern, key) => {
-        // console.log(key)
-        return {
-          aa: '11',
-          bb: '22'
-        }[key]
-      })
-      injectHTML(mock, this.$refs.test)
+      // console.log(this.$refs.test.querySelector('button'))
+      // let mock = `<div>{{aa}}{{bb}}</div>`
+      // mock = mock.replace(/\{\{(aa|bb)\}\}/g, (pattern, key) => {
+      //   // console.log(key)
+      //   return { aa: '11', bb: '22' }[key]
+      // })
+      // injectHTML(mock, this.$refs.test)
     },
     swapLanguages () {
       [ this.aimLanguage, this.srcLanguage ] = [ this.srcLanguage, this.aimLanguage ]
     },
     deleteContent () {
       this.content = ''
+    },
+    pasteContent () {
+      console.log(this.$refs.content.$el.querySelector('textarea'))
+      this.$refs.content.$el.querySelector('textarea').focus()
+      document.execCommand('paste')
+    },
+    handleCustomResult (ev) {
+      console.log(ev.target)
     },
     nextServiceSource () {
       this.$store.commit('nextServiceSource')

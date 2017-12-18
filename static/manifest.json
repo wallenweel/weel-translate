@@ -39,7 +39,9 @@
     "<all_urls>",
     "tabs",
     "storage",
-    "contextMenus"
+    "contextMenus",
+    "clipboardRead",
+    "clipboardWrite"
   ],
 
   "web_accessible_resources": [

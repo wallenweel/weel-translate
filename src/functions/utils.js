@@ -38,3 +38,19 @@ export const generateWatchers = (store, callback) => {
     }
   }
 }
+
+export const stringToDOM = (content) => {
+  if (istype(content, 'string')) {
+    const parser = new DOMParser()
+
+    return [...parser.parseFromString(content, 'text/html').body.childNodes]
+  }
+
+  return [content]
+}
+
+export const injectHTML = (content, target) => {
+  while (target.firstChild) target.removeChild(target.firstChild)
+
+  stringToDOM(content).forEach(dom => target.appendChild(dom))
+}

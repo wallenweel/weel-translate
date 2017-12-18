@@ -7,8 +7,14 @@ Vue.use(Vuex)
 
 export const state = {
   test: true,
+
+  result: {
+    phonetic: {}
+  }, // parsed translating result
+
   drawerNavigationToggle: false,
   currentSource: {},
+
   storage: {},
   api: {},
   settings: {

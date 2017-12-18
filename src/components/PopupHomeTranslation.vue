@@ -67,15 +67,19 @@
 
       v-flex(:class="$style.selection")
         v-card(:class="$style.result")
+          div(ref="test") {{ mockDOM }}
+
+      v-flex(:class="$style.selection" v-show="result.over")
+        v-card(:class="$style.result")
           v-layout(column wrap)
             v-flex
               v-btn(flat small icon)
                 v-icon(color="blue-grey") volume_up
-              span [ 'ɑːnsə ]
+              span {{ result.phonetic.src }}
             v-flex
               v-btn(flat small icon)
                 v-icon(color="blue-grey") content_copy
-              span(:class="$style.translation") 答案
+              span(:class="$style.translation") {{ result.translation }}
             v-divider
             v-card-text(class="body-2")
               div n. 工作；[物] 功；产品；操作；职业；行为；事业；工厂；著作；文学、音乐或艺术作品
@@ -86,25 +90,46 @@
 
 <script>
 import { mapState } from 'vuex'
-import { REQUEST_TRANSLATION } from '@/types'
+import { injectHTML } from '@/functions/utils'
+// import { REQUEST_TRANSLATION } from '@/types'
 
 export default {
   name: 'PopupHomeTranslation',
   data () {
     return {
+      content: '',
       srcLanguage: 'auto',
       aimLanguage: 'auto',
       languages: [],
-      content: '',
-      source: {}
+      source: {},
+      mockDOM: '0'
     }
   },
   computed: {
-    ...mapState(['currentSource'])
+    ...mapState(['currentSource', 'result'])
   },
   methods: {
-    startTranslate () {
-      this.$store.dispatch(REQUEST_TRANSLATION)
+    startTranslate (ev) {
+      // const payload = {
+      //   q: this.content,
+      //   from: this.srcLanguage,
+      //   to: this.aimLanguage
+      // }
+      // this.$store.dispatch(REQUEST_TRANSLATION, payload)
+
+      let mock = `
+      <strong>{{aa}}</strong><br>
+      <strong>{{bb}}</strong><br>
+      <strong>{{aa}}</strong>
+      `
+      mock = mock.replace(/\{\{(aa|bb)\}\}/g, (pattern, key) => {
+        // console.log(key)
+        return {
+          aa: '11',
+          bb: '22'
+        }[key]
+      })
+      injectHTML(mock, this.$refs.test)
     },
     swapLanguages () {
       [ this.aimLanguage, this.srcLanguage ] = [ this.srcLanguage, this.aimLanguage ]

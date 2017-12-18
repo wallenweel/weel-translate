@@ -49,12 +49,18 @@ __[UPDATE_STORAGE_STATE] = ({ state }, { type, key }) => {
   })
 }
 
-__[REQUEST_TRANSLATION] = ({ state }) => {
-  sendMessage({
-    type: REQUEST_TRANSLATION
-  }).then(result => {
-    console.log(result)
-  })
+__[REQUEST_TRANSLATION] = ({ state }, { q, from, to }) => {
+  // console.log(q, from, to)
+  // sendMessage({
+  //   type: REQUEST_TRANSLATION,
+  //   payload: { q, from, to }
+  // }).then(result => {
+  //   console.log(result)
+  //   state.result = result
+  //   state.result.over = true
+  // })
+  state.result = { phonetic: {} }
+  state.result.over = true
 }
 
 export default __

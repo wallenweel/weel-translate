@@ -10,7 +10,6 @@ export const currentServiceSource = (state, {
 }
 
 export const nextServiceSource = (state) => {
-  state.settings.test = new Date()
   const IDs = Object.keys(state.api)
 
   let nextIndex = IDs.indexOf(state.currentSource.id) + 1

@@ -109,4 +109,6 @@ __['sources'] = {
   }
 }
 
+__['templates'] = {}
+
 export default __

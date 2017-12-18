@@ -1,10 +1,11 @@
 import { runtime } from '@/globals'
 import { aid } from '@/functions/utils'
+import * as mock from '@/api/mocks'
 
 // https://developer.mozilla.org/en-US/Add-ons/WebExtensions/API/runtime/sendMessage
 export const sendMessage = message => aid(
   () => runtime.sendMessage(message),
-  () => new Promise(() => {})
+  () => new Promise((resolve) => resolve(mock.state))
 )
 
 // https://developer.mozilla.org/en-US/Add-ons/WebExtensions/API/runtime/onMessage

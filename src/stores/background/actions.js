@@ -70,13 +70,13 @@ __[UPDATE_STORAGE_STATE] = async (
   emit(true) // feedback status
 }
 
+// TODO: complete this
 __[REQUEST_TRANSLATION] = async (
   { state: { api, current_service_id } },
   { emit = () => {}, payload = { q: 'hello', from: 'en', to: 'zh-cn' } }
 ) => {
   const { query, parser } = api[current_service_id]
 
-  // console.log(query.text(payload))
   await fetch(query.text(payload), { mode: 'no-cors' })
   .then(res => {
     return res.json()

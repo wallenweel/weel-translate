@@ -1,18 +1,14 @@
 <template lang="pug">
   v-toolbar(
-    app
     dark
     color="primary"
     style="z-index: 4;"
     )
     v-toolbar-side-icon(@click.stop="handleDrawer")
     v-toolbar-title {{ title }}
-    v-spacer
-    v-spacer
-    v-spacer
     v-switch(
       color="secondary"
-      style="margin-right: 17px;"
+      style="margin-left: auto; max-width: 36px;"
       :class="$style.keepUp"
       hide-details
       v-model="keepUp"

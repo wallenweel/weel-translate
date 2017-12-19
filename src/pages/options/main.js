@@ -7,7 +7,7 @@ import Vuetify from 'vuetify'
 import 'material-design-icons/iconfont/material-icons.css'
 import 'vuetify/dist/vuetify.min.css'
 
-import router from '@/router'
+import router from '@/routers/options'
 import store from '@/stores/options'
 import WebExtUtils from '@/plugins/WebExtUtils'
 import { generateWatchers } from '@/functions/utils'

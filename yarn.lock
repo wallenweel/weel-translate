@@ -8062,9 +8062,9 @@ vue@^2.5.2:
   version "2.5.11"
   resolved "http://registry.npm.taobao.org/vue/download/vue-2.5.11.tgz#80ca2657aa81f03545cd8dd5a2f55454641e6405"
 
-vuetify@^0.17.4:
-  version "0.17.5"
-  resolved "http://registry.npm.taobao.org/vuetify/download/vuetify-0.17.5.tgz#3dc03471ed1af72501284fa1b43c2327756bea2f"
+vuetify@^1.0.0-alpha.3:
+  version "1.0.0-alpha.3"
+  resolved "http://registry.npm.taobao.org/vuetify/download/vuetify-1.0.0-alpha.3.tgz#60f1cb294ccf02d7daf59fe5240fa60fa25a549c"
 
 vuex@^3.0.1:
   version "3.0.1"

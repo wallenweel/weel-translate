@@ -34,7 +34,7 @@ __[INITIAL_FROM_BACKGROUND] = async ({ state, commit }) => {
     success = false
 
     console.error(
-      `Popup Page Dose Not Initial Success, Because:`,
+      `Options Page Dose Not Initial Success, Because:`,
       error
     )
   })

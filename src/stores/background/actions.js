@@ -3,7 +3,7 @@ import { storage } from '@/globals'
 import {
   INITIAL_BACKGROUND_SCRIPT,
   STORAGE_TYPE_SET,
-  INITIAL_POPUP_SCRIPT,
+  INITIAL_FROM_BACKGROUND,
   UPDATE_STORAGE_STATE,
   REQUEST_TRANSLATION
 } from '@/types'
@@ -59,7 +59,7 @@ __[STORAGE_TYPE_SET] = async (
 }
 
 // feedback all of "state"
-__[INITIAL_POPUP_SCRIPT] = ({ state }, { emit }) => emit(merge({}, state))
+__[INITIAL_FROM_BACKGROUND] = ({ state }, { emit }) => emit(merge({}, state))
 
 __[UPDATE_STORAGE_STATE] = async (
   { state, commit, dispatch },

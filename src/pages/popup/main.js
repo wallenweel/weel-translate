@@ -14,7 +14,7 @@ import { generateWatchers } from '@/functions/utils'
 
 import App from './App'
 import {
-  INITIAL_POPUP_SCRIPT,
+  INITIAL_FROM_BACKGROUND,
   UPDATE_STORAGE_STATE
 } from '@/types'
 
@@ -32,7 +32,7 @@ Vue.use(Vuetify, {
 
 Vue.use(WebExtUtils)
 
-;(async () => [await store.dispatch(INITIAL_POPUP_SCRIPT)])()
+;(async () => [await store.dispatch(INITIAL_FROM_BACKGROUND)])()
 .then(([success]) => {
   if (!success) return false
 

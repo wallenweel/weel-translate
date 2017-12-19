@@ -23,7 +23,7 @@ export const google = {
 }
 
 export const actions = {}
-actions['INITIAL_POPUP_SCRIPT'] = {
+actions['INITIAL_FROM_BACKGROUND'] = {
   storage: {
     local: [
       'test',
@@ -53,7 +53,9 @@ actions['INITIAL_POPUP_SCRIPT'] = {
   settings: {
     test: false
   },
-  preferences: {}
+  preferences: {
+    dark: false
+  }
 }
 
 actions['REQUEST_TRANSLATION'] = {

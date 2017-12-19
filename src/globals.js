@@ -28,3 +28,12 @@ export const {
 } = window[env]
 
 export default window[env]
+
+export const vuetify = {
+  theme: {
+    primary: '#2196F3',
+    secondary: '#1976D2',
+    accent: '#FF9800',
+    error: '#FF5722'
+  }
+}

@@ -38,7 +38,8 @@ __['settings'] = {
 }
 
 __['preferences'] = {
-  test: false
+  test: false,
+  dark: false
 }
 
 __['sources'] = {

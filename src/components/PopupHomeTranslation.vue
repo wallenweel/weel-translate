@@ -196,6 +196,16 @@ export default {
   }
 }
 
+:global {
+  .theme--dark {
+    .input-group__selections__comma {
+      &::after {
+        background-image: linear-gradient(to left, $color-grey-darken-3, transparent);
+      }
+    }
+  }
+}
+
 .from {
   :global {
     .input-group__selections__comma {

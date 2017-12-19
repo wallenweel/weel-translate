@@ -1,5 +1,6 @@
 <template lang="pug">
   v-navigation-drawer(
+    app
     permanent absolute stateless
     :mini-variant.sync="mini"
     v-model="drawer"
@@ -14,7 +15,12 @@
             v-list-tile-title Advance Settings 
     v-divider
     v-list(class="pt-0" dense)
-      v-list-tile(ripple v-for="item in items" :key="item.title" @click="")
+      v-list-tile(
+        ripple
+        v-for="item in items" :key="item.title"
+        :to="item.path"
+        @click=""
+        )
         v-list-tile-action
           v-icon {{ item.icon }}
         v-list-tile-content
@@ -27,8 +33,8 @@
       return {
         drawer: true,
         items: [
-          { title: 'Home', icon: 'dashboard' },
-          { title: 'Service Source API', icon: 'question_answer' },
+          { title: 'Home', icon: 'dashboard', path: '/home' },
+          { title: 'Service Source API', icon: 'question_answer', path: '/service-source-api' },
           { title: 'Template & Styles', icon: 'question_answer' }
         ],
         mini: false,

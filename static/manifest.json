@@ -20,6 +20,8 @@
     }
   },
 
+  "content_security_policy": "script-src 'self' https://cdn.bootcss.com; object-src 'self'",
+
   "default_locale": "en",
 
   "icons": {

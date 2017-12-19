@@ -1,8 +1,8 @@
 <template lang="pug">
   v-app(:dark="dark")
     options-navigation-drawer
-    v-content
-      router-view
+    v-content(style="height: 100vh; overflow: hidden;")
+      router-view(style="height: 100%;")
 </template>
 
 <script>

@@ -1,5 +1,5 @@
 <template lang="pug">
-  v-layout Options Home
+  v-container Options Home
 </template>
 
 <script>

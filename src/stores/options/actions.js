@@ -17,14 +17,16 @@ __[INITIAL_FROM_BACKGROUND] = async ({ state, commit }) => {
     storage,
     current_service_id,
     settings,
-    preferences
+    preferences,
+    sources
   }) => {
     state = Object.assign(state, {
       api,
       storage,
       current_service_id,
       settings,
-      preferences
+      preferences,
+      sources
     })
 
     commit('currentServiceSource', api[current_service_id])

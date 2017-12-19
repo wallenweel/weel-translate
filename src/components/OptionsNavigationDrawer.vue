@@ -1,6 +1,7 @@
 <template lang="pug">
   v-navigation-drawer(
     app
+    width=240
     permanent absolute stateless
     :mini-variant.sync="mini"
     v-model="drawer"
@@ -37,7 +38,7 @@
           { title: 'Service Source API', icon: 'question_answer', path: '/service-source-api' },
           { title: 'Template & Styles', icon: 'question_answer' }
         ],
-        mini: false,
+        mini: true,
         right: null
       }
     }

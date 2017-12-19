@@ -1,6 +1,7 @@
 <template lang="pug">
   v-toolbar(
     dark
+    dense
     color="primary"
     style="z-index: 4;"
     )

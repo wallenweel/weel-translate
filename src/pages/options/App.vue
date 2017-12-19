@@ -1,6 +1,7 @@
 <template lang="pug">
   v-app(:dark="dark")
     options-navigation-drawer
+
     v-content(style="height: 100vh; overflow: hidden;")
       router-view(style="height: 100%;")
 </template>
@@ -10,6 +11,11 @@ import OptionsNavigationDrawer from '@/components/OptionsNavigationDrawer'
 
 export default {
   name: 'app',
+  data () {
+    return {
+      title: 'Options Page'
+    }
+  },
   computed: {
     dark () {
       return this.$store.state.preferences.dark

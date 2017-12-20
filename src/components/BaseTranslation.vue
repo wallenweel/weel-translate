@@ -29,7 +29,7 @@
           :items="languages"
           item-text="locale"
           item-value="code"
-          v-model="aimLanguage"
+          v-model="destLanguage"
           :class="$style.to"
           )
 
@@ -71,65 +71,76 @@
     div(ref="test" @click="handleCustomResult")
 
     v-flex(:class="$style.selection")
-      v-card(:class="$style.result")
+      v-card(:class="$style.reponse")
         v-layout(column wrap)
           v-flex
             v-btn(flat small icon)
               v-icon(color="blue-grey") volume_up
-            span {{ result.phonetic.src }}
+            span {{ reponse.phonetic.src }}
           v-flex
             v-btn(flat small icon)
               v-icon(color="blue-grey") volume_up
-            span {{ result.phonetic.src }}
+            span {{ reponse.phonetic.src }}
           v-flex
             v-btn(flat small icon)
               v-icon(color="blue-grey") content_copy
-            span(:class="$style.translation") {{ result.translation }}
+            span(:class="$style.translation") {{ reponse.translation }}
           v-divider
           v-card-text(class="body-2")
-            div(v-for="item in result.explain") {{ item }}
+            div(v-for="item in reponse.explain") {{ item }}
 </template>
 
 <script>
-import { mapState } from 'vuex'
 // import { injectHTML } from '@/functions/utils'
 import { REQUEST_TRANSLATION } from '@/types'
 
 export default {
-  name: 'PopupHomeTranslation',
+  name: 'BaseTranslation',
   data () {
     return {
       content: '',
       srcLanguage: 'auto',
-      aimLanguage: 'auto',
+      destLanguage: 'auto',
       // languages: [],
       source: {},
       needContent: false,
       tip: ``
     }
   },
-  props: ['api'],
+  props: {
+    api: {
+      type: Object,
+      required: false,
+      default () {
+        return {
+          name: 'API Name'
+        }
+      }
+    },
+    reponse: {
+      type: Object,
+      required: false,
+      default () {
+        return {
+          explain: [],
+          phonetic: {}
+        }
+      }
+    }
+  },
   computed: {
     languages () {
-      return this.$props.api.languages || []
+      return this.api.languages || []
     },
     name () {
-      return this.$props.api.name || ''
+      return this.api.name || ''
     },
     icon () {
-      return this.$props.api.icon || ''
-    },
-    // currentSource () {
-    //   return this.api || {}
-    // },
-    ...mapState([
-      // 'currentSource',
-      'result'
-    ])
+      return this.api.icon || ''
+    }
   },
   methods: {
     startTranslate (ev) {
-      console.log(this.$props.api)
       if (!this.content.length) {
         return this.useTip(`Have you typed some words?`)
       }
@@ -137,7 +148,7 @@ export default {
       const payload = {
         q: this.content,
         from: this.srcLanguage,
-        to: this.aimLanguage
+        to: this.destLanguage
       }
       this.$store.dispatch(REQUEST_TRANSLATION, payload)
 
@@ -150,7 +161,7 @@ export default {
       // injectHTML(mock, this.$refs.test)
     },
     swapLanguages () {
-      [ this.aimLanguage, this.srcLanguage ] = [ this.srcLanguage, this.aimLanguage ]
+      [ this.destLanguage, this.srcLanguage ] = [ this.srcLanguage, this.destLanguage ]
     },
     deleteContent () {
       this.content = ''
@@ -176,7 +187,7 @@ export default {
     srcLanguage (code) {
       console.log(code)
     },
-    aimLanguage (code) {
+    destLanguage (code) {
       console.log(code)
     }
   }
@@ -258,7 +269,7 @@ export default {
   }
 }
 
-.result {
+.reponse {
   min-height: 120px;
   padding: 8px 6px;
 }

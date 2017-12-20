@@ -20,7 +20,9 @@ export const state = {
   settings: {
     test: false
   },
-  preferences: {}
+  preferences: {},
+
+  sources: {}
 }
 
 const store = new Vuex.Store({

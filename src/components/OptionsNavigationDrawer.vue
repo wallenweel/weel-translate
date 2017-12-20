@@ -35,7 +35,7 @@
         drawer: true,
         items: [
           { title: 'Home', icon: 'question_answer', path: '/home' },
-          { title: 'Service Source API', icon: 'developer_board', path: '/service-source-api' },
+          { title: 'Service Source API', icon: 'settings_input_composite', path: '/service-source-api' },
           { title: 'Template & Styles', icon: 'style' }
         ],
         mini: true,

@@ -34,9 +34,9 @@
       return {
         drawer: true,
         items: [
-          { title: 'Home', icon: 'dashboard', path: '/home' },
-          { title: 'Service Source API', icon: 'question_answer', path: '/service-source-api' },
-          { title: 'Template & Styles', icon: 'question_answer' }
+          { title: 'Home', icon: 'question_answer', path: '/home' },
+          { title: 'Service Source API', icon: 'developer_board', path: '/service-source-api' },
+          { title: 'Template & Styles', icon: 'style' }
         ],
         mini: true,
         right: null

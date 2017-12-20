@@ -2,7 +2,21 @@
   v-layout(wrap)
 
     v-toolbar(dense)
-        v-toolbar-title {{ title }}
+      //- v-toolbar-title {{ title }}
+      v-chip(small outline disabled close)
+        span Google
+      v-chip(small)
+        span Google CN
+      v-chip(small)
+        span Youdao
+
+      v-spacer
+      v-tooltip(bottom)
+        v-btn(slot="activator") Add
+        span Create New One
+      v-tooltip(bottom)
+        v-btn(color="primary" slot="activator") Save
+        span Save Current
 
     v-layout(wrap :class="$style.content")
       v-flex(d-flex sm6 lg5 :class="$style.editorPart")
@@ -24,7 +38,8 @@
 
       v-flex(d-flex sm12 lg3 :class="$style.viewPart")
         v-layout(column)
-          base-translation
+          v-container
+            base-translation(:api="currentSource")
 </template>
 
 <script>
@@ -40,6 +55,9 @@ export default {
     }
   },
   computed: {
+    currentSource () {
+      return this.$store.state.currentSource
+    },
     preset () {
       return this.$store.state.sources.preset.google
     }
@@ -136,5 +154,7 @@ export default {
 
 .viewPart {
   background-color: $color-secondary;
+  height: 100%;
+  overflow: auto;  
 }
 </style>

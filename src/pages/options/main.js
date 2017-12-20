@@ -10,13 +10,13 @@ import 'vuetify/dist/vuetify.min.css'
 import router from '@/routers/options'
 import store from '@/stores/options'
 import WebExtUtils from '@/plugins/WebExtUtils'
-import { generateWatchers } from '@/functions/utils'
+// import { generateWatchers } from '@/functions/utils'
 import { vuetify } from '@/globals'
 
 import App from './App'
 import {
-  INITIAL_FROM_BACKGROUND,
-  UPDATE_STORAGE_STATE
+  INITIAL_FROM_BACKGROUND
+  // UPDATE_STORAGE_STATE
 } from '@/types'
 
 Vue.config.productionTip = false
@@ -30,8 +30,8 @@ Vue.use(WebExtUtils)
 .then(([success]) => {
   if (!success) return false
 
-  generateWatchers(store, (type, key) =>
-    typeof store.dispatch(UPDATE_STORAGE_STATE, { type, key }))
+  // generateWatchers(store, (type, key) =>
+  //   typeof store.dispatch(UPDATE_STORAGE_STATE, { type, key }))
 
   /* eslint-disable no-new */
   new Vue({

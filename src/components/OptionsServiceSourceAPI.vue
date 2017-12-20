@@ -9,7 +9,7 @@
         v-layout(column :class="$style.editorLayout")
           v-toolbar(dense flat dark color="grey darken-3" :class="$style.editorTools")
               v-tooltip(bottom)
-                v-btn(icon slot="activator")
+                v-btn(icon slot="activator" @click="formatCodes")
                   v-icon code
                 span Format
               v-spacer
@@ -29,6 +29,7 @@
 
 <script>
 import BaseTranslation from '@/components/BaseTranslation'
+import '@/functions/codeMirror.libs'
 
 export default {
   name: 'ServiceSourceAPI',
@@ -65,11 +66,15 @@ export default {
       styleActiveLine: true,
       showCursorWhenSelecting: true,
       keyMap: 'sublime'
-    }).setValue(this.preset)
+    })
+    this.editor.setValue(this.preset)
   },
   methods: {
-    test () {
-      console.log('editor', this.editor)
+    formatCodes () {
+      this.editor.autoFormatRange(
+        { line: 0, ch: 0 },
+        { line: this.editor.lineCount() }
+      )
     }
   },
   components: {

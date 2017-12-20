@@ -1,33 +1,34 @@
 <template lang="pug">
-  v-layout(column)
+  v-layout(wrap)
+
     v-toolbar(dense)
         v-toolbar-title {{ title }}
-    v-layout(style="height: calc(100% - 48px);")
-      v-layout(column :class="$style.codePart")
-        v-toolbar(dense flat dark color="grey darken-3")
-          v-tooltip(bottom)
-            v-btn(icon slot="activator")
-              v-icon code
-            span Format
-          v-spacer
-          v-btn(depressed right)
-            span Run
-            v-icon keyboard_arrow_right
 
-        v-flex(:class="$style.codeArea")
-          textarea(ref="codeMirror")
-      //- v-layout(:class="$style.viewPart")
-      v-layout(column wrap)
-        v-flex(d-flex)
-          v-layout(row)
-            popup-home-translation
-            code {{ preset }}
-          v-flex
-            code {{ preset }}
+    v-layout(wrap :class="$style.content")
+      v-flex(d-flex sm6 lg5 :class="$style.editorPart")
+        v-layout(column :class="$style.editorLayout")
+          v-toolbar(dense flat dark color="grey darken-3" :class="$style.editorTools")
+              v-tooltip(bottom)
+                v-btn(icon slot="activator")
+                  v-icon code
+                span Format
+              v-spacer
+              v-btn(depressed right)
+                span Run
+                v-icon keyboard_arrow_right
+          v-card(:class="$style.editorArea")
+            textarea(ref="codeMirror")
+
+      v-flex(d-flex sm6 lg4 :class="$style.respondPart")
+        code {{ preset }}
+
+      v-flex(d-flex sm12 lg3 :class="$style.viewPart")
+        v-layout(column)
+          base-translation
 </template>
 
 <script>
-import PopupHomeTranslation from '@/components/PopupHomeTranslation'
+import BaseTranslation from '@/components/BaseTranslation'
 
 export default {
   name: 'ServiceSourceAPI',
@@ -72,28 +73,34 @@ export default {
     }
   },
   components: {
-    PopupHomeTranslation
+    BaseTranslation
   }
 }
 </script>
 
 <style lang="scss" module>
-.codePart {
-  max-width: 760px;
+.content {
   width: 100%;
-  min-width: 440px;
-  :global {
-    .CodeMirror {
-      width: 100%;
-      height: 100%;
-    }
-  }
+  height: calc(100% - 48px);
+  overflow-x: hidden;
+  overflow-y: auto;
 }
 
-.codeArea {
-  height: calc(100% - 48px);
+.editorPart {
+  height: 100%;
+}
 
+.editorLayout {
+  width: 100%;
+  height: 100%;  
+}
+
+.editorArea {
+  min-height: calc(100vh - 96px);  
   :global {
+    .CodeMirror {
+      height: 100%;
+    }
     .CodeMirror-scrollbar-filler {
       opacity: 0;
     }
@@ -110,13 +117,19 @@ export default {
   }
 }
 
-.viewPart {
+.respondPart {
   height: 100%;
-  overflow: auto;
-
   code {
-    box-shadow: unset;
     background: none;
+    width: 100%;
+    height: 100%;
+    padding: 24px;
+    box-shadow: unset;
+    overflow: auto;
   }
+}
+
+.viewPart {
+  background-color: $color-secondary;
 }
 </style>

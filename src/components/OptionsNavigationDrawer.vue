@@ -1,7 +1,7 @@
 <template lang="pug">
   v-navigation-drawer(
     app
-    width=240
+    width=260
     permanent absolute stateless
     :mini-variant.sync="mini"
     v-model="drawer"

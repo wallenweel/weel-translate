@@ -71,23 +71,23 @@
     div(ref="test" @click="handleCustomResult")
 
     v-flex(:class="$style.selection")
-      v-card(:class="$style.reponse")
+      v-card(:class="$style.response")
         v-layout(column wrap)
           v-flex
             v-btn(flat small icon)
               v-icon(color="blue-grey") volume_up
-            span {{ reponse.phonetic.src }}
+            span {{ response.phonetic.src }}
           v-flex
             v-btn(flat small icon)
               v-icon(color="blue-grey") volume_up
-            span {{ reponse.phonetic.src }}
+            span {{ response.phonetic.src }}
           v-flex
             v-btn(flat small icon)
               v-icon(color="blue-grey") content_copy
-            span(:class="$style.translation") {{ reponse.translation }}
+            span(:class="$style.translation") {{ response.translation }}
           v-divider
           v-card-text(class="body-2")
-            div(v-for="item in reponse.explain") {{ item }}
+            div(v-for="item in response.explain") {{ item }}
 </template>
 
 <script>
@@ -117,7 +117,7 @@ export default {
         }
       }
     },
-    reponse: {
+    response: {
       type: Object,
       required: false,
       default () {
@@ -269,7 +269,7 @@ export default {
   }
 }
 
-.reponse {
+.response {
   min-height: 120px;
   padding: 8px 6px;
 }

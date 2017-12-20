@@ -1,5 +1,5 @@
 <template lang="pug">
-  v-toolbar(dense)
+  v-toolbar(dense style="z-index: 4;")
     v-tooltip(bottom)
       v-btn(icon color="accent" slot="activator")
         v-icon add

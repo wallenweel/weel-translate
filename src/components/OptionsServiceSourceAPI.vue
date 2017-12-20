@@ -7,6 +7,8 @@
         base-code-editor(
           editorStyle="min-height: calc(100vh - 96px);"
           :content="preset.google"
+          :method="handleRun"
+          error="true"
           )
 
       v-flex(d-flex sm6 lg4 :class="$style.respondPart")
@@ -15,19 +17,19 @@
             v-toolbar-title Test Request
             v-spacer
             v-tooltip(bottom)
-              v-btn(color="white" round slot="activator") Text
+              v-btn(color="white" round disabled slot="activator") Text
               span Query Text
             v-tooltip(bottom)
-              v-btn(color="white" round slot="activator") Audio
+              v-btn(color="white" round disabled slot="activator") Audio
               span Query Audio
 
           v-flex(:class="$style.responseArea")
-            code {{ preset }}
+            code {{ response }}
 
       v-flex(d-flex sm12 lg3 :class="$style.viewPart")
         v-layout(column)
           v-container
-            base-translation(:api="currentSource" :reponse="result")
+            base-translation(:api="currentSource" :response="result")
 </template>
 
 <script>
@@ -46,7 +48,21 @@ export default {
     }
   },
   computed: {
+    response () { return this.$store.state.temp.response },
     ...mapState(['currentSource', 'result'])
+  },
+  methods: {
+    handleRun (editor) {
+      const preset = editor.getValue()
+      try {
+        this.$store.commit('presetRunPass', JSON.parse(preset))
+        this.$store.dispatch('testRequest')
+        // console.log(this.$store.state.temp.api)
+      } catch (error) {
+        // TODO: add error dialog
+        console.log(error)
+      }
+    }
   },
   components: {
     BaseCodeEditor,
@@ -86,7 +102,7 @@ export default {
 }
 
 .viewPart {
-  background-color: $color-secondary;
+  // background-color: $color-secondary;
   height: 100%;
   overflow: auto;  
 }

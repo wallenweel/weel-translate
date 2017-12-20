@@ -22,7 +22,13 @@ export const state = {
   },
   preferences: {},
 
-  sources: {}
+  sources: {},
+
+  temp: {
+    preset: {},
+    api: {},
+    response: {}
+  }
 }
 
 const store = new Vuex.Store({

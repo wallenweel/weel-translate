@@ -1,6 +1,6 @@
 <template lang="pug">
   v-container
-    base-translation(:api="currentSource")
+    base-translation(:api="currentSource" :response="result")
 </template>
 
 <script>
@@ -13,7 +13,7 @@ export default {
     return {}
   },
   computed: {
-    ...mapState(['currentSource'])
+    ...mapState(['currentSource', 'result'])
   },
   components: {
     BaseTranslation

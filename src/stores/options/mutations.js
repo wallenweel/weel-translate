@@ -1,11 +1,8 @@
 import merge from 'deepmerge'
+import { compilePreset } from '@/functions/serviceHelper'
 
 export const mergeState = (state, storage) => {
   state = merge(state, storage)
-}
-
-export const drawerNavigationToggle = state => {
-  state.drawerNavigationToggle = !state.drawerNavigationToggle
 }
 
 export const currentServiceSource = (state, {
@@ -22,4 +19,12 @@ export const nextServiceSource = (state) => {
   if (nextIndex === IDs.length) nextIndex = 0
 
   state.currentSource = Object.values(state.api)[nextIndex]
+}
+
+export const presetRunPass = ({ temp }, preset) => {
+  temp.api = compilePreset(preset)
+}
+
+export const tempResponse = ({ temp }, response) => {
+  temp.response = response
 }

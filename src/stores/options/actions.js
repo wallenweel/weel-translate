@@ -4,6 +4,7 @@ import {
   UPDATE_STORAGE_STATE,
   REQUEST_TRANSLATION
 } from '@/types'
+import * as mocks from '@/api/mocks'
 
 const __ = {}
 
@@ -68,6 +69,26 @@ __[REQUEST_TRANSLATION] = ({ state }, { q, from, to }) => {
   })
 
   state.result.over = true
+}
+
+__['testRequest'] = ({ state, commit }) => {
+  const text = state.temp.api.query.text({ q: 'hello', from: 'en', to: 'zh-cn' })
+  console.log(text)
+  fetch(text, {
+    mode: 'no-cors'
+  })
+  .then(res => {
+    if (res.ok) {
+      return res.json()
+    } else {
+      return mocks.response
+    }
+  })
+  .then(data => {
+    // console.log(data)
+    // console.log(JSON.parse(data))
+    commit('tempResponse', JSON.parse(data))
+  })
 }
 
 export default __

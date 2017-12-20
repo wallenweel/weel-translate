@@ -4,6 +4,12 @@ import languageHelper from '@/functions/languageHelper'
 import parserHelper from '@/functions/parserHelper'
 import queryHelper from '@/functions/queryHelper'
 
+export const compilePreset = preset => merge(preset, {
+  languages: languageHelper(preset),
+  parser: parserHelper(preset),
+  query: queryHelper(preset)
+}, { arrayMerge: (des, src) => src })
+
 export default (sources, __ = {}) => {
   const presets = sources.preset
 
@@ -37,11 +43,12 @@ export default (sources, __ = {}) => {
       )
     }
 
-    __[id] = merge(presetJSON, {
-      languages: languageHelper(presetJSON),
-      parser: parserHelper(presetJSON),
-      query: queryHelper(presetJSON)
-    }, { arrayMerge: (des, src) => src })
+    // __[id] = merge(presetJSON, {
+    //   languages: languageHelper(presetJSON),
+    //   parser: parserHelper(presetJSON),
+    //   query: queryHelper(presetJSON)
+    // }, { arrayMerge: (des, src) => src })
+    __[id] = compilePreset(presetJSON)
   }
 
   return __

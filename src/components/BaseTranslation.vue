@@ -62,36 +62,18 @@
         v-btn(flat depressed @click="pasteContent")
           v-icon(color="blue-grey") content_paste
       
-    v-flex(:class="$style.selection")
+    v-flex(:class="$style.selection" v-show="languageSwitch")
       v-btn(block medium dark color="accent" @click="nextServiceSource")
         //- |source&nbsp;:&nbsp;&nbsp;
         b {{ name }}
         img(style="margin-left: 4px;" height=16 width=16 :src="icon")
 
-    div(ref="test" @click="handleCustomResult")
-
     v-flex(:class="$style.selection")
-      v-card(:class="$style.response")
-        v-layout(column wrap)
-          v-flex
-            v-btn(flat small icon)
-              v-icon(color="blue-grey") volume_up
-            span {{ response.phonetic.src }}
-          v-flex
-            v-btn(flat small icon)
-              v-icon(color="blue-grey") volume_up
-            span {{ response.phonetic.src }}
-          v-flex
-            v-btn(flat small icon)
-              v-icon(color="blue-grey") content_copy
-            span(:class="$style.translation") {{ response.translation }}
-          v-divider
-          v-card-text(class="body-2")
-            div(v-for="item in response.explain") {{ item }}
+      base-translation-result(:result="response")
 </template>
 
 <script>
-// import { injectHTML } from '@/functions/utils'
+import BaseTranslationResult from '@/components/BaseTranslationResult'
 import { REQUEST_TRANSLATION } from '@/types'
 
 export default {
@@ -101,10 +83,9 @@ export default {
       content: '',
       srcLanguage: 'auto',
       destLanguage: 'auto',
-      // languages: [],
       source: {},
       needContent: false,
-      tip: ``
+      tip: ''
     }
   },
   props: {
@@ -121,23 +102,19 @@ export default {
       type: Object,
       required: false,
       default () {
-        return {
-          explain: [],
-          phonetic: {}
-        }
+        return {}
       }
+    },
+    languageSwitch: {
+      type: Boolean,
+      required: false,
+      default () { return false }
     }
   },
   computed: {
-    languages () {
-      return this.api.languages || []
-    },
-    name () {
-      return this.api.name || ''
-    },
-    icon () {
-      return this.api.icon || ''
-    }
+    languages () { return this.api.languages || [] },
+    name () { return this.api.name || '' },
+    icon () { return this.api.icon || '' }
   },
   methods: {
     startTranslate (ev) {
@@ -145,20 +122,11 @@ export default {
         return this.useTip(`Have you typed some words?`)
       }
 
-      const payload = {
+      this.$store.dispatch(REQUEST_TRANSLATION, {
         q: this.content,
         from: this.srcLanguage,
         to: this.destLanguage
-      }
-      this.$store.dispatch(REQUEST_TRANSLATION, payload)
-
-      // console.log(this.$refs.test.querySelector('button'))
-      // let mock = `<div>{{aa}}{{bb}}</div>`
-      // mock = mock.replace(/\{\{(aa|bb)\}\}/g, (pattern, key) => {
-      //   // console.log(key)
-      //   return { aa: '11', bb: '22' }[key]
-      // })
-      // injectHTML(mock, this.$refs.test)
+      })
     },
     swapLanguages () {
       [ this.destLanguage, this.srcLanguage ] = [ this.srcLanguage, this.destLanguage ]
@@ -166,14 +134,7 @@ export default {
     deleteContent () {
       this.content = ''
     },
-    pasteContent () {
-      console.log(this.$refs.content.$el.querySelector('textarea'))
-      this.$refs.content.$el.querySelector('textarea').focus()
-      document.execCommand('paste')
-    },
-    handleCustomResult (ev) {
-      console.log(ev.target)
-    },
+    pasteContent () {},
     nextServiceSource () {
       this.$store.commit('nextServiceSource')
     },
@@ -190,6 +151,9 @@ export default {
     destLanguage (code) {
       console.log(code)
     }
+  },
+  components: {
+    BaseTranslationResult
   }
 }
 </script>
@@ -267,15 +231,6 @@ export default {
   &:last-child {
     padding-bottom: 24px;
   }
-}
-
-.response {
-  min-height: 120px;
-  padding: 8px 6px;
-}
-
-.translation {
-  font-weight: bold;
 }
 </style>
 

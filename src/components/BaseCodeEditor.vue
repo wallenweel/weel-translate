@@ -2,16 +2,16 @@
 v-layout(column style="width: 100%; height: 100%;")
   v-toolbar(dense flat dark color="grey darken-3")
       v-tooltip(bottom)
-        v-btn(icon slot="activator" @click="formatCodes")
+        v-btn(icon slot="activator" @click="reload")
           v-icon refresh
         span Reload
       v-tooltip(bottom)
-        v-btn(icon slot="activator" @click="formatCodes")
+        v-btn(icon slot="activator" @click="format")
           v-icon code
         span Format
       v-spacer
       v-tooltip(bottom)
-        v-btn(depressed slot="activator" @click="handle")
+        v-btn(depressed slot="activator" @click="compile")
           span Run
           v-icon keyboard_arrow_right
         span Compile Codes
@@ -30,7 +30,7 @@ export default {
       editor: null
     }
   },
-  props: ['editorStyle', 'content', 'method', 'mode'],
+  props: ['editorStyle', 'content', 'compileCb', 'reloadCb', 'mode'],
   mounted () {
     this.editor = window.CodeMirror.fromTextArea(this.$refs.codeMirror, {
       mode: this.mode,
@@ -58,14 +58,17 @@ export default {
     this.editor.setValue(this.content)
   },
   methods: {
-    handle () {
-      this.method(this.editor)
+    compile () {
+      this.compileCb(this.editor)
     },
-    formatCodes () {
+    format () {
       this.editor.autoFormatRange(
         { line: 0, ch: 0 },
         { line: this.editor.lineCount() }
       )
+    },
+    reload () {
+      this.reloadCb()
     }
   }
 }

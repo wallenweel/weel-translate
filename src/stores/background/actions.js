@@ -21,8 +21,10 @@ __[INITIAL_BACKGROUND_SCRIPT] = async ({ state, commit }) => {
   }
 
   if (state.initialized === true) {
-    // compile service "source.preset" to "api"
-    commit('compileSourceAPI')
+    // compile service "source.preset" to "source.compiled"
+    commit('compileSourcePreset')
+
+    state.api = state.sources.compiled
 
     const [id, ids] = [
       state['current_service_id'],

@@ -1,36 +1,40 @@
 <template lang="pug">
   v-layout(wrap)
-    options-modify-toolbar
+    options-modify-toolbar(:items="presets")
 
     v-layout(wrap :class="$style.content")
       v-flex(d-flex sm6 lg5 :class="$style.editorPart")
         base-code-editor(
           editorStyle="min-height: calc(100vh - 96px);"
-          :content="preset.google"
-          :method="handleRun"
+          :content="editorContent.api"
+          :compile-cb="handleRun"
+          :reload-cb="reload"
           mode="application/json"
-          error="true"
           )
 
       v-flex(d-flex sm6 lg4 :class="$style.respondPart")
         v-layout(column style="width: 100%; height: 100%;")
           v-toolbar(dense)
-            v-toolbar-title Test Request
-            v-spacer
-            v-tooltip(bottom)
-              v-btn(color="white" round disabled slot="activator") Text
-              span Query Text
-            v-tooltip(bottom)
-              v-btn(color="white" round disabled slot="activator") Audio
-              span Query Audio
+            v-toolbar-title Text Query Result
+            //- v-spacer
+            //- v-tooltip(bottom)
+            //-   v-btn(color="white" round disabled slot="activator") Text
+            //-   span Query Text
+            //- v-tooltip(bottom)
+            //-   v-btn(color="white" round disabled slot="activator") Audio
+            //-   span Query Audio
 
           v-flex(:class="$style.responseArea")
-            code {{ response }}
+            code {{ temp.response }}
 
       v-flex(d-flex sm12 lg3 :class="$style.viewPart")
         v-layout(column)
+          v-toolbar(dense color="primary" dark)
+            v-toolbar-title Test This Preset
           v-container
-            base-translation(:api="currentSource" :response="result")
+            base-translation(:api="temp.api" :response="result")
+            v-flex {{ temp.queryDetail }}
+            v-flex(:class="compiled").overlay.overlay--absolute
 </template>
 
 <script>
@@ -45,24 +49,35 @@ export default {
     return {
       title: 'Edit/Create Translation API',
       editor: null,
-      preset: this.$store.state.sources.preset
+      compiled: 'overlay--active'
     }
   },
+  created () {
+    console.log(this.presets)
+  },
   computed: {
-    response () { return this.$store.state.temp.response },
-    ...mapState(['currentSource', 'result'])
+    presets () {
+      return Object.values(this.api).map(({ id, name }) => ({ id, name }))
+    },
+    ...mapState(['currentSource', 'result', 'temp', 'sources', 'editorContent', 'api'])
   },
   methods: {
     handleRun (editor) {
       const preset = editor.getValue()
+      this.compiled = ''
       try {
-        this.$store.commit('presetRunPass', JSON.parse(preset))
-        this.$store.dispatch('testRequest')
+        this.$store.commit('compileCodes', JSON.parse(preset))
+        // this.$store.dispatch('tempRequest')
         // console.log(this.$store.state.temp.api)
       } catch (error) {
         // TODO: add error dialog
         console.log(error)
       }
+    },
+    reload () {
+      this.compiled = 'overlay--active'
+      this.$store.commit('tempReset')
+      console.log(this.$store.state.temp.api)
     }
   },
   components: {
@@ -103,8 +118,9 @@ export default {
 }
 
 .viewPart {
-  // background-color: $color-secondary;
+  background-color: #f5f5f5;
   height: 100%;
-  overflow: auto;  
+  position: relative;
+  overflow: auto;
 }
 </style>

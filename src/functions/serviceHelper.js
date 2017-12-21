@@ -10,8 +10,8 @@ export const compilePreset = preset => merge(preset, {
   query: queryHelper(preset)
 }, { arrayMerge: (des, src) => src })
 
-export default (sources, __ = {}) => {
-  const presets = sources.preset
+export default (presets, __ = {}) => {
+  // const presets = sources.preset
 
   for (const [id, preset] of Object.entries(presets)) {
     let presetJSON = JSON.parse(preset)

@@ -6,7 +6,7 @@
       v-flex(d-flex sm6 lg5 :class="$style.editorPart")
         base-code-editor(
           editorStyle="min-height: calc(100vh - 96px);"
-          :content="preset"
+          :content="editorContent.template"
           :method="handleRun"
           mode="text/html"
           error="true"
@@ -50,14 +50,14 @@ export default {
   },
   computed: {
     response () { return this.$store.state.temp.response },
-    ...mapState(['currentSource', 'result'])
+    ...mapState(['currentSource', 'result', 'editorContent'])
   },
   methods: {
     handleRun (editor) {
       const preset = editor.getValue()
       try {
-        this.$store.commit('presetRunPass', JSON.parse(preset))
-        this.$store.dispatch('testRequest')
+        this.$store.commit('compileCodes', JSON.parse(preset))
+        this.$store.dispatch('tempRequest')
         // console.log(this.$store.state.temp.api)
       } catch (error) {
         // TODO: add error dialog

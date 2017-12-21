@@ -43,6 +43,7 @@ __['preferences'] = {
 }
 
 __['sources'] = {
+  compiled: {},
   preset: {
     'google_cn': `["google", {
       "id": "google_cn",
@@ -116,31 +117,34 @@ __['sources'] = {
 }
 
 __['templates'] = {
-  'float-result-panel': `
-  <!--Parser
-  {
-    "phonetic_dest": "$0.translit",
-    "translation": "$.sentences[0].trans",
-    "explain": ["$1.pos", "$1.terms"],
-    "variable": ["$.sentences[1]", "$.dict[0]"]
+  compiled: {},
+  preset: {
+    'float-result-panel': `
+    <!--Parser
+    {
+      "phonetic_dest": "$0.translit",
+      "translation": "$.sentences[0].trans",
+      "explain": ["$1.pos", "$1.terms"],
+      "variable": ["$.sentences[1]", "$.dict[0]"]
+    }
+    -->
+  
+    <!-- wtt: weel translate's template START-->
+    <wtt-container>
+      <style>
+        #weel-translate-frp {
+          background: #666666;
+        }
+      </style>
+      <div id="weel-translate-frp">
+        <div>P: {{phonetic_dest}}</div>
+        <div>T: {{translation}}</div>
+        <div>E: {{explain}}</div>
+      </div>
+    </wtt-container>
+    <!-- wtt: weel translate's template END-->
+    `
   }
-  -->
-
-  <!-- wtt: weel translate's template START-->
-  <wtt-container>
-    <style>
-      #weel-translate-frp {
-        background: #666666;
-      }
-    </style>
-    <div id="weel-translate-frp">
-      <div>P: {{phonetic_dest}}</div>
-      <div>T: {{translation}}</div>
-      <div>E: {{explain}}</div>
-    </div>
-  </wtt-container>
-  <!-- wtt: weel translate's template END-->
-  `
 }
 
 export default __

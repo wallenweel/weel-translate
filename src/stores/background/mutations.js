@@ -7,6 +7,6 @@ export const mergeStorageState = (state, storage = {}) => {
   }
 }
 
-export const compileSourceAPI = (state) => {
-  state.api = serviceHelper(state.sources)
+export const compileSourcePreset = (state) => {
+  state.sources.compiled = serviceHelper(state.sources.preset)
 }

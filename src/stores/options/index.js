@@ -8,6 +8,17 @@ Vue.use(Vuex)
 export const state = {
   test: true,
 
+  tmp: {
+    sources: {
+      compiled: {},
+      preset: {}
+    },
+    templates: {
+      compiled: {},
+      preset: {}
+    }
+  },
+
   result: {
     phonetic: {}
   }, // parsed translating result
@@ -24,10 +35,33 @@ export const state = {
 
   sources: {},
 
+  editorContent: {
+    api: '{}',
+
+    template: `<!--parser {
+  "phonetic_dest": "$0.translit",
+  "translation": "$.sentences[0].trans",
+  "explain": ["$1.pos", "$1.terms"],
+  "variable": ["$.sentences[1]", "$.dict[0]"]
+} -->
+
+<!-- wtt: weel translate's template START-->
+<wtt-container>
+  <style>
+    #demo-template-wrap {
+      background: #f5f5f5;
+    }
+  </style>
+  <div id="demo-template-wrap"></div>
+</wtt-container>
+<!-- wtt: weel translate's template END-->`
+  },
   temp: {
-    preset: {},
+    id: '',
     api: {},
-    response: {}
+    preset: '',
+    response: {},
+    queryDetail: ''
   }
 }
 

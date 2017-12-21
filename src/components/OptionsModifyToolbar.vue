@@ -6,12 +6,18 @@
       span Create New One
     v-spacer
 
-    v-chip(small outline disabled close)
-      span Google
-    v-chip(small)
-      span Google CN
-    v-chip(small)
-      span Youdao
+    //- v-chip(small outline disabled close)
+    //-   span Google
+    v-chip(
+      small
+      v-for="(item, index) in items" :key="item.id"
+      :close="!index"
+      :disabled="!index"
+      :outline="!!index"
+      @input="handleChipClose"
+      @click="handleChipClick"
+      )
+      span {{ item.name }}
 
     v-spacer
     v-tooltip(bottom)
@@ -25,6 +31,18 @@
 
 <script>
 export default {
-  name: 'OptionsModifyToolbar'
+  name: 'OptionsModifyToolbar',
+  data () {
+    return {}
+  },
+  props: ['items'],
+  methods: {
+    handleChipClose (close) {
+      console.log(!close)
+    },
+    handleChipClick (ev) {
+      console.log(ev.index)
+    }
+  }
 }
 </script>

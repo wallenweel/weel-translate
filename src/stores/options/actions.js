@@ -32,6 +32,10 @@ __[INITIAL_FROM_BACKGROUND] = async ({ state, commit }) => {
       templates
     })
 
+    state.tmp = Object.assign(state.tmp, { sources, templates })
+
+    commit('compileTmpPreset')
+
     commit('currentServiceSource', api[current_service_id])
 
     success = true
@@ -61,21 +65,23 @@ __[UPDATE_STORAGE_STATE] = ({ state }, { type, key }) => {
   })
 }
 
-__[REQUEST_TRANSLATION] = ({ state }, { q, from, to }) => {
-  sendMessage({
-    payload: { q, from, to },
-    type: REQUEST_TRANSLATION
-  }).then(result => {
-    state.result = result
-    state.result.over = true
-  })
+// __[REQUEST_TRANSLATION] = ({ state }, { q, from, to }) => {
+//   sendMessage({
+//     payload: { q, from, to },
+//     type: REQUEST_TRANSLATION
+//   }).then(result => {
+//     state.result = result
+//     state.result.over = true
+//   })
 
-  state.result.over = true
-}
+//   state.result.over = true
+// }
 
-__['testRequest'] = ({ state, commit }) => {
+__[REQUEST_TRANSLATION] = ({ state, commit }) => {
   const text = state.temp.api.query.text({ q: 'hello', from: 'en', to: 'zh-cn' })
-  console.log(text)
+
+  state.temp.queryDetail = text
+
   fetch(text, {
     mode: 'no-cors'
   })

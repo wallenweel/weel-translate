@@ -2,6 +2,7 @@ import Vue from 'vue'
 import Router from 'vue-router'
 import OptionsHome from '@/components/OptionsHome'
 import OptionsServiceSourceAPI from '@/components/OptionsServiceSourceAPI'
+import OptionsTemplates from '@/components/OptionsTemplates'
 
 Vue.use(Router)
 
@@ -17,6 +18,12 @@ export const serviceSourceAPI = {
   component: OptionsServiceSourceAPI
 }
 
+export const templates = {
+  path: '/templates',
+  name: 'OptionsTemplates',
+  component: OptionsTemplates
+}
+
 export default new Router({
   routes: [
     {
@@ -24,6 +31,7 @@ export default new Router({
       redirect: '/home'
     },
     home,
-    serviceSourceAPI
+    serviceSourceAPI,
+    templates
   ]
 })

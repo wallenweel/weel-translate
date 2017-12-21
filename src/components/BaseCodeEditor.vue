@@ -10,9 +10,11 @@ v-layout(column style="width: 100%; height: 100%;")
           v-icon code
         span Format
       v-spacer
-      v-btn(depressed right @click="handle")
-        span Run
-        v-icon keyboard_arrow_right
+      v-tooltip(bottom)
+        v-btn(depressed slot="activator" @click="handle")
+          span Run
+          v-icon keyboard_arrow_right
+        span Compile Codes
         
   v-card(:class="$style.editorArea" :style="$props.editorStyle")
     textarea(ref="codeMirror")
@@ -28,10 +30,10 @@ export default {
       editor: null
     }
   },
-  props: ['editorStyle', 'content', 'method'],
+  props: ['editorStyle', 'content', 'method', 'mode'],
   mounted () {
     this.editor = window.CodeMirror.fromTextArea(this.$refs.codeMirror, {
-      mode: 'application/json',
+      mode: this.mode,
       theme: 'monokai',
 
       tabSize: 2,
@@ -39,6 +41,7 @@ export default {
       lineNumbers: true,
       lint: true,
       jsonlint: true,
+      autoCloseTags: true,
 
       lineWrapping: false,
       foldGutter: true,

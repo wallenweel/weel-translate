@@ -131,8 +131,6 @@ __['templates'] = {
     <style>
       #weel-translate-frp {
         background: #666666;
-        // height: 100px;
-        // width: 100px;
       }
     </style>
     <div id="weel-translate-frp">

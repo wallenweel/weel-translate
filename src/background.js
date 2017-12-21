@@ -2,10 +2,29 @@ import merge from 'deepmerge'
 import store from '@/stores/background'
 import { runtime } from '@/globals'
 import {
+  INITIAL_STORAGE_FROM_DEFAULT,
   INITIAL_BACKGROUND_SCRIPT
 } from '@/types'
 
 try {
+  runtime.onInstalled.addListener(detail => {
+    console.log(detail)
+    switch (detail.reason) {
+      case 'install':
+        store.dispatch(INITIAL_STORAGE_FROM_DEFAULT)
+        break
+
+      case 'update':
+        // store.dispatch(INITIAL_STORAGE_FROM_DEFAULT)
+        // window.browser.storage.sync.get().then(all => {
+        //   console.log(all)
+        // })
+        break
+
+      default:
+        break
+    }
+  })
   ;(async () => [await store.dispatch(INITIAL_BACKGROUND_SCRIPT)])()
   .then(([success]) => {
     if (!success) return false

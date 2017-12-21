@@ -36,8 +36,8 @@ Vue.use(WebExtUtils)
 .then(([success]) => {
   if (!success) return false
 
-  generateStorageWatchers(store, (type, key) =>
-    typeof store.dispatch(UPDATE_STORAGE_STATE, { type, key }))
+  generateStorageWatchers(store, (type, key, value) =>
+    typeof store.dispatch(UPDATE_STORAGE_STATE, { type, key, value }))
 
   /* eslint-disable no-new */
   new Vue({

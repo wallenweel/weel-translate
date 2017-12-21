@@ -1,6 +1,7 @@
 import merge from 'deepmerge'
 import { storage } from '@/globals'
 import {
+  INITIAL_STORAGE_FROM_DEFAULT,
   INITIAL_BACKGROUND_SCRIPT,
   STORAGE_TYPE_SET,
   INITIAL_FROM_BACKGROUND,
@@ -9,6 +10,27 @@ import {
 } from '@/types'
 
 const __ = {}
+
+__[INITIAL_STORAGE_FROM_DEFAULT] = async ({ state }) => {
+  // get value in 'state.a.b.c'
+  const value = (k, s) => k.split('.').reduce((p, c) => p[c], s)
+  // generate storage type data
+  const helper = (k, v) => k.split('.').reduceRight((p, c) => ({[c]: p}), v)
+
+  for (const [type, states] of Object.entries(state.storage)) {
+    const config = states.reduce((p, c) => {
+      if (/\./.test(c)) p = Object.assign(p, helper(c, value(c, state)))
+      else p[c] = state[c]
+
+      return merge({}, p)
+    }, {})
+
+    await storage[type].set(config).then(() => {
+      storage[type].get().then(all =>
+        console.log(`storage.${type}.set success\n`, all))
+    })
+  }
+}
 
 __[INITIAL_BACKGROUND_SCRIPT] = async ({ state, commit }) => {
   for (const type of Object.keys(state.storage)) {
@@ -45,14 +67,11 @@ __[STORAGE_TYPE_SET] = async (
   { state },
   { type, key, value = state[key] }
 ) => {
-  // storage[sync|local]
-  const helper = key =>
-    key.split('.').reduceRight(
-      (p, c) => ({[c]: p}),
-      typeof value === 'object' ? merge({}, value) : value
-    )
+  // ('a.b.c', v) => {a: {b: {c: v}}}
+  const helper = (k, v) => k.split('.').reduceRight((p, c) => ({[c]: p}), v)
 
-  await storage[type].set(helper(key)).then(
+  // storage[sync|local]
+  await storage[type].set(merge({}, helper(key, value))).then(
     () => {
       // update "state"
       state[key] = value

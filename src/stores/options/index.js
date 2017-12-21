@@ -10,6 +10,7 @@ export const state = {
 
   tmp: {
     sources: {
+      items: [],
       compiled: {},
       preset: {}
     },

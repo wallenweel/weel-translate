@@ -95,6 +95,11 @@ __['sources'] = {
         "variable": ["$.sentences[1]", "$.dict[0]"]
       },
 
+      "template": {
+        "popup": "default",
+        "content": "default"
+      },
+
       "include": ["auto", "en", "iw"],
 
       "languages": [{
@@ -110,6 +115,34 @@ __['sources'] = {
   }
 }
 
-__['templates'] = {}
+__['templates'] = {
+  'float-result-panel': `
+  <!--Parser
+  {
+    "phonetic_dest": "$0.translit",
+    "translation": "$.sentences[0].trans",
+    "explain": ["$1.pos", "$1.terms"],
+    "variable": ["$.sentences[1]", "$.dict[0]"]
+  }
+  -->
+
+  <!-- wtt: weel translate's template START-->
+  <wtt-container>
+    <style>
+      #weel-translate-frp {
+        background: #666666;
+        // height: 100px;
+        // width: 100px;
+      }
+    </style>
+    <div id="weel-translate-frp">
+      <div>P: {{phonetic_dest}}</div>
+      <div>T: {{translation}}</div>
+      <div>E: {{explain}}</div>
+    </div>
+  </wtt-container>
+  <!-- wtt: weel translate's template END-->
+  `
+}
 
 export default __

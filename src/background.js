@@ -13,6 +13,7 @@ try {
     // do something after all initial successfully
     // store.watch(state => state.settings.test, a => console.log(a))
     // store.dispatch('REQUEST_TRANSLATION', {})
+    // console.log(store.state.templates['float-result-panel'])
   })
 
   // initialize everything

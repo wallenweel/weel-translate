@@ -37,16 +37,10 @@ const loopParse = (object, respond, prevObj, prevKey) => {
 }
 
 // param is source's json treated preset
-export default ({
-  parser: {
-    phonetic = {},
-    translation = [],
-    explain = [],
-    variable = []
-  }
-}) => {
-  let result = { phonetic, translation, explain }
+export default ({ parser }) => {
+  const { variable } = parser
 
+  let result = merge({}, parser)
   if (istype(variable, 'array') && variable.length) {
     result = JSON.parse(
       JSON.stringify(result)
@@ -57,6 +51,7 @@ export default ({
       )
     )
   }
+  delete result.variable
 
   return (respond) => {
     // prevent treated result is cached

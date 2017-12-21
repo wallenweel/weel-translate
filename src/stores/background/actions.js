@@ -11,8 +11,8 @@ import {
 const __ = {}
 
 __[INITIAL_BACKGROUND_SCRIPT] = async ({ state, commit }) => {
-  for (const [type, states] of Object.entries(state.storage)) {
-    await storage[type].get(states).then(all => {
+  for (const type of Object.keys(state.storage)) {
+    await storage[type].get().then(all => {
       // merge sync storage to state
       commit('mergeStorageState', all)
 
@@ -46,9 +46,13 @@ __[STORAGE_TYPE_SET] = async (
   { type, key, value = state[key] }
 ) => {
   // storage[sync|local]
-  await storage[type].set({
-    [key]: typeof value === 'object' ? merge({}, value) : value
-  }).then(
+  const helper = key =>
+    key.split('.').reduceRight(
+      (p, c) => ({[c]: p}),
+      typeof value === 'object' ? merge({}, value) : value
+    )
+
+  await storage[type].set(helper(key)).then(
     () => {
       // update "state"
       state[key] = value

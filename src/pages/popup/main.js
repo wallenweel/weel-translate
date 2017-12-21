@@ -10,7 +10,7 @@ import 'vuetify/dist/vuetify.min.css'
 import router from '@/routers/popup'
 import store from '@/stores/popup'
 import WebExtUtils from '@/plugins/WebExtUtils'
-import { generateWatchers } from '@/functions/utils'
+import { generateStorageWatchers } from '@/functions/utils'
 
 import App from './App'
 import {
@@ -36,7 +36,7 @@ Vue.use(WebExtUtils)
 .then(([success]) => {
   if (!success) return false
 
-  generateWatchers(store, (type, key) =>
+  generateStorageWatchers(store, (type, key) =>
     typeof store.dispatch(UPDATE_STORAGE_STATE, { type, key }))
 
   /* eslint-disable no-new */

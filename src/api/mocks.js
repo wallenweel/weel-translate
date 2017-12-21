@@ -28,9 +28,10 @@ export const actions = {}
 actions['INITIAL_FROM_BACKGROUND'] = {
   storage: {
     local: [
-      'test',
+      'test.preset',
       'translation_history',
-      'sources',
+      'sources.preset',
+      'templates.preset',
       'current_service_id'
     ],
     sync: [

@@ -1,6 +1,11 @@
 const __ = {}
 
-__['test'] = true
+__['test'] = {
+  compiled: {},
+  preset: {
+    a: 'a'
+  }
+}
 
 __['initialized'] = false
 // __['initialized'] = {
@@ -10,9 +15,10 @@ __['initialized'] = false
 
 __['storage'] = {
   local: [
-    'test',
+    'test.preset',
     'translation_history',
-    'sources',
+    'sources.preset',
+    'templates.preset',
     'current_service_id'
   ],
   sync: [

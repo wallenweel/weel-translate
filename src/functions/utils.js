@@ -29,11 +29,15 @@ export const whattype = thing =>
  */
 export const istype = (thing, type) => whattype(thing) === type
 
-export const generateWatchers = (store, callback) => {
+export const generateStorageWatchers = (store, callback) => {
+  const helper = (key, state) =>
+    key.split('.').reduce((prev, curr) => prev[curr], state)
+
   for (const [type, states] of Object.entries(store.state.storage)) {
     for (const key of states) {
-      store.watch(state => state[key], (curr, prev) => {
-        callback(type, key)
+      // store.watch(state => state[key], (curr, prev) => {
+      store.watch(state => helper(key, state), (curr, prev) => {
+        callback(type, key, curr)
       }, { deep: true })
     }
   }

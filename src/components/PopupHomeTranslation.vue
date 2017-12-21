@@ -16,7 +16,7 @@ export default {
     return {}
   },
   mounted () {
-    let tpl = this.$store.state.templates['float-result-panel']
+    let tpl = this.$store.state.templates.preset['float-result-panel']
     let parser = tpl.match(/<!--parser([\s\S]+?)-->/i, tpl)
     if (parser) {
       try {

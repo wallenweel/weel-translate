@@ -14,7 +14,6 @@ __[INITIAL_FROM_BACKGROUND] = async ({ state, commit }) => {
   await sendMessage({
     type: INITIAL_FROM_BACKGROUND
   }).then(({
-    api,
     storage,
     current_service_id,
     settings,
@@ -23,7 +22,6 @@ __[INITIAL_FROM_BACKGROUND] = async ({ state, commit }) => {
     templates
   }) => {
     state = Object.assign(state, {
-      api,
       storage,
       current_service_id,
       settings,
@@ -36,7 +34,9 @@ __[INITIAL_FROM_BACKGROUND] = async ({ state, commit }) => {
 
     commit('compileTmpPreset')
 
-    commit('currentServiceSource', api[current_service_id])
+    state.api = state.tmp.sources.compiled
+
+    commit('currentServiceSource', state.api[current_service_id])
 
     success = true
   }, error => {

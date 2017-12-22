@@ -1,6 +1,6 @@
 import merge from 'deepmerge'
 import { whattype } from '@/functions/utils'
-import serviceHelper from '@/functions/serviceHelper'
+import serviceHelper, { compilePreset, parsePreset } from '@/functions/serviceHelper'
 
 export const mergeState = (state, storage) => {
   state = merge(state, storage)
@@ -10,9 +10,15 @@ export const compileTmpPreset = ({ tmp }) => {
   tmp.sources.compiled = serviceHelper(tmp.sources.preset)
 }
 
-export const initialTmpSource = ({ tmp }, id = Object.keys(tmp.sources.compiled)[0]) => {
-  tmp.sources.current_id = id
-  tmp.sources.current_api = tmp.sources.compiled[id]
+export const initialTmpSource = (
+  { tmp: { sources } },
+  [first] = Object.keys(sources.compiled)
+) => {
+  sources.editor_content = sources.preset[first]
+  sources.current_id = first
+  // sources.current_api = sources.compiled[first]
+  sources.items = Object.values(sources.compiled)
+    .reduce((p, { id, name }) => p.push({ id, name }) && p, sources.items)
 }
 
 export const nextServiceSource = ({ tmp }) => {
@@ -24,16 +30,18 @@ export const nextServiceSource = ({ tmp }) => {
   tmp.sources.current_api = Object.values(tmp.sources.current_id)[nextIndex]
 }
 
-export const compileCodes = ({ tmp }, preset) => {
-  console.log('todo:compileCodes')
-  // tmp.sources.api = compilePreset(preset)
+export const compileCodes = ({ tmp: { sources } }, preset) => {
+  const api = compilePreset(parsePreset(preset, sources.preset))
+
+  sources.current_api = api
 }
 
-export const tempResponse = ({ tmp }, response) => {
-  tmp.sources.current_result = tmp.sources.current_api.parser(response)
+export const tmpResponse = ({ tmp: { sources } }, response) => {
+  sources.current_response = JSON.parse(response)
+  sources.current_result = sources.current_api.parser(sources.current_response)
 }
 
-export const tempReset = (state) => {
+export const tmpReset = (state) => {
   for (const [key, value] of Object.entries(state.tmp.sources)) {
     state.tmp.sources[key] = {
       'object': {},

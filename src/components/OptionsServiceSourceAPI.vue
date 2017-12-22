@@ -1,12 +1,12 @@
 <template lang="pug">
   v-layout(wrap)
-    options-modify-toolbar
+    options-modify-toolbar(:items="chips")
 
     v-layout(wrap :class="$style.content")
       v-flex(d-flex sm6 lg5 :class="$style.editorPart")
         base-code-editor(
           editorStyle="min-height: calc(100vh - 96px);"
-          :content="editorContent.api"
+          :content="tmp.sources.editor_content"
           :compile-cb="handleRun"
           :reload-cb="reload"
           mode="application/json"
@@ -16,16 +16,8 @@
         v-layout(column style="width: 100%; height: 100%;")
           v-toolbar(dense)
             v-toolbar-title Text Query Result
-            //- v-spacer
-            //- v-tooltip(bottom)
-            //-   v-btn(color="white" round disabled slot="activator") Text
-            //-   span Query Text
-            //- v-tooltip(bottom)
-            //-   v-btn(color="white" round disabled slot="activator") Audio
-            //-   span Query Audio
-
           v-flex(:class="$style.responseArea")
-            code {{ tmp.sources.response }}
+            code {{ tmp.sources.current_response }}
 
       v-flex(d-flex sm12 lg3 :class="$style.viewPart")
         v-layout(column)
@@ -33,7 +25,7 @@
             v-toolbar-title Test This Preset
           v-container
             base-translation(:api="tmp.sources.current_api" :result="result")
-            v-flex {{ tmp.sources.queryDetail }}
+            v-flex {{ tmp.sources.query_detail }}
             v-flex(:class="compiled").overlay.overlay--absolute
 </template>
 
@@ -52,13 +44,13 @@ export default {
       compiled: 'overlay--active'
     }
   },
-  created () {
-    // console.log(this.presets)
-  },
+  created () {},
   computed: {
     result () {
-      console.log(this.tmp.sources.current_result)
       return this.tmp.sources.current_result
+    },
+    chips () {
+      return this.tmp.sources.items
     },
     ...mapState(['tmp', 'editorContent'])
   },
@@ -67,7 +59,7 @@ export default {
       const preset = editor.getValue()
       this.compiled = ''
       try {
-        this.$store.commit('compileCodes', JSON.parse(preset))
+        this.$store.commit('compileCodes', preset)
         // this.$store.dispatch('tempRequest')
         // console.log(this.$store.state.tmp.sources.current_api)
       } catch (error) {

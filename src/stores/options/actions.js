@@ -61,10 +61,10 @@ __[UPDATE_STORAGE_STATE] = ({ state }, { type, key }) => {
   })
 }
 
-__[REQUEST_TRANSLATION] = ({ state, commit }) => {
-  const text = state.tmp.sources.current_api.query.text({ q: 'hello', from: 'en', to: 'zh-cn' })
+__[REQUEST_TRANSLATION] = ({ state: { tmp }, commit }) => {
+  const text = tmp.sources.current_api.query.text({ q: 'hello', from: 'en', to: 'zh-cn' })
 
-  state.tmp.sources.queryDetail = text
+  tmp.sources.query_detail = text
 
   fetch(text, {
     mode: 'no-cors'
@@ -79,7 +79,7 @@ __[REQUEST_TRANSLATION] = ({ state, commit }) => {
   .then(data => {
     // console.log(data)
     // console.log(JSON.parse(data))
-    commit('tempResponse', JSON.parse(data))
+    commit('tmpResponse', data)
   })
 }
 

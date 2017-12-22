@@ -1,7 +1,7 @@
 <template lang="pug">
   v-container
     div(ref="test") test
-    base-translation(:api="currentSource" :response="result")
+    base-translation(:api="currentSource" :result="result")
 </template>
 
 <script>

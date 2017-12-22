@@ -13,19 +13,23 @@ __[INITIAL_FROM_BACKGROUND] = async ({ state, commit }) => {
   await sendMessage({
     type: INITIAL_FROM_BACKGROUND
   }).then(({
+    test,
     api,
     storage,
     current_service_id,
     settings,
     preferences,
+    sources,
     templates
   }) => {
     state = Object.assign(state, {
+      test,
       api,
       storage,
       current_service_id,
       settings,
       preferences,
+      sources,
       templates
     })
 

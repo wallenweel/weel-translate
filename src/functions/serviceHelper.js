@@ -4,50 +4,54 @@ import languageHelper from '@/functions/languageHelper'
 import parserHelper from '@/functions/parserHelper'
 import queryHelper from '@/functions/queryHelper'
 
-export const compilePreset = preset => merge(preset, {
-  languages: languageHelper(preset),
-  parser: parserHelper(preset),
-  query: queryHelper(preset)
+// full preset(no inherit) json compile to api
+export const compilePreset = json => merge(json, {
+  languages: languageHelper(json),
+  parser: parserHelper(json),
+  query: queryHelper(json)
 }, { arrayMerge: (des, src) => src })
 
-export default (presets, __ = {}) => {
-  // const presets = sources.preset
+export const parsePreset = (preset, presets) => {
+  let presetJSON = JSON.parse(preset)
 
-  for (const [id, preset] of Object.entries(presets)) {
-    let presetJSON = JSON.parse(preset)
+  if (istype(presetJSON, 'array') && presetJSON.length) {
+    const realPreset = presetJSON.pop()
 
-    if (istype(presetJSON, 'array') && presetJSON.length) {
-      const realPreset = presetJSON.pop()
+    let incorrect = false
+    for (let n = 0; n < presetJSON.length; n++) {
+      const _id = presetJSON[n]
 
-      let incorrect = false
-      for (let n = 0; n < presetJSON.length; n++) {
-        const _id = presetJSON[n]
-        if (
-          !istype(_id, 'string') ||
-          !presets[_id]
-        ) incorrect = true
-      }
-      if (!istype(realPreset, 'object') || incorrect) {
-        // TODO: add wrong alert to frontend
-        console.log(
-          'wrong preset is supplied and skipped',
-          JSON.stringify(presetJSON)
-        )
-        continue
-      }
-
-      presetJSON = merge(
-        ...presetJSON.map(id => JSON.parse(presets[id])),
-        realPreset,
-        { arrayMerge: (des, src) => src }
-      )
+      if (
+        !istype(_id, 'string') ||
+        !presets[_id]
+      ) incorrect = true
     }
 
-    // __[id] = merge(presetJSON, {
-    //   languages: languageHelper(presetJSON),
-    //   parser: parserHelper(presetJSON),
-    //   query: queryHelper(presetJSON)
-    // }, { arrayMerge: (des, src) => src })
+    if (!istype(realPreset, 'object') || incorrect) {
+      // TODO: add wrong alert to frontend
+      console.log(
+        'wrong preset is supplied and skipped',
+        JSON.stringify(presetJSON)
+      )
+      return false
+    }
+
+    presetJSON = merge(
+      ...presetJSON.map(id => JSON.parse(presets[id])),
+      realPreset,
+      { arrayMerge: (des, src) => src }
+    )
+  }
+
+  return presetJSON
+}
+
+export default (presets, __ = {}) => {
+  for (const [id, preset] of Object.entries(presets)) {
+    const presetJSON = parsePreset(preset, presets)
+
+    if (!presetJSON) continue
+
     __[id] = compilePreset(presetJSON)
   }
 

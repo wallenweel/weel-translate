@@ -49,7 +49,7 @@ export default {
     // console.log(this.preset)
   },
   computed: {
-    response () { return this.$store.state.temp.response },
+    response () { return this.$store.state.tmp.sources.response },
     ...mapState(['currentSource', 'result', 'editorContent'])
   },
   methods: {
@@ -58,7 +58,7 @@ export default {
       try {
         this.$store.commit('compileCodes', JSON.parse(preset))
         this.$store.dispatch('tempRequest')
-        // console.log(this.$store.state.temp.api)
+        // console.log(this.$store.state.tmp.sources.api)
       } catch (error) {
         // TODO: add error dialog
         console.log(error)

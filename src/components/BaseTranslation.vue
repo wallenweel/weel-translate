@@ -69,7 +69,7 @@
         img(style="margin-left: 4px;" height=16 width=16 :src="icon")
 
     v-flex(:class="$style.selection")
-      base-translation-result(:result="response")
+      base-translation-result(:result="result")
 </template>
 
 <script>
@@ -98,7 +98,7 @@ export default {
         }
       }
     },
-    response: {
+    result: {
       type: Object,
       required: false,
       default () {

@@ -1,6 +1,6 @@
 import merge from 'deepmerge'
 import { whattype } from '@/functions/utils'
-import serviceHelper, { compilePreset } from '@/functions/serviceHelper'
+import serviceHelper from '@/functions/serviceHelper'
 
 export const mergeState = (state, storage) => {
   state = merge(state, storage)
@@ -10,37 +10,36 @@ export const compileTmpPreset = ({ tmp }) => {
   tmp.sources.compiled = serviceHelper(tmp.sources.preset)
 }
 
-export const currentServiceSource = (state, {
-  id, name, icon,
-  languages
-}) => {
-  state.currentSource = { id, name, icon, languages }
+export const initialTmpSource = ({ tmp }, id = Object.keys(tmp.sources.compiled)[0]) => {
+  tmp.sources.current_id = id
+  tmp.sources.current_api = tmp.sources.compiled[id]
 }
 
-export const nextServiceSource = (state) => {
-  const IDs = Object.keys(state.api)
+export const nextServiceSource = ({ tmp }) => {
+  const IDs = Object.keys(tmp.sources.compiled)
 
-  let nextIndex = IDs.indexOf(state.currentSource.id) + 1
+  let nextIndex = IDs.indexOf(tmp.sources.current_id) + 1
   if (nextIndex === IDs.length) nextIndex = 0
 
-  state.currentSource = Object.values(state.api)[nextIndex]
+  tmp.sources.current_api = Object.values(tmp.sources.current_id)[nextIndex]
 }
 
-export const compileCodes = ({ temp }, preset) => {
-  temp.api = compilePreset(preset)
+export const compileCodes = ({ tmp }, preset) => {
+  console.log('todo:compileCodes')
+  // tmp.sources.api = compilePreset(preset)
 }
 
-export const tempResponse = ({ temp }, response) => {
-  temp.response = response
+export const tempResponse = ({ tmp }, response) => {
+  tmp.sources.current_result = tmp.sources.current_api.parser(response)
 }
 
 export const tempReset = (state) => {
-  for (const [key, value] of Object.entries(state.temp)) {
-    state.temp[key] = {
+  for (const [key, value] of Object.entries(state.tmp.sources)) {
+    state.tmp.sources[key] = {
       'object': {},
       'string': '',
       'array': []
     }[whattype(value)]
   }
-  console.log(state.temp)
+  console.log(state.tmp.sources)
 }

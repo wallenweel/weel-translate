@@ -11,6 +11,10 @@ export const state = {
   tmp: {
     sources: {
       items: [],
+      current_id: '',
+      current_api: {},
+      current_result: {},
+      queryDetail: '',
       compiled: {},
       preset: {}
     },
@@ -20,21 +24,9 @@ export const state = {
     }
   },
 
-  result: {
-    phonetic: {}
-  }, // parsed translating result
-
-  drawerNavigationToggle: false,
-  currentSource: {},
-
   storage: {},
-  api: {},
-  settings: {
-    test: false
-  },
-  preferences: {},
-
   sources: {},
+  templates: {},
 
   editorContent: {
     api: '{}',
@@ -56,13 +48,6 @@ export const state = {
   <div id="demo-template-wrap"></div>
 </wtt-container>
 <!-- wtt: weel translate's template END-->`
-  },
-  temp: {
-    id: '',
-    api: {},
-    preset: '',
-    response: {},
-    queryDetail: ''
   }
 }
 

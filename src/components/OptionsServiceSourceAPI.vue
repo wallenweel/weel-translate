@@ -1,6 +1,6 @@
 <template lang="pug">
   v-layout(wrap)
-    options-modify-toolbar(:items="presets")
+    options-modify-toolbar
 
     v-layout(wrap :class="$style.content")
       v-flex(d-flex sm6 lg5 :class="$style.editorPart")
@@ -25,15 +25,15 @@
             //-   span Query Audio
 
           v-flex(:class="$style.responseArea")
-            code {{ temp.response }}
+            code {{ tmp.sources.response }}
 
       v-flex(d-flex sm12 lg3 :class="$style.viewPart")
         v-layout(column)
           v-toolbar(dense color="primary" dark)
             v-toolbar-title Test This Preset
           v-container
-            base-translation(:api="temp.api" :response="result")
-            v-flex {{ temp.queryDetail }}
+            base-translation(:api="tmp.sources.current_api" :result="result")
+            v-flex {{ tmp.sources.queryDetail }}
             v-flex(:class="compiled").overlay.overlay--absolute
 </template>
 
@@ -53,13 +53,14 @@ export default {
     }
   },
   created () {
-    console.log(this.presets)
+    // console.log(this.presets)
   },
   computed: {
-    presets () {
-      return Object.values(this.api).map(({ id, name }) => ({ id, name }))
+    result () {
+      console.log(this.tmp.sources.current_result)
+      return this.tmp.sources.current_result
     },
-    ...mapState(['currentSource', 'result', 'temp', 'sources', 'editorContent', 'api'])
+    ...mapState(['tmp', 'editorContent'])
   },
   methods: {
     handleRun (editor) {
@@ -68,7 +69,7 @@ export default {
       try {
         this.$store.commit('compileCodes', JSON.parse(preset))
         // this.$store.dispatch('tempRequest')
-        // console.log(this.$store.state.temp.api)
+        // console.log(this.$store.state.tmp.sources.current_api)
       } catch (error) {
         // TODO: add error dialog
         console.log(error)
@@ -77,7 +78,7 @@ export default {
     reload () {
       this.compiled = 'overlay--active'
       this.$store.commit('tempReset')
-      console.log(this.$store.state.temp.api)
+      console.log(this.$store.state.tmp.sources.current_api)
     }
   },
   components: {

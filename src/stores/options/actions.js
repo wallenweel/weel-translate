@@ -15,28 +15,24 @@ __[INITIAL_FROM_BACKGROUND] = async ({ state, commit }) => {
     type: INITIAL_FROM_BACKGROUND
   }).then(({
     storage,
-    current_service_id,
-    settings,
-    preferences,
     sources,
-    templates
+    templates,
+    preferences
   }) => {
     state = Object.assign(state, {
       storage,
-      current_service_id,
-      settings,
-      preferences,
       sources,
-      templates
+      templates,
+      preferences
     })
 
-    state.tmp = Object.assign(state.tmp, { sources, templates })
+    Object.assign(state.tmp.sources, sources)
+    Object.assign(state.tmp.templates, templates)
 
     commit('compileTmpPreset')
+    commit('initialTmpSource')
 
-    state.api = state.tmp.sources.compiled
-
-    commit('currentServiceSource', state.api[current_service_id])
+    // state.api = state.tmp.sources.compiled
 
     success = true
   }, error => {
@@ -65,22 +61,10 @@ __[UPDATE_STORAGE_STATE] = ({ state }, { type, key }) => {
   })
 }
 
-// __[REQUEST_TRANSLATION] = ({ state }, { q, from, to }) => {
-//   sendMessage({
-//     payload: { q, from, to },
-//     type: REQUEST_TRANSLATION
-//   }).then(result => {
-//     state.result = result
-//     state.result.over = true
-//   })
-
-//   state.result.over = true
-// }
-
 __[REQUEST_TRANSLATION] = ({ state, commit }) => {
-  const text = state.temp.api.query.text({ q: 'hello', from: 'en', to: 'zh-cn' })
+  const text = state.tmp.sources.current_api.query.text({ q: 'hello', from: 'en', to: 'zh-cn' })
 
-  state.temp.queryDetail = text
+  state.tmp.sources.queryDetail = text
 
   fetch(text, {
     mode: 'no-cors'

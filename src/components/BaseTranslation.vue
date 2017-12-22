@@ -80,7 +80,7 @@ export default {
   name: 'BaseTranslation',
   data () {
     return {
-      content: '',
+      content: this.input,
       srcLanguage: 'auto',
       destLanguage: 'auto',
       source: {},
@@ -89,6 +89,11 @@ export default {
     }
   },
   props: {
+    input: {
+      type: String,
+      required: false,
+      default: ''
+    },
     api: {
       type: Object,
       required: false,
@@ -150,6 +155,12 @@ export default {
     },
     destLanguage (code) {
       console.log(code)
+    },
+    content (text) {
+      this.$emit('input', text)
+    },
+    input (v) {
+      this.content = v
     }
   },
   components: {

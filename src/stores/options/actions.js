@@ -31,6 +31,7 @@ __[INITIAL_FROM_BACKGROUND] = async ({ state, commit }) => {
 
     commit('compileTmpPreset')
     commit('initialTmpSource')
+    commit('pushHistory', 'sources')
 
     // state.api = state.tmp.sources.compiled
 
@@ -61,7 +62,7 @@ __[UPDATE_STORAGE_STATE] = ({ state }, { type, key }) => {
   })
 }
 
-__[REQUEST_TRANSLATION] = ({ state: { tmp }, commit }) => {
+__[REQUEST_TRANSLATION] = ({ state: { tmp }, commit }, { q, from, to }) => {
   const text = tmp.sources.current_api.query.text({ q: 'hello', from: 'en', to: 'zh-cn' })
 
   tmp.sources.query_detail = text

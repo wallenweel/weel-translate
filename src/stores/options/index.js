@@ -10,12 +10,14 @@ export const state = {
 
   tmp: {
     sources: {
+      history: [],
       items: [],
       editor_content: '',
       current_id: '',
       current_api: {},
       current_response: 'A translation is waiting for...',
       current_result: {},
+      current_input: '',
       query_detail: '',
       compiled: {},
       preset: {}

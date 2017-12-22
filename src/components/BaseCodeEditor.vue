@@ -2,9 +2,9 @@
 v-layout(column style="width: 100%; height: 100%;")
   v-toolbar(dense flat dark color="grey darken-3")
       v-tooltip(bottom)
-        v-btn(icon slot="activator" @click="reload")
-          v-icon refresh
-        span Reload
+        v-btn(icon slot="activator" @click="restore")
+          v-icon settings_backup_restore
+        span Restore
       v-tooltip(bottom)
         v-btn(icon slot="activator" @click="format")
           v-icon code
@@ -30,7 +30,7 @@ export default {
       editor: null
     }
   },
-  props: ['editorStyle', 'content', 'compileCb', 'reloadCb', 'mode'],
+  props: ['editorStyle', 'content', 'compileCb', 'restoreCb', 'mode'],
   mounted () {
     this.editor = window.CodeMirror.fromTextArea(this.$refs.codeMirror, {
       mode: this.mode,
@@ -56,6 +56,10 @@ export default {
       keyMap: 'sublime'
     })
     this.editor.setValue(this.content)
+    this.editor.on('changes', cm => {
+      const content = cm.getValue()
+      this.$emit('content-change', content)
+    })
   },
   methods: {
     compile () {
@@ -67,8 +71,14 @@ export default {
         { line: this.editor.lineCount() }
       )
     },
-    reload () {
-      this.reloadCb()
+    restore () {
+      this.restoreCb()
+      this.editor.setValue(this.content)
+    }
+  },
+  watch: {
+    content (v) {
+      this.editor.setValue(v)
     }
   }
 }

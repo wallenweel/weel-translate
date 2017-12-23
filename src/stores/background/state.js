@@ -19,7 +19,11 @@ __['storage'] = {
     'translation_history',
     'sources.preset',
     'templates.preset',
-    'current_service_id'
+    'current_service_id',
+    'src_language',
+    'dest_language',
+    'input_text',
+    'result'
   ],
   sync: [
     'settings',
@@ -29,9 +33,11 @@ __['storage'] = {
 }
 
 __['current_service_id'] = ''
-
+__['src_language'] = ''
+__['dest_language'] = ''
+__['input_text'] = ''
+__['result'] = {}
 __['translation_history'] = []
-
 __['translation_collection'] = []
 
 // contains Storage rejected

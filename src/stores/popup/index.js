@@ -8,12 +8,16 @@ Vue.use(Vuex)
 export const state = {
   test: true,
 
-  result: {
-    phonetic: {}
-  }, // parsed translating result
-
   drawerNavigationToggle: false,
   currentSource: {},
+
+  current_service_id: '',
+  src_language: '',
+  dest_language: '',
+  input_text: '',
+  result: {},
+  translation_history: [],
+  translation_collection: [],
 
   storage: {},
   api: {},

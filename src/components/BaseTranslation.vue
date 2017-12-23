@@ -1,75 +1,63 @@
 <template lang="pug">
   v-layout(column wrap)
     v-card
-      v-tooltip(v-model="needContent" bottom)
+      v-tooltip(v-model="blank" bottom)
         div(slot="activator")
         span {{ tip }}
       v-layout(row wrap :class="$style.languageToolbar")
-        //- source language selection
         v-select(
-          min-width=140
-          label="Select"
-          overflow hide-details
-          auto dense
+          min-width=140 label="Select"
+          overflow hide-details auto dense
+          :class="$style.from"
           :items="languages"
           item-text="locale"
           item-value="code"
           v-model="srcLanguage"
-          :class="$style.from"
           )
-        //- a mini button to swap two languages
+
         v-btn(icon style="min-width: 32px;" @click="swapLanguages")
           v-icon(color="primary" small) swap_horiz
-        //- aim language selection
+
         v-select(
-          min-width=140
-          label="Select"
-          overflow hide-details
-          auto dense
+          min-width=140 label="Select"
+          overflow hide-details auto dense
+          :class="$style.to"
           :items="languages"
           item-text="locale"
           item-value="code"
           v-model="destLanguage"
-          :class="$style.to"
           )
 
     v-card
-      //- input of translating
       v-text-field(
-        textarea
+        textarea rows=3 full-width
         placeholder="something else ..."
-        rows=3
-        hide-details
-        full-width
         v-model="content"
         ref="content"
         )
-      v-layout(
-        row justify-space-around
-        :class="$style.tools"
-        )
-        //- delete button
+
+      v-layout(row justify-space-around :class="$style.tools")
         v-btn(flat depressed @click="deleteContent")
           v-icon(color="blue-grey") delete
-        //- translation button
+
         v-btn(
           fab dark medium color="primary"
           :class="$style.translate"
           @click="startTranslate"
           )
           v-icon(dark) done_all
-        //- paste content button
+
         v-btn(flat depressed @click="pasteContent")
           v-icon(color="blue-grey") content_paste
       
     v-flex(:class="$style.selection" v-show="languageSwitch")
       v-btn(block medium dark color="accent" @click="nextServiceSource")
-        //- |source&nbsp;:&nbsp;&nbsp;
         b {{ name }}
-        img(style="margin-left: 4px;" height=16 width=16 :src="icon")
+        //- img(style="margin-left: 4px;" height=16 width=16 :src="icon")
 
     v-flex(:class="$style.selection")
       base-translation-result(:result="result")
+
 </template>
 
 <script>
@@ -80,11 +68,9 @@ export default {
   name: 'BaseTranslation',
   data () {
     return {
-      content: this.input,
-      srcLanguage: 'auto',
-      destLanguage: 'auto',
       source: {},
-      needContent: false,
+      content: this.input,
+      blank: false,
       tip: ''
     }
   },
@@ -111,7 +97,6 @@ export default {
       }
     },
     languageSwitch: {
-      type: Boolean,
       required: false,
       default () { return false }
     }
@@ -145,8 +130,8 @@ export default {
     },
     useTip (msg = '') {
       this.tip = msg
-      setTimeout(() => (this.needContent = false), 2500)
-      this.needContent = true
+      setTimeout(() => (this.blank = false), 2500)
+      this.blank = true
     }
   },
   watch: {

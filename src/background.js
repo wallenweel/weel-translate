@@ -8,7 +8,6 @@ import {
 
 try {
   runtime.onInstalled.addListener(detail => {
-    console.log(detail)
     switch (detail.reason) {
       case 'install':
         store.dispatch(INITIAL_STORAGE_FROM_DEFAULT)

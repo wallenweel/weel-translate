@@ -25,7 +25,8 @@ __[INITIAL_STORAGE_FROM_DEFAULT] = async ({ state }) => {
       return merge({}, p)
     }, {})
 
-    await storage[type].set(config).then(() => {
+    await storage[type].set(config)
+    .then(() => {
       storage[type].get().then(all =>
         console.log(`storage.${type}.set success\n`, all))
     })

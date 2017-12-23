@@ -67,7 +67,6 @@ __[REQUEST_TRANSLATION] = ({ state }, { q, from, to }) => {
     payload: { q, from, to },
     type: REQUEST_TRANSLATION
   }).then(result => {
-    console.log(result)
     state.result = result
     state.result.over = true
   })

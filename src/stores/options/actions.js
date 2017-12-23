@@ -1,3 +1,4 @@
+import merge from 'deepmerge'
 import { sendMessage } from '@/functions/runtime'
 import {
   INITIAL_FROM_BACKGROUND,
@@ -26,12 +27,11 @@ __[INITIAL_FROM_BACKGROUND] = async ({ state, commit }) => {
       preferences
     })
 
-    Object.assign(state.tmp.sources, sources)
-    Object.assign(state.tmp.templates, templates)
+    state.tmp.sources = merge(state.tmp.sources, sources)
+    state.tmp.templates = merge(state.tmp.templates, templates)
 
     commit('compileTmpPreset')
     commit('initialTmpSource')
-    commit('pushHistory', 'sources')
 
     // state.api = state.tmp.sources.compiled
 

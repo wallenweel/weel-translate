@@ -10,9 +10,10 @@ export const state = {
 
   tmp: {
     sources: {
-      history: [],
+      alert: [false, '...'],
+      save: false,
+      history: {},
       items: [],
-      editor_content: '',
       current_id: '',
       current_api: {},
       current_response: 'A translation is waiting for...',

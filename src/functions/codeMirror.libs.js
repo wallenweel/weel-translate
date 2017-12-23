@@ -104,7 +104,7 @@
       for (var cur = from.line + 1, end = from.line + lines; cur <= end; ++cur) {
         cm.indentLine(cur, 'smart')
       }
-      cm.setSelection(from, cm.getCursor(false))
+      // cm.setSelection(from, cm.getCursor(false))
     })
   })
 })(window.CodeMirror)

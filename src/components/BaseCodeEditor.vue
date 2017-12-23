@@ -2,17 +2,27 @@
 v-layout(column style="width: 100%; height: 100%;")
   v-toolbar(dense flat dark color="grey darken-3")
       v-tooltip(bottom)
-        v-btn(icon slot="activator" @click="restore")
-          v-icon settings_backup_restore
-        span Restore
-      v-tooltip(bottom)
         v-btn(icon slot="activator" @click="format")
           v-icon code
         span Format
+      v-tooltip(bottom)
+        v-btn(icon slot="activator" @click="() => editor.undo()")
+          v-icon undo
+        span Undo
+      v-tooltip(bottom)
+        v-btn(icon slot="activator" @click="() => editor.redo()")
+          v-icon redo
+        span Redo
+
       v-spacer
+
+      //- v-tooltip(bottom)
+      //-   v-btn(icon slot="activator" @click="() => $emit('restore')")
+      //-     v-icon restore
+      //-   span Restore Previous Compilation
       v-tooltip(bottom)
         v-btn(depressed slot="activator" @click="compile")
-          span Run
+          span Compile
           v-icon keyboard_arrow_right
         span Compile Codes
         
@@ -30,7 +40,7 @@ export default {
       editor: null
     }
   },
-  props: ['editorStyle', 'content', 'compileCb', 'restoreCb', 'mode'],
+  props: ['editorStyle', 'content', 'mode', 'changes'],
   mounted () {
     this.editor = window.CodeMirror.fromTextArea(this.$refs.codeMirror, {
       mode: this.mode,
@@ -56,29 +66,28 @@ export default {
       keyMap: 'sublime'
     })
     this.editor.setValue(this.content)
-    this.editor.on('changes', cm => {
-      const content = cm.getValue()
-      this.$emit('content-change', content)
+    this.editor.on('blur', cm => {
+      this.$emit('changes', cm.getValue())
     })
   },
   methods: {
-    compile () {
-      this.compileCb(this.editor)
-    },
     format () {
       this.editor.autoFormatRange(
         { line: 0, ch: 0 },
         { line: this.editor.lineCount() }
       )
     },
-    restore () {
-      this.restoreCb()
-      this.editor.setValue(this.content)
+    compile () {
+      this.$emit('compile', this.editor.getValue())
     }
   },
   watch: {
     content (v) {
+      if (typeof v !== 'string') return
       this.editor.setValue(v)
+    },
+    changes () {
+      this.editor.doc.clearHistory()
     }
   }
 }

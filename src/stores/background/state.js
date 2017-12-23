@@ -15,7 +15,7 @@ __['initialized'] = false
 
 __['storage'] = {
   local: [
-    'test.preset',
+    'test',
     'translation_history',
     'sources.preset',
     'templates.preset',

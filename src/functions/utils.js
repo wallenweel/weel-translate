@@ -38,7 +38,7 @@ export const generateStorageWatchers = (store, callback) => {
     for (const key of states) {
       // store.watch(state => state[key], (curr, prev) => {
       store.watch(state => helper(key, state), (curr, prev) => {
-        console.log(type, merge({}, curr))
+        // console.log(type, merge({}, curr))
         callback(type, key, curr)
       }, { deep: true })
     }

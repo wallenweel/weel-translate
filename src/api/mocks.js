@@ -28,7 +28,7 @@ export const actions = {}
 actions['INITIAL_FROM_BACKGROUND'] = {
   storage: {
     local: [
-      'test.preset',
+      'test',
       'translation_history',
       'sources.preset',
       'templates.preset',

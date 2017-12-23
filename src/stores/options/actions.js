@@ -63,7 +63,7 @@ __[UPDATE_STORAGE_STATE] = ({ state }, { type, key }) => {
 }
 
 __[REQUEST_TRANSLATION] = ({ state: { tmp }, commit }, { q, from, to }) => {
-  const text = tmp.sources.current_api.query.text({ q: 'hello', from: 'en', to: 'zh-cn' })
+  const text = tmp.sources.current_api.query.text({ q: 'egg', from: 'en', to: 'zh-cn' })
 
   tmp.sources.query_detail = text
 
@@ -74,7 +74,7 @@ __[REQUEST_TRANSLATION] = ({ state: { tmp }, commit }, { q, from, to }) => {
     if (res.ok) {
       return res.json()
     } else {
-      return mocks.response
+      return JSON.parse(mocks.response)
     }
   })
   .then(data => {

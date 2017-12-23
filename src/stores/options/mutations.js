@@ -118,7 +118,7 @@ export const saveCurrentPreset = (state, [type]) => {
 }
 
 export const tmpResponse = ({ tmp: { sources } }, response) => {
-  sources.current_response = JSON.parse(response)
+  sources.current_response = response
   sources.current_result = sources.current_api.parser(sources.current_response)
 }
 

@@ -36,6 +36,31 @@ export const clearHistory = (state) => {
   state.translation_history = state.tmp.history = []
 }
 
+export const addCollection = (state, { q, from, to, name, id, result: { translation } }) => {
+  state.translation_collection.unshift({
+    meta: { q, from, to },
+    source: { name, id },
+    result: {
+      translation
+    }
+  })
+  state.currentCollected = true
+}
+
+export const removeCollection = (state, index) => {
+  if (index === -1) {
+    state.currentCollected = false
+    state.translation_collection.splice(0, 1)
+    return false
+  }
+
+  if (index === 0 && state.currentCollected) {
+    state.currentCollected = false
+  }
+
+  state.translation_collection.splice(index, 1)
+}
+
 export const updateTmpState = (state, [key, value]) => {
   state.tmp[key] = value
 }

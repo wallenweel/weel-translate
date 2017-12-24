@@ -6,7 +6,7 @@
       :src-dest="src_dest"
       :api="currentSource"
       :result="result"
-      :input="input_text"
+      :input="input_text || tmp.input_text"
       @input="updateInput"
       @changes="languageChanges"
       )
@@ -22,7 +22,7 @@ export default {
     return {}
   },
   computed: {
-    ...mapState(['currentSource', 'result', 'src_dest', 'input_text'])
+    ...mapState(['currentSource', 'result', 'src_dest', 'input_text', 'tmp'])
   },
   methods: {
     ...mapMutations({

@@ -66,7 +66,33 @@ actions['INITIAL_FROM_BACKGROUND'] = {
       name: 'Google cn '
     }
   }],
-  translation_collection: [],
+  translation_collection: [{
+    meta: {
+      q: 'egg',
+      from: 'en',
+      to: 'zh-cn '
+    },
+    result: {
+      translation: '鸡蛋'
+    },
+    source: {
+      id: 'google_cn',
+      name: 'Google cn '
+    }
+  }, {
+    meta: {
+      q: 'test',
+      from: 'en',
+      to: 'zh-cn '
+    },
+    result: {
+      translation: '测试'
+    },
+    source: {
+      id: 'google_cn',
+      name: 'Google cn '
+    }
+  }],
   input_text: '',
   src_dest: [],
   keep_all: false,
@@ -183,9 +209,8 @@ actions['INITIAL_FROM_BACKGROUND'] = {
 }
 
 actions['REQUEST_TRANSLATION'] = {
-  phonetic: {
-    src: '\'ɑːnsə'
-  },
+  phonetic_src: '\'ɑːnsə',
+  phonetic_dest: 'Jieguo',
   translation: '结果',
   explain: [
     'n. 工作；[物] 功；产品；操作；职业；行为；事业；工厂；著作；文学、音乐或艺术作品',

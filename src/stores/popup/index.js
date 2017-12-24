@@ -8,12 +8,14 @@ Vue.use(Vuex)
 export const state = {
   test: true,
   tmp: {
-    history: []
+    history: [],
+    collection: []
   },
 
   globalTip: [false, '...'],
   maxHistory: 20,
   drawerNavigationToggle: false,
+  currentCollected: false,
   currentSource: {},
 
   keep_all: false,

@@ -68,6 +68,9 @@
       base-translation-result(
         :src="src_dest[0]" :dest="src_dest[1]"
         :result="result"
+        :collected="collected"
+        @collect="collectIt"
+        @uncollect="uncollectIt"
         @speak="requestVoice"
         )
 
@@ -134,8 +137,10 @@ export default {
   },
   computed: {
     languages () { return this.api.languages || [] },
+    id () { return this.api.id || '' },
     name () { return this.api.name || '' },
-    icon () { return this.api.icon || '' }
+    icon () { return this.api.icon || '' },
+    collected () { return this.$store.state.currentCollected }
   },
   methods: {
     requestTranslation (ev) {
@@ -156,6 +161,21 @@ export default {
       if (typeof dest === 'undefined') {
         this.$store.dispatch(REQUEST_VOICE, { from: src, q: this.content })
       }
+    },
+    uncollectIt () {
+      this.$store.commit('removeCollection', -1)
+    },
+    collectIt () {
+      const { content, src_dest, id, name, result } = this
+
+      this.$store.commit('addCollection', {
+        q: content,
+        from: src_dest[0],
+        to: src_dest[1],
+        id,
+        name,
+        result
+      })
     },
     swapLanguages () {
       this.src_dest = [this.src_dest[1], this.src_dest[0]]

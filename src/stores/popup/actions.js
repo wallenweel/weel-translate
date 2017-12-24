@@ -25,6 +25,7 @@ __[INITIAL_FROM_BACKGROUND] = async ({ state, commit }) => {
     result,
     input_text,
     translation_history,
+    translation_collection,
     settings,
     preferences,
     sources,
@@ -40,6 +41,7 @@ __[INITIAL_FROM_BACKGROUND] = async ({ state, commit }) => {
       // result,
       // input_text,
       translation_history,
+      translation_collection,
       settings,
       preferences,
       sources,
@@ -52,6 +54,7 @@ __[INITIAL_FROM_BACKGROUND] = async ({ state, commit }) => {
     }
 
     state.tmp.history = merge([], translation_history)
+    state.tmp.collection = merge([], translation_collection)
 
     commit('currentServiceSource', api[current_service_id])
 
@@ -91,7 +94,6 @@ __[REQUEST_TRANSLATION] = ({ state }, { q, from, to }) => {
     tmp.history.pop()
   }
 
-  // const {}
   tmp.history.unshift({
     meta: { q, from, to },
     source: {
@@ -105,7 +107,12 @@ __[REQUEST_TRANSLATION] = ({ state }, { q, from, to }) => {
     type: REQUEST_TRANSLATION
   }).then(result => {
     state.result = result
+
+    // increase translating history
     state.translation_history = tmp.history
+
+    // reset result star status
+    state.currentCollected = false
   })
 }
 

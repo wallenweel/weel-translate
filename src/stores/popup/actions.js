@@ -1,3 +1,4 @@
+import merge from 'deepmerge'
 import { sendMessage } from '@/functions/runtime'
 import {
   INITIAL_FROM_BACKGROUND,
@@ -16,9 +17,12 @@ __[INITIAL_FROM_BACKGROUND] = async ({ state, commit }) => {
   }).then(({
     test,
     api,
-    storage,
+    // storage,
+    keep_all,
     current_service_id,
     src_dest,
+    result,
+    input_text,
     settings,
     preferences,
     sources,
@@ -27,14 +31,22 @@ __[INITIAL_FROM_BACKGROUND] = async ({ state, commit }) => {
     state = Object.assign(state, {
       test,
       api,
-      storage,
+      // storage,
+      keep_all,
       current_service_id,
       src_dest,
+      // result,
+      // input_text,
       settings,
       preferences,
       sources,
       templates
     })
+
+    if (state.keep_all) {
+      state.storage = merge(state.storage, state.storageKeep)
+      state = Object.assign(state, { result, input_text })
+    }
 
     commit('currentServiceSource', api[current_service_id])
 
@@ -66,6 +78,8 @@ __[UPDATE_STORAGE_STATE] = ({ state }, { type, key }) => {
 }
 
 __[REQUEST_TRANSLATION] = ({ state }, { q, from, to }) => {
+  if (state.keep_all) state.input_text = q
+
   sendMessage({
     payload: { q, from, to },
     type: REQUEST_TRANSLATION
@@ -75,16 +89,21 @@ __[REQUEST_TRANSLATION] = ({ state }, { q, from, to }) => {
 }
 
 __[REQUEST_VOICE] = ({ state, commit }, { q, from }) => {
-  // console.log(q, from)
   sendMessage({
     payload: { q, from, id: state.current_service_id },
     type: REQUEST_VOICE
   }).then(status => {
     if (!status) {
-      // console.log('Get this voice failed.')
       commit('globalTip', [true, 'Get this voice failed.'])
     }
   })
+}
+
+__['keepAllTranslation'] = ({ state, dispatch }, { status }) => {
+  state.keep_all = status
+
+  // TODO: if turn off keepAll, should clear
+  // relatived data in storage
 }
 
 export default __

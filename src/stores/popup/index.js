@@ -12,6 +12,7 @@ export const state = {
   drawerNavigationToggle: false,
   currentSource: {},
 
+  keep_all: false,
   current_service_id: '',
   src_dest: ['', ''],
   input_text: '',
@@ -19,7 +20,26 @@ export const state = {
   translation_history: [],
   translation_collection: [],
 
-  storage: {},
+  storageKeep: {
+    local: ['result', 'input_text']
+  },
+  storage: {
+    local: [
+      'test',
+      'keep_all',
+      'translation_history',
+      'current_service_id',
+      'src_dest'
+      // 'input_text',
+      // 'result'
+    ],
+    sync: [
+      'settings',
+      'preferences',
+      'translation_collection'
+    ]
+  },
+
   api: {},
   settings: {
     test: false

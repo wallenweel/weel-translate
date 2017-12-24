@@ -61,7 +61,10 @@
         b {{ name }}
         //- img(style="margin-left: 4px;" height=16 width=16 :src="icon")
 
-    v-flex(:class="$style.selection")
+    v-flex(
+      :class="$style.selection"
+      v-if="result.translation && template === 'default'"
+      )
       base-translation-result(
         :src="src_dest[0]" :dest="src_dest[1]"
         :result="result"
@@ -86,6 +89,7 @@ export default {
     }
   },
   props: {
+    template: String,
     srcDest: {
       type: Array,
       required: false,

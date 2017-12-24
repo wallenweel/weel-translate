@@ -1,9 +1,3 @@
-import merge from 'deepmerge'
-
-export const mergeState = (state, storage) => {
-  state = merge(state, storage)
-}
-
 export const globalTip = (state, [open, msg]) => {
   state.globalTip = [open, msg]
 }

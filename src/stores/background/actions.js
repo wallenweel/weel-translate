@@ -86,7 +86,11 @@ __[STORAGE_TYPE_SET] = async (
 }
 
 // feedback all of "state"
-__[INITIAL_FROM_BACKGROUND] = ({ state }, { emit }) => emit(merge({}, state))
+// __[INITIAL_FROM_BACKGROUND] = ({ state }, { emit }) => emit(merge({}, state))
+__[INITIAL_FROM_BACKGROUND] = ({ state }, { emit }) => {
+  console.log(state.input_text)
+  emit(merge({}, state))
+}
 
 __[UPDATE_STORAGE_STATE] = async (
   { state, commit, dispatch },

@@ -15,7 +15,7 @@ try {
 
       case 'update':
         // store.dispatch(INITIAL_STORAGE_FROM_DEFAULT)
-        // window.browser.storage.sync.get().then(all => {
+        // window.browser.storage.local.get().then(all => {
         //   console.log(all)
         // })
         break

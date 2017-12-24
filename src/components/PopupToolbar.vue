@@ -7,13 +7,15 @@
     )
     v-toolbar-side-icon(@click.stop="handleDrawer")
     v-toolbar-title {{ title }}
-    v-switch(
-      color="secondary"
-      style="margin-left: auto; max-width: 36px;"
-      :class="$style.keepUp"
-      hide-details
-      v-model="keepUp"
-    )
+
+    v-tooltip(bottom style="margin-left: auto;")
+      v-switch(
+        color="secondary" hide-details
+        :class="$style.keepAll"
+        slot="activator"
+        v-model="keepAll"
+      )
+      span Keep All
 </template>
 
 <script>
@@ -22,7 +24,18 @@ export default {
   data () {
     return {
       title: 'Translation',
-      keepUp: false
+      keepAll: false
+    }
+  },
+  created () {
+    this.keepAll = this.keep_all
+    this.$watch('keepAll', open => {
+      this.$store.dispatch('keepAllTranslation', { status: !!open })
+    })
+  },
+  computed: {
+    keep_all () {
+      return this.$store.state.keep_all
     }
   },
   methods: {
@@ -34,7 +47,7 @@ export default {
 </script>
 
 <style lang="scss" module>
-.keepUp {
+.keepAll {
   :global {
     .input-group--selection-controls__ripple {
       &::before {

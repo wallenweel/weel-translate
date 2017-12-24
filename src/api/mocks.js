@@ -29,6 +29,7 @@ actions['INITIAL_FROM_BACKGROUND'] = {
   storage: {
     local: [
       'test',
+      'keep_all',
       'translation_history',
       'sources.preset',
       'templates.preset',

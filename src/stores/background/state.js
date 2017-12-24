@@ -16,6 +16,7 @@ __['initialized'] = false
 __['storage'] = {
   local: [
     'test',
+    'keep_all',
     'translation_history',
     'sources.preset',
     'templates.preset',
@@ -31,9 +32,9 @@ __['storage'] = {
   ]
 }
 
+__['keep_all'] = false
 __['current_service_id'] = ''
-__['src_language'] = ''
-__['dest_language'] = ''
+__['src_dest'] = ['', '']
 __['input_text'] = ''
 __['result'] = {}
 __['translation_history'] = []

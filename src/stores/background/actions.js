@@ -6,7 +6,8 @@ import {
   STORAGE_TYPE_SET,
   INITIAL_FROM_BACKGROUND,
   UPDATE_STORAGE_STATE,
-  REQUEST_TRANSLATION
+  REQUEST_TRANSLATION,
+  REQUEST_VOICE
 } from '@/types'
 
 const __ = {}
@@ -112,6 +113,18 @@ __[REQUEST_TRANSLATION] = async (
     // console.log(parser(data))
     emit(parser(data))
   })
+}
+
+__[REQUEST_VOICE] = ({ state: { api } }, { emit, payload: { q, from, id } }) => {
+  const url = api[id].query.audio({ q, from })
+  const audio = new Audio()
+
+  // console.log(url)
+
+  audio.src = url
+  audio.play()
+  .then(() => true, () => false)
+  .then(status => emit(status))
 }
 
 export default __

@@ -32,7 +32,10 @@ actions['INITIAL_FROM_BACKGROUND'] = {
       'translation_history',
       'sources.preset',
       'templates.preset',
-      'current_service_id'
+      'current_service_id',
+      'src_dest',
+      'input_text',
+      'result'
     ],
     sync: [
       'settings',

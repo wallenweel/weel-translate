@@ -1,6 +1,9 @@
 <template lang="pug">
   v-app(:dark="dark" :class="$style.app")
     popup-toolbar
+    v-tooltip(v-model="tip" bottom)
+      v-flex(slot="activator")
+      span {{ tipMsg }}
     popup-navigation-drawer
     v-content(:class="$style.content")
       router-view
@@ -12,10 +15,28 @@ import PopupNavigationDrawer from '@/components/PopupNavigationDrawer'
 
 export default {
   name: 'app',
+  data () {
+    return {
+      tip: false,
+      tipMsg: '...'
+    }
+  },
   computed: {
     dark () {
       return this.$store.state.preferences.dark
+    },
+    globalTip () {
+      return this.$store.state.globalTip
     }
+  },
+  methods: {
+    useTip (value) {
+      [this.tip, this.tipMsg] = value
+      setTimeout(() => (this.tip = false), 2500)
+    }
+  },
+  watch: {
+    globalTip (value) { this.useTip(value) }
   },
   components: {
     PopupToolbar,

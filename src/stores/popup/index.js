@@ -8,12 +8,12 @@ Vue.use(Vuex)
 export const state = {
   test: true,
 
+  globalTip: [false, '...'],
   drawerNavigationToggle: false,
   currentSource: {},
 
   current_service_id: '',
-  src_language: '',
-  dest_language: '',
+  src_dest: ['', ''],
   input_text: '',
   result: {},
   translation_history: [],

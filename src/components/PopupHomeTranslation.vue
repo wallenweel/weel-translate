@@ -1,15 +1,16 @@
 <template lang="pug">
   v-container
     base-translation(
-      languageSwitch
-      :src="srcLanguage" :dest="destLanguage"
+      languageSwitcher
+      :src-dest="src_dest"
       :api="currentSource"
       :result="result"
+      @changes="languageChanges"
       )
 </template>
 
 <script>
-import { mapState } from 'vuex'
+import { mapState, mapMutations } from 'vuex'
 import BaseTranslation from '@/components/BaseTranslation'
 
 export default {
@@ -18,7 +19,14 @@ export default {
     return {}
   },
   computed: {
-    ...mapState(['currentSource', 'result', 'srcLanguage', 'destLanguage'])
+    ...mapState(['currentSource', 'result', 'src_dest'])
+  },
+  methods: {
+    ...mapMutations({
+      languageChanges (commit, langs) {
+        commit('languageChanges', langs)
+      }
+    })
   },
   components: {
     BaseTranslation

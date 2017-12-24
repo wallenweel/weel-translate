@@ -2,7 +2,8 @@ import { sendMessage } from '@/functions/runtime'
 import {
   INITIAL_FROM_BACKGROUND,
   UPDATE_STORAGE_STATE,
-  REQUEST_TRANSLATION
+  REQUEST_TRANSLATION,
+  REQUEST_VOICE
 } from '@/types'
 
 const __ = {}
@@ -17,6 +18,7 @@ __[INITIAL_FROM_BACKGROUND] = async ({ state, commit }) => {
     api,
     storage,
     current_service_id,
+    src_dest,
     settings,
     preferences,
     sources,
@@ -27,6 +29,7 @@ __[INITIAL_FROM_BACKGROUND] = async ({ state, commit }) => {
       api,
       storage,
       current_service_id,
+      src_dest,
       settings,
       preferences,
       sources,
@@ -68,10 +71,20 @@ __[REQUEST_TRANSLATION] = ({ state }, { q, from, to }) => {
     type: REQUEST_TRANSLATION
   }).then(result => {
     state.result = result
-    state.result.over = true
   })
+}
 
-  state.result.over = true
+__[REQUEST_VOICE] = ({ state, commit }, { q, from }) => {
+  // console.log(q, from)
+  sendMessage({
+    payload: { q, from, id: state.current_service_id },
+    type: REQUEST_VOICE
+  }).then(status => {
+    if (!status) {
+      // console.log('Get this voice failed.')
+      commit('globalTip', [true, 'Get this voice failed.'])
+    }
+  })
 }
 
 export default __

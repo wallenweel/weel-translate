@@ -2,12 +2,22 @@
   v-card(:class="$style.result")
     v-layout(column wrap)
       v-flex
-        v-btn(flat small icon)
-          v-icon(color="blue-grey") volume_up
+        v-tooltip(top)
+          v-btn(
+            flat small icon slot="activator"
+            @click="voice({ src })"
+            )
+            v-icon(color="blue-grey") volume_up
+          span Source Pron
         span {{ getResult.phonetic.src }}
       v-flex
-        v-btn(flat small icon)
-          v-icon(color="blue-grey") volume_up
+        v-tooltip(top)
+          v-btn(
+            flat small icon slot="activator"
+            @click="voice({ dest, text: getResult.translation })"
+            )
+            v-icon(color="blue-grey") volume_up
+          span Destination Pron
         span {{ getResult.phonetic.src }}
       v-flex
         v-btn(flat small icon)
@@ -36,7 +46,14 @@ export default {
     }
   },
   props: {
-    result: Object
+    result: Object,
+    src: String,
+    dest: String
+  },
+  methods: {
+    voice (type) {
+      this.$emit('speak', type)
+    }
   }
 }
 </script>

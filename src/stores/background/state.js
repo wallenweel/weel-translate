@@ -20,8 +20,7 @@ __['storage'] = {
     'sources.preset',
     'templates.preset',
     'current_service_id',
-    'src_language',
-    'dest_language',
+    'src_dest',
     'input_text',
     'result'
   ],
@@ -40,7 +39,8 @@ __['result'] = {}
 __['translation_history'] = []
 __['translation_collection'] = []
 
-// contains Storage rejected
+// NOTICE: here api has all presets compiled result
+// do not store it, because it contains Storage rejected
 // types e.g. <function>
 __['api'] = {}
 

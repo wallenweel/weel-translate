@@ -6,26 +6,30 @@
         span {{ tip }}
       v-layout(row wrap :class="$style.languageToolbar")
         v-select(
-          min-width=140 label="Select"
+          min-width=140 :label="i18n.getMessage('Automatic')"
           overflow hide-details auto dense
           :class="$style.from"
           :items="languages"
           item-text="locale"
           item-value="code"
-          v-model="srcLanguage"
+          v-model="src_dest[0]"
           )
 
-        v-btn(icon style="min-width: 32px;" @click="swapLanguages")
+        v-btn(
+          icon style="min-width: 32px;"
+          :disabled="!src_dest[0] && !src_dest[1]"
+          @click="swapLanguages"
+          )
           v-icon(color="primary" small) swap_horiz
 
         v-select(
-          min-width=140 label="Select"
+          min-width=140 :label="i18n.getMessage('Automatic')"
           overflow hide-details auto dense
           :class="$style.to"
           :items="languages"
           item-text="locale"
           item-value="code"
-          v-model="destLanguage"
+          v-model="src_dest[1]"
           )
 
     v-card
@@ -37,32 +41,38 @@
         )
 
       v-layout(row justify-space-around :class="$style.tools")
-        v-btn(flat depressed @click="deleteContent")
-          v-icon(color="blue-grey") delete
+        v-tooltip(top)
+          v-btn(flat depressed slot="activator" @click="deleteContent")
+            v-icon(color="blue-grey") delete
+          span Clear Content
 
         v-btn(
           fab dark medium color="primary"
           :class="$style.translate"
-          @click="startTranslate"
+          @click="requestTranslation"
           )
           v-icon(dark) done_all
 
         v-btn(flat depressed @click="pasteContent")
           v-icon(color="blue-grey") content_paste
       
-    v-flex(:class="$style.selection" v-show="languageSwitch")
+    v-flex(:class="$style.selection" v-show="languageSwitcher")
       v-btn(block medium dark color="accent" @click="nextServiceSource")
         b {{ name }}
         //- img(style="margin-left: 4px;" height=16 width=16 :src="icon")
 
     v-flex(:class="$style.selection")
-      base-translation-result(:result="result")
+      base-translation-result(
+        :src="src_dest[0]" :dest="src_dest[1]"
+        :result="result"
+        @speak="requestVoice"
+        )
 
 </template>
 
 <script>
 import BaseTranslationResult from '@/components/BaseTranslationResult'
-import { REQUEST_TRANSLATION } from '@/types'
+import { REQUEST_TRANSLATION, REQUEST_VOICE } from '@/types'
 
 export default {
   name: 'BaseTranslation',
@@ -71,10 +81,18 @@ export default {
       source: {},
       content: this.input,
       blank: false,
+      src_dest: ['', ''],
       tip: ''
     }
   },
   props: {
+    srcDest: {
+      type: Array,
+      required: false,
+      default () {
+        return ['', '']
+      }
+    },
     input: {
       type: String,
       required: false,
@@ -96,10 +114,19 @@ export default {
         return {}
       }
     },
-    languageSwitch: {
+    languageSwitcher: {
       required: false,
       default () { return false }
     }
+  },
+  created () {
+    [
+      this.src_dest[0],
+      this.src_dest[1]
+    ] = [
+      this.srcDest[0],
+      this.srcDest[1]
+    ]
   },
   computed: {
     languages () { return this.api.languages || [] },
@@ -107,19 +134,27 @@ export default {
     icon () { return this.api.icon || '' }
   },
   methods: {
-    startTranslate (ev) {
+    requestTranslation (ev) {
       if (!this.content.length) {
-        return this.useTip(`Have you typed some words?`)
+        return this.$store.commit('globalTip', [true, 'No words for translating.'])
       }
 
       this.$store.dispatch(REQUEST_TRANSLATION, {
         q: this.content,
-        from: this.srcLanguage,
-        to: this.destLanguage
+        from: this.src_dest[0],
+        to: this.src_dest[1]
       })
     },
+    requestVoice ({ src, dest, text }) {
+      if (typeof src === 'undefined') {
+        this.$store.dispatch(REQUEST_VOICE, { from: dest, q: text })
+      }
+      if (typeof dest === 'undefined') {
+        this.$store.dispatch(REQUEST_VOICE, { from: src, q: this.content })
+      }
+    },
     swapLanguages () {
-      [ this.destLanguage, this.srcLanguage ] = [ this.srcLanguage, this.destLanguage ]
+      this.src_dest = [this.src_dest[1], this.src_dest[0]]
     },
     deleteContent () {
       this.content = ''
@@ -127,19 +162,11 @@ export default {
     pasteContent () {},
     nextServiceSource () {
       this.$store.commit('nextServiceSource')
-    },
-    useTip (msg = '') {
-      this.tip = msg
-      setTimeout(() => (this.blank = false), 2500)
-      this.blank = true
     }
   },
   watch: {
-    srcLanguage (code) {
-      console.log(code)
-    },
-    destLanguage (code) {
-      console.log(code)
+    src_dest (codes) {
+      this.$emit('changes', codes)
     },
     content (text) {
       this.$emit('input', text)
@@ -157,6 +184,13 @@ export default {
 <style lang="scss" module>
 .languageToolbar {
   :global {
+    .input-group--text-field:last-child {
+      > label {
+        text-align: right;
+        left: 0 !important;
+        margin-left: -6px;
+      }
+    }
     .input-group__input {
       box-shadow: unset !important;
       justify-content: space-around;

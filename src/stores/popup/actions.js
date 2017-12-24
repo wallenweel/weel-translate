@@ -24,6 +24,7 @@ __[INITIAL_FROM_BACKGROUND] = async ({ state, commit }) => {
     src_dest,
     result,
     input_text,
+    translation_history,
     settings,
     preferences,
     sources,
@@ -38,6 +39,7 @@ __[INITIAL_FROM_BACKGROUND] = async ({ state, commit }) => {
       src_dest,
       // result,
       // input_text,
+      translation_history,
       settings,
       preferences,
       sources,
@@ -48,6 +50,8 @@ __[INITIAL_FROM_BACKGROUND] = async ({ state, commit }) => {
       state.storage = merge(state.storage, state.storageKeep)
       state = Object.assign(state, { result, input_text })
     }
+
+    state.tmp.history = merge([], translation_history)
 
     commit('currentServiceSource', api[current_service_id])
 
@@ -79,13 +83,29 @@ __[UPDATE_STORAGE_STATE] = ({ state }, { type, key, value }) => {
 }
 
 __[REQUEST_TRANSLATION] = ({ state }, { q, from, to }) => {
+  const { tmp, currentSource, maxHistory, current_service_id } = state
+
   if (state.keep_all) state.input_text = q
+
+  if (tmp.history.length >= maxHistory) {
+    tmp.history.pop()
+  }
+
+  // const {}
+  tmp.history.unshift({
+    meta: { q, from, to },
+    source: {
+      id: current_service_id,
+      name: currentSource.name
+    }
+  })
 
   sendMessage({
     payload: { q, from, to },
     type: REQUEST_TRANSLATION
   }).then(result => {
     state.result = result
+    state.translation_history = tmp.history
   })
 }
 

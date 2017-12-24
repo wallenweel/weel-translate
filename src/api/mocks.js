@@ -45,6 +45,31 @@ actions['INITIAL_FROM_BACKGROUND'] = {
     ]
   },
   current_service_id: 'google_cn',
+  translation_history: [{
+    meta: {
+      q: 'egg',
+      from: 'en',
+      to: 'zh-cn '
+    },
+    source: {
+      id: 'google_cn',
+      name: 'Google cn '
+    }
+  }, {
+    meta: {
+      q: 'test',
+      from: 'en',
+      to: 'zh-cn '
+    },
+    source: {
+      id: 'google_cn',
+      name: 'Google cn '
+    }
+  }],
+  translation_collection: [],
+  input_text: '',
+  src_dest: [],
+  keep_all: false,
   api,
   settings: {
     test: false

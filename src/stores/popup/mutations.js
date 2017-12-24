@@ -14,16 +14,26 @@ export const currentServiceSource = (state, {
 }
 
 export const nextServiceSource = (state) => {
-  const IDs = Object.keys(state.api)
+  const ids = Object.keys(state.api)
 
-  let nextIndex = IDs.indexOf(state.currentSource.id) + 1
-  if (nextIndex === IDs.length) nextIndex = 0
+  let nextIndex = ids.indexOf(state.currentSource.id) + 1
+  if (nextIndex === ids.length) nextIndex = 0
 
-  state.currentSource = Object.values(state.api)[nextIndex]
+  state.current_service_id = ids[nextIndex]
+  state.currentSource = state.api[ids[nextIndex]]
 }
 
 export const languageChanges = (state, langs) => {
   state.src_dest = langs
+}
+
+export const removeHistory = (state, index) => {
+  state.tmp.history.splice(index, 1)
+  state.translation_history = state.tmp.history
+}
+
+export const clearHistory = (state) => {
+  state.translation_history = state.tmp.history = []
 }
 
 export const updateTmpState = (state, [key, value]) => {

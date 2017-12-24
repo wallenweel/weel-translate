@@ -7,9 +7,12 @@ Vue.use(Vuex)
 
 export const state = {
   test: true,
-  tmp: {},
+  tmp: {
+    history: []
+  },
 
   globalTip: [false, '...'],
+  maxHistory: 20,
   drawerNavigationToggle: false,
   currentSource: {},
 

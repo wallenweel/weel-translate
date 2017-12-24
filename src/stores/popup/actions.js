@@ -64,13 +64,13 @@ __[INITIAL_FROM_BACKGROUND] = async ({ state, commit }) => {
   return success
 }
 
-__[UPDATE_STORAGE_STATE] = ({ state }, { type, key }) => {
+__[UPDATE_STORAGE_STATE] = ({ state }, { type, key, value }) => {
   sendMessage({
     type: UPDATE_STORAGE_STATE,
     payload: {
       type,
       key,
-      value: state[key]
+      value: value || state[key]
     }
   }).then(over => {
     // TODO: update storage over
@@ -118,6 +118,10 @@ __[RESET_LOCAL_STORAGE] = ({ state, dispatch, commit }) => {
 __['keepAllTranslation'] = ({ state, dispatch }, { status }) => {
   state.keep_all = status
 
+  if (status === true) {
+    dispatch(UPDATE_STORAGE_STATE, { type: 'local', key: 'input_text', value: state.tmp.input_text })
+    dispatch(UPDATE_STORAGE_STATE, { type: 'local', key: 'result' })
+  }
   // TODO: if turn off keepAll, should clear
   // relatived data in storage
 }

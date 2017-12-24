@@ -7,6 +7,7 @@
       :api="currentSource"
       :result="result"
       :input="input_text"
+      @input="updateInput"
       @changes="languageChanges"
       )
 </template>
@@ -27,6 +28,9 @@ export default {
     ...mapMutations({
       languageChanges (commit, langs) {
         commit('languageChanges', langs)
+      },
+      updateInput (commit, text) {
+        commit('updateTmpState', ['input_text', text])
       }
     })
   },

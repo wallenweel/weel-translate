@@ -7,6 +7,7 @@ Vue.use(Vuex)
 
 export const state = {
   test: true,
+  tmp: {},
 
   globalTip: [false, '...'],
   drawerNavigationToggle: false,

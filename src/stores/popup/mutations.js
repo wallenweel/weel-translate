@@ -25,3 +25,7 @@ export const nextServiceSource = (state) => {
 export const languageChanges = (state, langs) => {
   state.src_dest = langs
 }
+
+export const updateTmpState = (state, [key, value]) => {
+  state.tmp[key] = value
+}

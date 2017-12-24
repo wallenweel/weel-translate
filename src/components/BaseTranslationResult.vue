@@ -9,7 +9,7 @@
             )
             v-icon(color="blue-grey") volume_up
           span Source Pron
-        span {{ getResult.phonetic.src }}
+        span {{ getResult.phonetic_src }}
       v-flex
         v-tooltip(top)
           v-btn(
@@ -18,7 +18,7 @@
             )
             v-icon(color="blue-grey") volume_up
           span Destination Pron
-        span {{ getResult.phonetic.src }}
+        span {{ getResult.phonetic_dest }}
       v-flex
         v-btn(flat small icon)
           v-icon(color="blue-grey") content_copy

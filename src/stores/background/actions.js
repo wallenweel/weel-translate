@@ -7,8 +7,12 @@ import {
   INITIAL_FROM_BACKGROUND,
   UPDATE_STORAGE_STATE,
   REQUEST_TRANSLATION,
-  REQUEST_VOICE
+  REQUEST_VOICE,
+  RESET_LOCAL_STORAGE
 } from '@/types'
+import originalState from './state'
+
+const initialState = merge({}, originalState)
 
 const __ = {}
 
@@ -34,20 +38,25 @@ __[INITIAL_STORAGE_FROM_DEFAULT] = async ({ state }) => {
   }
 }
 
-__[INITIAL_BACKGROUND_SCRIPT] = async ({ state, commit }) => {
-  for (const type of Object.keys(state.storage)) {
-    await storage[type].get().then(all => {
-      // merge sync storage to state
-      commit('mergeStorageState', all)
+__[INITIAL_BACKGROUND_SCRIPT] = async ({ state, commit, dispatch }, skipMerge = false) => {
+  if (!skipMerge) {
+    for (const type of Object.keys(state.storage)) {
+      await storage[type].get().then(all => {
+        // merge sync storage to state
+        commit('mergeStorageState', all)
 
-      state.initialized = true
-    }, () => { state.initialized = false })
+        state.initialized = true
+      }, () => { state.initialized = false })
+    }
+  } else {
+    state.initialized = true
   }
 
   if (state.initialized === true) {
     // compile service "source.preset" to "source.compiled"
     commit('compileSourcePreset')
 
+    // TODO: should make api to current api, not "apis"
     state.api = state.sources.compiled
 
     const [id, ids] = [
@@ -86,11 +95,7 @@ __[STORAGE_TYPE_SET] = async (
 }
 
 // feedback all of "state"
-// __[INITIAL_FROM_BACKGROUND] = ({ state }, { emit }) => emit(merge({}, state))
-__[INITIAL_FROM_BACKGROUND] = ({ state }, { emit }) => {
-  console.log(state.input_text)
-  emit(merge({}, state))
-}
+__[INITIAL_FROM_BACKGROUND] = ({ state }, { emit }) => emit(merge({}, state))
 
 __[UPDATE_STORAGE_STATE] = async (
   { state, commit, dispatch },
@@ -123,12 +128,29 @@ __[REQUEST_VOICE] = ({ state: { api } }, { emit, payload: { q, from, id } }) => 
   const url = api[id].query.audio({ q, from })
   const audio = new Audio()
 
-  // console.log(url)
-
   audio.src = url
   audio.play()
   .then(() => true, () => false)
   .then(status => emit(status))
+}
+
+__[RESET_LOCAL_STORAGE] = async ({ state, dispatch }, { emit }) => {
+  await storage.local.clear()
+  .then(
+    async () => {
+      // reset state
+      state = Object.assign(state, initialState)
+
+      // rebuild local storage
+      await dispatch(INITIAL_STORAGE_FROM_DEFAULT)
+      // rebuild background's state
+      await dispatch(INITIAL_BACKGROUND_SCRIPT)
+
+      // window.location.reload()
+      emit(true)
+    },
+    () => emit(false)
+  )
 }
 
 export default __

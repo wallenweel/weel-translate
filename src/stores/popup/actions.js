@@ -4,7 +4,8 @@ import {
   INITIAL_FROM_BACKGROUND,
   UPDATE_STORAGE_STATE,
   REQUEST_TRANSLATION,
-  REQUEST_VOICE
+  REQUEST_VOICE,
+  RESET_LOCAL_STORAGE
 } from '@/types'
 
 const __ = {}
@@ -95,6 +96,21 @@ __[REQUEST_VOICE] = ({ state, commit }, { q, from }) => {
   }).then(status => {
     if (!status) {
       commit('globalTip', [true, 'Get this voice failed.'])
+    }
+  })
+}
+
+__[RESET_LOCAL_STORAGE] = ({ state, dispatch, commit }) => {
+  sendMessage({
+    type: RESET_LOCAL_STORAGE
+  }).then(status => {
+    if (status === true) {
+      // rebuild this page's state
+      dispatch(INITIAL_FROM_BACKGROUND)
+
+      commit('globalTip', [true, 'Reset Extension Successed.'])
+    } else {
+      commit('globalTip', [true, 'Reset Extension Failed.'])
     }
   })
 }

@@ -100,10 +100,8 @@ __['sources'] = {
       },
 
       "parser": {
-        "phonetic": {
-          "src": "$0.src_translit",
-          "des": "$0.translit"
-        },
+        "phonetic_src": "$0.src_translit",
+        "phonetic_dest": "$0.translit",
         "translation": "$.sentences[0].trans",
         "explain": ["$1.pos", "$1.terms"],
         "variable": ["$.sentences[1]", "$.dict[0]"]

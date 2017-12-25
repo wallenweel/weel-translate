@@ -1,5 +1,11 @@
 <template lang="pug">
   v-layout(column wrap)
+    div(
+      contenteditable
+      :class="$style.pasteTmp"
+      ref="pasteTmp"
+      @paste.prevent="handlePaste"
+      )
     v-card
       v-tooltip(v-model="blank" bottom)
         div(slot="activator")
@@ -135,6 +141,12 @@ export default {
       this.srcDest[1]
     ]
   },
+  // mounted () {
+  //   this.$refs.pasteTmp.addEventListener('paste', ev => {
+  //     ev.pre
+  //     console.log(ev)
+  //   }, false)
+  // },
   computed: {
     languages () { return this.api.languages || [] },
     id () { return this.api.id || '' },
@@ -183,7 +195,16 @@ export default {
     deleteContent () {
       this.content = ''
     },
-    pasteContent () {},
+    pasteContent () {
+      this.$refs.pasteTmp.focus()
+      document.execCommand('paste')
+    },
+    handlePaste (ev) {
+      const text = ev.clipboardData.getData('text/plain')
+      // console.log(JSON.stringify(text))
+      // this.content = text.replace(/\n/g, ' ')
+      this.content = text
+    },
     nextServiceSource () {
       this.$store.commit('nextServiceSource')
     }
@@ -206,6 +227,15 @@ export default {
 </script>
 
 <style lang="scss" module>
+.pasteTmp {
+  * { all: unset; }
+
+  height: 0;
+  width: 0;
+  white-space: nowrap;
+  overflow: hidden;
+}
+
 .languageToolbar {
   :global {
     .input-group--text-field:last-child {

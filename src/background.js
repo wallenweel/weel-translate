@@ -5,6 +5,9 @@ import {
   INITIAL_STORAGE_FROM_DEFAULT,
   INITIAL_BACKGROUND_SCRIPT
 } from '@/types'
+// import parserHelper from '@/functions/parserHelper'
+// import responseLines from '@/api/mocks/responseLines'
+// import responseSingle from '@/api/mocks/responseSingle'
 
 try {
   runtime.onInstalled.addListener(detail => {
@@ -24,6 +27,7 @@ try {
         break
     }
   })
+
   ;(async () => [await store.dispatch(INITIAL_BACKGROUND_SCRIPT)])()
   .then(([success]) => {
     if (!success) return false
@@ -32,6 +36,19 @@ try {
     // store.watch(state => state.settings.test, a => console.log(a))
     // store.dispatch('REQUEST_TRANSLATION', {})
     // console.log(store.state.templates['float-result-panel'])
+
+    // const mock = {
+    //   parser: {
+    //     // 'explain': `{a}[dict]{pos, terms}`
+    //     'phonetic_src': `sentences.$.src_translit`,
+    //     'phonetic_dest': `sentences.$.translit`,
+    //     'translation': `sentences(trans)`,
+    //     'explain': `dict(pos\\\\terms)`
+    //     // 'explain': `dict.0.entry(\\\\)`
+    //   }
+    // }
+    // const res = parserHelper(mock)(responseSingle)
+    // console.log(res)
   })
 
   // initialize everything

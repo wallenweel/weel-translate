@@ -44,13 +44,17 @@ Open `options page` then find ....
   },
 
   *"parser": {
-    *"phonetic": {
-      "us": "$1.phonetic.us",
-      "uk": "$1.phonetic.uk"
-    },
-    *"translation": ["$0.trans[0]", "$0.trans[2]"],
-    *"explain": "$.dict.nested[0].explains",
-    "variable": ["$.certain[0]", "$.certain[1]"]
+    // 'sentences' is a array, but it's elements are plain object
+    // by `(trans)` get 'object.trans' of all to a array
+    "translation": "sentences(trans)",
+    // '$' mean 'sentences' this array's last one,
+    // '$$' mean last but one, and so on.
+    // use 'sentences.0.translit' get the first.
+    "phonetic_src": "sentences.$.translit",
+    // `(pos, terms)` like 'translation', but get two(or more) properties,
+    // we can use other things replace `, ` such as `&` or
+    // just ` ` a blank space, if want a `\n` use `\\\\`
+    "explain": "dict(pos, terms)"
   }
   
   // get languages list from `[project root]/src/api/languages.json`

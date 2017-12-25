@@ -52,7 +52,13 @@ export default {
   },
   computed: {
     getResult () {
-      return !Object.keys(this.result).length ? this.default : this.result
+      let { translation, phonetic_src, phonetic_dest, explain } =
+      !Object.keys(this.result).length ? this.default : this.result
+
+      translation = typeof translation === 'object'
+      ? Object.values(translation).join(' ') : translation
+
+      return { translation, phonetic_src, phonetic_dest, explain }
     }
   },
   props: {

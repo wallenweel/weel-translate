@@ -1,0 +1,310 @@
+{
+  "sentences": [{
+    "trans": "测试",
+    "orig": "test",
+    "backend": 2
+  }, {
+    "translit": "Cèshì",
+    "src_translit": "test"
+  }],
+  "dict": [{
+    "pos": "名词",
+    "terms": ["测试", "试验", "试", "实验", "考试", "考验", "测验"],
+    "entry": [{
+      "word": "测试",
+      "reverse_translation": ["test", "examination"],
+      "score": 0.61608213
+    }, {
+      "word": "试验",
+      "reverse_translation": ["test", "experiment", "tentative"],
+      "score": 0.21967085
+    }, {
+      "word": "试",
+      "reverse_translation": ["test", "examination", "experiment", "exam", "fitting"],
+      "score": 0.020115795
+    }, {
+      "word": "实验",
+      "reverse_translation": ["experiment", "test"],
+      "score": 0.015912903
+    }, {
+      "word": "考试",
+      "reverse_translation": ["examination", "exam", "test"],
+      "score": 0.012588142
+    }, {
+      "word": "考验",
+      "reverse_translation": ["test", "trial", "ordeal"],
+      "score": 0.012588142
+    }, {
+      "word": "测验",
+      "reverse_translation": ["test", "quiz"],
+      "score": 0.004559123
+    }],
+    "base_form": "test",
+    "pos_enum": 1
+  }, {
+    "pos": "动词",
+    "terms": ["检验", "试", "考", "测验", "验", "考查", "尝"],
+    "entry": [{
+      "word": "检验",
+      "reverse_translation": ["test", "examine", "inspect"],
+      "score": 0.050571099
+    }, {
+      "word": "试",
+      "reverse_translation": ["test", "try"],
+      "score": 0.020115795
+    }, {
+      "word": "考",
+      "reverse_translation": ["test", "study", "examine", "investigate", "verify", "check"],
+      "score": 0.015184198
+    }, {
+      "word": "测验",
+      "reverse_translation": ["test", "put to test"],
+      "score": 0.004559123
+    }, {
+      "word": "验",
+      "reverse_translation": ["test", "check", "verify", "examine", "prove", "confirm"],
+      "score": 0.0010999396
+    }, {
+      "word": "考查",
+      "reverse_translation": ["test", "investigate", "check", "study"],
+      "score": 0.00043074254
+    }, {
+      "word": "尝",
+      "reverse_translation": ["taste", "flavor", "try the flavor", "test", "flavour"],
+      "score": 6.3755516e-7
+    }],
+    "base_form": "test",
+    "pos_enum": 2
+  }],
+  "src": "en",
+  "alternative_translations": [{
+    "src_phrase": "test",
+    "alternative": [{
+      "word_postproc": "测试",
+      "score": 1000,
+      "has_preceeding_space": true,
+      "attach_to_next_token": false
+    }, {
+      "word_postproc": "试验",
+      "score": 1000,
+      "has_preceeding_space": true,
+      "attach_to_next_token": false
+    }],
+    "srcunicodeoffsets": [{
+      "begin": 0,
+      "end": 4
+    }],
+    "raw_src_segment": "test",
+    "start_pos": 0,
+    "end_pos": 0
+  }],
+  "confidence": 0.93763,
+  "ld_result": {
+    "srclangs": ["en"],
+    "srclangs_confidences": [0.93763],
+    "extended_srclangs": ["en"]
+  },
+  "synsets": [{
+    "pos": "名词",
+    "entry": [{
+      "synonym": ["trial", "experiment", "test case", "case study", "pilot study", "trial run", "tryout", "dry run", "check", "examination", "assessment", "evaluation", "appraisal", "investigation", "inspection", "analysis", "scrutiny", "study", "probe", "exploration", "screening", "workup", "assay"],
+      "definition_id": "m_en_us1297943.001"
+    }, {
+      "synonym": ["exam", "examination", "quiz"],
+      "definition_id": "m_en_us1297943.002"
+    }, {
+      "synonym": ["exam", "examination"],
+      "definition_id": ""
+    }, {
+      "synonym": ["trial run", "trial", "tryout"],
+      "definition_id": ""
+    }, {
+      "synonym": ["trial"],
+      "definition_id": ""
+    }, {
+      "synonym": ["trial", "run"],
+      "definition_id": ""
+    }, {
+      "synonym": ["mental test"],
+      "definition_id": ""
+    }],
+    "base_form": "test"
+  }, {
+    "pos": "动词",
+    "entry": [{
+      "synonym": ["try out", "put to the test", "put through its paces", "experiment with", "pilot", "check", "examine", "assess", "evaluate", "appraise", "investigate", "analyze", "scrutinize", "study", "probe", "explore", "trial", "sample", "screen", "assay"],
+      "definition_id": "m_en_us1297943.009"
+    }, {
+      "synonym": ["put a strain on", "strain", "tax", "try", "make demands on", "stretch", "challenge"],
+      "definition_id": "m_en_us1297943.010"
+    }, {
+      "synonym": ["quiz"],
+      "definition_id": ""
+    }, {
+      "synonym": ["screen"],
+      "definition_id": ""
+    }, {
+      "synonym": ["essay", "try", "prove", "examine", "try out"],
+      "definition_id": ""
+    }],
+    "base_form": "test"
+  }],
+  "definitions": [{
+    "pos": "名词",
+    "entry": [{
+      "gloss": "a procedure intended to establish the quality, performance, or reliability of something, especially before it is taken into widespread use.",
+      "definition_id": "m_en_us1297943.001",
+      "example": "no sparking was visible during the tests"
+    }, {
+      "gloss": "a movable hearth in a reverberating furnace, used for separating gold or silver from lead.",
+      "definition_id": "m_en_us1297943.008",
+      "example": "When fully prepared, the test is allowed to dry, and is then placed in a furnace, constructed in all respects like a common reverberator)' furnace, except that a space is left open in the bed of it to receive the test, and that the width of the arch is much reduced."
+    }, {
+      "gloss": "the shell or integument of some invertebrates and protozoans, especially the chalky shell of a foraminiferan or the tough outer layer of a tunicate.",
+      "definition_id": "m_en_us1297944.001",
+      "example": "The tests of the shells are recrystallized, but the original ornamentation is preserved in very good detail."
+    }],
+    "base_form": "test"
+  }, {
+    "pos": "动词",
+    "entry": [{
+      "gloss": "take measures to check the quality, performance, or reliability of (something), especially before putting it into widespread use or practice.",
+      "definition_id": "m_en_us1297943.009",
+      "example": "this range has not been tested on animals"
+    }],
+    "base_form": "test"
+  }, {
+    "pos": "缩写词",
+    "entry": [{
+      "gloss": "testator.",
+      "definition_id": "m_en_us1297946.001"
+    }],
+    "base_form": "test."
+  }],
+  "examples": {
+    "example": [{
+      "text": "the exam will <b>test</b> accuracy and neatness",
+      "source_type": 3,
+      "definition_id": "m_en_gb0854610.012"
+    }, {
+      "text": "This week's What's Your Decision will really <b>test</b> you and show you just how hard umpiring can be.",
+      "source_type": 3,
+      "definition_id": "m_en_us1297943.011"
+    }, {
+      "text": "a statutory <b>test</b> of obscenity",
+      "source_type": 3,
+      "definition_id": "m_en_us1297943.007"
+    }, {
+      "text": "Judging applicants must pass a written <b>test</b> , demonstrating their knowledge of these rules.",
+      "source_type": 3,
+      "definition_id": "m_en_us1297943.002"
+    }, {
+      "text": "Overall, he believes the game will be a <b>test</b> for their reserve strength.",
+      "source_type": 3,
+      "definition_id": "m_en_us1297943.003"
+    }, {
+      "text": "Thus a potentially useful bargain spawned a serious crisis and <b>test</b> of strength and will between opposed alliance systems.",
+      "source_type": 3,
+      "definition_id": "m_en_us1297943.003"
+    }, {
+      "text": "To <b>test</b> for taste, make a small patty of the meat mixture and sauté until cooked.",
+      "source_type": 3,
+      "definition_id": "m_en_us1297943.016"
+    }, {
+      "text": "This <b>test</b> is often positive in forms of blood vessel inflammation such as vasculitis.",
+      "source_type": 3,
+      "definition_id": "m_en_us1297943.006"
+    }, {
+      "text": "Their work aims to provide valid exposure data and to develop reliable methods to <b>test</b> different types of mobile phones.",
+      "source_type": 3,
+      "definition_id": "m_en_us1297943.009"
+    }, {
+      "text": "such behavior would severely <b>test</b> any marriage",
+      "source_type": 3,
+      "definition_id": "m_en_us1297943.010"
+    }, {
+      "text": "For the Canton government, the situation was a <b>test</b> of both its sincerity and its strength.",
+      "source_type": 3,
+      "definition_id": "m_en_us1297943.003"
+    }, {
+      "text": "Women who have a positive <b>test</b> result for the human papilloma virus are also at increased risk of cervical cancer.",
+      "source_type": 3,
+      "definition_id": "m_en_us1297943.006"
+    }, {
+      "text": "And it is the daunting measuring stick to <b>test</b> a rower's physical capabilities.",
+      "source_type": 3,
+      "definition_id": "m_en_us1297943.010"
+    }, {
+      "text": "If the HPV <b>test</b> is positive for the high risk type, then the patient warrants a closer look.",
+      "source_type": 3,
+      "definition_id": "m_en_us1297943.006"
+    }, {
+      "text": "The results of the studies that measured reliability indicate that the <b>test</b> can be reliable if a standard procedure is used.",
+      "source_type": 3,
+      "definition_id": "m_en_us1297943.001"
+    }, {
+      "text": "We've said in the pilot that if you have a positive <b>test</b> , colonoscopy must be made available within four weeks.",
+      "source_type": 3,
+      "definition_id": "m_en_us1297943.006"
+    }, {
+      "text": "When introducing a fresh cupel or <b>test</b> , the fire must be low and heat must be applied with great caution, or otherwise the bone ash will split to pieces; and for the same reason the bone ash must be dried very gently.",
+      "source_type": 3,
+      "definition_id": "m_en_us1297943.008"
+    }, {
+      "text": "Firstly the exam is to <b>test</b> the teacher's ability not the students.",
+      "source_type": 3,
+      "definition_id": "m_en_us1297943.012"
+    }, {
+      "text": "But the original building was opened in 1867 by Bradford Corporation to <b>test</b> the weight and quality of wool.",
+      "source_type": 3,
+      "definition_id": "m_en_us1297943.009"
+    }, {
+      "text": "The Bishop came to <b>test</b> us on our knowledge and woe betide the boy who failed to give an instant answer to his theological queries.",
+      "source_type": 3,
+      "definition_id": "m_en_us1297943.011"
+    }, {
+      "text": "this is the first serious <b>test</b> of the peace agreement",
+      "source_type": 3,
+      "definition_id": "m_en_gb0854610.003"
+    }, {
+      "text": "The Dakar Rally is a serious <b>test</b> of endurance and adaptability.",
+      "source_type": 3,
+      "definition_id": "m_en_us1297943.003"
+    }, {
+      "text": "a useful way to <b>test</b> out ideas before implementation",
+      "source_type": 3,
+      "definition_id": "m_en_us1297943.009"
+    }, {
+      "text": "such behaviour would severely <b>test</b> any marriage",
+      "source_type": 3,
+      "definition_id": "m_en_gb0854610.013"
+    }, {
+      "text": "Validity standards are based on test content, not on which groups of students take the <b>test</b> .",
+      "source_type": 3,
+      "definition_id": "m_en_us1297943.002"
+    }, {
+      "text": "On the other hand, there may be potential adverse psychological effects from a positive <b>test</b> .",
+      "source_type": 3,
+      "definition_id": "m_en_us1297943.006"
+    }, {
+      "text": "Her CV secured her an invite to an audition which would <b>test</b> her flexibility, strength, floor work and aerial skills.",
+      "source_type": 3,
+      "definition_id": "m_en_us1297943.012"
+    }, {
+      "text": "The <b>test</b> is positive if both samples grow bacteria and if the catheter sample grows at least three times as many bacteria as the peripheral blood sample.",
+      "source_type": 3,
+      "definition_id": "m_en_us1297943.006"
+    }, {
+      "text": "It involves a series of activities designed to <b>test</b> the knowledge and skills of the recruits.",
+      "source_type": 3,
+      "definition_id": "m_en_us1297943.012"
+    }, {
+      "text": "a spelling <b>test</b>",
+      "source_type": 3,
+      "definition_id": "m_en_us1297943.002"
+    }]
+  },
+  "related_words": {
+    "word": ["Test", "test tube", "blood test", "to test", "pregnancy test", "test report", "test drive", "driving test", "placement test", "take a test", "test result"]
+  }
+}

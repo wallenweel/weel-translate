@@ -1,64 +1,69 @@
-import merge from 'deepmerge'
-import { istype } from '@/functions/utils'
-
- // 'obj.a[0].b[1]' -> [obj, a, 0, b, 1]
-const stringToPath = (str, start = 0) => {
-  if (!istype(str, 'string') || !str) return []
-  return str
-    // -> obj.a.0.b.1    rewrite all basket([$]) to dot(.$)
-    .replace(/\[['"]{0,1}([\d\w-]+)['"]{0,1}\]/g, '.$1')
-    .split('.').slice(start)
-}
-
-/**
- * get object's value by string as key
- * @param {String} str string path
- * @param {Object} respond plain object
- * @param {Number} start see same param in stringToPath
- * @return {Any}
- */
-const lazyGet = (str, respond, start = 1) =>
-  stringToPath(str, start)
-  .reduce((prev, curr) => !prev ? null : prev[curr], respond)
-
-/**
- * recursive loop for parsing real result
- * @param {Object} object referenced object contains phonetic/translation/explain
- * @param {Object} respond request's respond data
- * @param {Object} prevObj prevrious referenced object
- * @param {String/Integer} prevKey the key that need to be replaced value
- */
-const loopParse = (object, respond, prevObj, prevKey) => {
-  if (istype(object, 'string') && /^\$\./.test(object)) {
-    return (prevObj[prevKey] = lazyGet(object, respond))
-  }
-
-  for (const [key, value] of Object.entries(object)) loopParse(value, respond, object, key)
-}
-
-// param is source's json treated preset
 export default ({ parser }) => {
-  const { variable } = parser
+  // TODO: check parser is valid
+  const reserve = Object.keys(parser).reduce((p, k) => {
+    p[k] = parser[k].split('.')
 
-  let result = merge({}, parser)
-  if (istype(variable, 'array') && variable.length) {
-    result = JSON.parse(
-      JSON.stringify(result)
-      // replace variables placeholder, e.g. $0/$1/...
-      .replace(/\$(\d+)\./g, (pattern, i) =>
-        // append . to [basket], e.g. $.global[0] -> $.global[0].
-        /\]$/.test(variable[i]) ? `${variable[i]}.` : variable[i]
-      )
-    )
-  }
-  delete result.variable
+    if (/\(.+\)$/.test(p[k])) {
+      const [name, keys] = p[k].pop().split(/\b(?=\()/)
+      // custom separator
+      const separator = keys.replace(/\((.+)\)/, '$1').split(/[\w_-]+/)[1]
+      // custom key of targets
+      const targets = keys.match(/([\w_-]+)/g)
 
-  return (respond) => {
-    // prevent treated result is cached
-    let _result = merge({}, result)
+      p[k].push(name, [targets, separator])
+      // reverse it, check in out by first element is array
+      // use `reduceRight` get value from response
+      p[k].reverse()
+    }
 
-    loopParse(_result, respond)
+    return p
+  }, {})
 
-    return _result
+  return (response, result = {}) => {
+    for (const [key, keys] of Object.entries(reserve)) {
+      // normal type
+      if (typeof keys[0] === 'string') {
+        result[key] = keys.reduce((res, k) => {
+          if (typeof res === 'undefined') return undefined
+
+        // use `$` from last one
+          if (/\$+/.test(k)) {
+            // `$$` is last but one and so on
+            k = res.length - k.split(/\B/).length
+          }
+
+          return res[k]
+        }, response)
+
+        continue
+      }
+
+      // special type like `a.b(a, b)`, due to treat object
+      // in array `{a: {b: [{a, b},...{a, b}]}`
+      result[key] = keys.reduceRight((res, k) => {
+        if (typeof res === 'undefined') return undefined
+
+        if (typeof k === 'string') {
+          return res[k]
+        }
+
+        const [targets, separator] = k
+        // `\\\\` can be `\n`
+        const _separator = separator === '\\\\' ? '\n' : (separator || '')
+
+        return res.reduce((a, v) => {
+          const value = targets
+            // get all target properties in objects of array
+            ? targets.reduce((p, k) => v[k] ? p.push(v[k]) && p : null, [])
+            // if only has separator e.g. `(,)`
+            : [v]
+
+          // remove useless value
+          return (value ? a.push(value.join(_separator)) : true) && a
+        }, [])
+      }, response)
+    }
+
+    return result
   }
 }

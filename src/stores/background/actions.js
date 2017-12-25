@@ -118,7 +118,7 @@ __[REQUEST_TRANSLATION] = async (
     return res.json()
   })
   .then(data => {
-    // console.log(data)
+    console.log(data)
     // console.log(parser(data))
     emit(parser(data))
   })

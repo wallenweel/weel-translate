@@ -103,7 +103,7 @@ __['sources'] = {
         "phonetic_src": "sentences.$.src_translit",
         "phonetic_dest": "sentences.$.translit",
         "translation": "sentences(trans)",
-        "explain": "dict(pos\\\\terms)"
+        "explain": "dict(pos////terms)"
       },
 
       "template": {

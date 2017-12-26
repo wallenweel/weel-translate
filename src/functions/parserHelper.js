@@ -1,69 +1,67 @@
-export default ({ parser }) => {
-  // TODO: check parser is valid
-  const reserve = Object.keys(parser).reduce((p, k) => {
-    p[k] = parser[k].split('.')
+const pathToArray = (path) => path.split('.')
+.reduce((a, e) => {
+  if (/\(.+\)$/.test(e)) {
+    const [name, keys] = e.split(/\b(?=\()/)
+    // custom separator
+    const separator = keys.replace(/\((.+)\)/, '$1').split(/[\w_-]+/)[1]
+    // custom key of targets
+    const targets = keys.match(/([\w_-]+)/g)
 
-    if (/\(.+\)$/.test(p[k])) {
-      const [name, keys] = p[k].pop().split(/\b(?=\()/)
-      // custom separator
-      const separator = keys.replace(/\((.+)\)/, '$1').split(/[\w_-]+/)[1]
-      // custom key of targets
-      const targets = keys.match(/([\w_-]+)/g)
+    a.unshift([targets, separator], name)
+  } else {
+    a.unshift(e)
+  }
 
-      p[k].push(name, [targets, separator])
-      // reverse it, check in out by first element is array
-      // use `reduceRight` get value from response
-      p[k].reverse()
+  return a
+}, [])
+
+const helper = (path, response) => path.reduceRight((r, k) => {
+  if (typeof r === 'undefined') return undefined
+  if (typeof r === 'string') return r
+
+  if (typeof k === 'string') {
+    // use `$` from last one
+    if (/\$+/.test(k)) {
+      // `$$` is last but one and so on
+      k = r.length - k.split(/\B/).length
     }
 
-    return p
+    return r[k]
+  }
+
+  const [targets, separator] = k
+  const _separator = separator === '////' ? '\n' : (separator || '')
+
+  return r.reduce((a, v) => {
+    const value = targets
+      // get all target properties in objects of array
+      ? targets.reduce((p, k) => v[k] ? p.push(v[k]) && p : null, [])
+      // if only has separator e.g. `(,)`
+      : [v]
+
+    // remove useless value
+    return (value ? a.push(value.join(_separator)) : true) && a
+  }, [])
+}, response)
+
+export default ({ parser }) => {
+  const serialized = Object.values(parser).reduce((o, path) => {
+    if (typeof path === 'string') o[path] = pathToArray(path)
+
+    if (typeof path === 'object' && !!path) {
+      for (const p of Object.values(path)) o[p] = pathToArray(p)
+    }
+
+    return o
   }, {})
 
-  return (response, result = {}) => {
-    for (const [key, keys] of Object.entries(reserve)) {
-      // normal type
-      if (typeof keys[0] === 'string') {
-        result[key] = keys.reduce((res, k) => {
-          if (typeof res === 'undefined') return undefined
-
-        // use `$` from last one
-          if (/\$+/.test(k)) {
-            // `$$` is last but one and so on
-            k = res.length - k.split(/\B/).length
-          }
-
-          return res[k]
-        }, response)
-
-        continue
-      }
-
-      // special type like `a.b(a, b)`, due to treat object
-      // in array `{a: {b: [{a, b},...{a, b}]}`
-      result[key] = keys.reduceRight((res, k) => {
-        if (typeof res === 'undefined') return undefined
-
-        if (typeof k === 'string') {
-          return res[k]
-        }
-
-        const [targets, separator] = k
-        // `\\\\` can be `\n`
-        const _separator = separator === '\\\\' ? '\n' : (separator || '')
-
-        return res.reduce((a, v) => {
-          const value = targets
-            // get all target properties in objects of array
-            ? targets.reduce((p, k) => v[k] ? p.push(v[k]) && p : null, [])
-            // if only has separator e.g. `(,)`
-            : [v]
-
-          // remove useless value
-          return (value ? a.push(value.join(_separator)) : true) && a
-        }, [])
-      }, response)
+  return (response, result = {}) => Object.entries(parser).reduce((r, [key, path]) => {
+    if (typeof path === 'string') {
+      r[key] = helper(serialized[path], response)
+    } else {
+      r[key] = path.reduce((a, path) => a.push(helper(serialized[path], response)) && a, [])
     }
 
-    return result
-  }
+    return r
+  }, result)
 }

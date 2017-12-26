@@ -34,7 +34,7 @@
         span(:class="$style.translation") {{ getResult.translation }}
       v-divider
       v-card-text(class="body-2")
-        div(v-for="item in getResult.explain") {{ item }}
+        pre(v-for="item in getResult.explain") {{ item }}
 </template>
 
 <script>

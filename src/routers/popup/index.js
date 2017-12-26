@@ -12,7 +12,7 @@ Vue.use(Router)
 
 export const home = {
   path: '/home',
-  name: 'PopupHome',
+  // name: 'PopupHome',
   component: PopupHome,
   children: [
     {

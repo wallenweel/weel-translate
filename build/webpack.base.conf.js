@@ -26,7 +26,8 @@ module.exports = {
     // 'app': './src/main.js',
     'background': './src/background.js',
     'popup/app': './src/pages/popup/main.js',
-    'options/app': './src/pages/options/main.js'
+    'options/app': './src/pages/options/main.js',
+    'content/app': './src/pages/content/main.js'
   },
   output: {
     path: config.build.assetsRoot,

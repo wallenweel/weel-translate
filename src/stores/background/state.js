@@ -8,10 +8,6 @@ __['test'] = {
 }
 
 __['initialized'] = false
-// __['initialized'] = {
-//   storageSync: false,
-//   storageLocal: false
-// }
 
 __['storage'] = {
   local: [
@@ -129,6 +125,9 @@ __['sources'] = {
 __['templates'] = {
   compiled: {},
   preset: {
+    'default': `
+    <template></template>
+    `,
     'float-result-panel': `
     <!--Parser
     {
@@ -142,8 +141,8 @@ __['templates'] = {
     <!-- wtt: weel translate's template START-->
     <wtt-container>
       <style>
-        #weel-translate-frp {
-          background: #666666;
+        #weel-translate-frp, #weel-translate-frp * {
+          all: unset !important;
         }
       </style>
       <div id="weel-translate-frp">

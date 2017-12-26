@@ -38,7 +38,10 @@
   },
 
   "permissions": [
+    "webRequest",
+    "webRequestBlocking",
     "<all_urls>",
+    "*://*/*",
     "tabs",
     "storage",
     "contextMenus",
@@ -71,6 +74,16 @@
     "page": "options/index.html",
     "open_in_tab": true,
     "browser_style": false
-  }
+  },
 
+  "content_scripts": [
+    {
+      "matches": ["<all_urls>"],
+      "match_about_blank": true,
+      "all_frames": true,
+      "js": ["content/app.js"],
+      "css": ["content/app.css"],
+      "run_at": "document_idle"
+    }
+  ]
 }

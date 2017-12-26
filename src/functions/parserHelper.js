@@ -59,7 +59,8 @@ export default ({ parser }) => {
     if (typeof path === 'string') {
       r[key] = helper(serialized[path], response)
     } else {
-      r[key] = path.reduce((a, path) => a.push(helper(serialized[path], response)) && a, [])
+      r[key] = Object.values(path).reduce((a, path) =>
+        a.push(helper(serialized[path], response)) && a, [])
     }
 
     return r

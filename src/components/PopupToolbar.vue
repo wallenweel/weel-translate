@@ -30,6 +30,13 @@ export default {
   created () {
     this.keepAll = this.keep_all
     this.$watch('keepAll', open => {
+      if (
+        !this.$store.state.input_text.length &&
+        !Object.keys(this.$store.state.result).length
+      ) {
+        this.keepAll = false
+        return this.$store.commit('globalTip', [true, 'Need a translating at least.'])
+      }
       this.$store.dispatch('keepAllTranslation', { status: !!open })
     })
   },

@@ -20,6 +20,7 @@ export const initialTmpSource = (
     .reduce((p, { id, name }) => p.push({ id, name }) && p, sources.items)
 }
 
+// TODO: maybe can have a compiled history
 export const pushHistory = ({ tmp }, [type, { id }]) => {
   if (typeof tmp[type].history[id] === 'undefined') {
     tmp[type].history[id] = []
@@ -33,7 +34,7 @@ export const pushHistory = ({ tmp }, [type, { id }]) => {
     preset: tmp[type].preset[id]
   })
 
-  console.log(tmp[type].history[id])
+  // console.log(tmp[type].history[id])
 }
 
 export const nextServiceSource = ({ tmp }) => {
@@ -136,6 +137,5 @@ export const tmpCurrentRestore = ({ tmp }, [type, { id }]) => {
 }
 
 export const tmpStateUpdate = ({ tmp }, [ type, data ]) => {
-  console.log(type, data)
   Object.assign(tmp[type], data)
 }

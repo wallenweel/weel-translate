@@ -1,10 +1,10 @@
 <template lang="pug">
   v-app(:dark="dark" :class="$style.app")
-    popup-toolbar
-
     v-tooltip(v-model="tip" bottom)
       v-flex(slot="activator")
       span {{ tipMsg }}
+
+    popup-toolbar
 
     popup-navigation-drawer
 

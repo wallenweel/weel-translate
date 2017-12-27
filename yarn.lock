@@ -3023,7 +3023,7 @@ extglob@^0.3.1:
   dependencies:
     is-extglob "^1.0.0"
 
-extract-text-webpack-plugin@^3.0.0:
+extract-text-webpack-plugin@^3.0.2:
   version "3.0.2"
   resolved "http://registry.npm.taobao.org/extract-text-webpack-plugin/download/extract-text-webpack-plugin-3.0.2.tgz#5f043eaa02f9750a9258b78c0a6e0dc1408fb2f7"
   dependencies:
@@ -7445,6 +7445,13 @@ structured-source@^3.0.2:
   resolved "http://registry.npm.taobao.org/structured-source/download/structured-source-3.0.2.tgz#dd802425e0f53dc4a6e7aca3752901a1ccda7af5"
   dependencies:
     boundary "^1.0.1"
+
+style-loader@^0.19.1:
+  version "0.19.1"
+  resolved "http://registry.npm.taobao.org/style-loader/download/style-loader-0.19.1.tgz#591ffc80bcefe268b77c5d9ebc0505d772619f85"
+  dependencies:
+    loader-utils "^1.0.2"
+    schema-utils "^0.3.0"
 
 supports-color@3.1.2:
   version "3.1.2"

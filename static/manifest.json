@@ -83,7 +83,7 @@
       "all_frames": true,
       "js": ["content/app.js"],
       "css": ["content/app.css"],
-      "run_at": "document_idle"
+      "run_at": "document_end"
     }
   ]
 }

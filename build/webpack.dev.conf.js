@@ -4,6 +4,7 @@ const webpack = require('webpack')
 const config = require('../config')
 const merge = require('webpack-merge')
 const baseWebpackConfig = require('./webpack.base.conf')
+const ExtractTextPlugin = require('extract-text-webpack-plugin')
 const HtmlWebpackPlugin = require('html-webpack-plugin')
 const FriendlyErrorsPlugin = require('friendly-errors-webpack-plugin')
 const portfinder = require('portfinder')
@@ -13,7 +14,7 @@ const PORT = process.env.PORT && Number(process.env.PORT)
 
 const devWebpackConfig = merge(baseWebpackConfig, {
   module: {
-    rules: utils.styleLoaders({ sourceMap: config.dev.cssSourceMap, usePostCSS: true })
+    rules: utils.styleLoaders({ sourceMap: config.dev.cssSourceMap, extract: true, usePostCSS: true })
   },
   // cheap-module-eval-source-map is faster for development
   devtool: config.dev.devtool,
@@ -52,6 +53,15 @@ const devWebpackConfig = merge(baseWebpackConfig, {
     //   inject: true,
     //   chunks: ["app"]
     // }),
+    // extract css into its own file
+    new ExtractTextPlugin({
+      // filename: utils.assetsPath('css/[name].[contenthash].css'),
+      filename: utils.assetsPath('[name].css'),
+      // set the following option to `true` if you want to extract CSS from
+      // codesplit chunks into this main css file as well.
+      // This will result in *all* of your app's CSS being loaded upfront.
+      allChunks: false,
+    }),
     new HtmlWebpackPlugin({
       filename: 'popup/index.html',
       template: 'src/templates/popup.pug',

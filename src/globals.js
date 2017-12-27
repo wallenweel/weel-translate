@@ -1,15 +1,13 @@
+/* global browser */
+
 /**
  * some global variables
  */
-
-// "chrome" to Chrome
-export const env = 'browser'
-
 try {
-  const extensionError = window[env].runtime.lastError
+  const extensionError = browser.runtime.lastError
   if (extensionError) console.error(extensionError)
 } catch (error) {
-  window[env] = {}
+  window.browser = {}
 
   console.info(
     `%c  You Are Running In A Normal Browser Environment.  `,
@@ -25,9 +23,9 @@ export const {
   storage,
   tabs,
   notifications
-} = window[env]
+} = browser
 
-export default window[env]
+export default browser
 
 export const vuetify = {
   theme: {
@@ -35,5 +33,19 @@ export const vuetify = {
     secondary: '#1976D2',
     accent: '#FF9800',
     error: '#FF5722'
+  }
+}
+
+export const adaptation = {
+  flag: 'content-page--message',
+  i: {
+    flag: 'content-page--message__input',
+    tag: 'button',
+    event: 'click'
+  },
+  o: {
+    flag: 'content-page--message__output',
+    tag: 'button',
+    event: 'click'
   }
 }

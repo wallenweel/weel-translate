@@ -123,35 +123,45 @@ __['sources'] = {
 }
 
 __['templates'] = {
-  compiled: {},
+  compiled: {
+    default: {
+      parser: {
+        google: () => {},
+        google_cn: () => {}
+      },
+      template: ``,
+      style: ``
+    }
+  },
   preset: {
     'default': `
-    <template></template>
-    `,
-    'float-result-panel': `
-    <!--Parser
+    <parser>
     {
-      "phonetic_dest": "$0.translit",
-      "translation": "$.sentences[0].trans",
-      "explain": ["$1.pos", "$1.terms"],
-      "variable": ["$.sentences[1]", "$.dict[0]"]
+      "google|google_cn": {
+        "phonetic_src": "sentences.$.src_translit",
+        "phonetic_dest": "sentences.$.translit",
+        "translation": "sentences(trans)",
+        "explain": "dict(pos////terms)"
+      }
     }
-    -->
-  
-    <!-- wtt: weel translate's template START-->
-    <wtt-container>
-      <style>
-        #weel-translate-frp, #weel-translate-frp * {
-          all: unset !important;
-        }
-      </style>
-      <div id="weel-translate-frp">
-        <div>P: {{phonetic_dest}}</div>
-        <div>T: {{translation}}</div>
-        <div>E: {{explain}}</div>
+    </parser>
+    <template>
+      <div class="wt-fab--container">
+        <button type="button">fab</button>
+        <i class="material-icons">error_outline</i>
       </div>
-    </wtt-container>
-    <!-- wtt: weel translate's template END-->
+      <div class="wt-fap--container">
+        <wt-button data-type="voice"/>
+      </div>
+    </template>
+    <style>
+      button {
+        background: red;
+      }
+      div {
+        display: block;
+      }
+    </style>
     `
   }
 }

@@ -49,3 +49,16 @@ export const adaptation = {
     event: 'click'
   }
 }
+
+export const floatAction = {
+  workspace: {
+    tag: 'weel-transalte',
+    flag: 'weel-translate--scoped'
+  },
+  button: {
+    flag: ''
+  },
+  panel: {
+    flag: ''
+  }
+}

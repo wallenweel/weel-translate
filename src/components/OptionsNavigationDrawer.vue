@@ -11,7 +11,7 @@
         v-list-tile
           v-list-tile-action
             v-btn(icon @click.native.stop="mini = !mini")
-              v-icon {{ `chevron_${mini ? 'right' : 'left'}` }}
+              v-icon {{ arrowIcon }}
           v-list-tile-content
             v-list-tile-title Advance Settings 
     v-divider
@@ -29,18 +29,23 @@
 </template>
 
 <script>
-  export default {
-    data () {
-      return {
-        drawer: true,
-        items: [
-          { title: 'Home', icon: 'question_answer', path: '/home' },
-          { title: 'Service Source API', icon: 'settings_input_composite', path: '/service-source-api' },
-          { title: 'Template & Styles', icon: 'style', path: '/templates' }
-        ],
-        mini: true,
-        right: null
-      }
+export default {
+  data () {
+    return {
+      drawer: true,
+      items: [
+        { title: 'Home', icon: 'question_answer', path: '/home' },
+        { title: 'Service Source API', icon: 'settings_input_composite', path: '/service-source-api' },
+        { title: 'Template & Styles', icon: 'style', path: '/templates' }
+      ],
+      mini: true,
+      right: null
+    }
+  },
+  computed: {
+    arrowIcon () {
+      return `chevron_${this.mini ? 'right' : 'left'}`
     }
   }
+}
 </script>

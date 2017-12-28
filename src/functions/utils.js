@@ -20,7 +20,7 @@ export const aid = (right, substitute = () => null) => {
  */
 export const whattype = thing =>
   Object.prototype.toString.call(thing)
-  .match(/\w+/g)[1].toLowerCase()
+  .replace(/^\[object (.+)\]$/, '$1').toLowerCase()
 
 /**
  * Judge type

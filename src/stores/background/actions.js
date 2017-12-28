@@ -53,8 +53,11 @@ __[INITIAL_BACKGROUND_SCRIPT] = async ({ state, commit, dispatch }, skipMerge = 
   }
 
   if (state.initialized === true) {
-    // compile service "source.preset" to "source.compiled"
-    commit('compileSourcePreset')
+    // compile service preset from "sources.preset" to "sources.compiled"
+    commit('compileSourcesPreset')
+    // compile from "templates.preset" to "templates.compiled"
+    // `preset` to { parser, template, style }
+    commit('compileTemplatesPreset')
 
     // TODO: should make api to current api, not "apis"
     state.api = state.sources.compiled

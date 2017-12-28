@@ -35,10 +35,13 @@ import './style.scss'
   input.addEventListener(adaptation.i.event, handleInput, false)
 })()
 
+const { workspace } = floatAction
+
 // private state
 const defaultState = {
   test: false,
 
+  current_template_id: 'default',
   registerEvents: {
     copy (ev) {
       console.log('copy')
@@ -46,33 +49,15 @@ const defaultState = {
   },
 
   template: `
-  <parser>
-  {
-    "google|google_cn": {
-      "phonetic_src": "sentences.$.src_translit",
-      "phonetic_dest": "sentences.$.translit",
-      "translation": "sentences(trans)",
-      "explain": "dict(pos////terms)"
-    }
-  }
-  </parser>
   <template>
     <div class="wt-fab--container">
       <button type="button">fab</button>
-      <i class="material-icons">error_outline</i>
+      <i class="icon-voice" size="small" color="red"></i>
     </div>
     <div class="wt-fap--container">
       <wt-button data-type="voice"/>
     </div>
   </template>
-  <style>
-    button {
-      background: red;
-    }
-    div {
-      display: block;
-    }
-  </style>
   `
 }
 
@@ -84,39 +69,43 @@ const defaultState = {
 }) => Object.assign(defaultState, {
   templates,
   preferences
-})))().then((state) => {
-  const { workspace } = floatAction
+})))().then(({
+  template,
+  templates,
+  current_template_id
+}) => {
+  const { style } = templates.compiled[current_template_id]
 
-  const parserd = parserDOMString(state.template)
-  const templateParser = parserd.querySelector('parser')
+  loadTemplate(template)
+
+  loadStyle(style)
+})
+
+function loadTemplate (template) {
+  const parserd = parserDOMString(template)
   const templateDOM = parserd.querySelector('template')
-  const templateStyle = parserd.querySelector('style')
-
-  console.log(JSON.parse(templateParser.textContent))
-
   const templateContent = templateDOM.content
-  const container = document.createElement(workspace.tag)
-  container.setAttribute(`data-${workspace.flag}`, true)
-  container.addEventListener('click', ev => {
-    console.log(ev.currentTarget)
-  }, false)
 
   const btn = templateContent.querySelector('wt-button')
   const rbtn = document.createElement('button')
   rbtn.textContent = 'test'
   btn.parentNode.replaceChild(rbtn, btn)
 
+  const container = document.createElement(workspace.tag)
+
+  container.setAttribute(`data-${workspace.flag}`, true)
+  container.addEventListener('click', ev => {
+    console.log(ev.currentTarget)
+  }, false)
   container.appendChild(document.importNode(templateDOM.content, true))
   document.body.appendChild(container)
+}
 
-  const style = document.createElement('style')
-  const rules = Array.from(templateStyle.sheet.cssRules).reduce((a, r) => {
-    a.push(`[data-${workspace.flag}] ${r.cssText}`)
-    return a
-  }, []).join('\n')
+function loadStyle (style) {
+  const headStyle = document.createElement('style')
 
-  style.type = 'text/css'
-  style.textContent = rules
+  headStyle.type = 'text/css'
+  headStyle.textContent = style
 
-  document.head.appendChild(style)
-})
+  document.head.appendChild(headStyle)
+}

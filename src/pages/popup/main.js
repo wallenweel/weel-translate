@@ -4,7 +4,6 @@ import Vue from 'vue'
 import Vuex from 'vuex'
 import Vuetify from 'vuetify'
 
-import 'material-design-icons/iconfont/material-icons.css'
 import 'vuetify/dist/vuetify.min.css'
 
 import router from '@/routers/popup'

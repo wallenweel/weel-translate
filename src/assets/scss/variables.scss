@@ -17,6 +17,40 @@ $head-toolbar-height: 64px;
 $home-bottomNav-height: 56px;
 
 @mixin preset {
+  @font-face {
+    font-family: 'Material Icons';
+    font-style: normal;
+    font-weight: 400;
+    src: local('Material Icons'),
+         local('MaterialIcons-Regular'),
+         url(/iconfont/MaterialIcons-Regular.woff2) format('woff2');
+  }
+
+  :global(.material-icons) {
+    font-family: 'Material Icons';
+    font-weight: normal;
+    font-style: normal;
+    font-size: 24px;  /* Preferred icon size */
+    display: inline-block;
+    line-height: 1;
+    text-transform: none;
+    letter-spacing: normal;
+    word-wrap: normal;
+    white-space: nowrap;
+    direction: ltr;
+  
+    /* Support for all WebKit browsers. */
+    -webkit-font-smoothing: antialiased;
+    /* Support for Safari and Chrome. */
+    text-rendering: optimizeLegibility;
+  
+    /* Support for Firefox. */
+    -moz-osx-font-smoothing: grayscale;
+  
+    /* Support for IE. */
+    font-feature-settings: 'liga';
+  }
+
   html,
   body {
     box-sizing: border-box;
@@ -30,5 +64,73 @@ $home-bottomNav-height: 56px;
 
   html {
     font-size: 100%;
+  }
+}
+
+@function isz($sz: 0, $post: "em") {
+  @return $sz / 32#{$post};
+}
+
+@mixin icon-voice {
+  width: 0;
+  height: 0;
+  border: isz(10) solid;
+  border-left: none;
+  border-top-color: transparent;
+  border-bottom-color: transparent;
+  padding: isz(6) isz(4);
+  box-shadow: inset 0 0, inset 0 isz(12);
+  margin: 4px 10px 4px 11px;
+  &::before {
+    transform: translateY(-50%) rotateZ(-45deg);
+    border: isz(8) solid;
+    border-radius: 50%;
+    border-top-color: transparent;
+    border-left-color: transparent;
+    top: 50%;
+    left: isz(14);
+    position: absolute;
+  }
+  &::after {
+    transform: translateY(-50%) rotateZ(-45deg);
+    padding: isz(12);
+    border: isz(4) solid;
+    border-radius: 50%;
+    border-top-color: transparent;
+    border-left-color: transparent;
+    top: 50%;
+    left: isz(6);
+    position: absolute;
+  }
+}
+
+@mixin css-icons {
+  i {
+    &.css-icons {
+      color: #555;
+      font-size: 32px;
+      font-style: normal;
+      text-align: left;
+      text-indent: -9999px;
+      direction: ltr;
+      vertical-align: middle;
+      position: relative;
+      display: inline-block;
+      
+      &::before,
+      &::after {
+        content: "";
+        pointer-events: none;
+      }
+
+      &[size="small"] {
+        font-size: 24px;
+      }
+      &.icon- {
+        &voice {
+          @include icon-voice;
+        }
+      }
+    }
   }
 }

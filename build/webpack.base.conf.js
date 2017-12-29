@@ -105,6 +105,10 @@ module.exports = {
         from: path.resolve(__dirname, '../static'),
         to: config.build.assetsSubDirectory,
         ignore: ['.*']
+      },
+      {
+        from: '../node_modules/material-design-icons/iconfont/MaterialIcons-Regular.woff2',
+        to: `../dist/iconfont/MaterialIcons-Regular.woff2`
       }
     ])
   ]

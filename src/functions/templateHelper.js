@@ -19,11 +19,15 @@ export const compileStyle = (dom) => {
 }
 
 export const compilePreser = (dom) => {
-  const parser = dom.querySelector('parser').textContent
+  const parser = dom.querySelector('script[rel="parser"]')
 
-  if (!parser || !parser.length) return null
+  if (!parser) return null
 
-  const parserJSON = JSON.parse(parser)
+  const parserContent = parser.textContent
+
+  if (!parserContent || !parserContent.length) return null
+
+  const parserJSON = JSON.parse(parserContent)
 
   return Object.entries(parserJSON).reduce((o, [id, preset]) => {
     const idArray = id.split(/\s*\|\s*/)

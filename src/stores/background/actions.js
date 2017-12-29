@@ -43,7 +43,7 @@ __[INITIAL_BACKGROUND_SCRIPT] = async ({ state, commit, dispatch }, skipMerge = 
     for (const type of Object.keys(state.storage)) {
       await storage[type].get().then(all => {
         // merge sync storage to state
-        commit('mergeStorageState', all)
+        // commit('mergeStorageState', all)
 
         state.initialized = true
       }, () => { state.initialized = false })

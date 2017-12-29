@@ -135,7 +135,17 @@ __['templates'] = {
   },
   preset: {
     'default': `
-    <parser>
+    <template>
+      <div class="wt-fab--container">
+        <button type="button">fab</button>
+        <i class="svg-icons -content-copy"></i>
+        <i class="svg-icons -volume-high"></i>
+      </div>
+      <div class="wt-fap--container">
+        <wt-button data-type="voice"/>
+      </div>
+    </template>
+    <script rel="parser">
     {
       "google|google_cn": {
         "phonetic_src": "sentences.$.src_translit",
@@ -144,19 +154,10 @@ __['templates'] = {
         "explain": "dict(pos////terms)"
       }
     }
-    </parser>
-    <template>
-      <div class="wt-fab--container">
-        <button type="button">fab</button>
-        <i class="material-icons">error_outline</i>
-      </div>
-      <div class="wt-fap--container">
-        <wt-button data-type="voice"/>
-      </div>
-    </template>
+    </script>
     <style>
       button {
-        background: red;
+        background: blue;
       }
       div {
         display: block;

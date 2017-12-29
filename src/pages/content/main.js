@@ -5,8 +5,11 @@ import {
   INITIAL_FROM_BACKGROUND
 } from '@/types'
 
-import './style.scss'
+// import 'material-design-icons/iconfont/material-icons.css'
 
+import './style.scss'
+// import voice from '@/assets/svg/volume_up.svg'
+// console.log(voice)
 // TODO: remember comment here, due to "web-ext" is
 // not working fine for reloading tab page in development
 ;((w, d, t) => d.body.getAttribute(t) === 'running' ? setTimeout(() => w.location.reload(), 150) : d.body.setAttribute(t, 'running'))(window, document, 'weel-translate')
@@ -52,7 +55,8 @@ const defaultState = {
   <template>
     <div class="wt-fab--container">
       <button type="button">fab</button>
-      <i class="icon-voice" size="small" color="red"></i>
+      <i class="svg-icons -content-copy"></i>
+      <i class="svg-icons -volume-high"></i>
     </div>
     <div class="wt-fap--container">
       <wt-button data-type="voice"/>
@@ -70,11 +74,11 @@ const defaultState = {
   templates,
   preferences
 })))().then(({
-  template,
+  // template,
   templates,
   current_template_id
 }) => {
-  const { style } = templates.compiled[current_template_id]
+  const { style, template } = templates.compiled[current_template_id]
 
   loadTemplate(template)
 
@@ -84,12 +88,7 @@ const defaultState = {
 function loadTemplate (template) {
   const parserd = parserDOMString(template)
   const templateDOM = parserd.querySelector('template')
-  const templateContent = templateDOM.content
-
-  const btn = templateContent.querySelector('wt-button')
-  const rbtn = document.createElement('button')
-  rbtn.textContent = 'test'
-  btn.parentNode.replaceChild(rbtn, btn)
+  // const templateContent = templateDOM.content
 
   const container = document.createElement(workspace.tag)
 

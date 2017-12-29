@@ -10,10 +10,8 @@ import {
 
 const __ = {}
 
-__[INITIAL_FROM_BACKGROUND] = async ({ state, commit }) => {
-  let success = false
-
-  await sendMessage({
+__[INITIAL_FROM_BACKGROUND] = ({ state, commit }) => {
+  return sendMessage({
     type: INITIAL_FROM_BACKGROUND
   }).then(({
     test,
@@ -58,17 +56,8 @@ __[INITIAL_FROM_BACKGROUND] = async ({ state, commit }) => {
 
     commit('currentServiceSource', api[current_service_id])
 
-    success = true
-  }, error => {
-    success = false
-
-    console.error(
-      `Popup Page Dose Not Initial Success, Because:`,
-      error
-    )
-  })
-
-  return success
+    return true
+  }, () => false)
 }
 
 __[UPDATE_STORAGE_STATE] = ({ state }, { type, key, value }) => {

@@ -1,15 +1,14 @@
-import { adaptation, floatAction } from '@/globals'
 import { sendMessage } from '@/functions/runtime'
-import { parserDOMString } from '@/functions/utils'
+import { adaptation } from '@/globals'
 import {
   INITIAL_FROM_BACKGROUND
 } from '@/types'
 
-// import 'material-design-icons/iconfont/material-icons.css'
+import store from './store'
+import scriptLoader from './scriptLoader'
 
 import './style.scss'
-// import voice from '@/assets/svg/volume_up.svg'
-// console.log(voice)
+
 // TODO: remember comment here, due to "web-ext" is
 // not working fine for reloading tab page in development
 ;((w, d, t) => d.body.getAttribute(t) === 'running' ? setTimeout(() => w.location.reload(), 150) : d.body.setAttribute(t, 'running'))(window, document, 'weel-translate')
@@ -38,73 +37,15 @@ import './style.scss'
   input.addEventListener(adaptation.i.event, handleInput, false)
 })()
 
-const { workspace } = floatAction
+// initial content script
+store.dispatch(INITIAL_FROM_BACKGROUND)
+.then(success => {
+  if (!success) {
+    console.log('Initialize failed.')
+    return false
+  }
 
-// private state
-const defaultState = {
-  test: false,
+  scriptLoader(store)
 
-  current_template_id: 'default',
-  registerEvents: {
-    copy (ev) {
-      console.log('copy')
-    }
-  },
-
-  template: `
-  <template>
-    <div class="wt-fab--container">
-      <button type="button">fab</button>
-      <i class="svg-icons -content-copy"></i>
-      <i class="svg-icons -volume-high"></i>
-    </div>
-    <div class="wt-fap--container">
-      <wt-button data-type="voice"/>
-    </div>
-  </template>
-  `
-}
-
-// initial state from background script
-// just select these that will be used
-;(() => sendMessage(INITIAL_FROM_BACKGROUND).then(({
-  templates,
-  preferences
-}) => Object.assign(defaultState, {
-  templates,
-  preferences
-})))().then(({
-  // template,
-  templates,
-  current_template_id
-}) => {
-  const { style, template } = templates.compiled[current_template_id]
-
-  loadTemplate(template)
-
-  loadStyle(style)
+  console.log(store.state.container)
 })
-
-function loadTemplate (template) {
-  const parserd = parserDOMString(template)
-  const templateDOM = parserd.querySelector('template')
-  // const templateContent = templateDOM.content
-
-  const container = document.createElement(workspace.tag)
-
-  container.setAttribute(`data-${workspace.flag}`, true)
-  container.addEventListener('click', ev => {
-    console.log(ev.currentTarget)
-  }, false)
-  container.appendChild(document.importNode(templateDOM.content, true))
-  document.body.appendChild(container)
-}
-
-function loadStyle (style) {
-  const headStyle = document.createElement('style')
-
-  headStyle.type = 'text/css'
-  headStyle.textContent = style
-
-  document.head.appendChild(headStyle)
-}

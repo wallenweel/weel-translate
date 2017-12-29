@@ -136,11 +136,13 @@ __['templates'] = {
   preset: {
     'default': `
     <template>
-      <div class="wt-fab--container">
-        <button type="button">fab</button>
-        <i class="svg-icons -content-copy"></i>
-        <i class="svg-icons -volume-high"></i>
-      </div>
+      <button class="fab _active" weel-is-fab weel-on-selectionchange>
+        <i class="svg-icons -weel-translate"></i>
+      </button>
+
+      <i class="svg-icons -content-copy"></i>
+      <i class="svg-icons -volume-high"></i>
+
       <div class="wt-fap--container">
         <wt-button data-type="voice"/>
       </div>
@@ -156,12 +158,6 @@ __['templates'] = {
     }
     </script>
     <style>
-      button {
-        background: blue;
-      }
-      div {
-        display: block;
-      }
     </style>
     `
   }

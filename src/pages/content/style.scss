@@ -1,4 +1,5 @@
 $svg-icon-base: 24 !default;
+$mdi-icons: 'content-copy', 'volume-high', 'google-translate', $extension-name;
 
 @function svgem($sz) {
   @return #{$sz / $svg-icon-base}em;
@@ -15,6 +16,14 @@ $svg-icon-base: 24 !default;
     }
   }
 
+  & {
+    height: 0;
+    width: 0;
+    left: 0;
+    top: 0;
+    position: fixed;
+  }
+
   // @include css-icons;
 
   .svg-icons {
@@ -22,14 +31,62 @@ $svg-icon-base: 24 !default;
     height: svgem(24);
     width: svgem(24);
 
+    color: inherit;
     font-size: #{$svg-icon-base}px;
-    text-indent: svgem(-999);
-    vertical-align: middle;
     display: inline-block;
 
-    @each $name in 'content-copy' 'volume-high' {
+    @each $name in $mdi-icons {
       &.-#{$name} {
-        mask: url(/icons/mdi/#{$name}.svg) no-repeat 50% 50%/svgem(24) svgem(24);
+        $url: '/icons/mdi/#{$name}.svg' !default;
+        
+        @if $name == $extension-name {
+          $url: '/icons/#{$extension-name}.svg';
+        }
+
+        mask: url($url) no-repeat 50% 50%/svgem(24) svgem(24);
+      }
+    }
+  }
+
+  [weel-is-fab] {
+    position: fixed;
+    top: 0;
+    left: 0;
+  }
+  
+  .fab {
+    $sz: 32px;
+
+    opacity: 0;
+    visibility: hidden;
+    box-shadow: 0 1px 2px rgba(58, 69, 77, 0.623);
+    background: #f5f5f5;
+    height: $sz;
+    width: $sz;
+    color: $color-primary;
+    border-radius: 4px;
+    border: 1px solid #e5e5e5;
+    padding: 6px;
+    display: block;
+    overflow: hidden;
+
+    > .svg-icons {
+      font-size: 18px;
+    }
+
+    &._active {
+      transition: all .25s;
+      opacity: .6;
+      visibility: visible;
+      
+      &:hover {
+        cursor: pointer;
+        opacity: 1;
+        box-shadow: 0 2px 5px rgba(58, 69, 77, 0.623);
+      }
+      &:active {
+        color: $color-secondary;
+        box-shadow: 0 2px 3px rgba(58, 69, 77, 0.623);
       }
     }
   }

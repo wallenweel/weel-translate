@@ -3,13 +3,18 @@ import { parserDOMString } from '@/functions/utils'
 import parserHelper from '@/functions/parserHelper'
 
 export const compileTemplate = (dom) => {
-  const html = dom.querySelector('template').outerHTML
+  const html = dom.querySelector('template')
 
-  return html
+  if (!html) return null
+
+  return html.outerHTML
 }
 
 export const compileStyle = (dom) => {
   const style = dom.querySelector('style')
+
+  if (!style) return null
+
   const rules = Array.from(style.sheet.cssRules).reduce((a, r) => {
     a.push(`[data-${floatAction.workspace.flag}] ${r.cssText}`)
     return a

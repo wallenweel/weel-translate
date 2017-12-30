@@ -279,7 +279,7 @@ export default {
   .theme--dark {
     .input-group__selections__comma {
       &::after {
-        background-image: linear-gradient(to left, $color-grey-darken-3, transparent);
+        background-image: linear-gradient(to left, $grey-darken3, transparent);
       }
     }
   }

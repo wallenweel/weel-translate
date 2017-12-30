@@ -8,12 +8,19 @@ const store = new Weelx({
   state: {
     test: false,
 
+    container: null, // container element of float action
+    targets: [], // contains all <v> tag's details
+
     current_template_id: 'default'
   },
   mutations: {
-    test (state) {
-      console.log(state)
-      state.current_template_id = 'test'
+    templateLoaded (state, { container, targets }) {
+      state.container = container
+      state.targets = targets
+    },
+    getSelection (state, selection) {
+      state.selectionText = selection.toString()
+      state.selectionRect = selection.getRangeAt(0).getBoundingClientRect()
     }
   },
   actions: {

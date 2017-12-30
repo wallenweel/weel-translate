@@ -22,11 +22,24 @@ $mdi-icons: 'content-copy', 'volume-high', 'google-translate', $extension-name;
     left: 0;
     top: 0;
     position: fixed;
+    display: block;
+  }
+
+  div {
+    display: block;
+  }
+
+  pre {
+    white-space: pre;
+  }
+
+  v {
+    all: unset;
   }
 
   // @include css-icons;
 
-  .svg-icons {
+  .weel-svg-icons {
     background: currentColor;
     height: svgem(24);
     width: svgem(24);
@@ -48,17 +61,30 @@ $mdi-icons: 'content-copy', 'volume-high', 'google-translate', $extension-name;
     }
   }
 
-  [weel-is-fab] {
+  [weel-is-fab],
+  [weel-is-fap] {
     position: fixed;
     top: 0;
     left: 0;
+    z-index: 9;
   }
   
-  .fab {
-    $sz: 32px;
-
+  .weel-fab,
+  .weel-fap {
     opacity: 0;
     visibility: hidden;
+    transition: opacity .25s ease, visibility .25s ease, transform .125s ease-in;
+    transform: translate3d(0, 0, 0);
+    
+    &._active {
+      opacity: 1;
+      visibility: visible;
+    }    
+  }
+  
+  .weel-fab {
+    $sz: 32px;
+
     box-shadow: 0 1px 2px rgba(58, 69, 77, 0.623);
     background: #f5f5f5;
     height: $sz;
@@ -66,18 +92,17 @@ $mdi-icons: 'content-copy', 'volume-high', 'google-translate', $extension-name;
     color: $color-primary;
     border-radius: 4px;
     border: 1px solid #e5e5e5;
-    padding: 6px;
+    padding: 4px;
     display: block;
     overflow: hidden;
 
-    > .svg-icons {
-      font-size: 18px;
+    > .-icon {
+      font-size: 22px;
     }
 
     &._active {
       transition: all .25s;
-      opacity: .6;
-      visibility: visible;
+      opacity: .8;
       
       &:hover {
         cursor: pointer;
@@ -87,6 +112,96 @@ $mdi-icons: 'content-copy', 'volume-high', 'google-translate', $extension-name;
       &:active {
         color: $color-secondary;
         box-shadow: 0 2px 3px rgba(58, 69, 77, 0.623);
+      }
+    }
+  }
+
+  .weel-fap {
+    box-shadow: 0 2px 5px rgba(58, 69, 77, 0.423),
+                0 0px 2px 2px rgba(58, 69, 77, 0.23);
+    
+    border-radius: 2px;
+    background: white;
+    min-height: 120px;
+    min-width: 280px;
+    max-width: 320px;
+    padding: 16px;
+    margin: 16px;
+    position: relative;
+
+    &::before,
+    &::after {
+      content: "";
+      height: 0px;
+      width: 2px;
+      box-sizing: content-box;
+      border: 10px transparent solid;
+      border-bottom-color: white;
+      left: 50%;
+      position: absolute;
+      display: block;
+    }
+    
+    &::before {
+      filter: drop-shadow(0 0px 2px rgba(58, 69, 77, 0.723));
+      margin-left: -12px;
+      top: -20px;
+      z-index: -1;
+    }
+    &::after {
+      width: 10px;
+      margin-left: -16px;
+      top: -16px;
+    }
+
+    > .-phonetic,
+    > .-translation {
+      line-height: 1.25;
+      align-items: center;
+      display: flex;
+
+      button.-js {
+        $sz: 32px;
+        transition: color .25s;
+        height: $sz;
+        width: $sz;
+        color: $blueGrey-darken3;
+        border-radius: $sz / 2;
+        margin-right: 4px;
+        align-items: center;
+        justify-content: center;
+        display: flex;
+
+        &:hover {
+          cursor: pointer;
+          color: $color-primary;
+        }
+        &:active {
+          color: $color-secondary;
+        }
+
+        &[weel-on-copy] {
+          align-self: flex-start;
+        }
+      }
+    }
+
+    > .-translation {
+      font-weight: bold;
+    }
+
+    > .-explain {
+      border-top: 1px solid $grey-lighten1;
+      margin: 12px 0;
+      padding-top: 8px;
+      > pre {
+        font-size: 14px;
+        line-height: 1.35;
+        white-space: pre-wrap;
+
+        p {
+          display: block;
+        }
       }
     }
   }

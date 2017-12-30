@@ -7,7 +7,17 @@ export const compileTemplate = (dom) => {
 
   if (!html) return null
 
-  return html.outerHTML
+  return html.outerHTML.replace(/\{\{(.+)\}\}/g, (pattern, key) => {
+    switch (true) {
+      case /\?:/.test(key): // if falsy else another
+        const [k1, ...spares] = key.split('?:')
+        return `<v weel-key="${k1}" weel-spares="${spares.join(',')}"></v>`
+
+      default:
+        const [k0] = key.split('\\')
+        return `<v weel-key="${k0}"></v>`
+    }
+  })
 }
 
 export const compileStyle = (dom) => {

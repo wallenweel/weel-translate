@@ -45,7 +45,5 @@ store.dispatch(INITIAL_FROM_BACKGROUND)
     return false
   }
 
-  scriptLoader(store)
-
-  console.log(store.state.container)
+  scriptLoader()
 })

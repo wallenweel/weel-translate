@@ -41,6 +41,10 @@ export default class Weelx {
     return this.actions[action](this, payload)
   }
 
+  watch (target, callback, option = {}) {
+
+  }
+
   static _proxy (state, watch) {
     return new Proxy(state, {
       set (target, key, value) {

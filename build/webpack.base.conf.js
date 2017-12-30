@@ -103,12 +103,17 @@ module.exports = {
     new CopyWebpackPlugin([
       {
         from: path.resolve(__dirname, '../static'),
-        to: config.build.assetsSubDirectory,
+        // to: config.build.assetsSubDirectory,
+        to: '',
         ignore: ['.*']
       },
       {
-        from: '../node_modules/material-design-icons/iconfont/MaterialIcons-Regular.woff2',
-        to: `../dist/iconfont/MaterialIcons-Regular.woff2`
+        from: 'node_modules/material-design-icons/iconfont/MaterialIcons-Regular.woff2',
+        to: `fonts/MaterialIcons-Regular.woff2`
+      },
+      {
+        from: `src/assets/manifest.${process.env.NODE_ENV}.json`,
+        to: 'manifest.json'
       }
     ])
   ]

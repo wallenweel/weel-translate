@@ -23,8 +23,8 @@ const webpackConfig = merge(baseWebpackConfig, {
       usePostCSS: true
     })
   },
-  // devtool: config.build.productionSourceMap ? config.build.devtool : false,
-  devtool: false,
+  devtool: config.build.productionSourceMap ? config.build.devtool : false,
+  // devtool: false,
   output: {
     path: config.build.assetsRoot,
     // filename: utils.assetsPath('js/[name].[chunkhash].js'),
@@ -118,7 +118,8 @@ const webpackConfig = merge(baseWebpackConfig, {
         // any required modules inside node_modules are extracted to vendor
         return (
           module.resource &&
-          /\.js$/.test(module.resource) &&
+          // !! support to build vendor.css !!
+          // /\.js$/.test(module.resource) &&
           module.resource.indexOf(
             path.join(__dirname, '../node_modules')
           ) === 0

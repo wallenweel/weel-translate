@@ -4,7 +4,7 @@
   "name": "__MSG_EXTENSION_NAME__",
   "short_name": "__MSG_EXTENSION_SHORT_NAME__",
   "description": "__MSG_EXTENSION_DESCRIPTION__",
-  "version": "0.0.1",
+  "version": "2.0.1",
 
   "homepage_url": "https://github.com/wallenweel/weel-translation-vue",
 
@@ -25,8 +25,8 @@
   "default_locale": "en",
 
   "icons": {
-    "48": "icons/icon.svg",
-    "96": "icons/icon.svg"
+    "48": "icons/weel-translate.svg",
+    "96": "icons/weel-translate.svg"
   },
 
   "commands": {
@@ -57,6 +57,7 @@
   "background": {
     "scripts": [
       "manifest.js",
+      "vendor.js",
       "background.js"
     ]
   },
@@ -64,7 +65,7 @@
   "browser_action": {
     "browser_style": false,
     "default_icon": {
-      "16": "icons/icon.svg"
+      "16": "icons/weel-translate.svg"
     },
     "default_title": "Weel Translate 2",
     "default_popup": "popup/index.html"
@@ -81,7 +82,11 @@
       "matches": ["<all_urls>"],
       "match_about_blank": true,
       "all_frames": true,
-      "js": ["content/app.js"],
+      "js": [
+        "manifest.js",
+        "vendor.js",
+        "content/app.js"
+      ],
       "css": ["content/app.css"],
       "run_at": "document_end"
     }

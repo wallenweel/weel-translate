@@ -42,7 +42,6 @@ export default class Weelx {
   }
 
   watch (target, callback, option = {}) {
-
   }
 
   static _proxy (state, watch) {

@@ -1,0 +1,86 @@
+{
+
+  "manifest_version": 2,
+  "name": "__MSG_EXTENSION_NAME__",
+  "short_name": "__MSG_EXTENSION_SHORT_NAME__",
+  "description": "__MSG_EXTENSION_DESCRIPTION__",
+  "version": "2.0.1",
+
+  "homepage_url": "https://github.com/wallenweel/weel-translation-vue",
+
+  "developer": {
+    "name": "Wallen Weel",
+    "url": "https://github.com/wallenweel/weel-translation-vue"
+  },
+
+  "applications": {
+    "gecko": {
+      "id": "weel-translate@mozilla.org",
+      "strict_min_version": "52.0"
+    }
+  },
+
+  "content_security_policy": "script-src 'self' 'unsafe-eval' https://cdn.bootcss.com; object-src 'self'",
+
+  "default_locale": "en",
+
+  "icons": {
+    "48": "icons/weel-translate.svg",
+    "96": "icons/weel-translate.svg"
+  },
+
+  "commands": {
+    "_execute_browser_action": {
+      "suggested_key": {
+        "default": "Alt+Shift+W"
+      }
+    }
+  },
+
+  "permissions": [
+    "webRequest",
+    "webRequestBlocking",
+    "<all_urls>",
+    "*://*/*",
+    "tabs",
+    "storage",
+    "contextMenus",
+    "clipboardRead",
+    "clipboardWrite"
+  ],
+
+  "web_accessible_resources": [
+    "icons/*",
+    "fonts/*"
+  ],
+
+  "background": {
+    "scripts": ["background.js"]
+  },
+
+  "browser_action": {
+    "browser_style": false,
+    "default_icon": {
+      "16": "icons/weel-translate.svg"
+    },
+    "default_title": "Weel Translate 2",
+    "default_popup": "popup/index.html"
+  },
+
+  "options_ui": {
+    "page": "options/index.html",
+    "open_in_tab": true,
+    "browser_style": false
+  },
+
+  "content_scripts": [
+    {
+      "matches": ["<all_urls>"],
+      "match_about_blank": true,
+      "all_frames": true,
+      "js": ["content/app.js"],
+      "css": ["content/app.css"],
+      "run_at": "document_end"
+    }
+  ]
+}

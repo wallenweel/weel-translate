@@ -11,10 +11,11 @@
     "test": "npm run unit",
     "lint": "eslint --ext .js,.vue src test/unit/specs",
     "dev:ext": "web-ext run -s=dist --start-url about:debugging#addons -p ./web-ext-profile --keep-profile-changes",
+    "dev:ext56": "web-ext run -s=dist --start-url about:debugging#addons -p ./web-ext-profile --keep-profile-changes --pre-install --firefox=C:/Applications/Firefox/App/Firefox/firefox.exe",
     "dev:watch": "npm run build:dev -- --watch",
-    "dev:server": "webpack-dev-server --inline --progress --config build/webpack.dev.conf.js",
+    "dev:server": "cross-env NODE_ENV=development webpack-dev-server --inline --progress --config build/webpack.dev.conf.js --content-base dist/",
     "build:ext": "web-ext build -s=dist",
-    "build:dev": "rimraf dist/ && webpack --progress --config build/webpack.dev.conf.js",
+    "build:dev": "rimraf dist/ && cross-env NODE_ENV=development webpack --progress --config build/webpack.dev.conf.js",
     "build:pro": "node build/build.js"
   },
   "dependencies": {

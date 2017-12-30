@@ -13,6 +13,15 @@ export const aid = (right, substitute = () => null) => {
   }
 }
 
+export const timehash = () => {
+  const hash = `${new Date().getTime()}`.split('')
+    .map(v => v.charCodeAt(0))
+    .reduce((a, v) => a + ((a << 7) + (a << 3)) ^ v)
+    .toString(16)
+
+  return hash.replace(/^-/, '')
+}
+
 /**
  * What is its type
  * @param {Any} thing something is need to get type

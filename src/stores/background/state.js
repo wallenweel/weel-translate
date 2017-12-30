@@ -139,13 +139,24 @@ __['templates'] = {
   },
   preset: {
     'default': `
+<parser>
+{
+  "google|google_cn": {
+    "phonetic_src": "sentences.$.src_translit",
+    "phonetic_dest": "sentences.$.translit",
+    "translation": "sentences(trans)",
+    "explain": "dict(pos////terms)"
+  }
+}
+</parser>
 <template>
+<div>
   <button class="weel-fab _active" weel-is-fab weel-on-selectionchange>
     <i class="weel-svg-icons -weel-translate -icon"></i>
   </button>
 
   <div class="weel-fap _active" weel-is-fap>
-    <div class="-phonetic">
+    <div class="-phonetic" v-if="phonetic_src">
       <button class="-js" weel-on-voice="src" weel-ripple>
         <i class="weel-svg-icons -volume-high -icon"></i>
       </button>
@@ -161,24 +172,36 @@ __['templates'] = {
       <button class="-js" weel-on-copy weel-ripple>
         <i class="weel-svg-icons -content-copy -icon"></i>
       </button>
-      {{translation?:test?:ha}}
+      {{translation}}
     </div>
     <div class="-explain">
       <pre>{{explain}}</pre>
     </div>
   </div>
+</div>
 </template>
-<script rel="parser">
-{
-  "google|google_cn": {
-    "phonetic_src": "sentences.$.src_translit",
-    "phonetic_dest": "sentences.$.translit",
-    "translation": "sentences(trans)",
-    "explain": "dict(pos////terms)"
+<script>
+({ el, template }) => ({
+  // el,
+  template,
+  data () {
+    return {
+      phonetic_src: 'aaa',
+      phonetic_dest: 'bbb',
+      translation: 'ccc',
+      explain: 'ddd'
+    }
   }
-}
+})
 </script>
-<style></style>
+<style scoped>
+[scoped] {
+  all: initial;
+}
+div {
+  display: block;
+}
+</style>
 `
   }
 }

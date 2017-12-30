@@ -27,10 +27,10 @@ export const loadTemplate = (template) => {
   }, [])
 
   // TODO: test code
-  targets[0].el.textContent = 'Cèshì'
-  targets[1].el.textContent = 'test'
-  targets[2].el.textContent = '测试测试测试'
-  targets[3].el.textContent = '名词\n["测试", "试验", "试", "实验", "考试", "考验", "测验"]'
+  // targets[0].el.textContent = 'Cèshì'
+  // targets[1].el.textContent = 'test'
+  // targets[2].el.textContent = '测试测试测试'
+  // targets[3].el.textContent = '名词\n["测试", "试验", "试", "实验", "考试", "考验", "测验"]'
 
   const rippleDoms = templateCont.querySelectorAll('[weel-ripple]')
   const rippleHolder = document.createElement('span')

@@ -1,6 +1,6 @@
 import merge from 'deepmerge'
 import store from '@/stores/background'
-import { runtime } from '@/globals'
+import { runtime, tabs } from '@/globals'
 import {
   INITIAL_STORAGE_FROM_DEFAULT,
   INITIAL_BACKGROUND_SCRIPT
@@ -33,6 +33,16 @@ try {
     // store.watch(state => state.settings.test, a => console.log(a))
     // store.dispatch('REQUEST_TRANSLATION', {})
     // console.log(store.state.templates['float-result-panel'])
+
+    // tabs.onUpdated.addListener(() => {
+    //   tabs.executeScript({
+    //     file: '/content/app.js',
+    //     allFrames: true,
+    //     matchAboutBlank: true,
+    //     runAt: 'document_idle'
+    //   })
+    // })
+    console.log(store.state.templates.compiled['default'].style)
   })
 
   // initialize everything

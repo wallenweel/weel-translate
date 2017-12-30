@@ -1,40 +1,64 @@
-import { floatAction } from '@/globals'
-import { parserDOMString } from '@/functions/utils'
+import { parserDOMString, istype, timehash } from '@/functions/utils'
 import parserHelper from '@/functions/parserHelper'
 
-export const compileTemplate = (dom) => {
-  const html = dom.querySelector('template')
+export const compileTemplate = (dom, { scoped }) => {
+  const template = dom.querySelector('template')
 
-  if (!html) return null
+  if (!template) return null
 
-  return html.outerHTML.replace(/\{\{(.+)\}\}/g, (pattern, key) => {
-    switch (true) {
-      case /\?:/.test(key): // if falsy else another
-        const [k1, ...spares] = key.split('?:')
-        return `<v weel-key="${k1}" weel-spares="${spares.join(',')}"></v>`
+  if (scoped) {
+    template.content.querySelector('*').setAttribute(`${scoped}`, '')
+  }
 
-      default:
-        const [k0] = key.split('\\')
-        return `<v weel-key="${k0}"></v>`
-    }
-  })
+  return template.innerHTML
+  // .outerHTML
+  // .replace(/\{\{(.+)\}\}/g, (pattern, key) => {
+  //   switch (true) {
+  //     case /\?:/.test(key): // if falsy else another
+  //       const [k1, ...spares] = key.split('?:')
+  //       return `<v weel-key="${k1}" weel-spares="${spares.join(',')}"></v>`
+
+  //     default:
+  //       const [k0] = key.split('\\')
+  //       return `<v weel-key="${k0}"></v>`
+  //   }
+  // })
 }
 
-export const compileStyle = (dom) => {
+export const compileScript = (dom) => {
+  const script = dom.querySelector('script')
+
+  if (!script) return null
+
+  return script.textContent
+}
+
+export const compileStyle = (dom, { prefix = 'data-' }) => {
   const style = dom.querySelector('style')
 
   if (!style) return null
 
+  let scoped = style.getAttribute('scoped')
+  if (!istype(scoped, 'null')) {
+    scoped = `${prefix}${scoped || timehash()}`
+  }
+
   const rules = Array.from(style.sheet.cssRules).reduce((a, r) => {
-    a.push(`[data-${floatAction.workspace.flag}] ${r.cssText}`)
-    return a
+    let cssText = r.cssText
+
+    if (scoped && /^\[scoped\]\s*/.test(cssText)) {
+      cssText = `[${scoped}]${cssText.replace(/^\[scoped\]/, '')}`
+    }
+
+    return a.push(cssText) && a
   }, []).join('\n')
 
-  return rules
+  return { rules, scoped }
 }
 
 export const compilePreser = (dom) => {
-  const parser = dom.querySelector('script[rel="parser"]')
+  // const parser = dom.querySelector('script[rel="parser"]')
+  const parser = dom.querySelector('parser')
 
   if (!parser) return null
 
@@ -56,11 +80,16 @@ export const compilePreser = (dom) => {
 export default (presets, __ = {}) => {
   for (const [id, preset] of Object.entries(presets)) {
     const presetDOM = parserDOMString(preset)
+    const parser = compilePreser(presetDOM)
+    const { rules, scoped } = compileStyle(presetDOM, { prefix: 'data-wt-' })
+    const script = compileScript(presetDOM)
+    const template = compileTemplate(presetDOM, { scoped })
 
     __[id] = {
-      template: compileTemplate(presetDOM),
-      style: compileStyle(presetDOM),
-      parser: compilePreser(presetDOM)
+      parser,
+      template,
+      script,
+      style: rules
     }
   }
 

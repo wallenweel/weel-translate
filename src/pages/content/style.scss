@@ -61,32 +61,70 @@ $mdi-icons: 'content-copy', 'volume-high', 'google-translate', $extension-name;
     }
   }
 
-  [weel-is-fab],
-  [weel-is-fap] {
+  .bounce-enter-active {
+    animation: bounce-in .45s;
+  }
+  .bounce-leave-active {
+    animation: bounce-in .25s reverse;
+  }
+  @keyframes bounce-in {
+    0% {
+      transform: scale3d(0, 0, 1);
+    }
+    50% {
+      transform: scale3d(1.125, 1.125, 1);
+    }
+    100% {
+      transform: scale3d(1, 1, 1);
+    }
+  }
+
+  .fade-enter-active {
+    animation: fade-in .25s;
+  }
+  .fade-leave-active {
+    animation: fade-in .45s reverse;
+  }
+  @keyframes fade-in {
+    0% {
+      opacity: 0;
+      transform: translate3d(0, -20px, 0);
+    }
+    60% {
+      transform: translate3d(0, 10px, 0);
+    }
+    100% {
+      opacity: 1;
+      transform: translate3d(0, 0, 0);      
+    }
+  }
+
+  .weel-fab,
+  .weel-fap {
     position: fixed;
     top: 0;
     left: 0;
     z-index: 9;
   }
   
-  .weel-fab,
-  .weel-fap {
-    opacity: 0;
-    visibility: hidden;
-    transition: opacity .25s ease, visibility .25s ease, transform .125s ease-in;
-    transform: translate3d(0, 0, 0);
+  // .weel-fab,
+  // .weel-fap {
+  //   // opacity: 0;
+  //   // visibility: hidden;
+  //   transition: opacity .25s ease, visibility .25s ease, transform .125s ease-in;
+  //   transform: translate3d(0, 0, 0);
     
-    &._active {
-      opacity: 1;
-      visibility: visible;
-    }    
-  }
+  //   &._active {
+  //     opacity: 1;
+  //     visibility: visible;
+  //   }
+  // }
   
-  .weel-fab {
+  .weel-fab > button {
     $sz: 32px;
 
     box-shadow: 0 1px 2px rgba(58, 69, 77, 0.623);
-    background: #f5f5f5;
+    background: white;
     height: $sz;
     width: $sz;
     color: $color-primary;
@@ -100,23 +138,23 @@ $mdi-icons: 'content-copy', 'volume-high', 'google-translate', $extension-name;
       font-size: 22px;
     }
 
-    &._active {
-      transition: all .25s;
-      opacity: .8;
-      
-      &:hover {
-        cursor: pointer;
-        opacity: 1;
-        box-shadow: 0 2px 5px rgba(58, 69, 77, 0.623);
-      }
-      &:active {
-        color: $color-secondary;
-        box-shadow: 0 2px 3px rgba(58, 69, 77, 0.623);
-      }
+    transition: all .25s;
+    opacity: .86;
+    
+    &:hover {
+      cursor: pointer;
+      opacity: 1;
+      box-shadow: 0 2px 5px rgba(58, 69, 77, 0.623);
+    }
+    &[data-mousedown] {
+      transition: all .125s ease-in;        
+      color: $color-secondary;
+      box-shadow: 0 2px 3px rgba(58, 69, 77, 0.623);
+      background: #f5f5f5;
     }
   }
 
-  .weel-fap {
+  .weel-fap > div {
     box-shadow: 0 2px 5px rgba(58, 69, 77, 0.423),
                 0 0px 2px 2px rgba(58, 69, 77, 0.23);
     
@@ -126,32 +164,34 @@ $mdi-icons: 'content-copy', 'volume-high', 'google-translate', $extension-name;
     min-width: 280px;
     max-width: 320px;
     padding: 16px;
-    margin: 16px;
+    // margin: 16px;
     position: relative;
 
-    &::before,
-    &::after {
-      content: "";
-      height: 0px;
-      width: 2px;
-      box-sizing: content-box;
-      border: 10px transparent solid;
-      border-bottom-color: white;
-      left: 50%;
-      position: absolute;
-      display: block;
-    }
-    
-    &::before {
-      filter: drop-shadow(0 0px 2px rgba(58, 69, 77, 0.723));
-      margin-left: -12px;
-      top: -20px;
-      z-index: -1;
-    }
-    &::after {
-      width: 10px;
-      margin-left: -16px;
-      top: -16px;
+    &.--arrow {
+      &::before,
+      &::after {
+        content: "";
+        height: 0px;
+        width: 2px;
+        box-sizing: content-box;
+        border: 10px transparent solid;
+        border-bottom-color: white;
+        left: 50%;
+        position: absolute;
+        display: block;
+      }
+      
+      &::before {
+        filter: drop-shadow(0 0px 2px rgba(58, 69, 77, 0.723));
+        margin-left: -12px;
+        top: -20px;
+        z-index: -1;
+      }
+      &::after {
+        width: 10px;
+        margin-left: -16px;
+        top: -16px;
+      }
     }
 
     > .-phonetic,
@@ -176,11 +216,12 @@ $mdi-icons: 'content-copy', 'volume-high', 'google-translate', $extension-name;
           cursor: pointer;
           color: $color-primary;
         }
-        &:active {
+
+        &[data-mousedown] {
           color: $color-secondary;
         }
 
-        &[weel-on-copy] {
+        &-js.-copy {
           align-self: flex-start;
         }
       }

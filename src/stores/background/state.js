@@ -153,48 +153,53 @@ __['templates'] = {
 </parser>
 <template>
 <div>
-  <button class="weel-fab _active" weel-is-fab weel-on-selectionchange>
-    <i class="weel-svg-icons -weel-translate -icon"></i>
-  </button>
-
-  <div class="weel-fap _active" weel-is-fap>
-    <div class="-phonetic" v-if="phonetic_src">
-      <button class="-js" weel-on-voice="src" weel-ripple>
-        <i class="weel-svg-icons -volume-high -icon"></i>
+  <div class="weel-fab" ref="fab"
+    @click.stop.prevent="handleFAB"
+    @mouseup.prevent.stop="ev => ev.target.removeAttribute('data-mousedown')"
+    @mousedown.prevent.stop="ev => ev.target.setAttribute('data-mousedown', true)"
+  >
+    <transition name="bounce">
+      <button v-show="fabShow">
+        <i class="weel-svg-icons -weel-translate -icon"></i>
       </button>
-      {{phonetic_src}}      
-    </div>
-    <div class="-phonetic">
-      <button class="-js" weel-on-voice="dest" weel-ripple>
-        <i class="weel-svg-icons -volume-high -icon"></i>
-      </button>
-      {{phonetic_dest}}
-    </div>
-    <div class="-translation">
-      <button class="-js" weel-on-copy weel-ripple>
-        <i class="weel-svg-icons -content-copy -icon"></i>
-      </button>
-      {{translation}}
-    </div>
-    <div class="-explain">
-      <pre>{{explain}}</pre>
-    </div>
+    </transition>
+  </div>
+  
+  <div class="weel-fap" ref="fap"
+    @mouseup.prevent.stop="ev => ev.target.removeAttribute('data-mousedown')"
+    @mousedown.prevent.stop="ev => ev.target.setAttribute('data-mousedown', true)"
+  >
+    <transition name="fade">
+      <div v-show="fapShow">
+        <div class="-phonetic">
+          <button class="-js">
+            <i class="weel-svg-icons -volume-high -icon"></i>
+          </button>
+          {{result.phonetic_src}}      
+        </div>
+        <div class="-phonetic">
+          <button class="-js">
+            <i class="weel-svg-icons -volume-high -icon"></i>
+          </button>
+          {{result.phonetic_dest}}
+        </div>
+        <div class="-translation">
+          <button class="-js -copy">
+            <i class="weel-svg-icons -content-copy -icon"></i>
+          </button>
+          {{result.translation}}
+        </div>
+        <div class="-explain">
+          <pre>{{result.explain}}</pre>
+        </div>
+      </div>
+    </transition>
   </div>
 </div>
 </template>
 <script>
-() => ({
-  data () {
-    return {
-      phonetic_src: 't',
-      phonetic_dest: 'bbb',
-      translation: 'ccc',
-      explain: 'ddd'
-    }
-  },
-  created () {
-    console.log(window.document)
-  }
+({ mapState }) => ({
+  
 })
 </script>
 <style scoped="data-weel-translate"></style>

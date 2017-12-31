@@ -1,10 +1,10 @@
 import { sendMessage } from '@/functions/runtime'
-import { adaptation, floatAction } from '@/globals'
+import { adaptation } from '@/globals'
 import {
   INITIAL_FROM_BACKGROUND
 } from '@/types'
 
-import store from './store'
+import store from '@/stores/content'
 // import scriptLoader from './scriptLoader'
 
 import './style.scss'
@@ -42,40 +42,22 @@ import Vue from 'vue'
 store.dispatch(INITIAL_FROM_BACKGROUND)
 .then(success => {
   if (!success) {
-    console.log('Initialize failed.')
     return false
   }
 
-  const { template, script, style } = store.state.templates.compiled['default']
-  console.log(style)
+  const { templates, current_template_id } = store.state
+  const { template, script } = templates.compiled[current_template_id]
 
   // float action container
-  const container = document.createElement(floatAction.workspace.tag)
+  const root = document.createElement('div')
 
-  container.setAttribute(`data-${floatAction.workspace.flag}`, true)
-  document.body.appendChild(container)
+  document.body.appendChild(root)
 
   /* eslint-disable no-eval */
   const options = (eval(script.replace('export default ', 'const a ='))({ el: '#app', template }))
   // console.log(options())
   // scriptLoader()
 
-  // options.template = `<div>${template}</div>`
-
   /* eslint-disable no-new */
-  new Vue(options).$mount(container)
-  // new Vue({
-  //   // el: document.querySelector('[data-weel-translate--scoped]'),
-  //   el: '#app',
-  //   template: `<div>${template}</div>`,
-  //   data () {
-  //     return {
-  //       phonetic_src: 'aaa',
-  //       phonetic_dest: 'bbb',
-  //       translation: 'ccc',
-  //       explain: 'ddd'
-  //     }
-  //   }
-  // })
-  // console.log(Vue.compile())
+  new Vue(options).$mount(root)
 })

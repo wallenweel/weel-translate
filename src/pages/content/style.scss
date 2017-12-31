@@ -5,7 +5,7 @@ $mdi-icons: 'content-copy', 'volume-high', 'google-translate', $extension-name;
   @return #{$sz / $svg-icon-base}em;
 }
 
-[data-weel-translate--scoped] {
+[data-weel-translate] {
   &, * {
     all: initial;
     box-sizing: border-box;

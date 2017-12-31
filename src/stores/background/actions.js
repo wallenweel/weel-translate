@@ -1,5 +1,5 @@
 import merge from 'deepmerge'
-import { storage } from '@/globals'
+import { storage, tabs } from '@/globals'
 import {
   INITIAL_STORAGE_FROM_DEFAULT,
   INITIAL_BACKGROUND_SCRIPT,
@@ -8,7 +8,8 @@ import {
   UPDATE_STORAGE_STATE,
   REQUEST_TRANSLATION,
   REQUEST_VOICE,
-  RESET_LOCAL_STORAGE
+  RESET_LOCAL_STORAGE,
+  TAB_LOADED_COMPLETE
 } from '@/types'
 import originalState from './state'
 
@@ -154,6 +155,18 @@ __[RESET_LOCAL_STORAGE] = async ({ state, dispatch }, { emit }) => {
     },
     () => emit(false)
   )
+}
+
+__[TAB_LOADED_COMPLETE] = ({ state, commit }, { emit }) => {
+  const { templates, current_template_id } = state
+  const style = templates.compiled[current_template_id].style
+
+  tabs.insertCSS({
+    code: style,
+    allFrames: true,
+    matchAboutBlank: true,
+    runAt: 'document_idle'
+  })
 }
 
 export default __

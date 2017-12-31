@@ -34,15 +34,16 @@ try {
     // store.dispatch('REQUEST_TRANSLATION', {})
     // console.log(store.state.templates['float-result-panel'])
 
-    // tabs.onUpdated.addListener(() => {
+    tabs.onUpdated.addListener((id, { status }, tab) => {
+      if (status === 'complete') {
+      }
     //   tabs.executeScript({
     //     file: '/content/app.js',
     //     allFrames: true,
     //     matchAboutBlank: true,
     //     runAt: 'document_idle'
     //   })
-    // })
-    console.log(store.state.templates.compiled['default'].style)
+    })
   })
 
   // initialize everything

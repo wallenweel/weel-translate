@@ -10,19 +10,23 @@ export const compileTemplate = (dom, { scoped }) => {
     template.content.querySelector('*').setAttribute(`${scoped}`, '')
   }
 
-  return template.innerHTML
-  // .outerHTML
-  // .replace(/\{\{(.+)\}\}/g, (pattern, key) => {
-  //   switch (true) {
-  //     case /\?:/.test(key): // if falsy else another
-  //       const [k1, ...spares] = key.split('?:')
-  //       return `<v weel-key="${k1}" weel-spares="${spares.join(',')}"></v>`
+  const type = template.getAttribute('type')
 
-  //     default:
-  //       const [k0] = key.split('\\')
-  //       return `<v weel-key="${k0}"></v>`
-  //   }
-  // })
+  if (istype(type, 'null') || type === 'vue') {
+    return template.innerHTML
+  }
+
+  return template.outerHTML.replace(/\{\{(.+)\}\}/g, (pattern, key) => {
+    switch (true) {
+      case /\?:/.test(key): // if falsy else another
+        const [k1, ...spares] = key.split('?:')
+        return `<v weel-key="${k1}" weel-spares="${spares.join(',')}"></v>`
+
+      default:
+        const [k0] = key.split('\\')
+        return `<v weel-key="${k0}"></v>`
+    }
+  })
 }
 
 export const compileScript = (dom) => {
@@ -33,14 +37,14 @@ export const compileScript = (dom) => {
   return script.textContent
 }
 
-export const compileStyle = (dom, { prefix = 'data-' }) => {
+export const compileStyle = (dom) => {
   const style = dom.querySelector('style')
 
-  if (!style) return null
+  if (!style) return { rules: '', scoped: '' }
 
   let scoped = style.getAttribute('scoped')
   if (!istype(scoped, 'null')) {
-    scoped = `${prefix}${scoped || timehash()}`
+    scoped = scoped || `data-${timehash()}`
   }
 
   const rules = Array.from(style.sheet.cssRules).reduce((a, r) => {
@@ -57,7 +61,6 @@ export const compileStyle = (dom, { prefix = 'data-' }) => {
 }
 
 export const compilePreser = (dom) => {
-  // const parser = dom.querySelector('script[rel="parser"]')
   const parser = dom.querySelector('parser')
 
   if (!parser) return null
@@ -81,11 +84,12 @@ export default (presets, __ = {}) => {
   for (const [id, preset] of Object.entries(presets)) {
     const presetDOM = parserDOMString(preset)
     const parser = compilePreser(presetDOM)
-    const { rules, scoped } = compileStyle(presetDOM, { prefix: 'data-wt-' })
+    const { rules, scoped } = compileStyle(presetDOM)
     const script = compileScript(presetDOM)
     const template = compileTemplate(presetDOM, { scoped })
 
     __[id] = {
+      scoped,
       parser,
       template,
       script,

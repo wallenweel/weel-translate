@@ -17,6 +17,7 @@ __['storage'] = {
     'sources.preset',
     'templates.preset',
     'current_service_id',
+    'current_template_id',
     'src_dest',
     'input_text',
     'result'
@@ -30,6 +31,7 @@ __['storage'] = {
 
 __['keep_all'] = false
 __['current_service_id'] = ''
+__['current_template_id'] = 'default'
 __['src_dest'] = ['', '']
 __['input_text'] = ''
 __['result'] = {}
@@ -194,12 +196,15 @@ __['templates'] = {
   }
 })
 </script>
-<style scoped>
+<style scoped="data-weel-translate">
 [scoped] {
   all: initial;
 }
+body {
+  background: red;
+}
 div {
-  display: block;
+  display: none;
 }
 </style>
 `

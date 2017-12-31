@@ -1,3 +1,8 @@
+/**
+ * this loader is plan to build a common template standard for render
+ * result panel within content and popup script.
+ * at the moment, give up it but use Vue "template" compile.
+ */
 import { floatAction } from '@/globals'
 import { parserDOMString } from '@/functions/utils'
 import store from './store'

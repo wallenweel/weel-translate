@@ -10,6 +10,8 @@ export const state = {
   test: false,
 
   selectionRect: {},
+  selectionText: '',
+  result: {},
 
   // container: null, // container element of float action
   // targets: [], // contains all <v> tag's details

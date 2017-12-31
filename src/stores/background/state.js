@@ -44,12 +44,11 @@ __['translation_collection'] = []
 __['api'] = {}
 
 __['settings'] = {
-  foo: false,
-  test: false
+  use_fab: true,
+  use_fap: true
 }
 
 __['preferences'] = {
-  test: false,
   dark: false
 }
 
@@ -153,7 +152,7 @@ __['templates'] = {
 </parser>
 <template>
 <div>
-  <div class="weel-fab" ref="fab"
+  <div class="weel-fab" ref="fab" v-if="useFAB"
     @click.stop.prevent="handleFAB"
     @mouseup.prevent.stop="ev => ev.target.removeAttribute('data-mousedown')"
     @mousedown.prevent.stop="ev => ev.target.setAttribute('data-mousedown', true)"
@@ -165,7 +164,7 @@ __['templates'] = {
     </transition>
   </div>
   
-  <div class="weel-fap" ref="fap"
+  <div class="weel-fap" ref="fap" v-if="useFAP"
     @mouseup.prevent.stop="ev => ev.target.removeAttribute('data-mousedown')"
     @mousedown.prevent.stop="ev => ev.target.setAttribute('data-mousedown', true)"
   >
@@ -175,22 +174,22 @@ __['templates'] = {
           <button class="-js">
             <i class="weel-svg-icons -volume-high -icon"></i>
           </button>
-          {{result.phonetic_src}}      
+          {{getResult.phonetic_src}}      
         </div>
         <div class="-phonetic">
           <button class="-js">
             <i class="weel-svg-icons -volume-high -icon"></i>
           </button>
-          {{result.phonetic_dest}}
+          {{getResult.phonetic_dest}}
         </div>
         <div class="-translation">
           <button class="-js -copy">
             <i class="weel-svg-icons -content-copy -icon"></i>
           </button>
-          {{result.translation}}
+          {{getResult.translation}}
         </div>
         <div class="-explain">
-          <pre>{{result.explain}}</pre>
+          <pre>{{getResult.explain}}</pre>
         </div>
       </div>
     </transition>

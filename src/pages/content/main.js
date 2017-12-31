@@ -1,5 +1,5 @@
 import { sendMessage } from '@/functions/runtime'
-import { adaptation } from '@/globals'
+import { adaptation, env } from '@/globals'
 import {
   INITIAL_FROM_BACKGROUND
 } from '@/types'
@@ -12,7 +12,9 @@ import Vue from 'vue'
 
 // TODO: remember comment here, due to "web-ext" is
 // not working fine for reloading tab page in development
-;((w, d, t) => d.body.getAttribute(t) === 'running' ? setTimeout(() => w.location.reload(), 150) : d.body.setAttribute(t, 'running'))(window, document, 'weel-translate')
+if (env.development) {
+  ;((w, d, t) => d.body.hasAttribute(t) ? setTimeout(() => w.location.reload(), 150) : d.body.setAttribute(t, ''))(window, document, 'weel-translate-dev')
+}
 
 // for the development, implement extension run in normal
 // page script but can get data from background script.
@@ -49,15 +51,15 @@ store.dispatch(INITIAL_FROM_BACKGROUND)
   const { template, script } = templates.compiled[current_template_id]
 
   // float action container
-  const root = document.createElement('div')
+  const rootDom = document.createElement('div')
 
-  document.body.appendChild(root)
+  document.body.appendChild(rootDom)
+
+  const defaultOptions = { el: rootDom, template, store }
 
   /* eslint-disable no-eval */
-  const options = (eval(script.replace('export default ', 'const a ='))({ el: '#app', template }))
-  // console.log(options())
-  // scriptLoader()
+  const options = Object.assign(defaultOptions, eval(script)())
 
   /* eslint-disable no-new */
-  new Vue(options).$mount(root)
+  new Vue(options).$mount(rootDom)
 })

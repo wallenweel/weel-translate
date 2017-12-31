@@ -76,11 +76,12 @@
   "content_scripts": [
     {
       "matches": ["<all_urls>"],
+      "exclude_matches": ["*://addons.mozilla.org/*"],
       "match_about_blank": true,
       "all_frames": true,
       "js": ["content/app.js"],
       "css": ["content/app.css"],
-      "run_at": "document_end"
+      "run_at": "document_idle"
     }
   ]
 }

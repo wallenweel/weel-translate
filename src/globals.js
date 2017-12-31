@@ -15,6 +15,13 @@ try {
   )
 }
 
+export const env = {
+  development: true,
+  get production () {
+    return !this.development
+  }
+}
+
 // if app is not running in the extension,
 // these below variables will be undefined
 export const {

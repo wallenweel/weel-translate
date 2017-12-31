@@ -183,30 +183,21 @@ __['templates'] = {
 </div>
 </template>
 <script>
-({ el, template }) => ({
-  // el,
-  template,
+() => ({
   data () {
     return {
-      phonetic_src: 'aaa',
+      phonetic_src: 't',
       phonetic_dest: 'bbb',
       translation: 'ccc',
       explain: 'ddd'
     }
+  },
+  created () {
+    console.log(window.document)
   }
 })
 </script>
-<style scoped="data-weel-translate">
-[scoped] {
-  all: initial;
-}
-body {
-  background: red;
-}
-div {
-  display: none;
-}
-</style>
+<style scoped="data-weel-translate"></style>
 `
   }
 }

@@ -1,4 +1,5 @@
 import merge from 'deepmerge'
+import { jpjs } from '@/functions/utils'
 import { sendMessage } from '@/functions/runtime'
 import {
   INITIAL_FROM_BACKGROUND,
@@ -51,8 +52,8 @@ __[INITIAL_FROM_BACKGROUND] = ({ state, commit }) => {
       state = Object.assign(state, { result, input_text })
     }
 
-    state.tmp.history = merge([], translation_history)
-    state.tmp.collection = merge([], translation_collection)
+    state.tmp.history = jpjs(translation_history)
+    state.tmp.collection = jpjs(translation_collection)
 
     commit('currentServiceSource', api[current_service_id])
 
@@ -98,7 +99,7 @@ __[REQUEST_TRANSLATION] = ({ state }, { q, from, to }) => {
     state.result = result
 
     // increase translating history
-    state.translation_history = tmp.history
+    state.translation_history = jpjs(tmp.history)
 
     // reset result star status
     state.currentCollected = false

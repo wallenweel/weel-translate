@@ -1,7 +1,8 @@
 import { sendMessage } from '@/functions/runtime'
-import { adaptation, env } from '@/globals'
+import { env } from '@/globals'
 import {
-  INITIAL_FROM_BACKGROUND
+  INITIAL_FROM_BACKGROUND,
+  SIMULATE_SEND_MESSAGE
 } from '@/types'
 
 import store from '@/stores/content'
@@ -20,30 +21,38 @@ if (env.development) {
 // page script but can get data from background script.
 // @see popup: http://localhost:3030/dist/popup/#/home/translation
 ;(() => {
-  if (!document.body.getAttribute(adaptation.flag)) return null
+  if (!env.development) return null
 
-  const [input, output] = [
-    document.querySelector(`${adaptation.i.tag}.${adaptation.i.flag}`),
-    document.querySelector(`${adaptation.o.tag}.${adaptation.o.flag}`)
-  ]
+  const { message } = window.wrappedJSObject.browser
 
-  // request data for page script
-  const handleInput = () => sendMessage(JSON.parse(input.value))
-  .then(state => {
-    output.value = JSON.stringify(state)
-    output[adaptation.o.event]()
+  sendMessage(message).then(state => {
+    window.postMessage({
+      type: SIMULATE_SEND_MESSAGE,
+      from: 'content_script',
+      payload: state
+    }, '*')
   })
 
-  handleInput() // immediately sendMessage for the first communication
+  window.addEventListener('message', ({ data }) => {
+    const { type, from } = data
+    const { message } = window.wrappedJSObject.browser
 
-  // add message coming listener
-  input.addEventListener(adaptation.i.event, handleInput, false)
+    if (type === SIMULATE_SEND_MESSAGE && from === 'page_script') {
+      sendMessage(message).then(state => {
+        window.postMessage({
+          type: SIMULATE_SEND_MESSAGE,
+          from: 'content_script',
+          payload: state
+        }, '*')
+      })
+    }
+  }, false)
 })()
 
 // initial content script
 store.dispatch(INITIAL_FROM_BACKGROUND)
 .then(success => {
-  if (!success) {
+  if (success) {
     return false
   }
 

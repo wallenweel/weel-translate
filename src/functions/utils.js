@@ -13,6 +13,10 @@ export const aid = (right, substitute = () => null) => {
   }
 }
 
+// clone a simple object, mainly to avoid vuex
+// state occur reference issues
+export const jpjs = (target) => JSON.parse(JSON.stringify(target))
+
 export const timehash = () => {
   const hash = `${new Date().getTime()}`.split('')
     .map(v => v.charCodeAt(0))

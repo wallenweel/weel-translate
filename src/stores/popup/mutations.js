@@ -1,3 +1,5 @@
+import { jpjs } from '@/functions/utils'
+
 export const globalTip = (state, [open, msg]) => {
   state.globalTip = [open, msg]
 }
@@ -29,11 +31,12 @@ export const languageChanges = (state, langs) => {
 
 export const removeHistory = (state, index) => {
   state.tmp.history.splice(index, 1)
-  state.translation_history = state.tmp.history
+  state.translation_history = jpjs(state.tmp.history)
 }
 
 export const clearHistory = (state) => {
-  state.translation_history = state.tmp.history = []
+  state.tmp.history = []
+  state.translation_history = jpjs(state.tmp.history)
 }
 
 export const addCollection = (state, { q, from, to, name, id, result: { translation } }) => {

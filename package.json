@@ -20,6 +20,7 @@
   },
   "dependencies": {
     "deepmerge": "^2.0.1",
+    "js-md5": "^0.7.3",
     "material-design-icons": "^3.0.1",
     "normalize.css": "^7.0.0",
     "vue": "^2.5.2",

@@ -1,4 +1,5 @@
 import Vue from 'vue'
+import WebExtUtils from '@/plugins/WebExtUtils'
 import { mapState, mapMutations, mapActions } from 'vuex'
 import { sendMessage } from '@/functions/runtime'
 import { env } from '@/globals'
@@ -11,6 +12,8 @@ import store from '@/stores/content'
 import defaultOptions from './defaultOptions'
 
 import './style.scss'
+
+Vue.use(WebExtUtils)
 
 // TODO: remember comment here, due to "web-ext" is
 // not working fine for reloading tab page in development

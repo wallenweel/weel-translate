@@ -1,5 +1,6 @@
 import merge from 'deepmerge'
 import { storage, tabs } from '@/globals'
+import { istype } from '@/functions/utils'
 import {
   INITIAL_STORAGE_FROM_DEFAULT,
   INITIAL_BACKGROUND_SCRIPT,
@@ -113,18 +114,32 @@ __[UPDATE_STORAGE_STATE] = async (
 // TODO: complete this
 __[REQUEST_TRANSLATION] = async (
   { state: { api, current_service_id } },
-  { emit = () => {}, payload = { q: 'hello', from: 'en', to: 'zh-cn' } }
+  { emit = () => {}, payload = { q: 'hello\ntest', from: 'AUTO', to: 'AUTO' } }
 ) => {
-  const { query, parser } = api[current_service_id]
+  // const { query, parser } = api[current_service_id]
+  const { query, parser, response = {} } = api['youdao']
+  const queryText = query.text(payload)
 
-  await fetch(query.text(payload), { mode: 'no-cors' })
+  let [url, request] = [queryText, { mode: 'no-cors' }]
+  if (istype(queryText, 'array')) {
+    url = queryText[0]
+    request = Object.assign(request, queryText[1])
+    // console.log(url, decodeURI(request.body.toString()))
+  }
+
+  const data = JSON.parse(`{"type":"EN2ZH_CN","errorCode":0,"elapsedTime":1,"translateResult":[[{"src":"hello","tgt":"你好"}],[{"src":"test","tgt":"测试"}]]}`)
+  console.log(parser(data))
+
+  if (parser !== 'test') return
+
+  await fetch(url, request)
   .then(res => {
-    return res.json()
+    return res[response.type || 'json']()
   })
   .then(data => {
-    // console.log(data)
-    // console.log(parser(data))
-    emit(parser(data))
+    console.log(data)
+    console.log(parser(data))
+    // emit(parser(data))
   })
 }
 

@@ -2,7 +2,8 @@ import { sendMessage } from '@/functions/runtime'
 import {
   INITIAL_FROM_BACKGROUND,
   TAB_LOADED_COMPLETE,
-  REQUEST_TRANSLATION
+  REQUEST_TRANSLATION,
+  REQUEST_VOICE
 } from '@/types'
 
 const __ = {}
@@ -15,6 +16,7 @@ __[INITIAL_FROM_BACKGROUND] = ({ state, dispatch }) => {
     preferences,
     settings,
     src_dest,
+    current_service_id,
     current_template_id
   }) => {
     state = Object.assign(state, {
@@ -23,6 +25,7 @@ __[INITIAL_FROM_BACKGROUND] = ({ state, dispatch }) => {
       preferences,
       settings,
       src_dest,
+      current_service_id,
       current_template_id
     })
 
@@ -45,6 +48,16 @@ __[REQUEST_TRANSLATION] = (
     type: REQUEST_TRANSLATION
   }).then(result => {
     return (state.result = result)
+  })
+}
+
+__[REQUEST_VOICE] = ({ state }, { q, from }) => {
+  console.log(q, state.current_service_id)
+  sendMessage({
+    payload: { q, from, id: state.current_service_id },
+    type: REQUEST_VOICE
+  }).then(s => {
+    console.log(s)
   })
 }
 

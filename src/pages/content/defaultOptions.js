@@ -1,6 +1,8 @@
 import { mapState } from 'vuex'
+import { istype } from '@/functions/utils'
 import {
-  REQUEST_TRANSLATION
+  REQUEST_TRANSLATION,
+  REQUEST_VOICE
 } from '@/types'
 
 export default ({ el, store, template }) => ({
@@ -59,15 +61,15 @@ export default ({ el, store, template }) => ({
     }, false)
   },
   computed: {
-    ...mapState(['result', 'selectionRect', 'settings']),
+    ...mapState(['result', 'selectionRect', 'settings', 'src_dest']),
     getResult () {
       const { phonetic_src, phonetic_dest, translation, explain } = this.result
 
       return {
         phonetic_src,
         phonetic_dest,
-        translation: translation && translation.join(''),
-        explain: explain && explain.join('\n')
+        translation: istype(translation, 'array') ? translation.join('') : translation,
+        explain: istype(explain, 'array') ? explain.join('\n') : explain
       }
     },
     useFAB () { return this.settings.use_fab },
@@ -76,9 +78,14 @@ export default ({ el, store, template }) => ({
   methods: {
     handleFAB () {
       this.$store.dispatch(REQUEST_TRANSLATION, { q: this.selectedText })
-      .then(r => {
-        console.log(r)
-      })
+    },
+    handleVoice (from) {
+      const code = {
+        src: this.src_dest[0],
+        dest: this.src_dest[1]
+      }[from]
+
+      this.$store.dispatch(REQUEST_VOICE, { q: this.selectedText, code })
     },
     fabPosition () {
       const { innerWidth, innerHeight } = window
@@ -118,8 +125,7 @@ export default ({ el, store, template }) => ({
     }
   },
   watch: {
-    result (res) {
-      console.log(res)
+    result () {
       this.fapShow = true
       this.$nextTick(() => this.fapPosition())
       this.fabShow = false

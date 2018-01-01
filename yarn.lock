@@ -4348,6 +4348,10 @@ js-base64@^2.1.8, js-base64@^2.1.9:
   version "2.4.0"
   resolved "http://registry.npm.taobao.org/js-base64/download/js-base64-2.4.0.tgz#9e566fee624751a1d720c966cd6226d29d4025aa"
 
+js-md5@^0.7.3:
+  version "0.7.3"
+  resolved "http://registry.npm.taobao.org/js-md5/download/js-md5-0.7.3.tgz#b4f2fbb0b327455f598d6727e38ec272cd09c3f2"
+
 js-select@~0.6.0:
   version "0.6.0"
   resolved "http://registry.npm.taobao.org/js-select/download/js-select-0.6.0.tgz#c284e22824d5927aec962dcdf247174aefb0d190"

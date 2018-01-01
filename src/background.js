@@ -1,6 +1,6 @@
 import merge from 'deepmerge'
 import store from '@/stores/background'
-import { runtime, i18n } from '@/globals'
+import { runtime } from '@/globals'
 import {
   INITIAL_STORAGE_FROM_DEFAULT,
   INITIAL_BACKGROUND_SCRIPT
@@ -14,10 +14,6 @@ try {
         break
 
       case 'update':
-        // store.dispatch(INITIAL_STORAGE_FROM_DEFAULT)
-        // window.browser.storage.local.get().then(all => {
-        //   console.log(all)
-        // })
         break
 
       default:
@@ -31,8 +27,7 @@ try {
 
     // do something after all initial successfully
     // store.watch(state => state.settings.test, a => console.log(a))
-    store.dispatch('REQUEST_TRANSLATION', {})
-    // console.log(store.state.templates['float-result-panel'])
+    // store.dispatch('REQUEST_TRANSLATION', {})
   })
 
   // initialize everything

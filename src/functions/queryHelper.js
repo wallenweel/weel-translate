@@ -10,7 +10,7 @@ export default ({
   for (const [ type, data ] of Object.entries(query)) {
     const searchParams = new URLSearchParams()
 
-    let { url, method = 'GET', params } = data
+    let { url, method = 'GET', params, header = {} } = data
 
     method = method.toUpperCase()
     url = !url ? host : url.replace('{{host}}', host)
@@ -40,9 +40,7 @@ export default ({
         return [url, {
           method,
           body: new URLSearchParams(replaceHelper(search, arg)),
-          header: {
-            'Content-Type': 'application/x-www-form-urlencoded; charset=UTF-8'
-          }
+          header
         }]
       }
     }

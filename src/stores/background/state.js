@@ -57,6 +57,7 @@ __['preferences'] = {
 }
 
 __['sources'] = {
+  visible: ['google_cn', 'google', 'youdao'],
   compiled: {},
   preset: {
     'google_cn': JSON.stringify(apiGoogleCN),

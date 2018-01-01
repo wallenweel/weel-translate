@@ -41,6 +41,8 @@
     "explain": "dict(pos////terms)"
   },
 
+  "fromto" : ["en", "zh-cn"],
+
   "include": ["auto", "en", "iw"],
 
   "languages": [{

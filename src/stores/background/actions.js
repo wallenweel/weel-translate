@@ -1,5 +1,5 @@
 import merge from 'deepmerge'
-import { storage, tabs } from '@/globals'
+import { storage, tabs, env } from '@/globals'
 import { istype } from '@/functions/utils'
 import {
   INITIAL_STORAGE_FROM_DEFAULT,
@@ -45,7 +45,7 @@ __[INITIAL_BACKGROUND_SCRIPT] = async ({ state, commit, dispatch }, skipMerge = 
     for (const type of Object.keys(state.storage)) {
       await storage[type].get().then(all => {
         // merge sync storage to state
-        // commit('mergeStorageState', all)
+        if (env.production) commit('mergeStorageState', all)
 
         state.initialized = true
       }, () => { state.initialized = false })
@@ -61,16 +61,27 @@ __[INITIAL_BACKGROUND_SCRIPT] = async ({ state, commit, dispatch }, skipMerge = 
     // `preset` to { parser, template, style }
     commit('compileTemplatesPreset')
 
-    // TODO: should make api to current api, not "apis"
-    state.api = state.sources.compiled
+    state.api = state.sources.visible
+    .reduce((o, id) => {
+      o[id] = state.sources.compiled[id]
+      return o
+    }, {})
 
     const [id, ids] = [
       state['current_service_id'],
-      Object.keys(state.api)
+      state.sources.visible
     ]
 
-    if (!id || !ids.includes(id)) {
-      state['current_service_id'] = ids[0]
+    if (!id || !ids.includes(id)) state['current_service_id'] = ids[0]
+
+    state.currentSource = state.api[state['current_service_id']]
+
+    if (istype(state.currentSource.fromto, 'array')) {
+      state.src_dest = state.currentSource.fromto
+    } else {
+      const code = state.currentSource.languages[0]
+
+      state.src_dest = [code, code]
     }
 
     return true

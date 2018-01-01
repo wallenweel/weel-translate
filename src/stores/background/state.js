@@ -38,6 +38,7 @@ __['current_service_id'] = ''
 __['current_template_id'] = 'default'
 __['src_dest'] = ['', '']
 __['input_text'] = ''
+
 __['result'] = {}
 __['translation_history'] = []
 __['translation_collection'] = []
@@ -46,7 +47,9 @@ __['translation_collection'] = []
 // do not store it, because it contains Storage rejected
 // types e.g. <function>
 __['api'] = {}
+__['currentSource'] = {}
 
+// mostly UI relatived
 __['settings'] = {
   use_fab: true,
   use_fap: true

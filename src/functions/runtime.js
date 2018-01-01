@@ -21,7 +21,6 @@ export const sendMessage = (message, payload) => {
         const { type, from, payload } = data
 
         if (type === SIMULATE_SEND_MESSAGE && from === 'content_script') {
-          console.info(from, payload)
           resolve(payload)
 
           window.removeEventListener('message', handleMessage, false)

@@ -16,7 +16,7 @@ try {
 }
 
 export const env = {
-  development: true,
+  development: process.env.NODE_ENV === 'development',
   get production () {
     return !this.development
   }

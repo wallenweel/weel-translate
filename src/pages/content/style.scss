@@ -21,6 +21,7 @@ $mdi-icons: 'content-copy', 'volume-high', 'google-translate', $extension-name;
     width: 0;
     left: 0;
     top: 0;
+    z-index: 9999999999;
     position: fixed;
     display: block;
   }

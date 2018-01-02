@@ -70,4 +70,8 @@ __[CONTEXT_MENU_ACTION_TRANSLATE] = async ({ state, commit, dispatch }) => {
   commit('fapToggle', true)
 }
 
+__['selectionToTranslate'] = ({ dispatch }) => {
+  dispatch(CONTEXT_MENU_ACTION_TRANSLATE)
+}
+
 export default __

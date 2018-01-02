@@ -1,12 +1,11 @@
 import Vue from 'vue'
 import Router from 'vue-router'
-// import PopupHome from '@/components/PopupHome'
+
 Vue.use(Router)
 
 export const home = {
   path: '/home',
   component: () => import(/* webpackChunkName: "PopupHome" */ '@/components/PopupHome'),
-  // component: PopupHome,
   children: [
     {
       path: '',

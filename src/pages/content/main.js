@@ -49,7 +49,7 @@ if (env.development && !/(popup|options)/.test(location.href)) {
 // initial content script
 store.dispatch(INITIAL_FROM_BACKGROUND)
 .then(success => {
-  if (env.development && window.wrappedJSObject.browser) return null
+  if (env.development && (window.wrappedJSObject.browser || {}).message) return null
 
   if (!success) return false
 

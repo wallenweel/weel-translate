@@ -50,6 +50,10 @@ export default ({ el, store, template }) => ({
 
       this.$store.commit('getSelection')
 
+      if (this.settings['selection_translate']) {
+        this.$store.dispatch('selectionToTranslate')
+      }
+
       if (this.useFAB) {
         this.fabToggle(true)
         this.$nextTick(() => this.fabPosition())

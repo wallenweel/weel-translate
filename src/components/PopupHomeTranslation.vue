@@ -13,7 +13,7 @@
 </template>
 
 <script>
-import { mapState, mapMutations } from 'vuex'
+import { mapState, mapGetters, mapMutations } from 'vuex'
 import BaseTranslation from '@/components/BaseTranslation'
 
 export default {
@@ -22,7 +22,8 @@ export default {
     return {}
   },
   computed: {
-    ...mapState(['currentSource', 'result', 'src_dest', 'input_text', 'tmp'])
+    ...mapState(['result', 'src_dest', 'input_text', 'tmp']),
+    ...mapGetters(['currentSource'])
   },
   methods: {
     ...mapMutations({

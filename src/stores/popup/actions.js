@@ -6,7 +6,8 @@ import {
   UPDATE_STORAGE_STATE,
   REQUEST_TRANSLATION,
   REQUEST_VOICE,
-  RESET_LOCAL_STORAGE
+  RESET_LOCAL_STORAGE,
+  UNINSTALL_EXTENSION
 } from '@/types'
 
 const __ = {}
@@ -16,7 +17,6 @@ __[INITIAL_FROM_BACKGROUND] = ({ state, commit }) => {
     type: INITIAL_FROM_BACKGROUND
   }).then(({
     test,
-    api,
     // storage,
     keep_all,
     current_service_id,
@@ -32,7 +32,6 @@ __[INITIAL_FROM_BACKGROUND] = ({ state, commit }) => {
   }) => {
     state = Object.assign(state, {
       test,
-      api,
       // storage,
       keep_all,
       current_service_id,
@@ -55,8 +54,6 @@ __[INITIAL_FROM_BACKGROUND] = ({ state, commit }) => {
     state.tmp.history = jpjs(translation_history)
     state.tmp.collection = jpjs(translation_collection)
 
-    commit('currentServiceSource', api[current_service_id])
-
     return true
   }, () => false)
 }
@@ -75,8 +72,8 @@ __[UPDATE_STORAGE_STATE] = ({ state }, { type, key, value }) => {
   })
 }
 
-__[REQUEST_TRANSLATION] = ({ state }, { q, from, to }) => {
-  const { tmp, currentSource, maxHistory, current_service_id } = state
+__[REQUEST_TRANSLATION] = ({ state, getters }, { q, from, to }) => {
+  const { tmp, maxHistory, current_service_id } = state
 
   if (state.keep_all) state.input_text = q
 
@@ -88,7 +85,7 @@ __[REQUEST_TRANSLATION] = ({ state }, { q, from, to }) => {
     meta: { q, from, to },
     source: {
       id: current_service_id,
-      name: currentSource.name
+      name: getters.currentSource.name
     }
   })
 
@@ -128,6 +125,15 @@ __[RESET_LOCAL_STORAGE] = ({ state, dispatch, commit }) => {
       commit('globalTip', [true, 'Reset Extension Successed.'])
     } else {
       commit('globalTip', [true, 'Reset Extension Failed.'])
+    }
+  })
+}
+
+__[UNINSTALL_EXTENSION] = ({ commit }) => {
+  sendMessage(UNINSTALL_EXTENSION)
+  .then(status => {
+    if (status === false) {
+      commit('globalTip', [true, 'You canceled uninstall?'])
     }
   })
 }

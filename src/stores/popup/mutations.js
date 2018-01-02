@@ -8,21 +8,21 @@ export const drawerNavigationToggle = state => {
   state.drawerNavigationToggle = !state.drawerNavigationToggle
 }
 
-export const currentServiceSource = (state, {
-  id, name, icon,
-  languages
-}) => {
-  state.currentSource = { id, name, icon, languages }
-}
-
 export const nextServiceSource = (state) => {
-  const ids = Object.keys(state.api)
+  const ids = state.sources.visible
 
-  let nextIndex = ids.indexOf(state.currentSource.id) + 1
+  let nextIndex = ids.indexOf(state.current_service_id) + 1
   if (nextIndex === ids.length) nextIndex = 0
 
   state.current_service_id = ids[nextIndex]
-  state.currentSource = state.api[ids[nextIndex]]
+}
+
+export const sourcesVisibleChanges = (state, ids) => {
+  state.sources.visible = ids
+}
+
+export const settingChanges = (state, [key, value]) => {
+  state.settings[key] = value
 }
 
 export const languageChanges = (state, langs) => {

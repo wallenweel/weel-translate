@@ -16,7 +16,6 @@ export const state = {
   maxHistory: 20,
   drawerNavigationToggle: false,
   currentCollected: false,
-  currentSource: {},
 
   keep_all: false,
   current_service_id: '',
@@ -26,16 +25,21 @@ export const state = {
   translation_history: [],
   translation_collection: [],
 
+  sources: {},
+
   storageKeep: {
     local: ['result', 'input_text']
   },
   storage: {
     local: [
       'test',
+
       'keep_all',
       'translation_history',
       'current_service_id',
-      'src_dest'
+      'src_dest',
+
+      'sources.visible'
       // 'input_text',
       // 'result'
     ],
@@ -46,7 +50,6 @@ export const state = {
     ]
   },
 
-  api: {},
   settings: {
     test: false
   },
@@ -56,7 +59,18 @@ export const state = {
 const store = new Vuex.Store({
   state,
   mutations,
-  actions
+  actions,
+  getters: {
+    visibleSourceIds: (state) => {
+      return state.sources.visible
+    },
+    allSourceIds: (state) => {
+      return Object.keys(state.sources.compiled)
+    },
+    currentSource: (state) => {
+      return state.sources.compiled[state.current_service_id]
+    }
+  }
 })
 
 if (module.hot) {

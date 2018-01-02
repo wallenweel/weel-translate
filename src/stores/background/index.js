@@ -9,7 +9,12 @@ Vue.use(Vuex)
 const store = new Vuex.Store({
   state,
   mutations,
-  actions
+  actions,
+  getters: {
+    currentSource: (state) => {
+      return state.sources.compiled[state['current_service_id']]
+    }
+  }
 })
 
 if (module.hot) {

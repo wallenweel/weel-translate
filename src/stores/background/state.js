@@ -19,6 +19,7 @@ __['storage'] = {
     'keep_all',
     'translation_history',
     'sources.preset',
+    'sources.visible',
     'templates.preset',
     'current_service_id',
     'current_template_id',
@@ -52,7 +53,12 @@ __['currentSource'] = {}
 // mostly UI relatived
 __['settings'] = {
   use_fab: true,
-  use_fap: true
+  use_fap: true,
+  use_context_menu: true,
+  // "float" or "popup"
+  context_menu_way: 'float',
+  browser_action_translate: false,
+  selection_translate: false
 }
 
 __['preferences'] = {

@@ -17,7 +17,7 @@ Vue.use(WebExtUtils)
 
 // TODO: remember comment here, due to "web-ext" is
 // not working fine for reloading tab page in development
-if (env.development) {
+if (env.development && !/(popup|options)/.test(location.href)) {
   ;((w, d, t) => d.body.hasAttribute(t) ? setTimeout(() => w.location.reload(), 150) : d.body.setAttribute(t, ''))(window, document, 'weel-translate-dev')
 }
 

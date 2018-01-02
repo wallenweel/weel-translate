@@ -1,5 +1,5 @@
 import merge from 'deepmerge'
-import { storage, tabs, env } from '@/globals'
+import { storage, tabs, management, env } from '@/globals'
 import { istype } from '@/functions/utils'
 import {
   INITIAL_STORAGE_FROM_DEFAULT,
@@ -10,7 +10,8 @@ import {
   REQUEST_TRANSLATION,
   REQUEST_VOICE,
   RESET_LOCAL_STORAGE,
-  TAB_LOADED_COMPLETE
+  TAB_LOADED_COMPLETE,
+  UNINSTALL_EXTENSION
 } from '@/types'
 import originalState from './state'
 
@@ -40,7 +41,7 @@ __[INITIAL_STORAGE_FROM_DEFAULT] = async ({ state }) => {
   }
 }
 
-__[INITIAL_BACKGROUND_SCRIPT] = async ({ state, commit, dispatch }, skipMerge = false) => {
+__[INITIAL_BACKGROUND_SCRIPT] = async ({ state, getters, commit, dispatch }, skipMerge = false) => {
   if (!skipMerge) {
     for (const type of Object.keys(state.storage)) {
       await storage[type].get().then(all => {
@@ -61,11 +62,12 @@ __[INITIAL_BACKGROUND_SCRIPT] = async ({ state, commit, dispatch }, skipMerge = 
     // `preset` to { parser, template, style }
     commit('compileTemplatesPreset')
 
-    state.api = state.sources.visible
-    .reduce((o, id) => {
-      o[id] = state.sources.compiled[id]
-      return o
-    }, {})
+    // TODO: should remove the api state
+    // state.api = state.sources.visible
+    // .reduce((o, id) => {
+    //   o[id] = state.sources.compiled[id]
+    //   return o
+    // }, {})
 
     const [id, ids] = [
       state['current_service_id'],
@@ -74,12 +76,10 @@ __[INITIAL_BACKGROUND_SCRIPT] = async ({ state, commit, dispatch }, skipMerge = 
 
     if (!id || !ids.includes(id)) state['current_service_id'] = ids[0]
 
-    state.currentSource = state.api[state['current_service_id']]
-
-    if (istype(state.currentSource.fromto, 'array')) {
-      state.src_dest = state.currentSource.fromto
+    if (istype(getters.currentSource.fromto, 'array')) {
+      state.src_dest = getters.currentSource.fromto
     } else {
-      const code = state.currentSource.languages[0]
+      const code = getters.currentSource.languages[0]
 
       state.src_dest = [code, code]
     }
@@ -176,6 +176,15 @@ __[RESET_LOCAL_STORAGE] = async ({ state, dispatch }, { emit }) => {
     },
     () => emit(false)
   )
+}
+
+__[UNINSTALL_EXTENSION] = ({ state }, { emit }) => {
+  management.uninstallSelf({
+    showConfirmDialog: true,
+    dialogMessage: 'uninstalling extension'
+  }).then(null, () => {
+    emit(false)
+  })
 }
 
 __[TAB_LOADED_COMPLETE] = ({ state, commit }, { emit }) => {

@@ -29,7 +29,8 @@ export const {
   runtime,
   storage,
   tabs,
-  notifications
+  notifications,
+  management
 } = browser
 
 export default browser

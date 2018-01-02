@@ -1,36 +1,174 @@
 <template lang="pug">
-  v-container
-    v-btn(block color="error" dark lazy @click.native="dialog = true")
-      span Reset Extension
-    v-dialog(v-model="dialog" max-width="290")
+  v-layout(wrap column)
+    v-alert(
+      style="margin: 0 0; width: 100%;"
+      type="info" :value="true"
+      )
+      |Alpha Tip: If something is wrong, click "Reset Extension" at the bottom.
+
+    v-flex(:class="$style.section")
+      header
+        v-icon(left) work
+        span Select Service Sources
+      v-select(
+        tags chips label="Enable needed source id"
+        hide-details
+        :items="allSourceIds"
+        :value="visibleSourceIds"
+        @input="sourcesVisibleChanges"
+        )
+        template(slot="selection" slot-scope="data")
+          v-chip(
+            small class="chip--select-multi"
+            @input="data.parent.selectItem(data.item)"
+            :selected="data.selected"
+            :disabled="data.disabled"
+            :key="JSON.stringify(data.item)"
+            )
+            //- v-avatar(class="accent") {{ data.item.slice(0, 1).toUpperCase() }}
+            |{{ data.item }}
+
+    v-flex(:class="$style.section")
+      header
+        v-icon(left) style
+        span Custom UI
+      v-layout(row)
+        v-switch(
+          hide-details color="primary" v-model="ui.fab"
+          @change="settingChanges(['use_fab', ui.fab])"
+          )
+        span Page's Float Button
+
+      v-layout(row)
+        v-switch(
+          hide-details color="primary" v-model="ui.fap"
+          @change="settingChanges(['use_fap', ui.fap])"
+          )
+        span Page's Float Panel
+
+      v-layout(row)
+        v-switch(
+          hide-details color="primary" v-model="ui.context"
+          @change="settingChanges(['use_context_menu', ui.context])"
+          )
+        span Context Menu Entry
+      v-radio-group(
+        hide-details row v-if="ui.context"
+        style="padding-top: 6px;" v-model="ui.context_way"
+        @change="settingChanges(['context_menu_way', ui.context_way])"
+        )
+        v-radio(color="primary" label="Popup Panel" value="popup")
+        v-radio(color="primary" label="Float Panel" value="float")
+
+      v-layout(row)
+        v-switch(
+          hide-details color="primary" v-model="ui.browser_action_translate"
+          @change="settingChanges(['browser_action_translate', ui.browser_action_translate])"
+          )
+        span Browser Action Translate
+
+      v-layout(row)
+        v-switch(
+          hide-details color="primary" v-model="ui.selection_translate"
+          @change="settingChanges(['selection_translate', ui.selection_translate])"
+          )
+        span Translate After Selected
+
+    v-flex(:class="$style.section")
+      header
+        v-icon(left) extension
+        span Extension Management
+      v-btn(block color="error" dark lazy @click.native="resetDialog = true")
+        span Reset
+      v-btn(block lazy @click.native="uninstallDialog = true")
+        span Uninstall
+
+    v-dialog(v-model="resetDialog" max-width="290")
       v-card
         v-card-title(class="headline") Reset The Extension?
         v-card-text
           span This operation will restore the extension's default data, if you want that, click "Okay" button.
         v-card-actions
           v-spacer
-          v-btn(color="secondary" flat="flat" @click.native="dialog = false") Cancel
+          v-btn(color="secondary" flat="flat" @click.native="resetDialog = false") Cancel
           v-btn(color="secondary" flat="flat" @click.native="resetExtension") Okay
+
+    v-dialog(v-model="uninstallDialog" max-width="290")
+      v-card
+        v-card-title(class="headline") Uninstall The Extension (⊙_⊙)?
+        v-card-text
+          span You are attempting to uninstall the extension, it mean you will lost all of your data, if you sure that, click "Okay" button.
+        v-card-actions
+          v-spacer
+          v-btn(color="secondary" flat="flat" @click.native="uninstallDialog = false") Cancel
+          v-btn(color="secondary" flat="flat" @click.native="uninstallExtension") Okay
 </template>
 
 <script>
-import { mapActions } from 'vuex'
-import { RESET_LOCAL_STORAGE } from '@/types'
+import { mapState, mapGetters, mapMutations, mapActions } from 'vuex'
+import { RESET_LOCAL_STORAGE, UNINSTALL_EXTENSION } from '@/types'
 
 export default {
   name: 'PopupHomeSettings',
   data () {
     return {
-      dialog: false
+      resetDialog: false,
+      uninstallDialog: false
     }
   },
+  created () {
+    // console.log(this.settings.use_fab)
+    // this.apiSelected = this.visibleSourceIds
+  },
+  computed: {
+    ui () {
+      const {
+        use_fab,
+        use_fap,
+        use_context_menu,
+        context_menu_way,
+        browser_action_translate,
+        selection_translate
+        } = this.settings
+
+      return {
+        fab: use_fab,
+        fap: use_fap,
+        context: use_context_menu,
+        context_way: context_menu_way,
+        browser_action_translate,
+        selection_translate
+      }
+    },
+    ...mapState(['sources', 'settings']),
+    ...mapGetters(['currentSource', 'allSourceIds', 'visibleSourceIds'])
+  },
   methods: {
+    ...mapMutations(['sourcesVisibleChanges', 'settingChanges']),
     ...mapActions({
       resetExtension (dispatch) {
         dispatch(RESET_LOCAL_STORAGE)
-        this.dialog = false
+        this.resetDialog = false
+      },
+      uninstallExtension (dispatch) {
+        dispatch(UNINSTALL_EXTENSION)
+        this.uninstallDialog = false
       }
     })
   }
 }
 </script>
+
+<style lang="scss" module>
+.section {
+  margin: 12px 16px;
+  :global {
+    header {
+      line-height: 2.75;
+      .icon {
+        margin-right: 8px;
+      }
+    }
+  }
+}
+</style>

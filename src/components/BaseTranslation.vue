@@ -141,12 +141,6 @@ export default {
       this.srcDest[1]
     ]
   },
-  // mounted () {
-  //   this.$refs.pasteTmp.addEventListener('paste', ev => {
-  //     ev.pre
-  //     console.log(ev)
-  //   }, false)
-  // },
   computed: {
     languages () { return this.api.languages || [] },
     id () { return this.api.id || '' },
@@ -248,6 +242,10 @@ export default {
     .input-group__input {
       box-shadow: unset !important;
       justify-content: space-around;
+
+      .input-group__append-icon {
+        width: auto;
+      }
     }
     .input-group__selections {
       user-select: none;

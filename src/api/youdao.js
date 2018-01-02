@@ -1,4 +1,5 @@
-{
+export default
+`{
   "id": "youdao",
   "name": "YouDao",
   "icon": "",
@@ -14,15 +15,15 @@
       "method": "POST",
       "url": "{{host}}/translate",
       "params": [
-        ["i",	"{{q}}"],
-        ["from",	"{{from}}"],
-        ["to",	"{{to}}"],
-        ["smartresult",	["dict", "rule", "ugc"]],
-        ["client",	"fanyideskweb"],
-        ["doctype",	"json"],
-        ["version",	"2.1"],
-        ["keyfrom",	"fanyi.web"],
-        ["typoResult",	"false"]
+        ["i", "{{q}}"],
+        ["from", "{{from}}"],
+        ["to", "{{to}}"],
+        ["smartresult", ["dict", "rule", "ugc"]],
+        ["client", "fanyideskweb"],
+        ["doctype", "json"],
+        ["version", "2.1"],
+        ["keyfrom", "fanyi.web"],
+        ["typoResult", "false"]
       ]
     },
     "audio": {
@@ -54,4 +55,4 @@
     "name": "Japanese",
     "trans": "日文"
   }]
-}
+}`

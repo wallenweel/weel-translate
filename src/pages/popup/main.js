@@ -30,14 +30,14 @@ Vue.use(WebExtUtils)
   if (!success) return false
 
   generateStorageWatchers(store, (type, key, value) =>
-    typeof store.dispatch(UPDATE_STORAGE_STATE, { type, key, value }))
+  typeof store.dispatch(UPDATE_STORAGE_STATE, { type, key, value }))
+})
 
-  /* eslint-disable no-new */
-  new Vue({
-    el: '#app',
-    store,
-    router,
-    render: h => h(App),
-    components: { App }
-  })
+/* eslint-disable no-new */
+new Vue({
+  el: '#app',
+  store,
+  router,
+  render: h => h(App),
+  components: { App }
 })

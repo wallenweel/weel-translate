@@ -18,9 +18,6 @@ import BaseTranslation from '@/components/BaseTranslation'
 
 export default {
   name: 'PopupHomeTranslation',
-  data () {
-    return {}
-  },
   computed: {
     ...mapState(['result', 'src_dest', 'input_text', 'tmp']),
     ...mapGetters(['currentSource'])

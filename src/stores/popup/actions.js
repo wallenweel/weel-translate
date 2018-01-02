@@ -98,7 +98,7 @@ __[UPDATE_STORAGE_STATE] = ({ state }, { type, key, value }) => {
 __[REQUEST_TRANSLATION] = ({ state, commit, getters }, { q, from, to }) => {
   const { tmp, maxHistory, current_service_id } = state
 
-  if (state.keep_all) state.input_text = q
+  if (state['keep_all']) state['input_text'] = q
 
   if (tmp.history.length >= maxHistory) {
     tmp.history.pop()
@@ -124,7 +124,7 @@ __[REQUEST_TRANSLATION] = ({ state, commit, getters }, { q, from, to }) => {
     state.result = result
 
     // increase translating history
-    state.translation_history = jpjs(tmp.history)
+    state['translation_history'] = jpjs(tmp.history)
 
     // reset result star status
     state.currentCollected = false

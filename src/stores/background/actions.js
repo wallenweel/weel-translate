@@ -163,7 +163,6 @@ __[CREATE_CONTEXT_MENU] = ({ state }) => {
 __[REMOVE_CONTEXT_MENU] = ({ state }) => {
   menus.remove(CONTEXT_MENU_ACTION_TRANSLATE)
   .then(() => {
-    console.log(menus.onClicked.hasListener(state.menusListener))
     if (menus.onClicked.hasListener(state.menusListener)) {
       menus.onClicked.removeListener(state.menusListener)
     }

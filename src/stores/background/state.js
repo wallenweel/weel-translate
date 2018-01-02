@@ -1,6 +1,6 @@
-import apiGoogle from '@/api/google.json'
-import apiGoogleCN from '@/api/google_cn.json'
-import apiYoudao from '@/api/youdao.json'
+import apiGoogle from '@/api/google'
+import apiGoogleCN from '@/api/google_cn'
+import apiYoudao from '@/api/youdao'
 
 const __ = {}
 
@@ -69,9 +69,9 @@ __['sources'] = {
   visible: ['google_cn', 'google', 'youdao'],
   compiled: {},
   preset: {
-    'google_cn': JSON.stringify(apiGoogleCN),
-    'google': JSON.stringify(apiGoogle),
-    'youdao': JSON.stringify(apiYoudao)
+    'google_cn': apiGoogleCN,
+    'google': apiGoogle,
+    'youdao': apiYoudao
   }
 }
 

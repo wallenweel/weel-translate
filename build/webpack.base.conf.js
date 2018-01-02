@@ -111,6 +111,10 @@ module.exports = {
         from: 'node_modules/material-design-icons/iconfont/MaterialIcons-Regular.woff2',
         to: `fonts/MaterialIcons-Regular.woff2`
       },
+      // {
+      //   from: `node_modules/vuetify/dist/vuetify.min.css`,
+      //   to: 'css/vuetify.min.css'
+      // },
       {
         from: `src/assets/manifest.${process.env.NODE_ENV}.json`,
         to: 'manifest.json'

@@ -1,4 +1,4 @@
-import { mapState } from 'vuex'
+import { mapState, mapMutations } from 'vuex'
 import { istype } from '@/functions/utils'
 import {
   REQUEST_TRANSLATION,
@@ -11,17 +11,15 @@ export default ({ el, store, template }) => ({
   store,
   data () {
     return {
-      selectedText: null,
-      fabShow: false,
-      fapShow: false
+      selectedText: null
     }
   },
   mounted () {
     document.addEventListener('mousedown', ev => {
       if (this.selectedText) {
         this.$nextTick(() => {
-          this.fabShow = false
-          this.fapShow = false
+          this.fapToggle(false)
+          this.fabToggle(false)
         })
       }
 
@@ -53,7 +51,7 @@ export default ({ el, store, template }) => ({
       this.$store.commit('getSelection')
 
       if (this.useFAB) {
-        this.fabShow = true
+        this.fabToggle(true)
         this.$nextTick(() => this.fabPosition())
       }
 
@@ -61,7 +59,7 @@ export default ({ el, store, template }) => ({
     }, false)
   },
   computed: {
-    ...mapState(['result', 'selectionRect', 'settings', 'src_dest']),
+    ...mapState(['result', 'selectionRect', 'settings', 'src_dest', 'fabShow', 'fapShow']),
     getResult () {
       const { phonetic_src, phonetic_dest, translation, explain } = this.result
 
@@ -76,16 +74,21 @@ export default ({ el, store, template }) => ({
     useFAP () { return this.settings.use_fap }
   },
   methods: {
+    ...mapMutations(['fabToggle', 'fapToggle']),
     handleFAB () {
       this.$store.dispatch(REQUEST_TRANSLATION, { q: this.selectedText })
     },
-    handleVoice (from) {
-      const code = {
+    handleVoice (type) {
+      const from = {
         src: this.src_dest[0],
         dest: this.src_dest[1]
-      }[from]
+      }[type]
+      const q = {
+        src: this.selectedText,
+        dest: this.result.translation
+      }[type]
 
-      this.$store.dispatch(REQUEST_VOICE, { q: this.selectedText, code })
+      this.$store.dispatch(REQUEST_VOICE, { q, from })
     },
     fabPosition () {
       const { innerWidth, innerHeight } = window
@@ -126,9 +129,9 @@ export default ({ el, store, template }) => ({
   },
   watch: {
     result () {
-      this.fapShow = true
+      this.fapToggle(true)
       this.$nextTick(() => this.fapPosition())
-      this.fabShow = false
+      this.fabToggle(true)
     }
   }
 })

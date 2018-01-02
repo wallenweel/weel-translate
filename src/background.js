@@ -3,7 +3,9 @@ import store from '@/stores/background'
 import { runtime } from '@/globals'
 import {
   INITIAL_STORAGE_FROM_DEFAULT,
-  INITIAL_BACKGROUND_SCRIPT
+  INITIAL_BACKGROUND_SCRIPT,
+  REMOVE_CONTEXT_MENU,
+  CREATE_CONTEXT_MENU
 } from '@/types'
 
 try {
@@ -28,6 +30,15 @@ try {
     // do something after all initial successfully
     // store.watch(state => state.settings.test, a => console.log(a))
     // store.dispatch('REQUEST_TRANSLATION', {})
+    store.watch(state => state.settings.use_context_menu, (value) => {
+      if (!value) store.dispatch(REMOVE_CONTEXT_MENU)
+      else store.dispatch(CREATE_CONTEXT_MENU)
+    })
+
+    store.watch(state => state.settings.context_menu_way, async () => {
+      await store.dispatch(REMOVE_CONTEXT_MENU)
+      await store.dispatch(CREATE_CONTEXT_MENU)
+    })
   })
 
   // initialize everything

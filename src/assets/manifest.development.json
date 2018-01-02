@@ -44,7 +44,7 @@
     "*://*/*",
     "tabs",
     "storage",
-    "contextMenus",
+    "menus",
     "clipboardRead",
     "clipboardWrite"
   ],

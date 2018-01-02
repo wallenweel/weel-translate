@@ -9,6 +9,8 @@ Vue.use(Vuex)
 export const state = {
   test: false,
 
+  fabShow: false,
+  fapShow: false,
   selectionRect: {},
   selectionText: '',
   result: {},

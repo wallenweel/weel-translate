@@ -30,7 +30,8 @@ export const {
   storage,
   tabs,
   notifications,
-  management
+  management,
+  menus
 } = browser
 
 export default browser

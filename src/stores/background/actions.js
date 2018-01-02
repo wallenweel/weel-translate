@@ -1,5 +1,5 @@
 import merge from 'deepmerge'
-import { storage, tabs, management, env } from '@/globals'
+import { storage, tabs, management, menus, env } from '@/globals'
 import { istype } from '@/functions/utils'
 import {
   INITIAL_STORAGE_FROM_DEFAULT,
@@ -11,7 +11,10 @@ import {
   REQUEST_VOICE,
   RESET_LOCAL_STORAGE,
   TAB_LOADED_COMPLETE,
-  UNINSTALL_EXTENSION
+  UNINSTALL_EXTENSION,
+  CREATE_CONTEXT_MENU,
+  REMOVE_CONTEXT_MENU,
+  CONTEXT_MENU_ACTION_TRANSLATE
 } from '@/types'
 import originalState from './state'
 
@@ -84,6 +87,8 @@ __[INITIAL_BACKGROUND_SCRIPT] = async ({ state, getters, commit, dispatch }, ski
       state.src_dest = [code, code]
     }
 
+    if (state.settings.use_context_menu) dispatch(CREATE_CONTEXT_MENU)
+
     return true
   }
 
@@ -122,12 +127,58 @@ __[UPDATE_STORAGE_STATE] = async (
   emit(true) // feedback status
 }
 
+__[CREATE_CONTEXT_MENU] = ({ state }) => {
+  const options = {
+    id: CONTEXT_MENU_ACTION_TRANSLATE,
+    title: 'Weel Translate It',
+    contexts: ['all']
+  }
+
+  if (state.settings.context_menu_way === 'popup') {
+    options.command = '_execute_browser_action'
+  } else if (state.settings.context_menu_way === 'float') {
+    state.menusListener = (menuInfo) => {
+      const { menuItemId } = menuInfo
+
+      if (menuItemId !== CONTEXT_MENU_ACTION_TRANSLATE) return true
+
+      tabs.query({
+        currentWindow: true,
+        active: true,
+        status: 'complete'
+      }).then(([tab]) => {
+        tabs.sendMessage(tab.id, {
+          type: CONTEXT_MENU_ACTION_TRANSLATE
+        }).then(payload => {
+          // console.log('a', a)
+          console.log(state.translation_history)
+        })
+      })
+    }
+
+    menus.onClicked.addListener(state.menusListener)
+  }
+
+  menus.create(options, (a) => {
+  })
+}
+
+__[REMOVE_CONTEXT_MENU] = ({ state }) => {
+  menus.remove(CONTEXT_MENU_ACTION_TRANSLATE)
+  .then(() => {
+    console.log(menus.onClicked.hasListener(state.menusListener))
+    if (menus.onClicked.hasListener(state.menusListener)) {
+      menus.onClicked.removeListener(state.menusListener)
+    }
+  })
+}
+
 // TODO: complete this
 __[REQUEST_TRANSLATION] = async (
-  { state: { api, current_service_id } },
+  { state, getters },
   { emit, payload = { q: 'hello', from: 'AUTO', to: 'AUTO' } }
 ) => {
-  const { query, parser, response = {} } = api[current_service_id]
+  const { query, parser, response = {} } = getters.currentSource
   const queryText = query.text(payload)
 
   let [url, request] = [queryText, { mode: 'no-cors' }]
@@ -149,8 +200,15 @@ __[REQUEST_TRANSLATION] = async (
   })
 }
 
-__[REQUEST_VOICE] = ({ state: { api } }, { emit, payload: { q, from, id } }) => {
-  const url = api[id].query.audio({ q, from })
+__[REQUEST_VOICE] = (
+  { state, getters },
+  { emit, payload: {
+    q,
+    from,
+    id
+  } }
+) => {
+  const url = getters.currentSource.query.audio({ q, from })
   const audio = new Audio()
 
   audio.src = url

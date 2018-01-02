@@ -2,10 +2,11 @@ import Vue from 'vue'
 import WebExtUtils from '@/plugins/WebExtUtils'
 import { mapState, mapMutations, mapActions } from 'vuex'
 import { sendMessage } from '@/functions/runtime'
-import { env } from '@/globals'
+import { runtime, env } from '@/globals'
 import {
   INITIAL_FROM_BACKGROUND,
-  SIMULATE_SEND_MESSAGE
+  SIMULATE_SEND_MESSAGE,
+  CONTEXT_MENU_ACTION_TRANSLATE
 } from '@/types'
 
 import store from '@/stores/content'
@@ -50,6 +51,15 @@ store.dispatch(INITIAL_FROM_BACKGROUND)
   if (env.development && window.wrappedJSObject.browser) return null
 
   if (!success) return false
+
+  runtime.onMessage.addListener((action = {}, sender, emit) => {
+    const { type } = action
+
+    if (type === CONTEXT_MENU_ACTION_TRANSLATE) {
+      store.dispatch(CONTEXT_MENU_ACTION_TRANSLATE)
+      // emit('dddd')
+    }
+  })
 
   const { templates, current_template_id } = store.state
   const { template, script } = templates.compiled[current_template_id]

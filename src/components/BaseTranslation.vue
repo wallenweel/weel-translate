@@ -12,7 +12,7 @@
         span {{ tip }}
       v-layout(row wrap :class="$style.languageToolbar")
         v-select(
-          min-width=140 :label="i18n.getMessage('Select')"
+          min-width=140 :label="i18n.getMessage('SELECT')"
           overflow hide-details auto dense
           :class="$style.from"
           :items="languages"
@@ -29,7 +29,7 @@
           v-icon(color="primary" small) swap_horiz
 
         v-select(
-          min-width=140 :label="i18n.getMessage('Select')"
+          min-width=140 :label="i18n.getMessage('SELECT')"
           overflow hide-details auto dense
           :class="$style.to"
           :items="languages"

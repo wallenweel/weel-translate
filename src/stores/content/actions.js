@@ -3,7 +3,8 @@ import {
   INITIAL_FROM_BACKGROUND,
   TAB_LOADED_COMPLETE,
   REQUEST_TRANSLATION,
-  REQUEST_VOICE
+  REQUEST_VOICE,
+  CONTEXT_MENU_ACTION_TRANSLATE
 } from '@/types'
 
 const __ = {}
@@ -52,13 +53,18 @@ __[REQUEST_TRANSLATION] = (
 }
 
 __[REQUEST_VOICE] = ({ state }, { q, from }) => {
-  console.log(q, state.current_service_id)
   sendMessage({
     payload: { q, from, id: state.current_service_id },
     type: REQUEST_VOICE
   }).then(s => {
     console.log(s)
   })
+}
+
+__[CONTEXT_MENU_ACTION_TRANSLATE] = async ({ state, commit, dispatch }) => {
+  await dispatch(REQUEST_TRANSLATION, { q: state.selectionText })
+
+  commit('fapToggle', true)
 }
 
 export default __

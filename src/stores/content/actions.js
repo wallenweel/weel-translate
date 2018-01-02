@@ -56,12 +56,15 @@ __[REQUEST_VOICE] = ({ state }, { q, from }) => {
   sendMessage({
     payload: { q, from, id: state.current_service_id },
     type: REQUEST_VOICE
-  }).then(s => {
-    console.log(s)
   })
+  // .then(s => {
+  //   console.log(s)
+  // })
 }
 
 __[CONTEXT_MENU_ACTION_TRANSLATE] = async ({ state, commit, dispatch }) => {
+  if (!state.selectionText) return false
+
   await dispatch(REQUEST_TRANSLATION, { q: state.selectionText })
 
   commit('fapToggle', true)

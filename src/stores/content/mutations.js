@@ -1,5 +1,5 @@
 export const getSelection = (state, selection = document.getSelection()) => {
-  state.selectionText = selection.toString()
+  state.selectionText = selection.toString().trim()
   state.selectionRect = selection.getRangeAt(0).getBoundingClientRect()
 }
 

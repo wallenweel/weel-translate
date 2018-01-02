@@ -6,7 +6,8 @@ import { runtime, env } from '@/globals'
 import {
   INITIAL_FROM_BACKGROUND,
   SIMULATE_SEND_MESSAGE,
-  CONTEXT_MENU_ACTION_TRANSLATE
+  CONTEXT_MENU_ACTION_TRANSLATE,
+  GET_PAGE_SELECTED_TEXT
 } from '@/types'
 
 import store from '@/stores/content'
@@ -57,7 +58,15 @@ store.dispatch(INITIAL_FROM_BACKGROUND)
 
     if (type === CONTEXT_MENU_ACTION_TRANSLATE) {
       store.dispatch(CONTEXT_MENU_ACTION_TRANSLATE)
-      // emit('dddd')
+      emit(true)
+    }
+
+    if (type === GET_PAGE_SELECTED_TEXT) {
+      store.commit('getSelection')
+
+      if (!store.state.selectionText) return emit && emit(false)
+
+      emit(store.state.selectionText)
     }
   })
 

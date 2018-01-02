@@ -1,4 +1,5 @@
 import merge from 'deepmerge'
+import { tabs } from '@/globals'
 import { jpjs } from '@/functions/utils'
 import { sendMessage } from '@/functions/runtime'
 import {
@@ -12,7 +13,7 @@ import {
 
 const __ = {}
 
-__[INITIAL_FROM_BACKGROUND] = ({ state, commit }) => {
+__[INITIAL_FROM_BACKGROUND] = ({ state, commit, dispatch }) => {
   return sendMessage({
     type: INITIAL_FROM_BACKGROUND
   }).then(({
@@ -46,9 +47,31 @@ __[INITIAL_FROM_BACKGROUND] = ({ state, commit }) => {
       templates
     })
 
-    if (state.keep_all) {
+    if (state['keep_all']) {
       state.storage = merge(state.storage, state.storageKeep)
       state = Object.assign(state, { result, input_text })
+    }
+
+    if (
+      settings['browser_action_translate'] &&
+      settings['use_context_menu'] &&
+      settings['context_menu_way'] === 'popup'
+    ) {
+      tabs.query({
+        currentWindow: true,
+        active: true,
+        status: 'complete'
+      }).then(([{ id }]) => {
+        tabs.executeScript({
+          code: 'window.getSelection().toString().trim();'
+        }, ([text]) => {
+          if (!text) return false
+
+          state['input_text'] = text
+
+          dispatch(REQUEST_TRANSLATION, { q: text })
+        })
+      })
     }
 
     state.tmp.history = jpjs(translation_history)
@@ -72,7 +95,7 @@ __[UPDATE_STORAGE_STATE] = ({ state }, { type, key, value }) => {
   })
 }
 
-__[REQUEST_TRANSLATION] = ({ state, getters }, { q, from, to }) => {
+__[REQUEST_TRANSLATION] = ({ state, commit, getters }, { q, from, to }) => {
   const { tmp, maxHistory, current_service_id } = state
 
   if (state.keep_all) state.input_text = q
@@ -93,6 +116,11 @@ __[REQUEST_TRANSLATION] = ({ state, getters }, { q, from, to }) => {
     payload: { q, from, to },
     type: REQUEST_TRANSLATION
   }).then(result => {
+    if (!result) {
+      commit('globalTip', [true, 'Translation Request Failed.'])
+      return false
+    }
+
     state.result = result
 
     // increase translating history

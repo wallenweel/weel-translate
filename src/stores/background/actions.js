@@ -146,12 +146,9 @@ __[CREATE_CONTEXT_MENU] = ({ state }) => {
         currentWindow: true,
         active: true,
         status: 'complete'
-      }).then(([tab]) => {
-        tabs.sendMessage(tab.id, {
+      }).then(([{ id }]) => {
+        tabs.sendMessage(id, {
           type: CONTEXT_MENU_ACTION_TRANSLATE
-        }).then(payload => {
-          // console.log('a', a)
-          console.log(state.translation_history)
         })
       })
     }
@@ -176,10 +173,18 @@ __[REMOVE_CONTEXT_MENU] = ({ state }) => {
 // TODO: complete this
 __[REQUEST_TRANSLATION] = async (
   { state, getters },
-  { emit, payload = { q: 'hello', from: 'AUTO', to: 'AUTO' } }
+  { emit, payload = {} }
 ) => {
+  const {
+    q,
+    from = state.src_dest[0],
+    to = state.src_dest[1]
+  } = payload
+
+  if (!q) return emit && emit(false)
+
   const { query, parser, response = {} } = getters.currentSource
-  const queryText = query.text(payload)
+  const queryText = query.text({ q, from, to })
 
   let [url, request] = [queryText, { mode: 'no-cors' }]
 

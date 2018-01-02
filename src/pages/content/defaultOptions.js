@@ -131,7 +131,7 @@ export default ({ el, store, template }) => ({
     result () {
       this.fapToggle(true)
       this.$nextTick(() => this.fapPosition())
-      this.fabToggle(true)
+      this.fabToggle(false)
     }
   }
 })

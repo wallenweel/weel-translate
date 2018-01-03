@@ -1,6 +1,6 @@
 import merge from 'deepmerge'
 import store from '@/stores/background'
-import { clg } from '@/functions/utils'
+import { clog } from '@/functions/utils'
 import { runtime } from '@/globals'
 import {
   INITIAL_STORAGE_FROM_DEFAULT,
@@ -43,7 +43,7 @@ try {
 
   // initialize everything
 } catch (error) {
-  clg(
+  clog(
     '!!!something is wrong!!!'.toUpperCase(),
     `\n${error}`
   )

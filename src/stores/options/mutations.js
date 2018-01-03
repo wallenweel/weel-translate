@@ -2,6 +2,10 @@ import merge from 'deepmerge'
 import { istype } from '@/functions/utils'
 import serviceHelper, { compilePreset, parsePreset } from '@/functions/serviceHelper'
 
+export const globalTip = (state, [open, msg]) => {
+  state.globalTip = [open, msg]
+}
+
 export const mergeState = (state, storage) => {
   state = merge(state, storage)
 }
@@ -115,7 +119,6 @@ export const saveCurrentPreset = (state, [type]) => {
   }
 
   state.sources.preset = newPresets
-  state.tmp[type].alert = [true, 'All Presets Have been Saved.']
 }
 
 export const tmpResponse = ({ tmp: { sources } }, response) => {

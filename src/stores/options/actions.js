@@ -3,6 +3,7 @@ import { sendMessage } from '@/functions/runtime'
 import {
   INITIAL_FROM_BACKGROUND,
   UPDATE_STORAGE_STATE,
+  SAVE_CUSTOM_SOURCES_PRESET,
   REQUEST_TRANSLATION
 } from '@/types'
 import * as mocks from '@/api/mocks'
@@ -15,13 +16,13 @@ __[INITIAL_FROM_BACKGROUND] = async ({ state, commit }) => {
   await sendMessage({
     type: INITIAL_FROM_BACKGROUND
   }).then(({
-    storage,
+    // storage,
     sources,
     templates,
     preferences
   }) => {
     state = Object.assign(state, {
-      storage,
+      // storage,
       sources,
       templates,
       preferences
@@ -59,6 +60,23 @@ __[UPDATE_STORAGE_STATE] = ({ state }, { type, key }) => {
   }).then(over => {
     // TODO: update storage over
     // do something here, maybe an alert
+  })
+}
+
+__[SAVE_CUSTOM_SOURCES_PRESET] = ({ state, commit }) => {
+  commit('saveCurrentPreset', ['sources'])
+
+  sendMessage({
+    type: SAVE_CUSTOM_SOURCES_PRESET,
+    payload: state.sources.preset
+  })
+  .then(success => {
+    if (!success) {
+      state.tmp['sources'].alert = [true, 'Save Presets Failed.']
+      return false
+    }
+
+    state.tmp['sources'].alert = [true, 'All Presets Have Been Saved.']
   })
 }
 

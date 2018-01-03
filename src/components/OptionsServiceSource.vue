@@ -48,6 +48,9 @@
 
       v-flex(d-flex sm12 lg3 :class="$style.viewPart")
         v-layout(column)
+          v-tooltip(v-model="tip" bottom)
+            v-flex(slot="activator")
+            span {{ tipMsg }}
           v-toolbar(dense color="primary" dark)
             v-toolbar-title Test This Preset
           v-container
@@ -62,7 +65,9 @@
 </template>
 
 <script>
-import { mapState, mapMutations } from 'vuex'
+import { mapState, mapMutations, mapActions } from 'vuex'
+import { SAVE_CUSTOM_SOURCES_PRESET } from '@/types'
+
 import BaseCodeEditor from '@/components/BaseCodeEditor'
 import BaseTranslation from '@/components/BaseTranslation'
 import OptionsModifyToolbar from '@/components/OptionsModifyToolbar'
@@ -74,21 +79,25 @@ export default {
   data () {
     return {
       snackbar: false,
-      createDialog: false
+      createDialog: false,
+      tip: false,
+      tipMsg: '...'
     }
   },
   computed: {
-    alert () { return this.sources.alert },
-    presets () { return this.sources.preset },
+    globalTip () { return this.$store.state.globalTip },
 
-    id () { return this.sources.current_id },
-    api () { return this.sources.current_api },
+    alert () { return this.sources['alert'] },
+    presets () { return this.sources['preset'] },
+
+    id () { return this.sources['current_id'] },
+    api () { return this.sources['current_api'] },
     preset () { return this.presets[this.id] },
-    response () { return this.sources.current_response },
-    items () { return this.sources.items },
-    queryText () { return this.sources.current_input },
-    queryDetail () { return this.sources.query_detail },
-    result () { return this.sources.current_result },
+    response () { return this.sources['current_response'] },
+    items () { return this.sources['items'] },
+    queryText () { return this.sources['current_input'] },
+    queryDetail () { return this.sources['query_detail'] },
+    result () { return this.sources['current_result'] },
 
     reset () { return Object.keys(this.api).length },
     overlay () { return !this.reset ? 'overlay--active' : '' },
@@ -99,9 +108,6 @@ export default {
   },
   methods: {
     ...mapMutations({
-      pushHistory (commit) {
-        commit('pushHistory', [tmpType, { id: this.id }])
-      },
       inputChanged (commit, text) {
         commit('tmpStateUpdate', [tmpType, { current_input: text }])
       },
@@ -128,16 +134,28 @@ export default {
       },
       removePreset (commit, { id }) {
         commit('removeCurrentPreset', [tmpType, { id }])
-      },
-      savePreset (commit) {
-        commit('saveCurrentPreset', [tmpType])
       }
-    })
+      // savePreset (commit) {
+      //   commit('saveCurrentPreset', [tmpType])
+      // }
+    }),
+
+    ...mapActions({
+      savePreset (dispatch) {
+        dispatch(SAVE_CUSTOM_SOURCES_PRESET)
+      }
+    }),
+
+    useTip (value) {
+      [this.tip, this.tipMsg] = value
+      setTimeout(() => (this.tip = false), 2500)
+    }
   },
   watch: {
     alert ([flag]) {
       this.snackbar = flag
-    }
+    },
+    globalTip (value) { this.useTip(value) }
   },
   components: {
     BaseCodeEditor,

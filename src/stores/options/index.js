@@ -29,9 +29,20 @@ export const state = {
     }
   },
 
-  storage: {},
-  sources: {},
-  templates: {},
+  globalTip: [false, '...'],
+
+  storage: {
+    local: [
+      'sources'
+    ]
+  },
+
+  sources: {
+    preset: {}
+  },
+  templates: {
+    preset: {}
+  },
 
   editorContent: {
     api: '{}',

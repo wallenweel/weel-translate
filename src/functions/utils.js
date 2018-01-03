@@ -77,11 +77,17 @@ export const generateStorageWatchers = (store, callback) => {
   for (const [type, states] of Object.entries(store.state.storage)) {
     for (const key of states) {
       // store.watch(state => state[key], (curr, prev) => {
-      store.watch(state => helper(key, state), (curr, prev) => {
+      const watcher = store.watch(state => helper(key, state), (curr, prev) => {
         if (env.development) clog(type, key, `\n${JSON.stringify(curr)}`)
 
         callback(type, key, curr)
       }, { deep: true })
+
+      if (!store.state.storageWatchers) {
+        store.state.storageWatchers = {}
+      }
+
+      store.state.storageWatchers[key] = watcher
     }
   }
 }

@@ -14,7 +14,8 @@ import {
   UNINSTALL_EXTENSION,
   CREATE_CONTEXT_MENU,
   REMOVE_CONTEXT_MENU,
-  CONTEXT_MENU_ACTION_TRANSLATE
+  CONTEXT_MENU_ACTION_TRANSLATE,
+  SAVE_CUSTOM_SOURCES_PRESET
 } from '@/types'
 import originalState from './state'
 
@@ -41,11 +42,7 @@ __[INITIAL_STORAGE_FROM_DEFAULT] = async ({ state }) => {
       if (env.production) return true
 
       storage[type].get().then(all =>
-        clog(
-          `[Weel]  `,
-          `storage.${type}.set success\n`,
-          all
-        )
+        clog(INITIAL_STORAGE_FROM_DEFAULT, `storage.${type}.set success\n`, all)
       )
     })
   }
@@ -94,6 +91,7 @@ __[INITIAL_BACKGROUND_SCRIPT] = async ({ state, getters, commit, dispatch }, ski
       state.src_dest = [code, code]
     }
 
+    // TODO: here may occur an unexpected error after "RESET_LOCAL_STORAGE"
     if (state.settings.use_context_menu) dispatch(CREATE_CONTEXT_MENU)
 
     return true
@@ -116,7 +114,7 @@ __[STORAGE_TYPE_SET] = async (
       state[key] = value
 
       storage[type].get().then(all =>
-        clog(`storage.${type}.set success\n`, all))
+        clog(STORAGE_TYPE_SET, ` storage.${type}.set success\n`, all))
     },
     error => clog(`storage.${type}.set fail\n`, error)
   )
@@ -132,6 +130,23 @@ __[UPDATE_STORAGE_STATE] = async (
   await dispatch(STORAGE_TYPE_SET, { type, key, value })
 
   emit(true) // feedback status
+}
+
+__[SAVE_CUSTOM_SOURCES_PRESET] = async (
+  { state, commit, dispatch },
+  { emit, payload }
+) => {
+  await dispatch(STORAGE_TYPE_SET, {
+    type: 'local',
+    key: 'sources.preset',
+    value: payload
+  })
+
+  state.sources.preset = payload
+
+  commit('compileSourcesPreset')
+
+  emit(true)
 }
 
 __[CREATE_CONTEXT_MENU] = ({ state }) => {
@@ -238,7 +253,7 @@ __[RESET_LOCAL_STORAGE] = async ({ state, dispatch }, { emit }) => {
       // rebuild local storage
       await dispatch(INITIAL_STORAGE_FROM_DEFAULT)
       // rebuild background's state
-      await dispatch(INITIAL_BACKGROUND_SCRIPT)
+      await dispatch(INITIAL_BACKGROUND_SCRIPT, true)
 
       // window.location.reload()
       emit(true)

@@ -148,7 +148,8 @@ __[RESET_LOCAL_STORAGE] = ({ state, dispatch, commit }) => {
   }).then(status => {
     if (status === true) {
       // rebuild this page's state
-      dispatch(INITIAL_FROM_BACKGROUND)
+      // dispatch(INITIAL_FROM_BACKGROUND)
+      window.location.reload()
 
       commit('globalTip', [true, 'Reset Extension Successed.'])
     } else {

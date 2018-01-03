@@ -69,6 +69,7 @@ export default {
     this.editor.on('blur', cm => {
       this.$emit('changes', cm.getValue())
     })
+    this.editor.doc.clearHistory()
   },
   methods: {
     format () {

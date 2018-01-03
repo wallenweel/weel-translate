@@ -14,6 +14,10 @@ export const aid = (right, substitute = () => null) => {
   }
 }
 
+/**
+ * custom log method
+ * @param {Any} args any number arguments that `console.log` accepted
+ */
 export const clog = (...args) => {
   if (!env.log) return false
 
@@ -23,10 +27,18 @@ export const clog = (...args) => {
   )
 }
 
-// clone a simple object, mainly to avoid vuex
-// state occur reference issues
+/**
+ * quickly and simply to clone a object, mainly for avoiding vuex
+ * getter/setter watch state occur reference issues
+ * @param {Any} target any thing that "JSON" can parse
+ * @return {Any} cloned target
+ */
 export const jpjs = (target) => JSON.parse(JSON.stringify(target))
 
+/**
+ * a fake hash that base to time, just a random string
+ * @return {String}
+ */
 export const timehash = () => {
   const hash = `${new Date().getTime()}`.split('')
     .map(v => v.charCodeAt(0))
@@ -53,6 +65,11 @@ export const whattype = thing =>
  */
 export const istype = (thing, type) => whattype(thing) === type
 
+/**
+ * a watcher hepler for states of storage relatived
+ * @param {Object} store vuex's store
+ * @param {Callback} callback a callback function will be called after watcher is working
+ */
 export const generateStorageWatchers = (store, callback) => {
   const helper = (key, state) =>
     key.split('.').reduce((prev, curr) => prev[curr], state)
@@ -69,9 +86,19 @@ export const generateStorageWatchers = (store, callback) => {
   }
 }
 
+/**
+ * dom string parsering helper
+ * @param {String} domstr any dom string that can be parsed
+ * @return {DOM}
+ */
 export const parserDOMString = domstr =>
   new DOMParser().parseFromString(domstr, 'text/html')
 
+/**
+ * like above, but return a array
+ * @param {String} content dom string
+ * @return {Array?} parserd NodeList or contains one Node's array
+ */
 export const stringToDOM = (content) => {
   if (istype(content, 'string')) {
     const parser = new DOMParser()
@@ -82,6 +109,11 @@ export const stringToDOM = (content) => {
   return [content]
 }
 
+/**
+ * avoid AMO checks `innerHTML`
+ * @param {String} content dom string
+ * @param {Element} target a dom node that will be injected
+ */
 export const injectHTML = (content, target) => {
   while (target.firstChild) target.removeChild(target.firstChild)
 

@@ -96,6 +96,10 @@ export default ({ el, store, template }) => ({
 
       this.$store.dispatch(REQUEST_VOICE, { q, from })
     },
+    handleCopy () {
+      this.$refs.copyTmp.select()
+      document.execCommand('Copy')
+    },
     fabPosition () {
       const { innerWidth, innerHeight } = window
       const { offsetWidth, offsetHeight } = this.$refs.fab

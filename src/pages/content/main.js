@@ -71,8 +71,7 @@ store.dispatch(INITIAL_FROM_BACKGROUND)
   })
 
   const { templates, current_template_id } = store.state
-  const { template, script, style } = templates.compiled[current_template_id]
-  console.log(style)
+  const { template, script } = templates.compiled[current_template_id]
 
   // float action container
   const el = document.createElement('div')

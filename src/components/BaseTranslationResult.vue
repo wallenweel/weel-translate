@@ -1,5 +1,11 @@
 <template lang="pug">
   v-card(:class="$style.result")
+    input(
+      type="text"
+      :class="$style.copyTmp"
+      :value="getResult.translation"
+      ref="copyTmp"
+      )
     v-layout(column wrap)
       v-flex(style="position: absolute; top: 0; right: 0;")
         v-tooltip(top)
@@ -25,7 +31,10 @@
           v-icon(color="blue-grey") volume_up
         span {{ getResult.phonetic_dest }}
       v-flex
-        v-btn(flat small icon)
+        v-btn(
+          flat small icon
+          @click="copy"
+          )
           v-icon(color="blue-grey") content_copy
         span(:class="$style.translation") {{ getResult.translation }}
       v-divider
@@ -75,12 +84,25 @@ export default {
     },
     voice (type) {
       this.$emit('speak', type)
+    },
+    copy () {
+      this.$refs.copyTmp.select()
+      document.execCommand('Copy')
+      this.$store.commit('globalTip', [true, 'Copy Successed.'])
     }
   }
 }
 </script>
 
 <style lang="scss" module>
+.copyTmp {
+  height: 0;
+  width: 0;
+  white-space: nowrap;
+  overflow: hidden;
+  position: absolute;
+}
+
 .result {
   min-height: 120px;
   padding: 8px 6px;

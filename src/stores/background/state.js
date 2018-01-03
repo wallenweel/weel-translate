@@ -116,6 +116,7 @@ __['templates'] = {
     @mouseup.prevent.stop="ev => ev.target.removeAttribute('data-mousedown')"
     @mousedown.prevent.stop="ev => ev.target.setAttribute('data-mousedown', true)"
   >
+    <input class="-copyTmp" type="text" :value="getResult.translation" ref="copyTmp" />
     <transition name="fade">
       <div v-show="fapShow">
         <div class="-phonetic" v-show="getResult.phonetic_src">
@@ -131,7 +132,7 @@ __['templates'] = {
           {{getResult.phonetic_dest}}
         </div>
         <div class="-translation">
-          <button class="-js -copy">
+          <button class="-js -copy" @click="handleCopy">
             <i class="weel-svg-icons -content-copy -icon"></i>
           </button>
           {{getResult.translation}}

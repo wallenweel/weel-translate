@@ -25,7 +25,10 @@ export const state = {
   translation_history: [],
   translation_collection: [],
 
-  sources: {},
+  sources: {
+    compiled: {},
+    preset: {}
+  },
 
   storageKeep: {
     local: ['result', 'input_text']

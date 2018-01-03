@@ -4,6 +4,7 @@ const utils = require('./utils')
 const config = require('../config')
 const vueLoaderConfig = require('./vue-loader.conf')
 const CopyWebpackPlugin = require('copy-webpack-plugin')
+const HtmlWebpackPlugin = require('html-webpack-plugin')
 
 function resolve (dir) {
   return path.join(__dirname, '..', dir)
@@ -119,6 +120,11 @@ module.exports = {
         from: `src/assets/manifest.${process.env.NODE_ENV}.json`,
         to: 'manifest.json'
       }
-    ])
+    ]),
+    new HtmlWebpackPlugin({
+      filename: 'content/index.html',
+      template: 'src/templates/content.pug',
+      inject: false
+    })
   ]
 }

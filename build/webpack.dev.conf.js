@@ -73,7 +73,7 @@ const devWebpackConfig = merge(baseWebpackConfig, {
       template: 'src/templates/options.pug',
       inject: true,
       chunks: ["options/app"]
-    }),
+    })
   ]
 })
 

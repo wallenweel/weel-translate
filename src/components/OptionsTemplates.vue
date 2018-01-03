@@ -3,31 +3,36 @@
     options-modify-toolbar
 
     v-layout(wrap :class="$style.content")
-      v-flex(d-flex sm6 lg5 :class="$style.editorPart")
+      v-flex(d-flex sm6 lg6 :class="$style.editorPart")
         base-code-editor(
           editorStyle="min-height: calc(100vh - 96px);"
-          :content="editorContent.template"
+          :content="tmp.templates.preset['default']"
           :method="handleRun"
           mode="text/html"
           error="true"
           )
 
-      v-flex(d-flex sm6 lg4 :class="$style.respondPart")
+      v-flex(d-flex sm6 lg6 :class="$style.respondPart")
         v-layout(column style="width: 100%; height: 100%;")
           v-toolbar(dense)
-            v-toolbar-title Get Request
-            v-spacer
-            v-tooltip(bottom)
-              v-btn(color="white" round slot="activator") Text
-              span Query Text
+            v-btn(
+              icon color="accent"
+              style="margin-top: 8px;"
+              @click="openLink"
+              )
+              v-icon touch_app
+            v-text-field(
+              label="Open other link in iframe."
+              placeholder="https://"
+              clearable hide-details
+              v-model="iframeLink"
+              )
 
-          v-flex(:class="$style.responseArea")
-            code {{ response }}
-
-      v-flex(d-flex sm12 lg3 :class="$style.viewPart")
-        v-layout(column)
-          v-container
-            base-translation(:api="currentSource" :response="result")
+          iframe(
+            height="100%" width="100%"
+            style="border: none; background: white;"
+            :src="iframeHref || href" ref="iframe"
+            )
 </template>
 
 <script>
@@ -42,15 +47,15 @@ export default {
     return {
       title: 'Edit/Create Translation API',
       editor: null,
+      href: '/content/index.html',
+      iframeLink: '',
+      iframeHref: '',
       preset: this.$store.state.templates['float-result-panel']
     }
   },
-  mounted () {
-    // console.log(this.preset)
-  },
   computed: {
     response () { return this.$store.state.tmp.sources.response },
-    ...mapState(['currentSource', 'result', 'editorContent'])
+    ...mapState(['currentSource', 'result', 'editorContent', 'tmp'])
   },
   methods: {
     handleRun (editor) {
@@ -63,6 +68,14 @@ export default {
         // TODO: add error dialog
         console.log(error)
       }
+    },
+    openLink () {
+      this.iframeHref = this.iframeLink || this.href
+    }
+  },
+  watch: {
+    iframeLink (v) {
+      if (!v) this.iframeHref = this.href
     }
   },
   components: {

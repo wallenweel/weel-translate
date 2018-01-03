@@ -35,7 +35,7 @@ __['storage'] = {
 }
 
 __['keep_all'] = false
-__['current_service_id'] = ''
+__['current_service_id'] = 'youdao'
 __['current_template_id'] = 'default'
 __['src_dest'] = ['', '']
 __['input_text'] = ''

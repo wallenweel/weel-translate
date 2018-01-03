@@ -43,6 +43,12 @@ export default {
       picked: this.collected
     }
   },
+  props: {
+    result: Object,
+    src: String,
+    dest: String,
+    collected: Boolean
+  },
   computed: {
     getResult () {
       const { phonetic_src, phonetic_dest, translation, explain } = this.result
@@ -51,15 +57,11 @@ export default {
         phonetic_src,
         phonetic_dest,
         translation: istype(translation, 'array') ? translation.join('') : translation,
-        explain: istype(explain, 'array') ? explain.join('\n').replace(/,/g, `, `) : explain.replace(/,/g, `, `)
+        explain: istype(explain, 'array')
+          ? explain.join('\n').replace(/,/g, `, `)
+          : (explain || '').replace(/,/g, `, `)
       }
     }
-  },
-  props: {
-    result: Object,
-    src: String,
-    dest: String,
-    collected: Boolean
   },
   methods: {
     pickIt (v) {

@@ -93,7 +93,6 @@ export default {
       source: {},
       content: this.input,
       blank: false,
-      src_dest: ['', ''],
       tip: ''
     }
   },
@@ -132,17 +131,9 @@ export default {
       default () { return false }
     }
   },
-  created () {
-    [
-      this.src_dest[0],
-      this.src_dest[1]
-    ] = [
-      this.srcDest[0],
-      this.srcDest[1]
-    ]
-  },
   computed: {
     languages () { return this.api.languages || [] },
+    src_dest () { return this.srcDest },
     id () { return this.api.id || '' },
     name () { return this.api.name || '' },
     icon () { return this.api.icon || '' },
@@ -183,8 +174,11 @@ export default {
         result
       })
     },
+    nextServiceSource () {
+      this.$store.dispatch('nextServiceSource')
+    },
     swapLanguages () {
-      this.src_dest = [this.src_dest[1], this.src_dest[0]]
+      this.$store.commit('swapLanguages')
     },
     deleteContent () {
       this.content = ''
@@ -198,9 +192,6 @@ export default {
       // console.log(JSON.stringify(text))
       // this.content = text.replace(/\n/g, ' ')
       this.content = text
-    },
-    nextServiceSource () {
-      this.$store.commit('nextServiceSource')
     }
   },
   watch: {

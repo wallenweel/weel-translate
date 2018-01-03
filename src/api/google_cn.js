@@ -1,7 +1,6 @@
 export default
 `["google", {
   "id": "google_cn",
-  "name": "Google cn",
-  "host": "https://translate.google.cn",
-  "include": ["auto", "zh-cn", "en"]
+  "name": "Google(中国)",
+  "host": "https://translate.google.cn"
 }]`

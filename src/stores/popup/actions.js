@@ -177,4 +177,14 @@ __['keepAllTranslation'] = ({ state, dispatch }, { status }) => {
   // relatived data in storage
 }
 
+__['nextServiceSource'] = ({ state, getters }) => {
+  const ids = state.sources.visible
+
+  let nextIndex = ids.indexOf(state['current_service_id']) + 1
+  if (nextIndex === ids.length) nextIndex = 0
+
+  state['current_service_id'] = ids[nextIndex]
+  state['src_dest'] = getters.currentSource.fromto || state['src_dest']
+}
+
 export default __

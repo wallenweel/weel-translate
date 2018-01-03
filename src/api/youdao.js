@@ -1,7 +1,7 @@
 export default
 `{
   "id": "youdao",
-  "name": "YouDao",
+  "name": "网易·有道",
   "icon": "",
 
   "host": "http://fanyi.youdao.com",
@@ -28,31 +28,21 @@ export default
     },
     "audio": {
       "method": "GET",      
-      "url": "{{host}}/translate_tts",
+      "url": "https://dict.youdao.com/dictvoice",
       "params": [
-        ["q", "{{q}}"],
-        ["tl", "{{from}}"],
-        ["client", "gtx"],
-        ["ie", "UTF-8"]
+        ["audio", "{{q}}"],
+        ["type", "1"]
       ]
     }
   },
 
   "parser": {
-    "phonetic_src": "/*no phonetic*/",
-    "phonetic_dest": "/*no phonetic*/",
+    "phonetic_src": "/*only voice*/",
+    "phonetic_dest": "/*unsupport*/",
     "translation": "translateResult(0.tgt)"
   },
 
-  "include": ["auto", "en", "iw"],
+  "fromto": ["AUTO", "AUTO"],
 
-  "languages": [{
-    "code": "zh-cn",
-    "name": "Chinese Simplified",
-    "trans": "中文(简体)"
-  }, {
-    "code": "jp",
-    "name": "Japanese",
-    "trans": "日文"
-  }]
+  "include": ["auto:>AUTO", "zh-cn:>zh-CHS", "en", "ja"]
 }`

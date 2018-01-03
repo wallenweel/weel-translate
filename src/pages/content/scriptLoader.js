@@ -4,7 +4,7 @@
  * at the moment, give up it but use Vue "template" compile.
  */
 import { floatAction } from '@/globals'
-import { parserDOMString } from '@/functions/utils'
+import { clog, parserDOMString } from '@/functions/utils'
 import store from './store'
 
 const { state } = store
@@ -65,7 +65,7 @@ export const loadTemplate = (template) => {
 
     if (!hasClick) return true
 
-    console.log(hasClick)
+    clog(hasClick)
   }, false)
 
   container.appendChild(templateCont)

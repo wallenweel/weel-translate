@@ -1,5 +1,6 @@
 import merge from 'deepmerge'
 import store from '@/stores/background'
+import { clg } from '@/functions/utils'
 import { runtime } from '@/globals'
 import {
   INITIAL_STORAGE_FROM_DEFAULT,
@@ -28,7 +29,6 @@ try {
     if (!success) return false
 
     // do something after all initial successfully
-    // store.watch(state => state.settings.test, a => console.log(a))
     // store.dispatch('REQUEST_TRANSLATION', {})
     store.watch(state => state.settings.use_context_menu, (value) => {
       if (!value) store.dispatch(REMOVE_CONTEXT_MENU)
@@ -43,10 +43,9 @@ try {
 
   // initialize everything
 } catch (error) {
-  console.log(
+  clg(
     '!!!something is wrong!!!'.toUpperCase(),
-    '\n',
-    error
+    `\n${error}`
   )
 }
 

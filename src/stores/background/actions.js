@@ -1,6 +1,6 @@
 import merge from 'deepmerge'
 import { storage, tabs, management, menus, env } from '@/globals'
-import { istype } from '@/functions/utils'
+import { clog, istype } from '@/functions/utils'
 import {
   INITIAL_STORAGE_FROM_DEFAULT,
   INITIAL_BACKGROUND_SCRIPT,
@@ -38,8 +38,15 @@ __[INITIAL_STORAGE_FROM_DEFAULT] = async ({ state }) => {
 
     await storage[type].set(config)
     .then(() => {
+      if (env.production) return true
+
       storage[type].get().then(all =>
-        console.log(`storage.${type}.set success\n`, all))
+        clog(
+          `[Weel]  `,
+          `storage.${type}.set success\n`,
+          all
+        )
+      )
     })
   }
 }
@@ -109,9 +116,9 @@ __[STORAGE_TYPE_SET] = async (
       state[key] = value
 
       storage[type].get().then(all =>
-        console.log(`storage.${type}.set success\n`, all))
+        clog(`storage.${type}.set success\n`, all))
     },
-    error => console.log(`storage.${type}.set fail\n`, error)
+    error => clog(`storage.${type}.set fail\n`, error)
   )
 }
 

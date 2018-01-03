@@ -1,4 +1,5 @@
-import merge from 'deepmerge'
+import { env } from '@/globals'
+
 /**
  * Two envrionments helper
  * @param {Callback} right run in right environment
@@ -11,6 +12,15 @@ export const aid = (right, substitute = () => null) => {
   } catch (error) {
     return substitute()
   }
+}
+
+export const clog = (...args) => {
+  if (!env.log) return false
+
+  console.log(
+    `[WeeL Translate] `,
+    ...args
+  )
 }
 
 // clone a simple object, mainly to avoid vuex
@@ -51,7 +61,8 @@ export const generateStorageWatchers = (store, callback) => {
     for (const key of states) {
       // store.watch(state => state[key], (curr, prev) => {
       store.watch(state => helper(key, state), (curr, prev) => {
-        console.log(type, key, merge({}, curr))
+        if (env.development) clog(type, key, `\n${JSON.stringify(curr)}`)
+
         callback(type, key, curr)
       }, { deep: true })
     }

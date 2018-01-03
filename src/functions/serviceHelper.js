@@ -1,5 +1,5 @@
 import merge from 'deepmerge'
-import { istype } from '@/functions/utils'
+import { clog, istype } from '@/functions/utils'
 import languageHelper from '@/functions/languageHelper'
 import parserHelper from '@/functions/parserHelper'
 import queryHelper from '@/functions/queryHelper'
@@ -29,7 +29,7 @@ export const parsePreset = (preset, presets) => {
 
     if (!istype(realPreset, 'object') || incorrect) {
       // TODO: add wrong alert to frontend
-      console.log(
+      clog(
         'wrong preset is supplied and skipped',
         JSON.stringify(presetJSON)
       )

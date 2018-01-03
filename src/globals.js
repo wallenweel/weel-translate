@@ -16,6 +16,7 @@ try {
 }
 
 export const env = {
+  log: true,
   development: process.env.NODE_ENV === 'development',
   get production () {
     return !this.development

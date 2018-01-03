@@ -1,6 +1,6 @@
 import Vue from 'vue'
 import WebExtUtils from '@/plugins/WebExtUtils'
-import { mapState, mapMutations, mapActions } from 'vuex'
+import { mapState, mapGetters, mapMutations, mapActions } from 'vuex'
 import { sendMessage } from '@/functions/runtime'
 import { runtime, env } from '@/globals'
 import {
@@ -71,7 +71,8 @@ store.dispatch(INITIAL_FROM_BACKGROUND)
   })
 
   const { templates, current_template_id } = store.state
-  const { template, script } = templates.compiled[current_template_id]
+  const { template, script, style } = templates.compiled[current_template_id]
+  console.log(style)
 
   // float action container
   const el = document.createElement('div')
@@ -84,6 +85,6 @@ store.dispatch(INITIAL_FROM_BACKGROUND)
   /* eslint-disable no-new */
   new Vue(Object.assign(
     defaultOptions({ el, store, template }),
-    (eval(script)({ mapState, mapMutations, mapActions }))
+    (eval(script)({ mapState, mapGetters, mapMutations, mapActions }))
   ))
 })

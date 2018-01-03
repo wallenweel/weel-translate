@@ -184,7 +184,11 @@ __['nextServiceSource'] = ({ state, getters }) => {
   if (nextIndex === ids.length) nextIndex = 0
 
   state['current_service_id'] = ids[nextIndex]
-  state['src_dest'] = getters.currentSource.fromto || state['src_dest']
+
+  const source = getters.currentSource
+  const code = source.languages[0].code
+
+  state['src_dest'] = source.fromto || [code, code]
 }
 
 export default __

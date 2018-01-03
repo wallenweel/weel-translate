@@ -13,28 +13,42 @@ Open `options page` then find ....
 ```js
 "* Must"
 "~ Recommended"
+"? Unused"
 
 // JSON Format
 {
   *"id": "google",
-  ~"name": "Google",
-  ~"icon": "", // base64 or uri, just be support to <img>'s src property
+  ~"name": "Google", // source api's name such as "有道"
+  ?"icon": "", // optional, base64 or uri, just be support to <img>'s src property
 
-  ~"url": "https://translate.google.com",
+  ~"host": "https://translate.google.com",
 
   *"query": {
     *"text": {
-      *"url": "{{url}}",
-      ~"params": [
-        ["q", "{{q}}"],
-        ["sl", "{{from}}"],
-        ["tl", "{{to}}"],
+      ~"method": "GET", // GET or POST, default GET
+
+      // if "method" is POST, you can custom a request header
+      // must be a plain object
+      // default: { 'Content-Type': 'application/x-www-form-urlencoded; charset=UTF-8' }
+      ~"header": {},
+
+      // request url, {{host}} = "https://translate.google.com"
+      // if "method" is GET, also accept to use only "url" = "url?[,param]"
+      *"url": "{{host}}/translate_a/single",
+
+      ~*"params": [
+        ["q", "{{q}}"], // {{q}} is input content
+        ["sl", "{{from}}"], // {{from}} is source language
+        ["tl", "{{to}}"], // {{to}} is destination language
         ["other", "param"]
       ]
     },
+    // tip: have not to use same source's tts
     ~"audio": {
-      *"url": "{{url}}/api_tts",
-      ~"params": [
+      ~"method": "GET",
+      ~"header": {},
+      *"url": "{{host}}/translate_tts",
+      ~*"params": [
         ["q", "{{q}}"],
         ["tl", "{{from}}"],
         ["client", "gtx"],
@@ -55,29 +69,41 @@ Open `options page` then find ....
     // we can use other things replace `, ` such as `&` or
     // just ` ` a blank space, if want a `\n` use `\\\\`
     "explain": "dict(pos, terms)"
+    "explain": "dict(,)" // only use a separator
+    "explain": "dict.foobar(pos.0.foo, terms.1.bar)" // deep index
   }
+
+  // [source, destination], it mean translate things from "en" to "zh-cn"
+  // it is optional, but very recommend use it, if do not that both will use
+  // the first language of source's "languages"
+  ~*"fromto": ["en", "zh-cn"],
   
-  // get languages list from `[project root]/src/api/languages.json`
-  ~"include": ["en", "zh-cn", "ja"], // array
-  // or
-  "include": "en/zh-cn/ja", // split by '/'
+  // @see `[repo]/src/api/languages.json` get the list
+  // can use "include" to select some common used languages
+  // use all of these languages will delay popup(browser action) rending
+  ~*"include": ["en", "zh-cn", "ja"], // first recommend use array
+  // also
+  "include": "en/zh-cn/ja", // split them by '/'
+
   // if you need to change language's code, like 'ja' -> 'jp'
-  "include": ["en", "zh-cn", "ja:>jp"],
-  "include": "en/zh-cn/ja:>jp",
+  // just to use this `:>` flag
+  "include": ["en", "zh-cn:>zh-CHS", "ja:>jp"],
+  "include": "en/zh-cn:>zh-CHS/ja:>jp",
 
-  "exclude": ["fr", "zh"], // same with "include" but will ignore "include"
+  // same with "include" but if it exist and will ignore "include"
+  ~"exclude": ["fr", "zh"],
 
-  // if you supply "languages" key like below,
-  // extension's corresponding item will be override.
-  // you don not need to put their 'code' in "include"
-  "languages": [{
-    "code": "zh",
-    "name": "Chinese",
-    "locale": "中文"
+  // if default language list have not some language that you want
+  // or you want to override some, supply "languages" key like below
+  // tip: if you do this, new languages will auto include to "include" list
+  ~"languages": [{
+    *"code": "zh",
+    *"name": "Chinese",
+    *"locale": "中文"
   }, {
-    "code": "jp",
-    "name": "Japanese",
-    "locale": "日文"
+    *"code": "jp",
+    *"name": "Japanese",
+    *"locale": "日文"
   }]
 }
 
@@ -89,36 +115,101 @@ Open `options page` then find ....
 // the last element will be new api's preset and
 // it will deep merge and override to foregoing presets
 [
-  *"google", // other api's id
-
-  // "more", // no limit, support compose some api presets
-
+  // other api's id
+  *"google",
   {
-    *"id": "google_cn", // its
-    "url": "https://translate.google.cn"
+    *"id": "google_cn", // must not be same with others
+    ~"url": "https://translate.google.cn",
+    ~"include": ["en", "ja:>jp"]
+    // ...
   }
 ]
 ```
 
 
-## Custom Styles
+## Custom Template
 
-> Modify some elements's appearance by your custom CSS
+> Now only support "float action button/panel" in web page (run in content script)
+> Current implement is full custom by using eval(vue2+vuex) due to I have not more enough
+> time for the project and maybe this is better.
+
+### Simple Example
+```html
+<!-- no work in current version -->
+<!-- <parser> accept to define or override source's parser -->
+<preser>
+{
+  "google|google_cn": {
+    "phonetic_src": "sentences.$.src_translit",
+    "phonetic_dest": "sentences.$.translit",
+    "translation": "sentences(trans)",
+    "explain": "dict(pos////terms)"
+  }
+}
+</preser>
+<template>
+  <div>
+    <!-- must have a root node -->
+    <!-- feel free, if you know about vue string template -->
+    <h1>{{`${foo} ${bar}`}}</h1>
+    <!-- Hello World -->
+  </div>
+</template>
+<script>
+  // must use a function as entry
+  // return a vue component options
+  ({
+    mapState,
+    mapGetters,
+    mapMutations,
+    mapActions
+  }) => ({
+    name: "Demo",
+    data () {
+      return {
+        foo: 'Hello',
+        bar: 'World'
+      }
+    }
+  })
+</script>
+
+<!-- recommend add the "scoped" property in order to do not effect page style -->
+<!-- if "scoped" prop has a value "scoped=demo" and will output: -->
+<!-- [demo] h1 { color: red; } -->
+<style scoped>
+  /* if css rules appear [scoped] it will auto replace with real one */
+  /* [data-47a39a3b], [data-47a39a3b] * { color: blue; } */
+  [scoped], [scoped] * {
+    all: initial;
+    font-family: Arial, sans-serif;
+  }
+
+  /* output: [data-47a39a3b] h1 { color: red; } */
+  h1 {
+    color: red;
+  }
+</style>
+```
 
 
-## Thanks & Using These Projects
+## Thanks These Projects
 
 + vue2
-+ vue-router
 + vuex
++ vue-router
 + vuetify
 + material desigon icons
++ ...
 
 ## Build Setup
 
 ``` bash
 # install dependencies
-npm install // or yarn
+npm install
+
+# or but recommend
+yarn
 
 # serve with hot reload at localhost:3030
 npm run dev:server

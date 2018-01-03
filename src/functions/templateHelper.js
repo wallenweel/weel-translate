@@ -48,10 +48,17 @@ export const compileStyle = (dom) => {
   }
 
   const rules = Array.from(style.sheet.cssRules).reduce((a, r) => {
+    let cssSelector = r.selectorText
     let cssText = r.cssText
 
-    if (scoped && /^\[scoped\]\s*/.test(cssText)) {
-      cssText = `[${scoped}]${cssText.replace(/^\[scoped\]/, '')}`
+    if (scoped) {
+      if (/^\[scoped\]\s*/.test(cssText)) {
+        cssSelector = cssSelector.replace(/\[scoped\]/g, `[${scoped}]`)
+      } else {
+        cssSelector = `[${scoped}] ${cssSelector}`
+      }
+
+      cssText = cssText.replace(r.selectorText, cssSelector)
     }
 
     return a.push(cssText) && a

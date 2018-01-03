@@ -71,7 +71,9 @@ export default ({ el, store, template }) => ({
         phonetic_src,
         phonetic_dest,
         translation: istype(translation, 'array') ? translation.join('') : translation,
-        explain: istype(explain, 'array') ? explain.join('\n') : explain
+        explain: istype(explain, 'array')
+          ? explain.join('\n').replace(/,/g, `, `)
+          : (explain || '').replace(/,/g, `, `)
       }
     },
     useFAB () { return this.settings.use_fab },

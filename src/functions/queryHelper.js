@@ -31,6 +31,9 @@ export default ({
       search = decodeURI(searchParams.toString())
     }
 
+    const defaultHeader = {
+      'Content-Type': 'application/x-www-form-urlencoded; charset=UTF-8'
+    }
     const methods = {
       GET (arg = {}) {
         // allow only use <type>[url] but that will void <type>[params]
@@ -40,7 +43,7 @@ export default ({
         return [url, {
           method,
           body: new URLSearchParams(replaceHelper(search, arg)),
-          header
+          header: Object.assign(defaultHeader, header)
         }]
       }
     }

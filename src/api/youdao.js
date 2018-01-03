@@ -39,8 +39,8 @@ export default
   },
 
   "parser": {
-    "phonetic_src": "/*no support*/",
-    "phonetic_dest": "/*no support*/",
+    "phonetic_src": "/*no phonetic*/",
+    "phonetic_dest": "/*no phonetic*/",
     "translation": "translateResult(0.tgt)"
   },
 

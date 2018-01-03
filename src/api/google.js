@@ -44,15 +44,5 @@ export default
 
   "fromto" : ["en", "zh-cn"],
 
-  "include": ["auto", "en", "iw"],
-
-  "languages": [{
-    "code": "zh-cn",
-    "name": "Chinese Simplified",
-    "trans": "中文(简体)"
-  }, {
-    "code": "jp",
-    "name": "Japanese",
-    "trans": "日文"
-  }]
+  "exclude": ["auto"]
 }`

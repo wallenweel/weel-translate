@@ -1,5 +1,5 @@
 <template lang="pug">
-  v-layout(column wrap)
+  v-layout(column)
     div(
       contenteditable
       :class="$style.pasteTmp"

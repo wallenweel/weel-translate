@@ -11,54 +11,48 @@
             v-icon(color="accent" v-else) star
           span Collect This
       v-flex
-        v-tooltip(top)
-          v-btn(
-            flat small icon slot="activator"
-            @click="voice({ src })"
-            )
-            v-icon(color="blue-grey") volume_up
-          span Source Pron
+        v-btn(
+          flat small icon
+          @click="voice({ src })"
+          )
+          v-icon(color="blue-grey") volume_up
         span {{ getResult.phonetic_src }}
       v-flex
-        v-tooltip(top)
-          v-btn(
-            flat small icon slot="activator"
-            @click="voice({ dest, text: getResult.translation })"
-            )
-            v-icon(color="blue-grey") volume_up
-          span Destination Pron
+        v-btn(
+          flat small icon
+          @click="voice({ dest, text: getResult.translation })"
+          )
+          v-icon(color="blue-grey") volume_up
         span {{ getResult.phonetic_dest }}
       v-flex
         v-btn(flat small icon)
           v-icon(color="blue-grey") content_copy
         span(:class="$style.translation") {{ getResult.translation }}
       v-divider
-      v-card-text(class="body-2")
-        pre(v-for="item in getResult.explain") {{ item }}
+      v-card-text(class="body-2" :class="$style.explain")
+        pre {{ getResult.explain }}
 </template>
 
 <script>
+import { istype } from '@/functions/utils'
+
 export default {
   name: 'BaseTranslationResult',
   data () {
     return {
-      picked: this.collected,
-      default: {
-        phonetic: {},
-        translation: '',
-        explain: []
-      }
+      picked: this.collected
     }
   },
   computed: {
     getResult () {
-      let { translation, phonetic_src, phonetic_dest, explain } =
-      !Object.keys(this.result).length ? this.default : this.result
+      const { phonetic_src, phonetic_dest, translation, explain } = this.result
 
-      translation = typeof translation === 'object'
-      ? Object.values(translation).join(' ') : translation
-
-      return { translation, phonetic_src, phonetic_dest, explain }
+      return {
+        phonetic_src,
+        phonetic_dest,
+        translation: istype(translation, 'array') ? translation.join('') : translation,
+        explain: istype(explain, 'array') ? explain.join('\n').replace(/,/g, `, `) : explain.replace(/,/g, `, `)
+      }
     }
   },
   props: {
@@ -92,6 +86,18 @@ export default {
 
 .translation {
   font-weight: bold;
+}
+
+.explain {
+  display: flex;
+
+  :global(pre) {
+    width: 0;
+    white-space: pre-wrap;
+    font-family: inherit;
+    flex: 1 1 auto;
+    overflow: hidden;
+  }
 }
 </style>
 

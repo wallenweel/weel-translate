@@ -1,6 +1,6 @@
 import merge from 'deepmerge'
 import { storage, tabs, management, menus, env } from '@/globals'
-import { clog, istype } from '@/functions/utils'
+import { clog, jpjs, istype } from '@/functions/utils'
 import {
   INITIAL_STORAGE_FROM_DEFAULT,
   INITIAL_BACKGROUND_SCRIPT,
@@ -87,7 +87,7 @@ __[INITIAL_BACKGROUND_SCRIPT] = async ({ state, getters, commit, dispatch }, ski
     if (!id || !ids.includes(id)) state['current_service_id'] = ids[0]
 
     if (istype(getters.currentSource.fromto, 'array')) {
-      state.src_dest = getters.currentSource.fromto
+      state.src_dest = jpjs(getters.currentSource.fromto)
     } else {
       const code = getters.currentSource.languages[0]
 

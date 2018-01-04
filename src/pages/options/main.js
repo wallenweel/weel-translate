@@ -9,12 +9,10 @@ import 'vuetify/dist/vuetify.min.css'
 import router from '@/routers/options'
 import store from '@/stores/options'
 import WebExtUtils from '@/plugins/WebExtUtils'
-// import { generateStorageWatchers } from '@/functions/utils'
 import { vuetify } from '@/globals'
 
 import App from './App'
 import {
-  // UPDATE_STORAGE_STATE,
   INITIAL_FROM_BACKGROUND
 } from '@/types'
 
@@ -28,9 +26,6 @@ Vue.use(WebExtUtils)
 ;(async () => [await store.dispatch(INITIAL_FROM_BACKGROUND)])()
 .then(([success]) => {
   if (!success) return false
-
-  // generateStorageWatchers(store, (type, key) =>
-  //   typeof store.dispatch(UPDATE_STORAGE_STATE, { type, key }))
 
   /* eslint-disable no-new */
   new Vue({

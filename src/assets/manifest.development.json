@@ -36,10 +36,7 @@
   },
 
   "permissions": [
-    "webRequest",
-    "webRequestBlocking",
     "<all_urls>",
-    "*://*/*",
     "tabs",
     "storage",
     "menus",
@@ -59,7 +56,7 @@
   "browser_action": {
     "browser_style": false,
     "default_icon": {
-      "16": "icons/weel-translate.svg"
+      "24": "icons/weel-translate.svg"
     },
     "default_title": "Weel Translate 2",
     "default_popup": "popup/index.html"

@@ -60,11 +60,11 @@ export default {
   },
   computed: {
     getResult () {
-      const { phonetic_src, phonetic_dest, translation, explain } = this.result
+      const { translation, explain } = this.result
 
       return {
-        phonetic_src,
-        phonetic_dest,
+        phonetic_src: this.result['phonetic_src'] || '...',
+        phonetic_dest: this.result['phonetic_dest'] || '...',
         translation: istype(translation, 'array') ? translation.join('') : translation,
         explain: istype(explain, 'array')
           ? explain.join('\n').replace(/,/g, `, `)

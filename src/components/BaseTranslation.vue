@@ -41,9 +41,10 @@
     v-card
       v-text-field(
         textarea rows=3 full-width
-        placeholder="something else ..."
-        v-model="content"
+        placeholder="Use \`Enter\` key to do translate."
         ref="content"
+        v-model="content"
+        @keydown.native.enter.prevent="handleKeydown"
         )
 
       v-layout(row justify-space-around :class="$style.tools")
@@ -140,8 +141,8 @@ export default {
     collected () { return this.$store.state.currentCollected }
   },
   methods: {
-    requestTranslation (ev) {
-      if (!this.content.length) {
+    requestTranslation () {
+      if (!this.content.length || !/[^\n]/.test(this.content)) {
         return this.$store.commit('globalTip', [true, 'No words for translating.'])
       }
 
@@ -150,6 +151,18 @@ export default {
         from: this.src_dest[0],
         to: this.src_dest[1]
       })
+    },
+    handleKeydown ({ ctrlKey, code }) {
+      if (code === 'Enter') {
+        if (ctrlKey) {
+          this.content = `${this.content}\n`
+          return true
+        }
+
+        this.requestTranslation()
+      }
+
+      return true
     },
     requestVoice ({ src, dest, text }) {
       if (typeof src === 'undefined') {

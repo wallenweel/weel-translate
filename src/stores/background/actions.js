@@ -113,6 +113,8 @@ __[STORAGE_TYPE_SET] = async (
       // update "state"
       state[key] = value
 
+      if (env.production) return true
+
       storage[type].get().then(all =>
         clog(STORAGE_TYPE_SET, ` storage.${type}.set success\n`, all))
     },

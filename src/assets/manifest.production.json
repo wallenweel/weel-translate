@@ -15,18 +15,15 @@
 
   "applications": {
     "gecko": {
-      "id": "weel-translate@mozilla.org",
+      "id": "@weel-translate",
       "strict_min_version": "52.0"
     }
   },
 
-  "content_security_policy": "script-src 'self' https://cdn.bootcss.com; object-src 'self'",
-
   "default_locale": "en",
 
   "icons": {
-    "48": "icons/weel-translate.svg",
-    "96": "icons/weel-translate.svg"
+    "24": "icons/weel-translate.svg"
   },
 
   "commands": {

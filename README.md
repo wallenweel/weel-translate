@@ -1,142 +1,168 @@
 # Weel Translate 2
 
-> A Material Design Style Translation Extension For Browser(Firefox). 
+> 一款 Material Design 风格的（火狐）浏览器翻译扩展。当前 v2.0 版本旨在能够让扩展程序与翻译数据源分离，避免因为翻译源停止服务或变更接口而造成功能的减损甚至完全不可用。
 
-## Add Translation Service Source
 
-> Weel Translation 2 begin to support custom API config, feel free
-to make your own translation service.
+## 自由定制/添加翻译源（API）
 
-Open `options page` then find ....
+> Weel Translate 2 采取以 JSON 配置来约定翻译源跟内部程序的数据交互，扩展内置的配置可以自由删改或者新建其它的配置。
 
-### Simple Example:
+### 操作方法
+1. 打开浏览器的 **附加组件** 页面，`about:addons` 为 Firefox 的地址
+2. 找到 **Weel Translate** 一项，点击 **选项**
+3. 在打开的页面左侧找到 **服务源 API**
+
+### 示例说明（仅作演示无法复制运行）:
 ```js
-"* Must"
-"~ Recommended"
-"? Unused"
+"* 必需项"
+"~ 推荐项"
+"? 未使用"
 
-// JSON Format
+/**
+ * JSON 格式
+ * 实际调整可参考内置的 APIs
+ */
 {
-  *"id": "google",
-  ~"name": "Google", // source api's name such as "有道"
-  ?"icon": "", // optional, base64 or uri, just be support to <img>'s src property
+  *"id": "google", // 翻译源 ID，不可重复，创建后不建议修改
+  ~"name": "Google", // 翻译源的名称，字符随意，例如： "网易·有道"
+  ?"icon": "", // base64 图片数据，当前未在程序中使用
 
+  // 翻译源地址，主要用于提供变量，不用的话可省略
   ~"host": "https://translate.google.com",
 
+  // 查询对象
   *"query": {
+    // 文本翻译的请求
     *"text": {
-      ~"method": "GET", // GET or POST, default GET
+      ~"method": "GET", // 请求方式，GET 或者 POST，默认为 GET
 
-      // if "method" is POST, you can custom a request header
-      // must be a plain object
-      // default: { 'Content-Type': 'application/x-www-form-urlencoded; charset=UTF-8' }
+      // 如果 "method" 为 POST, 可以自定义一个常规的"请求头"
+      // @see https://developer.mozilla.org/zh-CN/docs/Web/HTTP/Headers
+      // 请求头必须是一个对象字面量
+      // 留空默认: { 'Content-Type': 'application/x-www-form-urlencoded; charset=UTF-8' }
       ~"header": {},
 
-      // request url, {{host}} = "https://translate.google.com"
-      // if "method" is GET, also accept to use only "url" = "url?[,param]"
+      // 请求地址，变量 {{host}} 获取 "host": "https://translate.google.com"
+      // 如果 "method" 为 GET 的话，可以只提供查询地址 "url": "url?[,param]"
       *"url": "{{host}}/translate_a/single",
 
+      // 查询参数，"method" 为 GET 的话支持字符串形式 "q={{q}}&from={{from}}&..."
+      // 此外只支持二位数组，[,[key, value]]
       ~*"params": [
-        ["q", "{{q}}"], // {{q}} is input content
-        ["sl", "{{from}}"], // {{from}} is source language
-        ["tl", "{{to}}"], // {{to}} is destination language
+        ["q", "{{q}}"], // {{q}} 获取需要翻译的文本
+        ["sl", "{{from}}"], // {{from}} 为源语言的 code
+        ["tl", "{{to}}"], // {{to}} 为目标语言的 code
+
+        // 如果存在多条键名相同，可使用数组作为 "value"
+        ["test", ["foo", "bar"]],
+
+        // 无限制数量，不过尽量只添加需要的参数
         ["other", "param"]
       ]
     },
-    // tip: have not to use same source's tts
+
+    // 发音的请求，不必使用同一翻译源的发音服务，可以搭配其它服务源的
     ~"audio": {
-      ~"method": "GET",
-      ~"header": {},
+      ?"method": "GET", // 默认 GET，当前未支持 POST
+      ?"header": {}, // 当前未支持
+
+      // 发音请求地址
       *"url": "{{host}}/translate_tts",
+
+      // 与文本翻译部分类似
       ~*"params": [
-        ["q", "{{q}}"],
-        ["tl", "{{from}}"],
-        ["client", "gtx"],
-        ["ie", "UTF-8"]
+        ["q", "{{q}}"], // 获取发音文本
+
+        // 获取发音源语言，根据服务源的情况可能不稳定，
+        // 可以不使用变量来固定某一语言的发音
+        ["tl", "{{from}}"]
       ]
     }
   },
 
+  // 翻译结果解析，实例以 google translate api 为例
+  // 为了避免安全审核问题，现在采用的是占位字符来解析获取对应结果
+  // 当前版本只有演示的四个关键字可用
   *"parser": {
-    // 'sentences' is a array, but it's elements are plain object
-    // by `(trans)` get 'object.trans' of all to a array
-    "translation": "sentences(trans)",
-    // '$' mean 'sentences' this array's last one,
-    // '$$' mean last but one, and so on.
-    // use 'sentences.0.translit' get the first.
-    "phonetic_src": "sentences.$.translit",
-    // `(pos, terms)` like 'translation', but get two(or more) properties,
-    // we can use other things replace `, ` such as `&` or
-    // just ` ` a blank space, if want a `\n` use `\\\\`
-    "explain": "dict(pos, terms)"
-    "explain": "dict(,)" // only use a separator
-    "explain": "dict.foobar(pos.0.foo, terms.1.bar)" // deep index
+    // 这里返回的 json 结果中 'sentences' 是一个对象数组，需要
+    // 内容 'trans' 在对象内部，通过圆括号来索引所有数组元素中对象属性
+    *"translation": "sentences(trans)",
+
+    // '$' 为索引 'sentences' 这个数组的倒数第一个元素
+    // 类似的，通过 '$$' 两个 $ 来索引倒数第二个，以此类推
+    // 当然可以这样 'sentences.0.translit' 数字索引正常顺序的元素
+    ~"phonetic_src": "sentences.$.src_translit", // 源音标
+    ~"phonetic_dest": "sentences.$.translit", // 目标音标
+
+    // 这里的 `(pos, terms)` 类似于 'translation'，但是它可以获取更多
+    // 的键值，可以使用任何 "." 点字符以外符号替代 ", " 来作为结果的分隔符
+    // 例如：" " 空格、"&"、"/"，"////" 四个正斜杠可以作为 "\n" 换行符
+    ~"explain": "dict(pos, terms)"
+    ~?"explain": "dict(,)" // 可以只使用符号
+    ~"explain": "dict.foobar(pos.0.foo, terms.1.bar)" // 支持用点操作符深度索引
   }
 
-  // [source, destination], it mean translate things from "en" to "zh-cn"
-  // it is optional, but very recommend use it, if do not that both will use
-  // the first language of source's "languages"
+  // [源语言, 目标语言]
+  // 此项可选，但非常建议使用，如果未提供此项的话，默认两者都是语言列表的首个
   ~*"fromto": ["en", "zh-cn"],
   
-  // @see `[repo]/src/api/languages.json` get the list
-  // can use "include" to select some common used languages
-  // use all of these languages will delay popup(browser action) rending
-  ~*"include": ["en", "zh-cn", "ja"], // first recommend use array
+  // @see `[repo]/src/api/languages.json` 这里是默认支持的语言列表
+  // "include" 用于只包含一些语言，建议使用，因为默认载入所有的语言会造成轻微的启动迟缓
+  ~*"include": ["en", "zh-cn", "ja"], // 数组形式，推荐使用
   // also
-  "include": "en/zh-cn/ja", // split them by '/'
+  ~"include": "en/zh-cn/ja", // 字符串形式，使用 '/' 来分隔
 
-  // if you need to change language's code, like 'ja' -> 'jp'
-  // just to use this `:>` flag
-  "include": ["en", "zh-cn:>zh-CHS", "ja:>jp"],
-  "include": "en/zh-cn:>zh-CHS/ja:>jp",
+  // 通常各个翻译源的语言码并不统一，需要对应修改，比如 'ja' -> 'jp'
+  // 使用 `:>` 字符来在编译时对应修改成正确的语言码
+  ~*"include": ["en", "zh-cn:>zh-CHS", "ja:>jp"],
+  ~"include": "en/zh-cn:>zh-CHS/ja:>jp",
 
-  // same with "include" but if it exist and will ignore "include"
+  // 使用方法和 "include" 类似，如果使用此项将忽略 "include" 的配置内容
   ~"exclude": ["fr", "zh"],
 
-  // if default language list have not some language that you want
-  // or you want to override some, supply "languages" key like below
-  // tip: if you do this, new languages will auto include to "include" list
+  // 如果默认的语言列表未包含所需语言，或者想要自定义语言列表（使用 "include": [] 来屏蔽所有默认语言)
+  // 可以用下面的形式来定制
+  // 提示：如果定制语言，无需再额外将它们的语言码添加到 "include" 中
   ~"languages": [{
-    *"code": "zh",
-    *"name": "Chinese",
-    *"locale": "中文"
+    *"code": "zh", // 语言码
+    *"name": "Chinese", // 语言名称
+    ~*"locale": "中文" // 语言名称翻译
   }, {
     *"code": "jp",
     *"name": "Japanese",
-    *"locale": "日文"
+    ~*"locale": "日文"
   }]
 }
 
 ```
 
-### Inherit From Other Service API
+### 从其它已有的服务源继承配置
 ```js
-// Use array type instead of object
-// the last element will be new api's preset and
-// it will deep merge and override to foregoing presets
+// 使用数组来定义继承配置，数组的最后一个对象元素为新的配置，它们会被深度
+// 覆盖到前面的父级配置中
 [
-  // other api's id
+  // 父级 API 的 ID
   *"google",
   {
-    *"id": "google_cn", // must not be same with others
+    *"id": "google_cn", // 新配置的 ID，不可与其它配置相同
+
+    // 需要覆盖的项
     ~"url": "https://translate.google.cn",
     ~"include": ["en", "ja:>jp"]
-    // ...
+    // 更多
   }
 ]
 ```
 
 
-## Custom Template
+## 自定义翻译结果模板（实验性）
 
-> Now only support "float action button/panel" in web page (run in content script)
-> Current implement is full custom by using eval(vue2+vuex) due to I have not more enough
-> time for the project and maybe this is better.
+> 现阶段只支持网页中的 **浮动面板和按钮**，通过 `content script` 的载入。实现方式类似 vue 的单文件模板，使用 `eval(vue2 + vuex)` 的方式直接渲染注入到目标网页中。不确定 AMO 对这种做法的审核容忍度，原本的方案是像 **API 模板** 那样约定数据格式来内部编译，但时间精力考虑下做了保留处理并切换到现在的方案，个人觉得这样对有这方面需求的人来说更方便友好一些，只是看到 AMO 愈发保（Yan）守（Ge）的态度和一长串的 lint 警告有些心冷 ＞﹏＜。
 
-### Simple Example
+### 示例说明（仅作演示无法复制运行）
 ```html
-<!-- no work in current version -->
-<!-- <parser> accept to define or override source's parser -->
+<!-- 解析器，可选，允许模板可以定制和覆盖 API 模板中的 "parser" -->
+<!-- !!当前版本未实现!! -->
 <preser>
 {
   "google|google_cn": {
@@ -147,17 +173,22 @@ Open `options page` then find ....
   }
 }
 </preser>
-<template>
+
+<!-- 模板，必需，规则基本与 Vue 相同 -->
+<!-- "id" 定义模板 ID，"name" 定义名称，当前未使用 -->
+<template id="default" name="">
+  <!-- 必须有且只能有一个根元素 -->
   <div>
-    <!-- must have a root node -->
-    <!-- feel free, if you know about vue string template -->
+    <!-- 如果熟悉 Vue 字符串模板的话，这里没有任何不同 -->
     <h1>{{`${foo} ${bar}`}}</h1>
-    <!-- Hello World -->
+    <!-- 输出 Hello World -->
   </div>
 </template>
+
+<!-- 脚本，可选 ?，通过一个方法包裹返回 Vue 实例的 "options" 对象 -->
 <script>
-  // must use a function as entry
-  // return a vue component options
+  // 必须用函数方法来包裹，这里使用的是 ES6 的箭头函数
+  // 返回的必须是实例化 Vue 的合法选项对象
   ({
     mapState,
     mapGetters,
@@ -174,18 +205,21 @@ Open `options page` then find ....
   })
 </script>
 
-<!-- recommend add the "scoped" property in order to do not effect page style -->
-<!-- if "scoped" prop has a value "scoped=demo" and will output: -->
-<!-- [demo] h1 { color: red; } -->
+<!-- 样式，可选，会使用 tab.injectCSS() 来注入到目标网页 -->
+<!-- 可用 "scoped" 属性来给 CSS 规则添加作用域避免污染目标网页的内容 -->
+<!-- 如果 "scoped" 留空，默认生成一个基于时间戳的伪 hash 字符串 [data-47a39a3b] -->
+<!-- 可通过 scoped="demo" 来自定义作用域名称，示例将输出 [data-demo] h1 { color: red; } -->
 <style scoped>
-  /* if css rules appear [scoped] it will auto replace with real one */
+  /* 如果样式规则中出现 [scoped] 字样它将会替换成正确的内容，如下 */
   /* [data-47a39a3b], [data-47a39a3b] * { color: blue; } */
   [scoped], [scoped] * {
+    /* 建议使用此规则来覆盖屏蔽目标网页的样式，但这样会需要手动还原一些默认样式 */
+    /* 比如 a 标签的字体颜色和下划线都会被重置消失 */
     all: initial;
     font-family: Arial, sans-serif;
   }
 
-  /* output: [data-47a39a3b] h1 { color: red; } */
+  /* 输出: [data-47a39a3b] h1 { color: red; } */
   h1 {
     color: red;
   }
@@ -193,16 +227,16 @@ Open `options page` then find ....
 ```
 
 
-## Thanks These Projects
+## 感谢这些使用到的开源项目 👍
 
-+ vue2
-+ vuex
-+ vue-router
-+ vuetify
-+ material desigon icons
++ Vue2
++ Vuex
++ Vue Router
++ Vuetify
++ Material Desigon Icons
 + ...
 
-## Build Setup
+## 项目构建命令
 
 ``` bash
 # install dependencies

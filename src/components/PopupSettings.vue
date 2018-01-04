@@ -1,5 +1,5 @@
 <template lang="pug">
-  v-layout(wrap column)
+  v-layout(wrap column :class="$style.wrap")
     v-alert(
       style="margin: 0 0; width: 100%;"
       type="info" :value="true"
@@ -160,6 +160,10 @@ export default {
 </script>
 
 <style lang="scss" module>
+:global(.theme--light) .wrap {
+  background-color: $color-background;
+}
+
 .section {
   margin: 12px 16px;
   :global {

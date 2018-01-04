@@ -5,8 +5,7 @@
   },
 
   "EXTENSION_SHORT_NAME": {
-    "message": "Weel Translate 2",
-    "description": ""
+    "message": "Weel Translate 2"
   },
 
   "EXTENSION_DESCRIPTION": {
@@ -14,538 +13,459 @@
     "description": "Description of the add-on."
   },
 
+  "TRANSLATION": {
+    "message": "Translation"
+  },
+
+  "RECENT": {
+    "message": "Recent"
+  },
+
+  "COLLECTION": {
+    "message": "Collection"
+  },
+
+  "PREFERENCE": {
+    "message": "Preference"
+  },
+
+  "SETTING": {
+    "message": "Setting"
+  },
+
+  "FEEDBACK": {
+    "message": "Feedback"
+  },
+
+  "DONATE": {
+    "message": "Donate"
+  },
+
   "SELECT": {
-    "message": "Select",
-    "description": ""
+    "message": "Select"
   },
 
   "DEMO": {
-    "message": "Demo",
-    "description": ""
+    "message": "Demo"
   },
 
   "AUTOMATIC": {
-    "message": "Automatic",
-    "description": ""
+    "message": "Automatic"
   },
   
   "AFRIKAANS": {
-    "message": "Afrikaans",
-    "description": ""
+    "message": "Afrikaans"
   },
   
   "ALBANIAN": {
-    "message": "Albanian",
-    "description": ""
+    "message": "Albanian"
   },
   
   "AMHARIC": {
-    "message": "Amharic",
-    "description": ""
+    "message": "Amharic"
   },
   
   "ARABIC": {
-    "message": "Arabic",
-    "description": ""
+    "message": "Arabic"
   },
   
   "ARMENIAN": {
-    "message": "Armenian",
-    "description": ""
+    "message": "Armenian"
   },
   
   "AZERBAIJANI": {
-    "message": "Azerbaijani",
-    "description": ""
+    "message": "Azerbaijani"
   },
   
   "BASQUE": {
-    "message": "Basque",
-    "description": ""
+    "message": "Basque"
   },
   
   "BELARUSIAN": {
-    "message": "Belarusian",
-    "description": ""
+    "message": "Belarusian"
   },
   
   "BENGALI": {
-    "message": "Bengali",
-    "description": ""
+    "message": "Bengali"
   },
   
   "BOSNIAN": {
-    "message": "Bosnian",
-    "description": ""
+    "message": "Bosnian"
   },
   
   "BULGARIAN": {
-    "message": "Bulgarian",
-    "description": ""
+    "message": "Bulgarian"
   },
   
   "CATALAN": {
-    "message": "Catalan",
-    "description": ""
+    "message": "Catalan"
   },
   
   "CEBUANO": {
-    "message": "Cebuano",
-    "description": ""
+    "message": "Cebuano"
   },
   
   "CHICHEWA": {
-    "message": "Chichewa",
-    "description": ""
+    "message": "Chichewa"
   },
   
   "CHINESE_SIMPLIFIED": {
-    "message": "Chinese Simplified",
-    "description": ""
+    "message": "Chinese Simplified"
   },
   
   "CHINESE_TRADITIONAL": {
-    "message": "Chinese Traditional",
-    "description": ""
+    "message": "Chinese Traditional"
   },
   
   "CORSICAN": {
-    "message": "Corsican",
-    "description": ""
+    "message": "Corsican"
   },
   
   "CROATIAN": {
-    "message": "Croatian",
-    "description": ""
+    "message": "Croatian"
   },
   
   "CZECH": {
-    "message": "Czech",
-    "description": ""
+    "message": "Czech"
   },
   
   "DANISH": {
-    "message": "Danish",
-    "description": ""
+    "message": "Danish"
   },
   
   "DUTCH": {
-    "message": "Dutch",
-    "description": ""
+    "message": "Dutch"
   },
   
   "ENGLISH": {
-    "message": "English",
-    "description": ""
+    "message": "English"
   },
   
   "ESPERANTO": {
-    "message": "Esperanto",
-    "description": ""
+    "message": "Esperanto"
   },
   
   "ESTONIAN": {
-    "message": "Estonian",
-    "description": ""
+    "message": "Estonian"
   },
   
   "FILIPINO": {
-    "message": "Filipino",
-    "description": ""
+    "message": "Filipino"
   },
   
   "FINNISH": {
-    "message": "Finnish",
-    "description": ""
+    "message": "Finnish"
   },
   
   "FRENCH": {
-    "message": "French",
-    "description": ""
+    "message": "French"
   },
   
   "FRISIAN": {
-    "message": "Frisian",
-    "description": ""
+    "message": "Frisian"
   },
   
   "GALICIAN": {
-    "message": "Galician",
-    "description": ""
+    "message": "Galician"
   },
   
   "GEORGIAN": {
-    "message": "Georgian",
-    "description": ""
+    "message": "Georgian"
   },
   
   "GERMAN": {
-    "message": "German",
-    "description": ""
+    "message": "German"
   },
   
   "GREEK": {
-    "message": "Greek",
-    "description": ""
+    "message": "Greek"
   },
   
   "GUJARATI": {
-    "message": "Gujarati",
-    "description": ""
+    "message": "Gujarati"
   },
   
   "HAITIAN_CREOLE": {
-    "message": "Haitian Creole",
-    "description": ""
+    "message": "Haitian Creole"
   },
   
   "HAUSA": {
-    "message": "Hausa",
-    "description": ""
+    "message": "Hausa"
   },
   
   "HAWAIIAN": {
-    "message": "Hawaiian",
-    "description": ""
+    "message": "Hawaiian"
   },
   
   "HEBREW": {
-    "message": "Hebrew",
-    "description": ""
+    "message": "Hebrew"
   },
   
   "HINDI": {
-    "message": "Hindi",
-    "description": ""
+    "message": "Hindi"
   },
   
   "HMONG": {
-    "message": "Hmong",
-    "description": ""
+    "message": "Hmong"
   },
   
   "HUNGARIAN": {
-    "message": "Hungarian",
-    "description": ""
+    "message": "Hungarian"
   },
   
   "ICELANDIC": {
-    "message": "Icelandic",
-    "description": ""
+    "message": "Icelandic"
   },
   
   "IGBO": {
-    "message": "Igbo",
-    "description": ""
+    "message": "Igbo"
   },
   
   "INDONESIAN": {
-    "message": "Indonesian",
-    "description": ""
+    "message": "Indonesian"
   },
   
   "IRISH": {
-    "message": "Irish",
-    "description": ""
+    "message": "Irish"
   },
   
   "ITALIAN": {
-    "message": "Italian",
-    "description": ""
+    "message": "Italian"
   },
   
   "JAPANESE": {
-    "message": "Japanese",
-    "description": ""
+    "message": "Japanese"
   },
   
   "JAVANESE": {
-    "message": "Javanese",
-    "description": ""
+    "message": "Javanese"
   },
   
   "KANNADA": {
-    "message": "Kannada",
-    "description": ""
+    "message": "Kannada"
   },
   
   "KAZAKH": {
-    "message": "Kazakh",
-    "description": ""
+    "message": "Kazakh"
   },
   
   "KHMER": {
-    "message": "Khmer",
-    "description": ""
+    "message": "Khmer"
   },
   
   "KOREAN": {
-    "message": "Korean",
-    "description": ""
+    "message": "Korean"
   },
   
   "KURDISH_KURMANJI": {
-    "message": "Kurdish (Kurmanji)",
-    "description": ""
+    "message": "Kurdish (Kurmanji)"
   },
   
   "KYRGYZ": {
-    "message": "Kyrgyz",
-    "description": ""
+    "message": "Kyrgyz"
   },
   
   "LAO": {
-    "message": "Lao",
-    "description": ""
+    "message": "Lao"
   },
   
   "LATIN": {
-    "message": "Latin",
-    "description": ""
+    "message": "Latin"
   },
   
   "LATVIAN": {
-    "message": "Latvian",
-    "description": ""
+    "message": "Latvian"
   },
   
   "LITHUANIAN": {
-    "message": "Lithuanian",
-    "description": ""
+    "message": "Lithuanian"
   },
   
   "LUXEMBOURGISH": {
-    "message": "Luxembourgish",
-    "description": ""
+    "message": "Luxembourgish"
   },
   
   "MACEDONIAN": {
-    "message": "Macedonian",
-    "description": ""
+    "message": "Macedonian"
   },
   
   "MALAGASY": {
-    "message": "Malagasy",
-    "description": ""
+    "message": "Malagasy"
   },
   
   "MALAY": {
-    "message": "Malay",
-    "description": ""
+    "message": "Malay"
   },
   
   "MALAYALAM": {
-    "message": "Malayalam",
-    "description": ""
+    "message": "Malayalam"
   },
   
   "MALTESE": {
-    "message": "Maltese",
-    "description": ""
+    "message": "Maltese"
   },
   
   "MAORI": {
-    "message": "Maori",
-    "description": ""
+    "message": "Maori"
   },
   
   "MARATHI": {
-    "message": "Marathi",
-    "description": ""
+    "message": "Marathi"
   },
   
   "MONGOLIAN": {
-    "message": "Mongolian",
-    "description": ""
+    "message": "Mongolian"
   },
   
   "MYANMAR_BURMESE": {
-    "message": "Myanmar (Burmese)",
-    "description": ""
+    "message": "Myanmar (Burmese)"
   },
   
   "NEPALI": {
-    "message": "Nepali",
-    "description": ""
+    "message": "Nepali"
   },
   
   "NORWEGIAN": {
-    "message": "Norwegian",
-    "description": ""
+    "message": "Norwegian"
   },
   
   "PASHTO": {
-    "message": "Pashto",
-    "description": ""
+    "message": "Pashto"
   },
   
   "PERSIAN": {
-    "message": "Persian",
-    "description": ""
+    "message": "Persian"
   },
   
   "POLISH": {
-    "message": "Polish",
-    "description": ""
+    "message": "Polish"
   },
   
   "PORTUGUESE": {
-    "message": "Portuguese",
-    "description": ""
+    "message": "Portuguese"
   },
   
   "PUNJABI": {
-    "message": "Punjabi",
-    "description": ""
+    "message": "Punjabi"
   },
   
   "ROMANIAN": {
-    "message": "Romanian",
-    "description": ""
+    "message": "Romanian"
   },
   
   "RUSSIAN": {
-    "message": "Russian",
-    "description": ""
+    "message": "Russian"
   },
   
   "SAMOAN": {
-    "message": "Samoan",
-    "description": ""
+    "message": "Samoan"
   },
   
   "SCOTS_GAELIC": {
-    "message": "Scots Gaelic",
-    "description": ""
+    "message": "Scots Gaelic"
   },
   
   "SERBIAN": {
-    "message": "Serbian",
-    "description": ""
+    "message": "Serbian"
   },
   
   "SESOTHO": {
-    "message": "Sesotho",
-    "description": ""
+    "message": "Sesotho"
   },
   
   "SHONA": {
-    "message": "Shona",
-    "description": ""
+    "message": "Shona"
   },
   
   "SINDHI": {
-    "message": "Sindhi",
-    "description": ""
+    "message": "Sindhi"
   },
   
   "SINHALA": {
-    "message": "Sinhala",
-    "description": ""
+    "message": "Sinhala"
   },
   
   "SLOVAK": {
-    "message": "Slovak",
-    "description": ""
+    "message": "Slovak"
   },
   
   "SLOVENIAN": {
-    "message": "Slovenian",
-    "description": ""
+    "message": "Slovenian"
   },
   
   "SOMALI": {
-    "message": "Somali",
-    "description": ""
+    "message": "Somali"
   },
   
   "SPANISH": {
-    "message": "Spanish",
-    "description": ""
+    "message": "Spanish"
   },
   
   "SUNDANESE": {
-    "message": "Sundanese",
-    "description": ""
+    "message": "Sundanese"
   },
   
   "SWAHILI": {
-    "message": "Swahili",
-    "description": ""
+    "message": "Swahili"
   },
   
   "SWEDISH": {
-    "message": "Swedish",
-    "description": ""
+    "message": "Swedish"
   },
   
   "TAJIK": {
-    "message": "Tajik",
-    "description": ""
+    "message": "Tajik"
   },
   
   "TAMIL": {
-    "message": "Tamil",
-    "description": ""
+    "message": "Tamil"
   },
   
   "TELUGU": {
-    "message": "Telugu",
-    "description": ""
+    "message": "Telugu"
   },
   
   "THAI": {
-    "message": "Thai",
-    "description": ""
+    "message": "Thai"
   },
   
   "TURKISH": {
-    "message": "Turkish",
-    "description": ""
+    "message": "Turkish"
   },
   
   "UKRAINIAN": {
-    "message": "Ukrainian",
-    "description": ""
+    "message": "Ukrainian"
   },
   
   "URDU": {
-    "message": "Urdu",
-    "description": ""
+    "message": "Urdu"
   },
   
   "UZBEK": {
-    "message": "Uzbek",
-    "description": ""
+    "message": "Uzbek"
   },
   
   "VIETNAMESE": {
-    "message": "Vietnamese",
-    "description": ""
+    "message": "Vietnamese"
   },
   
   "WELSH": {
-    "message": "Welsh",
-    "description": ""
+    "message": "Welsh"
   },
   
   "XHOSA": {
-    "message": "Xhosa",
-    "description": ""
+    "message": "Xhosa"
   },
   
   "YIDDISH": {
-    "message": "Yiddish",
-    "description": ""
+    "message": "Yiddish"
   },
   
   "YORUBA": {
-    "message": "Yoruba",
-    "description": ""
+    "message": "Yoruba"
   },
   
   "ZULU": {
-    "message": "Zulu",
-    "description": ""
+    "message": "Zulu"
   }
 }

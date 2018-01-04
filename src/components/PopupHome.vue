@@ -16,7 +16,7 @@
         :to="k"
         :key="k"
         )
-        span {{ v[0] }}
+        span {{ i18n.getMessage(v[0].toUpperCase()) }}
         v-icon {{ v[1] }}
 </template>
 

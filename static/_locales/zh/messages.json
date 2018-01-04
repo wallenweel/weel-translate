@@ -5,8 +5,7 @@
   },
 
   "EXTENSION_SHORT_NAME": {
-    "message": "Weel Translate 2",
-    "description": ""
+    "message": "Weel Translate 2"
   },
 
   "EXTENSION_DESCRIPTION": {
@@ -15,537 +14,458 @@
   },
   
   "SELECT": {
-    "message": "选择",
-    "description": ""
+    "message": "选择"
+  },
+
+  "TRANSLATION": {
+    "message": "翻译"
+  },
+
+  "RECENT": {
+    "message": "最近"
+  },
+
+  "COLLECTION": {
+    "message": "收藏"
+  },
+
+  "PREFERENCE": {
+    "message": "偏好"
+  },
+
+  "SETTING": {
+    "message": "设置"
+  },
+
+  "FEEDBACK": {
+    "message": "反馈"
+  },
+
+  "DONATE": {
+    "message": "捐助"
   },
 
   "DEMO": {
-    "message": "示例",
-    "description": ""
+    "message": "示例"
   },
 
   "AUTOMATIC": {
-    "message": "自动",
-    "description": ""
+    "message": "自动"
   },
   
   "AFRIKAANS": {
-    "message": "南非荷兰语",
-    "description": ""
+    "message": "南非荷兰语"
   },
   
   "ALBANIAN": {
-    "message": "阿尔巴尼亚语",
-    "description": ""
+    "message": "阿尔巴尼亚语"
   },
   
   "AMHARIC": {
-    "message": "阿姆哈拉语",
-    "description": ""
+    "message": "阿姆哈拉语"
   },
   
   "ARABIC": {
-    "message": "阿拉伯",
-    "description": ""
+    "message": "阿拉伯"
   },
   
   "ARMENIAN": {
-    "message": "亚美尼亚",
-    "description": ""
+    "message": "亚美尼亚"
   },
   
   "AZERBAIJANI": {
-    "message": "阿塞拜疆",
-    "description": ""
+    "message": "阿塞拜疆"
   },
   
   "BASQUE": {
-    "message": "巴斯克",
-    "description": ""
+    "message": "巴斯克"
   },
   
   "BELARUSIAN": {
-    "message": "白俄罗斯",
-    "description": ""
+    "message": "白俄罗斯"
   },
   
   "BENGALI": {
-    "message": "孟加拉",
-    "description": ""
+    "message": "孟加拉"
   },
   
   "BOSNIAN": {
-    "message": "波斯尼亚",
-    "description": ""
+    "message": "波斯尼亚"
   },
   
   "BULGARIAN": {
-    "message": "保加利亚语",
-    "description": ""
+    "message": "保加利亚语"
   },
   
   "CATALAN": {
-    "message": "加泰罗尼亚",
-    "description": ""
+    "message": "加泰罗尼亚"
   },
   
   "CEBUANO": {
-    "message": "宿务",
-    "description": ""
+    "message": "宿务"
   },
   
   "CHICHEWA": {
-    "message": "奇切瓦",
-    "description": ""
+    "message": "奇切瓦"
   },
   
   "CHINESE_SIMPLIFIED": {
-    "message": "中文 简体",
-    "description": ""
+    "message": "中文 简体"
   },
   
   "CHINESE_TRADITIONAL": {
-    "message": "中文 繁体",
-    "description": ""
+    "message": "中文 繁体"
   },
   
   "CORSICAN": {
-    "message": "科西嘉",
-    "description": ""
+    "message": "科西嘉"
   },
   
   "CROATIAN": {
-    "message": "克罗地亚",
-    "description": ""
+    "message": "克罗地亚"
   },
   
   "CZECH": {
-    "message": "捷克",
-    "description": ""
+    "message": "捷克"
   },
   
   "DANISH": {
-    "message": "丹麦",
-    "description": ""
+    "message": "丹麦"
   },
   
   "DUTCH": {
-    "message": "荷兰语",
-    "description": ""
+    "message": "荷兰语"
   },
   
   "ENGLISH": {
-    "message": "英语",
-    "description": ""
+    "message": "英语"
   },
   
   "ESPERANTO": {
-    "message": "世界语",
-    "description": ""
+    "message": "世界语"
   },
   
   "ESTONIAN": {
-    "message": "爱沙尼亚语",
-    "description": ""
+    "message": "爱沙尼亚语"
   },
   
   "FILIPINO": {
-    "message": "菲律宾",
-    "description": ""
+    "message": "菲律宾"
   },
   
   "FINNISH": {
-    "message": "芬兰",
-    "description": ""
+    "message": "芬兰"
   },
   
   "FRENCH": {
-    "message": "法国",
-    "description": ""
+    "message": "法国"
   },
   
   "FRISIAN": {
-    "message": "弗里斯兰",
-    "description": ""
+    "message": "弗里斯兰"
   },
   
   "GALICIAN": {
-    "message": "加利西亚",
-    "description": ""
+    "message": "加利西亚"
   },
   
   "GEORGIAN": {
-    "message": "格鲁吉亚",
-    "description": ""
+    "message": "格鲁吉亚"
   },
   
   "GERMAN": {
-    "message": "德语",
-    "description": ""
+    "message": "德语"
   },
   
   "GREEK": {
-    "message": "希腊语",
-    "description": ""
+    "message": "希腊语"
   },
   
   "GUJARATI": {
-    "message": "古吉拉特语",
-    "description": ""
+    "message": "古吉拉特语"
   },
   
   "HAITIAN_CREOLE": {
-    "message": "海地克里奥尔语",
-    "description": ""
+    "message": "海地克里奥尔语"
   },
   
   "HAUSA": {
-    "message": "豪萨语",
-    "description": ""
+    "message": "豪萨语"
   },
   
   "HAWAIIAN": {
-    "message": "夏威夷",
-    "description": ""
+    "message": "夏威夷"
   },
   
   "HEBREW": {
-    "message": "希伯来语",
-    "description": ""
+    "message": "希伯来语"
   },
   
   "HINDI": {
-    "message": "印地语",
-    "description": ""
+    "message": "印地语"
   },
   
   "HMONG": {
-    "message": "苗族",
-    "description": ""
+    "message": "苗族"
   },
   
   "HUNGARIAN": {
-    "message": "匈牙利",
-    "description": ""
+    "message": "匈牙利"
   },
   
   "ICELANDIC": {
-    "message": "冰岛语",
-    "description": ""
+    "message": "冰岛语"
   },
   
   "IGBO": {
-    "message": "伊博",
-    "description": ""
+    "message": "伊博"
   },
   
   "INDONESIAN": {
-    "message": "印度尼西亚",
-    "description": ""
+    "message": "印度尼西亚"
   },
   
   "IRISH": {
-    "message": "爱尔兰的",
-    "description": ""
+    "message": "爱尔兰的"
   },
   
   "ITALIAN": {
-    "message": "意大利",
-    "description": ""
+    "message": "意大利"
   },
   
   "JAPANESE": {
-    "message": "日语",
-    "description": ""
+    "message": "日语"
   },
   
   "JAVANESE": {
-    "message": "爪哇",
-    "description": ""
+    "message": "爪哇"
   },
   
   "KANNADA": {
-    "message": "卡纳达语",
-    "description": ""
+    "message": "卡纳达语"
   },
   
   "KAZAKH": {
-    "message": "哈萨克语",
-    "description": ""
+    "message": "哈萨克语"
   },
   
   "KHMER": {
-    "message": "高棉",
-    "description": ""
+    "message": "高棉"
   },
   
   "KOREAN": {
-    "message": "朝鲜语",
-    "description": ""
+    "message": "朝鲜语"
   },
   
   "KURDISH_KURMANJI": {
-    "message": "库尔德语",
-    "description": ""
+    "message": "库尔德语"
   },
   
   "KYRGYZ": {
-    "message": "吉尔吉斯",
-    "description": ""
+    "message": "吉尔吉斯"
   },
   
   "LAO": {
-    "message": "老挝",
-    "description": ""
+    "message": "老挝"
   },
   
   "LATIN": {
-    "message": "拉丁",
-    "description": ""
+    "message": "拉丁"
   },
   
   "LATVIAN": {
-    "message": "拉脱维亚",
-    "description": ""
+    "message": "拉脱维亚"
   },
   
   "LITHUANIAN": {
-    "message": "立陶宛",
-    "description": ""
+    "message": "立陶宛"
   },
   
   "LUXEMBOURGISH": {
-    "message": "卢森堡",
-    "description": ""
+    "message": "卢森堡"
   },
   
   "MACEDONIAN": {
-    "message": "马其顿",
-    "description": ""
+    "message": "马其顿"
   },
   
   "MALAGASY": {
-    "message": "马尔加什",
-    "description": ""
+    "message": "马尔加什"
   },
   
   "MALAY": {
-    "message": "马来语",
-    "description": ""
+    "message": "马来语"
   },
   
   "MALAYALAM": {
-    "message": "马拉雅拉姆语",
-    "description": ""
+    "message": "马拉雅拉姆语"
   },
   
   "MALTESE": {
-    "message": "马耳他语",
-    "description": ""
+    "message": "马耳他语"
   },
   
   "MAORI": {
-    "message": "毛利",
-    "description": ""
+    "message": "毛利"
   },
   
   "MARATHI": {
-    "message": "马拉",
-    "description": ""
+    "message": "马拉"
   },
   
   "MONGOLIAN": {
-    "message": "蒙古语",
-    "description": ""
+    "message": "蒙古语"
   },
   
   "MYANMAR_BURMESE": {
-    "message": "缅甸（缅甸）",
-    "description": ""
+    "message": "缅甸（缅甸）"
   },
   
   "NEPALI": {
-    "message": "尼泊尔",
-    "description": ""
+    "message": "尼泊尔"
   },
   
   "NORWEGIAN": {
-    "message": "挪威",
-    "description": ""
+    "message": "挪威"
   },
   
   "PASHTO": {
-    "message": "普什图语",
-    "description": ""
+    "message": "普什图语"
   },
   
   "PERSIAN": {
-    "message": "波斯语",
-    "description": ""
+    "message": "波斯语"
   },
   
   "POLISH": {
-    "message": "抛光",
-    "description": ""
+    "message": "抛光"
   },
   
   "PORTUGUESE": {
-    "message": "葡萄牙语",
-    "description": ""
+    "message": "葡萄牙语"
   },
   
   "PUNJABI": {
-    "message": "旁遮普",
-    "description": ""
+    "message": "旁遮普"
   },
   
   "ROMANIAN": {
-    "message": "罗马尼亚",
-    "description": ""
+    "message": "罗马尼亚"
   },
   
   "RUSSIAN": {
-    "message": "俄语",
-    "description": ""
+    "message": "俄语"
   },
   
   "SAMOAN": {
-    "message": "萨摩亚",
-    "description": ""
+    "message": "萨摩亚"
   },
   
   "SCOTS_GAELIC": {
-    "message": "苏格兰盖尔语",
-    "description": ""
+    "message": "苏格兰盖尔语"
   },
   
   "SERBIAN": {
-    "message": "塞尔维亚",
-    "description": ""
+    "message": "塞尔维亚"
   },
   
   "SESOTHO": {
-    "message": "塞索托语",
-    "description": ""
+    "message": "塞索托语"
   },
   
   "SHONA": {
-    "message": "绍纳语",
-    "description": ""
+    "message": "绍纳语"
   },
   
   "SINDHI": {
-    "message": "信德",
-    "description": ""
+    "message": "信德"
   },
   
   "SINHALA": {
-    "message": "僧伽罗语",
-    "description": ""
+    "message": "僧伽罗语"
   },
   
   "SLOVAK": {
-    "message": "斯洛伐克",
-    "description": ""
+    "message": "斯洛伐克"
   },
   
   "SLOVENIAN": {
-    "message": "斯洛文尼亚",
-    "description": ""
+    "message": "斯洛文尼亚"
   },
   
   "SOMALI": {
-    "message": "索马里",
-    "description": ""
+    "message": "索马里"
   },
   
   "SPANISH": {
-    "message": "西班牙语",
-    "description": ""
+    "message": "西班牙语"
   },
   
   "SUNDANESE": {
-    "message": "巽他语",
-    "description": ""
+    "message": "巽他语"
   },
   
   "SWAHILI": {
-    "message": "斯瓦希里",
-    "description": ""
+    "message": "斯瓦希里"
   },
   
   "SWEDISH": {
-    "message": "瑞典",
-    "description": ""
+    "message": "瑞典"
   },
   
   "TAJIK": {
-    "message": "塔吉克",
-    "description": ""
+    "message": "塔吉克"
   },
   
   "TAMIL": {
-    "message": "泰米尔语",
-    "description": ""
+    "message": "泰米尔语"
   },
   
   "TELUGU": {
-    "message": "泰卢固语",
-    "description": ""
+    "message": "泰卢固语"
   },
   
   "THAI": {
-    "message": "泰语",
-    "description": ""
+    "message": "泰语"
   },
   
   "TURKISH": {
-    "message": "土耳其",
-    "description": ""
+    "message": "土耳其"
   },
   
   "UKRAINIAN": {
-    "message": "乌克兰",
-    "description": ""
+    "message": "乌克兰"
   },
   
   "URDU": {
-    "message": "乌尔都语",
-    "description": ""
+    "message": "乌尔都语"
   },
   
   "UZBEK": {
-    "message": "乌兹别克",
-    "description": ""
+    "message": "乌兹别克"
   },
   
   "VIETNAMESE": {
-    "message": "越南",
-    "description": ""
+    "message": "越南"
   },
   
   "WELSH": {
-    "message": "威尔士语",
-    "description": ""
+    "message": "威尔士语"
   },
   
   "XHOSA": {
-    "message": "科萨",
-    "description": ""
+    "message": "科萨"
   },
   
   "YIDDISH": {
-    "message": "意第绪语",
-    "description": ""
+    "message": "意第绪语"
   },
   
   "YORUBA": {
-    "message": "约鲁巴",
-    "description": ""
+    "message": "约鲁巴"
   },
   
   "ZULU": {
-    "message": "祖鲁",
-    "description": ""
+    "message": "祖鲁"
   }  
 }

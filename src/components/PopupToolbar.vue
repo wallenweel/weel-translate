@@ -23,7 +23,7 @@ export default {
   name: 'popupToolbar',
   data () {
     return {
-      title: 'Translation',
+      title: '',
       keepAll: false
     }
   },
@@ -48,6 +48,20 @@ export default {
   methods: {
     handleDrawer () {
       this.$store.commit('drawerNavigationToggle')
+    }
+  },
+  watch: {
+    '$route' ({ path }) {
+      const keys = path.split('/')
+
+      let value = ''
+
+      if (keys[1] === 'home') value = keys[2]
+      else value = keys[1]
+
+      this.title =
+        this.i18n.getMessage(value.toUpperCase()) ||
+        value.replace(/^\w/, v => v.toUpperCase())
     }
   }
 }

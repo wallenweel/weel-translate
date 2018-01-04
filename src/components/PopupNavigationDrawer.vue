@@ -7,7 +7,7 @@
     v-model="toggle"
     )
     v-toolbar(flat)
-      span {{ i18n.getMessage('EXTENSION_NAME') }}
+      blockquote.blockquote {{ i18n.getMessage('EXTENSION_NAME') }}
 
     v-list
       v-list-tile(
@@ -21,7 +21,7 @@
             |{{ item.icon }}
         v-list-tile-content
           v-list-tile-title
-            |{{ item.title }}
+            |{{ i18n.getMessage(item.title.toUpperCase()) }}
 
     //- v-footer(
       class="pa-3"
@@ -41,9 +41,9 @@ export default {
     return {
       toggle: false,
       items: [
-        { title: 'Home', icon: 'home', path: '/home' },
-        { title: 'Preferences', icon: 'tune', path: '/preferences' },
-        { title: 'Settings', icon: 'settings', path: '/settings' },
+        { title: 'Translation', icon: 'translate', path: '/home' },
+        { title: 'Preference', icon: 'tune', path: '/preference' },
+        { title: 'Setting', icon: 'settings', path: '/setting' },
         { title: 'Feedback', icon: 'feedback', path: '/feedback' }
       ]
     }

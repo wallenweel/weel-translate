@@ -27,13 +27,13 @@ export const home = {
 }
 
 export const preferences = {
-  path: '/preferences',
+  path: '/preference',
   name: 'PopupPreferences',
   component: () => import(/* webpackChunkName: "PopupPreferences" */ '@/components/PopupPreferences')
 }
 
 export const settings = {
-  path: '/settings',
+  path: '/setting',
   name: 'PopupSettings',
   component: () => import(/* webpackChunkName: "PopupSettings" */ '@/components/PopupSettings')
 }

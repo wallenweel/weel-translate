@@ -1,6 +1,7 @@
 import merge from 'deepmerge'
 import { istype } from '@/functions/utils'
 import serviceHelper, { compilePreset, parsePreset } from '@/functions/serviceHelper'
+import { templateCompiler } from '@/functions/templateHelper'
 
 export const globalTip = (state, [open, msg]) => {
   state.globalTip = [open, msg]
@@ -56,25 +57,42 @@ export const currentEditorChanges = ({ tmp }, [type, { id, content }]) => {
 }
 
 export const compileCurrentCodes = ({ tmp }, [type, { id, content }]) => {
-  try {
-    JSON.parse(content)
-  } catch (error) {
-    tmp[type].alert = [true, 'Preset content is not JSON.']
-    console.error(error)
-    return
+  switch (type) {
+    case 'sources':
+      compileSources()
+      break
+
+    case 'templates':
+      compileTemplates()
+      break
   }
 
-  let api
-  try {
-    api = compilePreset(parsePreset(content, tmp[type].preset))
-  } catch (error) {
-    tmp[type].alert = [true, 'Compile Preset Failed.']
-    console.error(error)
-    return
+  function compileTemplates () {
+    // console.log(id, templateCompiler(content))
+    tmp.templates.compiled[id] = templateCompiler(content)
   }
 
-  tmp[type].preset[id] = content
-  tmp[type].current_api = api
+  function compileSources () {
+    try {
+      JSON.parse(content)
+    } catch (error) {
+      tmp[type].alert = [true, 'Preset content is incorrect JSON.']
+      console.error(error)
+      return
+    }
+
+    let api
+    try {
+      api = compilePreset(parsePreset(content, tmp[type].preset))
+    } catch (error) {
+      tmp[type].alert = [true, 'Compile Preset Failed.']
+      console.error(error)
+      return
+    }
+
+    tmp[type].preset[id] = content
+    tmp[type].current_api = api
+  }
 }
 
 export const createdNewPreset = ({ tmp }, [type, { id, name, preset }]) => {

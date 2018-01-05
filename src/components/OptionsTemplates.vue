@@ -6,10 +6,9 @@
       v-flex(d-flex sm6 lg6 :class="$style.editorPart")
         base-code-editor(
           editorStyle="min-height: calc(100vh - 96px);"
-          :content="tmp.templates.preset['default']"
-          :method="handleRun"
+          :content="preset"
           mode="text/html"
-          error="true"
+          @compile="editorCompile"
           )
 
       v-flex(d-flex sm6 lg6 :class="$style.respondPart")
@@ -36,42 +35,69 @@
 </template>
 
 <script>
-import { mapState } from 'vuex'
+import { mapState, mapMutations } from 'vuex'
 import BaseCodeEditor from '@/components/BaseCodeEditor'
 import BaseTranslation from '@/components/BaseTranslation'
 import OptionsModifyToolbar from '@/components/OptionsModifyToolbar'
 
+// import Vue from 'vue'
+// import store from '@/stores/content'
+// import defaultOptions from '@/pages/content/defaultOptions'
+
+const tmpType = 'templates'
 export default {
   name: 'ServiceSourceAPI',
   data () {
     return {
-      title: 'Edit/Create Translation API',
-      editor: null,
+      id: 'default',
       href: '/content/index.html',
       iframeLink: '',
-      iframeHref: '',
-      preset: this.$store.state.templates['float-result-panel']
+      iframeHref: ''
     }
   },
   computed: {
     response () { return this.$store.state.tmp.sources.response },
-    ...mapState(['currentSource', 'result', 'editorContent', 'tmp'])
+    presets () { return this.templates['preset'] },
+    compiled () { return this.templates['compiled'] },
+    preset () { return this.presets[this.id] },
+
+    ...mapState({
+      templates ({ tmp }) {
+        return tmp.templates
+      }
+    })
   },
   methods: {
-    handleRun (editor) {
-      const preset = editor.getValue()
-      try {
-        this.$store.commit('compileCodes', JSON.parse(preset))
-        this.$store.dispatch('tempRequest')
-        // console.log(this.$store.state.tmp.sources.api)
-      } catch (error) {
-        // TODO: add error dialog
-        console.log(error)
-      }
-    },
     openLink () {
       this.iframeHref = this.iframeLink || this.href
-    }
+    },
+
+    // injectInstance () {
+    //   const iframe = this.$refs.iframe
+
+    //   // iframe.contentWindow.location.reload()
+    //   // console.log(iframe)
+    //   // return
+
+    //   const { template, script } = this.compiled[this.id]
+
+    //   const el = iframe.contentDocument.createElement('div')
+    //   iframe.contentDocument.body.appendChild(el)
+
+    //   /* eslint-disable no-new */
+    //   new Vue(Object.assign(
+    //     defaultOptions({ el, store, template }),
+    //     /* eslint-disable no-eval */
+    //     (eval(script)({ mapState, mapGetters, mapMutations, mapActions }))
+    //   ))
+    // },
+
+    ...mapMutations({
+      editorCompile (commit, content) {
+        commit('compileCurrentCodes', [tmpType, { id: this.id, content }])
+        // this.injectInstance()
+      }
+    })
   },
   watch: {
     iframeLink (v) {

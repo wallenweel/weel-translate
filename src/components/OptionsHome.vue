@@ -1,14 +1,27 @@
 <template lang="pug">
   v-layout(column style="overflow-y: auto;")
-    v-parallax(src="/img/01.jpg" :height="200")
+    v-parallax(src="/img/01.jpg" :height="180" style="min-height: 180px;")
       v-layout(column align-center justify-center)
         h1.white--text Weel Translate DIY
         h4.white--text You could modify some parts of this extension in here
-      
+
     v-container
+      v-subheader Documents
+      v-expansion-panel(focusable)
+        v-expansion-panel-content
+          div(slot="header") 自定义翻译源 API
+          v-card
+            v-card-text(class="grey lighten-3")
+              a(:href="document.api" target="_blank") {{ document.api }}
+        v-expansion-panel-content
+          div(slot="header") 自定义结果模板（当前未实现）
+          v-card
+            v-card-text(class="grey lighten-3")
+              a(:href="document.api" target="_blank") {{ document.api }}
+
       v-subheader Questions & Answers
       v-expansion-panel(focusable)
-        v-expansion-panel-content(v-for="(item, i) in questions" :value="i === 0" :key="i")
+        v-expansion-panel-content(v-for="(item, i) in questions" :key="i")
           div(slot="header") {{ `${i + 1}. ${item[0]}` }}
           v-card
             v-card-text(class="grey lighten-3") {{ item[1] }}
@@ -19,19 +32,19 @@ const questions = [
   [
     '为什么要提供自定义翻译源的功能，有什么好处吗？',
 
-    '大部分的浏览器翻译扩展基本都使用的是第三方翻译服务，尤其是个人开发者提供的免费扩展，因此，这样的扩展程序' +
+    '大部分的浏览器翻译扩展基本都使用是的第三方翻译接口，尤其是个人开发者的免费扩展。因此，这样的扩展程序' +
     '就会非常被动，需要在翻译源接口变动时跟进更新然后重新被 AMO 审核，耗费的时间精力无法有一个准确的预估，这对大多' +
     '数仅凭兴趣爱好的开发者（像是我）来说是非常困扰的，时常会有作者' +
-    '在某个时期就弃坑了，然后在之后某次接口变动后彻底失去可用性（毕竟翻译源才是这种扩展的核心），所以，让用户' +
-    '可以在翻译源出现问题时快速调整配置数据让扩展重新可用就显得很重要了。所以，这么做对开发者和用户都是有明显的好处的。'
+    '在某个时期就弃坑了，然后在之后某次接口变动后彻底失去可用性（翻译源才是扩展的核心），所以，让用户' +
+    '可以在翻译源出现问题时快速调整配置数据让扩展重新可用就显得很重要了，这么做对开发者和用户都是有明显的好处的。'
   ],
   [
     '我听说过这种情况，但是为什么大多数扩展并没有这么做呢？',
 
     '其他人的原因我不是很清楚，这个扩展现在是 V2.0 版本，它跳过 V1.0 是因为我一开始也没打算做到这种程度的定制，因为' +
-    '这很显然会让扩展变得复杂和不可控，尤其在它是一个几乎没有什么实质回报的项目情况下，作者很难付出过多的精力做各种设计' +
+    '这会让扩展变得复杂和不可控，尤其在它还是一个没有什么实质回报的情况下，作者很难会去付出过多的精力做各种设计' +
     '和验证来保证程序不出错，这个扩展现阶段也是这样，它只做了基本的内容检查和提醒，用户需要遵循一些简单的约定来让它能够' +
-    '良好运行。当然，还有一点就是，对于我这样并非职业开发者，将来很大可能无法长期维护项目的人来说，采用这种方案' +
+    '良好运行。当然，还有一点就是，对于我这样并业余开发者，无法长期维护项目的人来说，采用这种方案' +
     '是一种可以续命的有效做法 😏。'
   ],
   [
@@ -60,7 +73,7 @@ const questions = [
   [
     '我很喜欢这个扩展，如何支持它的发展呢？',
 
-    '如果有前端开发经验的话，例如 Javascript(es6)、Vue2 这样的开发能力可以 Fork 此项目然后提交 PR 来贡献代码，如果' +
+    '如果有前端开发经验的话，例如 Javascript(es6)、Vue2 这样的开发能力可以 Fork 此项目然后提交 PR 来贡献代码；或者' +
     '只是单纯认同我的这项工作的话可以在 Popup 主面板找到 "打赏" 的部分给这个项目一点小酬劳，当然，随意就好，主要是想在' +
     '不长的编程学习后也想像其它人一样有个能够值得被打赏的项目，至于为什么金额是 2 元，其实很简单，因为现在是 V2 版了（笑。'
   ],
@@ -76,6 +89,10 @@ export default {
   name: 'OptionsHome',
   data () {
     return {
+      document: {
+        api: 'https://github.com/wallenweel/weel-translate#自由定制添加翻译源api',
+        template: 'https://github.com/wallenweel/weel-translate#自定义翻译结果模板实验性'
+      },
       questions
     }
   }

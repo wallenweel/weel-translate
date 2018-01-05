@@ -34,7 +34,7 @@ export default {
     return {
       drawer: true,
       items: [
-        { title: 'Home', icon: 'question_answer', path: '/home' },
+        { title: 'Q&A', icon: 'question_answer', path: '/home' },
         { title: 'Service Source API', icon: 'settings_input_composite', path: '/service-source-api' },
         { title: 'Template & Styles', icon: 'style', path: '/templates' }
       ],

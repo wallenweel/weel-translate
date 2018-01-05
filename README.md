@@ -157,7 +157,7 @@
 
 ## 自定义翻译结果模板（实验性）
 
-> 现阶段只支持网页中的 **浮动面板和按钮**，通过 `content script` 的载入。实现方式类似 vue 的单文件模板，使用 `eval(vue2 + vuex)` 的方式直接渲染注入到目标网页中。不确定 AMO 对这种做法的审核容忍度，原本的方案是像 **API 模板** 那样约定数据格式来内部编译，但时间精力考虑下做了保留处理并切换到现在的方案，个人觉得这样对有这方面需求的人来说更方便友好一些，只是看到 AMO 愈发保（Yan）守（Ge）的态度和一长串的 lint 警告有些心冷 ＞﹏＜。
+> 并未实现（其实基本已经写好了），现阶段只计划支持网页中的 **浮动面板和按钮**，通过 `content script` 的载入。实现方式类似 vue 的单文件模板，使用 `eval(vue2 + vuex)` 的方式直接渲染注入到目标网页中。不确定 AMO 对这种做法的审核容忍度，原本的方案是像 **API 模板** 那样约定数据格式来内部编译，但时间精力考虑下做了保留处理并切换到现在的方案，个人觉得这样对有这方面需求的人来说更方便友好一些，只是看到 AMO 愈发保（Yan）守（Ge）的态度和一长串的 lint 警告有些心冷 ＞﹏＜。。所以，先通过审核再说。
 
 ### 示例说明（仅作演示无法复制运行）
 ```html
@@ -229,11 +229,11 @@
 
 ## 感谢这些使用到的开源项目 👍
 
-+ Vue2
-+ Vuex
-+ Vue Router
-+ Vuetify
-+ Material Desigon Icons
++ [Vue2](https://github.com/vuejs/vue)
++ [Vuetify](https://github.com/vuetifyjs/vuetify)
++ [Vuex](https://github.com/vuejs/vuex)
++ [Vue Router](https://github.com/vuejs/vue-router)
++ [Material Desigon Icons](https://github.com/google/material-design-icons/)
 + ...
 
 ## 项目构建命令

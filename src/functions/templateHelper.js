@@ -87,21 +87,25 @@ export const compilePreser = (dom) => {
   }, {})
 }
 
+export const templateCompiler = (preset) => {
+  const presetDOM = parserDOMString(preset)
+  const parser = compilePreser(presetDOM)
+  const { rules, scoped } = compileStyle(presetDOM)
+  const script = compileScript(presetDOM)
+  const template = compileTemplate(presetDOM, { scoped })
+
+  return {
+    scoped,
+    parser,
+    template,
+    script,
+    style: rules
+  }
+}
+
 export default (presets, __ = {}) => {
   for (const [id, preset] of Object.entries(presets)) {
-    const presetDOM = parserDOMString(preset)
-    const parser = compilePreser(presetDOM)
-    const { rules, scoped } = compileStyle(presetDOM)
-    const script = compileScript(presetDOM)
-    const template = compileTemplate(presetDOM, { scoped })
-
-    __[id] = {
-      scoped,
-      parser,
-      template,
-      script,
-      style: rules
-    }
+    __[id] = templateCompiler(preset)
   }
 
   return __

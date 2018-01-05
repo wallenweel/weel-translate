@@ -4,9 +4,10 @@
       style="margin: 0 0; width: 100%;"
       type="info" :value="true"
       )
-      |This extension is full free, there are not any features need you pay for it at all.
-
+      |{{ i18n.getMessage('DONATE_INFO') }}
     blockquote.blockquote
+      |{{ i18n.getMessage('DONATE_HEADING', 2) }}
+    h4(style="text-align: center;").subheading (/ω＼*)……… (/ω•＼*)
 
     v-container
       v-layout(column :class="$style.wrap")

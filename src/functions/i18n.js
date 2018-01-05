@@ -2,8 +2,8 @@ import { i18n } from '@/globals'
 import { aid } from '@/functions/utils'
 
 // https://developer.mozilla.org/en-US/Add-ons/WebExtensions/API/i18n/getMessage
-export const getMessage = (messageName, substitutionsOptional) => aid(
-  () => i18n.getMessage(messageName, substitutionsOptional),
+export const getMessage = (messageName, ...substitutionsOptional) => aid(
+  () => i18n.getMessage(messageName, ...substitutionsOptional),
   () => messageName
     .replace(/_+/g, ' ').toLowerCase()
     .replace(/( |^)[a-z]/g, a => a.toUpperCase())

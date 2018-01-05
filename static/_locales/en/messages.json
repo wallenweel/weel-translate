@@ -41,6 +41,19 @@
     "message": "Donate"
   },
 
+  "DONATE_INFO": {
+    "message": "This extension is full free, there are not any features need you pay for it at all."
+  },
+
+  "DONATE_HEADING": {
+    "message": "If you like this extension, you may donate $NUM$ RMB to me as a kind of praise.",
+    "placeholders": {
+      "num": {
+        "content": "$1"
+      }
+    }
+  },
+
   "SELECT": {
     "message": "Select"
   },

@@ -45,6 +45,19 @@
     "message": "打赏"
   },
 
+  "DONATE_INFO": {
+    "message": "这个扩展完全免费，没有任何需要付费开启的隐藏功能和特性，使用愉快。"
+  },
+
+  "DONATE_HEADING": {
+    "message": "如果你喜欢并认同我的这个项目，可以给我 $NUM$ 元的打赏以表支持。",
+    "placeholders": {
+      "num": {
+        "content": "$1"
+      }
+    }
+  },
+
   "DEMO": {
     "message": "示例"
   },

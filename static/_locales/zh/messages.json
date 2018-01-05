@@ -1,7 +1,6 @@
 {
   "EXTENSION_NAME": {
-    "message": "Weel Translate 2 -Alpha",
-    "description": "扩展的名称。"
+    "message": "Weel Translate 2 Alpha"
   },
 
   "EXTENSION_SHORT_NAME": {
@@ -9,8 +8,7 @@
   },
 
   "EXTENSION_DESCRIPTION": {
-    "message": "",
-    "description": "扩展的描述。"
+    "message": "用于辅助阅读的翻译扩展，Material Design 外观，支持自定义翻译源。"
   },
   
   "SELECT": {
@@ -35,6 +33,62 @@
 
   "SETTING": {
     "message": "设置"
+  },
+
+  "SETTING_INFO": {
+    "message": "测试提醒：如果调整设置项后发现任何异常可以尝试使用底部的 “重置” 按钮。"
+  },
+
+  "SELECT_SERVICE_SOURCES": {
+    "message": "选择服务源"
+  },
+
+  "ENABLE_NEEDED_SOURCES": {
+    "message": "启用需要的服务源"
+  },
+
+  "CUSTOM_UI": {
+    "message": "自定义交互控件"
+  },
+
+  "PAGE_FLOAT_BUTTON": {
+    "message": "页面浮动按钮"
+  },
+
+  "PAGE_FLOAT_PANEL": {
+    "message": "页面浮动面板"
+  },
+
+  "CONTEXT_MENU_ENTRY": {
+    "message": "右键菜单入口"
+  },
+
+  "POPUP_PANEL": {
+    "message": "弹出面板"
+  },
+
+  "FLOAT_PANEL": {
+    "message": "浮动面板"
+  },
+
+  "BROWSER_ACTION_TRANSLATE": {
+    "message": "工具栏触发按钮翻译"
+  },
+  
+  "TRANSLATE_AFTER_SELECTED": {
+    "message": "选中文本立即翻译"
+  },
+
+  "EXTENSION_MANAGEMENT": {
+    "message": "扩展管理"
+  },
+
+  "RESET": {
+    "message": "重置"
+  },
+  
+  "UNINSTALL": {
+    "message": "卸载"
   },
 
   "FEEDBACK": {

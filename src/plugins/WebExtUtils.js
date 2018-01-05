@@ -10,6 +10,7 @@ class WebExtUtils {
     Vue.mixin({
       computed: {
         i18n: () => i18n,
+        i: () => i18n.getMessage,
         runtime: () => runtime
       }
     })

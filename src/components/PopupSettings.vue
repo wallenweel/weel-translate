@@ -4,14 +4,14 @@
       style="margin: 0 0; width: 100%;"
       type="info" :value="true"
       )
-      |Alpha Tip: If something is wrong, click "Reset Extension" at the bottom.
+      |{{ i('SETTING_INFO') }}
 
     v-flex(:class="$style.section")
       header
         v-icon(left) work
-        span Select Service Sources
+        span {{ i('SELECT_SERVICE_SOURCES') }}
       v-select(
-        tags chips label="Enable needed source id"
+        tags chips :label="i('ENABLE_NEEDED_SOURCES')"
         hide-details
         :items="allSourceIds"
         :value="visibleSourceIds"
@@ -31,57 +31,57 @@
     v-flex(:class="$style.section")
       header
         v-icon(left) style
-        span Custom UI
+        span {{ i('CUSTOM_UI') }}
       v-layout(row)
         v-switch(
           hide-details color="primary" v-model="ui.fab"
           @change="settingChanges(['use_fab', ui.fab])"
           )
-        span Page's Float Button
+        span {{ i('PAGE_FLOAT_BUTTON') }}
 
       v-layout(row)
         v-switch(
           hide-details color="primary" v-model="ui.fap"
           @change="settingChanges(['use_fap', ui.fap])"
           )
-        span Page's Float Panel
+        span {{ i('PAGE_FLOAT_PANEL') }}
 
       v-layout(row)
         v-switch(
           hide-details color="primary" v-model="ui.context"
           @change="settingChanges(['use_context_menu', ui.context])"
           )
-        span Context Menu Entry
+        span {{ i('CONTEXT_MENU_ENTRY') }}
       v-radio-group(
         hide-details row v-if="ui.context"
         style="padding-top: 6px;" v-model="ui.context_way"
         @change="settingChanges(['context_menu_way', ui.context_way])"
         )
-        v-radio(color="primary" label="Popup Panel" value="popup")
-        v-radio(color="primary" label="Float Panel" value="float")
+        v-radio(color="primary" :label="i('POPUP_PANEL')" value="popup")
+        v-radio(color="primary" :label="i('FLOAT_PANEL')" value="float")
 
       v-layout(row)
         v-switch(
           hide-details color="primary" v-model="ui.browser_action_translate"
           @change="settingChanges(['browser_action_translate', ui.browser_action_translate])"
           )
-        span Browser Action Translate
+        span {{ i('BROWSER_ACTION_TRANSLATE')}}
 
       v-layout(row)
         v-switch(
           hide-details color="primary" v-model="ui.selection_translate"
           @change="settingChanges(['selection_translate', ui.selection_translate])"
           )
-        span Translate After Selected
+        span {{ i('TRANSLATE_AFTER_SELECTED') }}
 
     v-flex(:class="$style.section")
       header
         v-icon(left) extension
-        span Extension Management
+        span {{ i('EXTENSION_MANAGEMENT') }}
       v-btn(block color="error" dark lazy @click.native="resetDialog = true")
-        span Reset
+        span {{ i('RESET') }}
       v-btn(block lazy @click.native="uninstallDialog = true")
-        span Uninstall
+        span {{ i('UNINSTALL') }}
 
     v-dialog(v-model="resetDialog" max-width="290")
       v-card

@@ -112,7 +112,7 @@ __[REQUEST_TRANSLATION] = ({ state, commit, getters }, { q, from, to }) => {
     }
   })
 
-  sendMessage({
+  return sendMessage({
     payload: { q, from, to },
     type: REQUEST_TRANSLATION
   }).then(result => {
@@ -128,6 +128,8 @@ __[REQUEST_TRANSLATION] = ({ state, commit, getters }, { q, from, to }) => {
 
     // reset result star status
     state.currentCollected = false
+
+    return true
   })
 }
 

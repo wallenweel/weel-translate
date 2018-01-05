@@ -59,6 +59,11 @@
           @click="requestTranslation"
           )
           v-icon(dark) done_all
+          v-progress-circular(
+            :indeterminate="loading" v-if="loading"
+            :width="3" :size="66"
+            color="white" style="opacity: .66; top: -5px; left: -5px;"
+            )
 
         v-btn(flat depressed @click="pasteContent")
           v-icon(color="blue-grey") content_paste
@@ -94,7 +99,8 @@ export default {
       source: {},
       content: this.input,
       blank: false,
-      tip: ''
+      tip: '',
+      loading: false
     }
   },
   props: {
@@ -146,10 +152,16 @@ export default {
         return this.$store.commit('globalTip', [true, 'No words for translating.'])
       }
 
+      this.loading = true
+
       this.$store.dispatch(REQUEST_TRANSLATION, {
         q: this.content,
         from: this.src_dest[0],
         to: this.src_dest[1]
+      }).then(success => {
+        if (success) {
+          this.loading = false
+        }
       })
     },
     handleKeydown ({ ctrlKey, code }) {

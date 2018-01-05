@@ -29,9 +29,10 @@ export default
       @mouseup.prevent.stop="ev => ev.target.removeAttribute('data-mousedown')"
       @mousedown.prevent.stop="ev => ev.target.setAttribute('data-mousedown', true)"
     >
-      <input class="-copyTmp" type="text" :value="getResult.translation" ref="copyTmp" />
       <transition name="fade">
         <div v-show="fapShow">
+          <input class="-copyTmp" type="text" :value="getResult.translation" ref="copyTmp" />
+
           <div class="-phonetic" v-show="getResult.phonetic_src">
             <button class="-js" @click="handleVoice('src')">
               <i class="weel-svg-icons -volume-high -icon"></i>

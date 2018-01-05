@@ -170,13 +170,6 @@ $mdi-icons: 'content-copy', 'volume-high', 'google-translate', $extension-name;
   }
 
   
-  .weel-fap > .-copyTmp {
-    height: 0;
-    width: 0;
-    white-space: nowrap;
-    overflow: hidden;
-    position: absolute;
-  }
   .weel-fap > div {
     box-shadow: 0 2px 5px rgba(58, 69, 77, 0.423),
                 0 0px 2px 2px rgba(58, 69, 77, 0.23);
@@ -267,6 +260,19 @@ $mdi-icons: 'content-copy', 'volume-high', 'google-translate', $extension-name;
           display: block;
         }
       }
+    }
+
+    .-copyTmp {
+      height: 0;
+      width: 0;
+      white-space: nowrap;
+      overflow: hidden;
+      left: 0;
+      top: 0;
+      position: absolute;
+      z-index: -1;
+      font-size: 0;
+      opacity: 0 !important;
     }
   }
 }

@@ -22,6 +22,7 @@ export default
           <i class="weel-svg-icons -weel-translate -icon"></i>
         </button>
       </transition>
+      <span class="-mask" v-if="loading"></span>
     </div>
     
     <div class="weel-fap" ref="fap" v-if="useFAP"

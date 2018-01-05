@@ -155,6 +155,20 @@ $mdi-icons: 'content-copy', 'volume-high', 'google-translate', $extension-name;
     }
   }
 
+  .weel-fab > .-mask {
+    background: transparent;
+    height: 100%;
+    width: 100%;
+    top: 0;
+    left: 0;
+    position: absolute;
+    display: block;
+    z-index: 9;
+    &:hover {
+      cursor: progress !important;
+    }
+  }
+
   
   .weel-fap > .-copyTmp {
     height: 0;

@@ -11,7 +11,8 @@ export default ({ el, store, template }) => ({
   store,
   data () {
     return {
-      selectedText: null
+      selectedText: null,
+      loading: false
     }
   },
   mounted () {
@@ -82,7 +83,11 @@ export default ({ el, store, template }) => ({
   methods: {
     ...mapMutations(['fabToggle', 'fapToggle']),
     handleFAB () {
+      this.loading = true
       this.$store.dispatch(REQUEST_TRANSLATION, { q: this.selectedText })
+      .then(() => {
+        this.loading = false
+      })
     },
     handleVoice (type) {
       const from = {

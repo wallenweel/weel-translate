@@ -200,6 +200,7 @@ export default {
       })
     },
     nextServiceSource () {
+      this.loading = false
       this.$store.dispatch('nextServiceSource')
     },
     swapLanguages () {

@@ -145,6 +145,7 @@ __[SAVE_CUSTOM_SOURCES_PRESET] = async (
   })
 
   state.sources.preset = payload
+  state.sources.visible = Object.keys(payload)
 
   commit('compileSourcesPreset')
 

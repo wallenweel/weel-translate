@@ -20,7 +20,7 @@
 
 <script>
 export default {
-  name: 'popupToolbar',
+  name: 'PopupToolbar',
   data () {
     return {
       title: '',
@@ -57,6 +57,7 @@ export default {
       let value = ''
 
       if (keys[1] === 'home') value = keys[2]
+      else if (keys[1] === 'about') value = 'donate'
       else value = keys[1]
 
       this.title =

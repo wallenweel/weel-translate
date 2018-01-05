@@ -36,7 +36,7 @@
 import { mapState } from 'vuex'
 
 export default {
-  name: 'popupNavigationDrawer',
+  name: 'PopupNavigationDrawer',
   data () {
     return {
       toggle: false,
@@ -44,7 +44,8 @@ export default {
         { title: 'Translation', icon: 'translate', path: '/home' },
         { title: 'Preference', icon: 'tune', path: '/preference' },
         { title: 'Setting', icon: 'settings', path: '/setting' },
-        { title: 'Feedback', icon: 'feedback', path: '/feedback' }
+        { title: 'Feedback', icon: 'feedback', path: '/feedback' },
+        { title: 'Donate', icon: 'favorite', path: '/about' }
       ]
     }
   },

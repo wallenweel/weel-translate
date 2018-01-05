@@ -14,7 +14,7 @@
 
 <script>
 export default {
-  name: 'PopupHomePreferences',
+  name: 'PopupPreference',
   data () {
     return {
       dark: false

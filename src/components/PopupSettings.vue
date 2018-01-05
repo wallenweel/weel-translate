@@ -109,7 +109,7 @@ import { mapState, mapGetters, mapMutations, mapActions } from 'vuex'
 import { RESET_LOCAL_STORAGE, UNINSTALL_EXTENSION } from '@/types'
 
 export default {
-  name: 'PopupHomeSettings',
+  name: 'PopupSetting',
   data () {
     return {
       resetDialog: false,

@@ -28,13 +28,13 @@ export const home = {
 
 export const preferences = {
   path: '/preference',
-  name: 'PopupPreferences',
+  name: 'PopupPreference',
   component: () => import(/* webpackChunkName: "PopupPreferences" */ '@/components/PopupPreferences')
 }
 
 export const settings = {
   path: '/setting',
-  name: 'PopupSettings',
+  name: 'PopupSetting',
   component: () => import(/* webpackChunkName: "PopupSettings" */ '@/components/PopupSettings')
 }
 
@@ -42,6 +42,12 @@ export const feedback = {
   path: '/feedback',
   name: 'PopupFeedback',
   component: () => import(/* webpackChunkName: "PopupFeedback" */ '@/components/PopupFeedback')
+}
+
+export const about = {
+  path: '/about',
+  name: 'PopupAbout',
+  component: () => import(/* webpackChunkName: "PopupAbout" */ '@/components/PopupAbout')
 }
 
 export default new Router({
@@ -53,6 +59,7 @@ export default new Router({
     home,
     preferences,
     settings,
-    feedback
+    feedback,
+    about
   ]
 })

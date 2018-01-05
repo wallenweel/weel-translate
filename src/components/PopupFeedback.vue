@@ -37,7 +37,7 @@
 
 <script>
 export default {
-  name: 'PopupHomeFeedback',
+  name: 'PopupFeedback',
   data () {
     return {
       amo: {

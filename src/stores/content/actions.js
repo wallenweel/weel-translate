@@ -45,7 +45,8 @@ __[REQUEST_TRANSLATION] = (
   { q, from = state.src_dest[0], to = state.src_dest[1] }
 ) => {
   return sendMessage({
-    payload: { q, from, to },
+    // payload: { q, from, to },
+    payload: { q },
     type: REQUEST_TRANSLATION
   }).then(result => {
     return (state.result = result)

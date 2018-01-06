@@ -54,9 +54,8 @@ __[INITIAL_FROM_BACKGROUND] = ({ state, commit, dispatch }) => {
     }
 
     if (
-      settings['browser_action_translate'] &&
-      settings['use_context_menu'] &&
-      settings['context_menu_way'] === 'popup'
+      settings['browser_action_translate'] ||
+      (settings['use_context_menu'] && settings['context_menu_way'] === 'popup')
     ) {
       tabs.query({
         currentWindow: true,

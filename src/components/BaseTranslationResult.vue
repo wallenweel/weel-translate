@@ -16,14 +16,14 @@
             v-icon(color="blue-grey" v-if="!picked") star_border
             v-icon(color="accent" v-else) star
           span Collect This
-      v-flex
+      v-flex(v-if="useSrc")
         v-btn(
           flat small icon
           @click="voice({ src })"
           )
           v-icon(color="blue-grey") volume_up
         span {{ getResult.phonetic_src }}
-      v-flex
+      v-flex(v-if="useDest")
         v-btn(
           flat small icon
           @click="voice({ dest, text: getResult.translation })"
@@ -56,7 +56,14 @@ export default {
     result: Object,
     src: String,
     dest: String,
-    collected: Boolean
+    collected: Boolean,
+    settings: {
+      type: Object,
+      required: false,
+      default () {
+        return {}
+      }
+    }
   },
   computed: {
     getResult () {
@@ -70,7 +77,9 @@ export default {
           ? explain.join('\n').replace(/,/g, `, `)
           : (explain || '').replace(/,/g, `, `)
       }
-    }
+    },
+    useSrc () { return this.settings['use_phonetic_src'] },
+    useDest () { return this.settings['use_phonetic_dest'] }
   },
   methods: {
     pickIt (v) {

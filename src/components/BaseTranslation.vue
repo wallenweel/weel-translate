@@ -80,6 +80,7 @@
       v-if="result.translation && template === 'default'"
       )
       base-translation-result(
+        :settings="settings"
         :src="src_dest[0]" :dest="src_dest[1]"
         :result="result"
         :collected="collected"
@@ -106,6 +107,13 @@ export default {
     }
   },
   props: {
+    settings: {
+      type: Object,
+      required: false,
+      default () {
+        return {}
+      }
+    },
     template: String,
     srcDest: {
       type: Array,

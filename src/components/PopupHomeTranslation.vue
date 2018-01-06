@@ -3,6 +3,7 @@
     base-translation(
       template="default"
       languageSwitcher
+      :settings="settings"
       :src-dest="src_dest"
       :api="currentSource"
       :result="result"
@@ -19,7 +20,7 @@ import BaseTranslation from '@/components/BaseTranslation'
 export default {
   name: 'PopupHomeTranslation',
   computed: {
-    ...mapState(['result', 'src_dest', 'input_text', 'tmp']),
+    ...mapState(['result', 'src_dest', 'input_text', 'settings', 'tmp']),
     ...mapGetters(['currentSource'])
   },
   methods: {

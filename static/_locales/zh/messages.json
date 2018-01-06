@@ -138,6 +138,14 @@
   "TRANSLATE_AFTER_SELECTED": {
     "message": "选中文本立即翻译"
   },
+  
+  "USE_PHONETIC_SRC": {
+    "message": "源语言的音标"
+  },
+  
+  "USE_PHONETIC_DEST": {
+    "message": "目标语言的音标"
+  },
 
   "EXTENSION_MANAGEMENT": {
     "message": "扩展管理"

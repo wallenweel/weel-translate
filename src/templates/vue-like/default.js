@@ -33,13 +33,13 @@ export default
         <div v-show="fapShow">
           <input class="-copyTmp" :value="getResult.translation" ref="copyTmp" />
 
-          <div class="-phonetic" v-show="getResult.phonetic_src">
+          <div class="-phonetic" v-if="useSrc">
             <button class="-js" @click="handleVoice('src')">
               <i class="weel-svg-icons -volume-high -icon"></i>
             </button>
             {{getResult.phonetic_src}}      
           </div>
-          <div class="-phonetic" v-show="getResult.phonetic_dest">
+          <div class="-phonetic" v-if="useDest">
             <button class="-js" @click="handleVoice('dest')">
               <i class="weel-svg-icons -volume-high -icon"></i>
             </button>

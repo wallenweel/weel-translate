@@ -64,7 +64,10 @@ __['settings'] = {
   // "float" or "popup"
   context_menu_way: 'float',
   browser_action_translate: false,
-  selection_translate: false
+  selection_translate: false,
+
+  use_phonetic_src: true,
+  use_phonetic_dest: true
 }
 
 __['preferences'] = {

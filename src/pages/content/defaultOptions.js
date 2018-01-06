@@ -77,8 +77,10 @@ export default ({ el, store, template }) => ({
           : (explain || '').replace(/,/g, `, `)
       }
     },
-    useFAB () { return this.settings.use_fab },
-    useFAP () { return this.settings.use_fap }
+    useFAB () { return this.settings['use_fab'] },
+    useFAP () { return this.settings['use_fap'] },
+    useSrc () { return this.settings['use_phonetic_src'] },
+    useDest () { return this.settings['use_phonetic_dest'] }
   },
   methods: {
     ...mapMutations(['fabToggle', 'fapToggle']),

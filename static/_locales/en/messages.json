@@ -134,6 +134,14 @@
   "TRANSLATE_AFTER_SELECTED": {
     "message": "Translate After Text Selected"
   },
+    
+  "USE_PHONETIC_SRC": {
+    "message": "Source phonetic"
+  },
+  
+  "USE_PHONETIC_DEST": {
+    "message": "Destination phonetic"
+  },
 
   "EXTENSION_MANAGEMENT": {
     "message": "Extension Management"

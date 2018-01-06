@@ -74,6 +74,20 @@
           )
         span {{ i('TRANSLATE_AFTER_SELECTED') }}
 
+      v-layout(row)
+        v-switch(
+          hide-details color="primary" v-model="ui.use_phonetic_src"
+          @change="settingChanges(['use_phonetic_src', ui.use_phonetic_src])"
+          )
+        span {{ i('USE_PHONETIC_SRC') }}
+
+      v-layout(row)
+        v-switch(
+          hide-details color="primary" v-model="ui.use_phonetic_dest"
+          @change="settingChanges(['use_phonetic_dest', ui.use_phonetic_dest])"
+          )
+        span {{ i('USE_PHONETIC_DEST') }}
+
     v-flex(:class="$style.section")
       header
         v-icon(left) extension
@@ -128,7 +142,9 @@ export default {
         use_context_menu,
         context_menu_way,
         browser_action_translate,
-        selection_translate
+        selection_translate,
+        use_phonetic_src,
+        use_phonetic_dest
         } = this.settings
 
       return {
@@ -137,7 +153,9 @@ export default {
         context: use_context_menu,
         context_way: context_menu_way,
         browser_action_translate,
-        selection_translate
+        selection_translate,
+        use_phonetic_src,
+        use_phonetic_dest
       }
     },
     ...mapState(['sources', 'settings']),

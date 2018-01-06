@@ -262,7 +262,7 @@ $mdi-icons: 'content-copy', 'volume-high', 'google-translate', $extension-name;
       }
     }
 
-    .-copyTmp {
+    > .-copyTmp {
       height: 0;
       width: 0;
       white-space: nowrap;

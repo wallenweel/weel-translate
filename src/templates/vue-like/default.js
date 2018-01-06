@@ -31,7 +31,7 @@ export default
     >
       <transition name="fade">
         <div v-show="fapShow">
-          <input class="-copyTmp" type="text" :value="getResult.translation" ref="copyTmp" />
+          <input class="-copyTmp" :value="getResult.translation" ref="copyTmp" />
 
           <div class="-phonetic" v-show="getResult.phonetic_src">
             <button class="-js" @click="handleVoice('src')">

@@ -11,10 +11,10 @@
 
     v-container
       v-layout(column :class="$style.wrap")
-        v-card(width="220px" flat :class="$style.card")
+        v-card(width="180px" flat :class="$style.card")
           v-card-media(
             class="white--text"
-            height="220px"
+            height="160px"
             contain
             src="/img/wx.png"
             )
@@ -23,10 +23,10 @@
             v-spacer
             h2.title 2 RMB
         
-        v-card(width="220px" flat)
+        v-card(width="180px" flat :class="$style.card")
           v-card-media(
             class="white--text"
-            height="220px"
+            height="160px"
             contain
             src="/img/ali.png"
             )
@@ -53,6 +53,7 @@ export default {
 
 .card {
   margin-bottom: 12px;
+  padding-top: 16px;
   :gloabl {
     .card__title {
       text-align: center;

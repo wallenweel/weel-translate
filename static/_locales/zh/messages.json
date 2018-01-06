@@ -19,6 +19,10 @@
     "message": "翻译"
   },
 
+  "TRANSLATION_TEXTAREA_TIP": {
+    "message": "使用“回车”键开始翻译。"
+  },
+
   "KEEP_ALL": {
     "message": "保持现状"
   },

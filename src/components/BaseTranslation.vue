@@ -41,7 +41,7 @@
     v-card
       v-text-field(
         textarea rows=3 full-width
-        placeholder="Use \`Enter\` key to do translate."
+        :placeholder="i('TRANSLATION_TEXTAREA_TIP')"
         ref="content"
         v-model="content"
         @keydown.native.enter.prevent="handleKeydown"

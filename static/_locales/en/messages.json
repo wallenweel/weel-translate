@@ -15,6 +15,10 @@
     "message": "Translation"
   },
 
+  "TRANSLATION_TEXTAREA_TIP": {
+    "message": "Type \"Enter\" key to do translate."
+  },
+
   "KEEP_ALL": {
     "message": "Keep All"
   },

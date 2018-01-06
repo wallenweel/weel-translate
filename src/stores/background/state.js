@@ -27,13 +27,17 @@ __['storage'] = {
     'current_template_id',
     'src_dest',
     'input_text',
-    'result'
-  ],
-  sync: [
+    'result',
+
     'settings',
     'preferences',
     'translation_collection'
   ]
+  // sync: [
+  //   'settings',
+  //   'preferences',
+  //   'translation_collection'
+  // ]
 }
 
 __['keep_all'] = false

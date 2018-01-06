@@ -42,15 +42,19 @@ export const state = {
       'current_service_id',
       'src_dest',
 
-      'sources.visible'
+      'sources.visible',
       // 'input_text',
       // 'result'
-    ],
-    sync: [
+
       'settings',
       'preferences',
       'translation_collection'
     ]
+    // sync: [
+    //   'settings',
+    //   'preferences',
+    //   'translation_collection'
+    // ]
   },
 
   settings: {

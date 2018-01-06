@@ -225,7 +225,13 @@ __[REQUEST_TRANSLATION] = async (
   .then(data => {
     // console.log(data)
     // console.log(parser(data))
-    emit && emit(parser(data))
+    if (typeof data === 'string') {
+      emit(data)
+    } else if (typeof data === 'object') {
+      emit(parser(data))
+    }
+
+    return true
   })
 }
 

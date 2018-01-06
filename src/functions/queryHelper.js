@@ -32,7 +32,7 @@ export default ({
     }
 
     const defaultHeader = {
-      'Content-Type': 'application/x-www-form-urlencoded; charset=UTF-8'
+      'Content-Type': 'application/x-www-form-urlencoded; charset=utf-8'
     }
     const methods = {
       GET (arg = {}) {
@@ -40,9 +40,10 @@ export default ({
         return encodeURI(replaceHelper(/\?/g.test(url) ? url : `${url}?${search}`, arg))
       },
       POST (arg = {}) {
-        return [url, {
+        return [encodeURI(replaceHelper(/\?/g.test(url) ? url : `${url}?${search}`, arg)), {
           method,
-          body: new URLSearchParams(replaceHelper(search, arg)),
+          // FIX: URLSearchParams run fail in fetch
+          // body: new URLSearchParams(replaceHelper(search, arg)),
           header: Object.assign(defaultHeader, header)
         }]
       }

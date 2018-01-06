@@ -19,16 +19,72 @@
     "message": "翻译"
   },
 
+  "KEEP_ALL": {
+    "message": "保持现状"
+  },
+
+  "KEEP_ALL_TIP": {
+    "message": "需要至少有一次翻译成功。"
+  },
+
+  "BLANK_TRANSLATING_TIP": {
+    "message": "没有发现待翻译的内容。"
+  },
+
+  "CLEAR_CONTENT": {
+    "message": "清空内容"
+  },
+
+  "PASTE_CONTENT": {
+    "message": "粘贴内容"
+  },
+
+  "TRANSLATING_FAILED_TIP": {
+    "message": "翻译请求失败。"
+  },
+
+  "VOICE_FAILED_TIP": {
+    "message": "获取发音失败。"
+  },
+
   "RECENT": {
     "message": "最近"
+  },
+
+  "RECENT_INFO": {
+    "message": "最多保存 20 条记录。"
+  },
+
+  "SERVICE": {
+    "message": "服务"
   },
 
   "COLLECTION": {
     "message": "收藏"
   },
 
+  "COLLECTION_INFO": {
+    "message": "适当使用这个清单。"
+  },
+
+  "COLLECTION_REMOVE_INFO": {
+    "message": "从列表中移除它？"
+  },
+
   "PREFERENCE": {
     "message": "偏好"
+  },
+
+  "PREFERENCE_INFO": {
+    "message": "这里和“设置”部分不同，会是些和扩展外观有关的调整选项。"
+  },
+
+  "CUSTOM_THEME": {
+    "message": "自定义主题"
+  },
+
+  "DARK_THEME": {
+    "message": "暗色主题"
   },
 
   "SETTING": {
@@ -89,6 +145,38 @@
   
   "UNINSTALL": {
     "message": "卸载"
+  },
+
+  "THE_EXTENSION": {
+    "message": "这个扩展"
+  },
+
+  "RESET_INFO": {
+    "message": "这个操作会重置扩展的大部分数据至默认状态，点击“好的”确认操作。"
+  },
+
+  "RESET_SUCCESS_TIP": {
+    "message": "重置扩展完成。"
+  },
+
+  "RESET_FAIL_TIP": {
+    "message": "重置扩展失败。"
+  },
+
+  "UNINSTALL_INFO": {
+    "message": "你在尝试卸载这个扩展，确认之后无法回退，需要在扩展市场重新下载安装。"
+  },
+
+  "UNINSTALL_CANCEL_TIP": {
+    "message": "你取消了卸载？"
+  },
+
+  "CANCEL": {
+    "message": "取消"
+  },
+
+  "OKAY": {
+    "message": "好的"
   },
 
   "FEEDBACK": {

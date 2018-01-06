@@ -1,7 +1,7 @@
 <template lang="pug">
   v-container
     v-subheader
-      |Appropriately use this list.
+      |{{ i('COLLECTION_INFO') }}
     v-list(v-if="items.length")
       v-list-tile(v-for="(item, index) in items" :key="index")
         v-list-tile-content
@@ -14,11 +14,11 @@
     v-dialog(lazy v-model="dialog")
       v-card
         v-card-title
-          span Remove It From this list?
+          span {{ i('COLLECTION_REMOVE_INFO') }}
         v-card-actions
           v-spacer
-          v-btn(color="secondary" flat @click.stop="dialog = false") No
-          v-btn(color="secondary" flat @click.stop="remove") Sure
+          v-btn(color="secondary" flat @click.stop="dialog = false") {{ i('CANCEL') }}
+          v-btn(color="secondary" flat @click.stop="remove") {{ i('OKAY') }}
 </template>
 
 <script>

@@ -1,13 +1,20 @@
 <template lang="pug">
+v-layout(column warp)
+  v-alert(
+    style="margin: 0 0; width: 100%;"
+    type="info" :value="true"
+    )
+    |{{ i('PREFERENCE_INFO') }}
   v-container(:class="$style.container")
+
     v-subheader
       v-icon(small) color_lens
-      span &nbsp;Custom Theme
+      span &nbsp;{{ i('CUSTOM_THEME') }}
     v-layout(column wrap :class="$style.section")
       v-card(flat)
         v-card-text
           v-switch(
-            label="Dark theme"
+            :label="i('DARK_THEME')"
             v-model="dark"
             )
 </template>

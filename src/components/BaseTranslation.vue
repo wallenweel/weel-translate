@@ -51,7 +51,7 @@
         v-tooltip(top)
           v-btn(flat depressed slot="activator" @click="deleteContent")
             v-icon(color="blue-grey") delete
-          span Clear Content
+          span {{ i('CLEAR_CONTENT') }}
 
         v-btn(
           fab dark medium color="primary"
@@ -65,8 +65,10 @@
             color="white" style="opacity: .66; top: -5px; left: -5px;"
             )
 
-        v-btn(flat depressed @click="pasteContent")
-          v-icon(color="blue-grey") content_paste
+        v-tooltip(top)
+          v-btn(flat depressed slot="activator" @click="pasteContent")
+            v-icon(color="blue-grey") content_paste
+          span {{ i('PASTE_CONTENT') }}            
       
     v-flex(:class="$style.selection" v-show="languageSwitcher")
       v-btn(block medium dark color="accent" @click="nextServiceSource")
@@ -149,7 +151,7 @@ export default {
   methods: {
     requestTranslation () {
       if (!this.content.length || !/[^\n]/.test(this.content)) {
-        return this.$store.commit('globalTip', [true, 'No words for translating.'])
+        return this.$store.commit('globalTip', [true, this.i('BLANK_TRANSLATING_TIP')])
       }
 
       this.loading = true

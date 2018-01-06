@@ -2,6 +2,7 @@ import merge from 'deepmerge'
 import { tabs } from '@/globals'
 import { jpjs } from '@/functions/utils'
 import { sendMessage } from '@/functions/runtime'
+import { getMessage as i } from '@/functions/i18n'
 import {
   INITIAL_FROM_BACKGROUND,
   UPDATE_STORAGE_STATE,
@@ -117,7 +118,7 @@ __[REQUEST_TRANSLATION] = ({ state, commit, getters }, { q, from, to }) => {
     type: REQUEST_TRANSLATION
   }).then(result => {
     if (!result) {
-      commit('globalTip', [true, 'Translation Request Failed.'])
+      commit('globalTip', [true, i('TRANSLATING_FAILED_TIP')])
       return false
     }
 
@@ -139,7 +140,7 @@ __[REQUEST_VOICE] = ({ state, commit }, { q, from }) => {
     type: REQUEST_VOICE
   }).then(status => {
     if (!status) {
-      commit('globalTip', [true, 'Get this voice failed.'])
+      commit('globalTip', [true, i('VOICE_FAILED_TIP')])
     }
   })
 }
@@ -153,9 +154,9 @@ __[RESET_LOCAL_STORAGE] = ({ state, dispatch, commit }) => {
       // dispatch(INITIAL_FROM_BACKGROUND)
       window.location.reload()
 
-      commit('globalTip', [true, 'Reset Extension Successed.'])
+      commit('globalTip', [true, i('RESET_SUCCESS_TIP')])
     } else {
-      commit('globalTip', [true, 'Reset Extension Failed.'])
+      commit('globalTip', [true, i('RESET_FAIL_TIP')])
     }
   })
 }
@@ -164,7 +165,7 @@ __[UNINSTALL_EXTENSION] = ({ commit }) => {
   sendMessage(UNINSTALL_EXTENSION)
   .then(status => {
     if (status === false) {
-      commit('globalTip', [true, 'You canceled uninstall?'])
+      commit('globalTip', [true, i('UNINSTALL_CANCEL_TIP')])
     }
   })
 }

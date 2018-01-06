@@ -1,7 +1,7 @@
 <template lang="pug">
   v-container
     v-subheader
-      |Only save 20 tiles
+      |{{ i('RECENT_INFO') }}
       v-spacer
       v-btn(flat icon style="margin-right: -8px;" @click="clear")
         v-icon(color="grey") delete_sweep
@@ -9,7 +9,7 @@
       v-list-tile(v-for="(item, index) in items" :key="index")
         v-list-tile-content
           v-list-tile-title {{ item.meta.q }}
-          v-list-tile-sub-title Service: {{ item.source.name }}
+          v-list-tile-sub-title {{ i('SERVICE') }}: {{ item.source.name }}
         v-list-tile-action
           v-btn(icon @click="remove(index)")
             v-icon(small color="grey") delete

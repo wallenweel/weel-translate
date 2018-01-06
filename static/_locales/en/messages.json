@@ -15,16 +15,72 @@
     "message": "Translation"
   },
 
+  "KEEP_ALL": {
+    "message": "Keep All"
+  },
+
+  "KEEP_ALL_TIP": {
+    "message": "Need a translating at least."
+  },
+
+  "BLANK_TRANSLATING_TIP": {
+    "message": "No words for translating."
+  },
+
+  "CLEAR_CONTENT": {
+    "message": "Clear Content"
+  },
+
+  "PASTE_CONTENT": {
+    "message": "Paste Content"
+  },
+
+  "TRANSLATING_FAILED_TIP": {
+    "message": "Translating request failed."
+  },
+
+  "VOICE_FAILED_TIP": {
+    "message": "Get this voice failed."
+  },
+
   "RECENT": {
     "message": "Recent"
+  },
+
+  "RECENT_INFO": {
+    "message": "Only save 20 tiles at most."
+  },
+
+  "SERVICE": {
+    "message": "Service"
   },
 
   "COLLECTION": {
     "message": "Collection"
   },
 
+  "COLLECTION_INFO": {
+    "message": "Appropriately use this list."
+  },
+
+  "COLLECTION_REMOVE_INFO": {
+    "message": "Remove it from this list?"
+  },
+
   "PREFERENCE": {
     "message": "Preference"
+  },
+
+  "PREFERENCE_INFO": {
+    "message": "Here is different to \"Setting\" part that all is style things of the extension."
+  },
+
+  "CUSTOM_THEME": {
+    "message": "Custom Theme"
+  },
+
+  "DARK_THEME": {
+    "message": "Dark Theme"
   },
 
   "SETTING": {
@@ -85,6 +141,38 @@
 
   "UNINSTALL": {
     "message": "Uninstall"
+  },
+
+  "THE_EXTENSION": {
+    "message": "The Extension"
+  },
+
+  "RESET_INFO": {
+    "message": "This operation will restore the extension's default data, if you want that, click \"Okay\" button."
+  },
+
+  "RESET_SUCCESS_TIP": {
+    "message": "Reset extension successed."
+  },
+
+  "RESET_FAIL_TIP": {
+    "message": "Reset extension failed."
+  },
+
+  "UNINSTALL_INFO": {
+    "message": "You are attempting to uninstall the extension, it mean you will lost all of your data, if you sure that, click \"Okay\" button."
+  },
+
+  "UNINSTALL_CANCEL_TIP": {
+    "message": "You canceled uninstall?"
+  },
+
+  "CANCEL": {
+    "message": "Cancel"
+  },
+
+  "OKAY": {
+    "message": "Okay"
   },
 
   "FEEDBACK": {

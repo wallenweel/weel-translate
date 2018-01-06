@@ -15,7 +15,7 @@
         slot="activator"
         v-model="keepAll"
       )
-      span Keep All
+      span {{ i('KEEP_ALL') }}
 </template>
 
 <script>
@@ -35,7 +35,7 @@ export default {
         !Object.keys(this.$store.state.result).length
       ) {
         this.keepAll = false
-        return this.$store.commit('globalTip', [true, 'Need a translating at least.'])
+        return this.$store.commit('globalTip', [true, this.i('KEEP_ALL_TIP')])
       }
       this.$store.dispatch('keepAllTranslation', { status: !!open })
     })

@@ -85,23 +85,23 @@
 
     v-dialog(v-model="resetDialog" max-width="290")
       v-card
-        v-card-title(class="headline") Reset The Extension?
+        v-card-title(class="headline") {{ `${i('RESET')}${i('THE_EXTENSION')} ?` }}
         v-card-text
-          span This operation will restore the extension's default data, if you want that, click "Okay" button.
+          span {{ i('RESET_INFO') }}
         v-card-actions
           v-spacer
-          v-btn(color="secondary" flat="flat" @click.native="resetDialog = false") Cancel
-          v-btn(color="secondary" flat="flat" @click.native="resetExtension") Okay
+          v-btn(color="secondary" flat="flat" @click.native="resetDialog = false") {{ i('CANCEL') }}
+          v-btn(color="secondary" flat="flat" @click.native="resetExtension") {{ i('OKAY') }}
 
     v-dialog(v-model="uninstallDialog" max-width="290")
       v-card
-        v-card-title(class="headline") Uninstall The Extension (⊙_⊙)?
+        v-card-title(class="headline") {{ `${i('UNINSTALL')}${i('THE_EXTENSION')} (⊙_⊙)?` }}
         v-card-text
-          span You are attempting to uninstall the extension, it mean you will lost all of your data, if you sure that, click "Okay" button.
+          span {{ i('UNINSTALL_INFO') }}
         v-card-actions
           v-spacer
-          v-btn(color="secondary" flat="flat" @click.native="uninstallDialog = false") Cancel
-          v-btn(color="secondary" flat="flat" @click.native="uninstallExtension") Okay
+          v-btn(color="secondary" flat="flat" @click.native="uninstallDialog = false") {{ i('CANCEL') }}
+          v-btn(color="secondary" flat="flat" @click.native="uninstallExtension") {{ i('OKAY') }}
 </template>
 
 <script>

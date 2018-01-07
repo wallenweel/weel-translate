@@ -20,9 +20,14 @@ __['storage'] = {
     'test',
     'keep_all',
     'translation_history',
-    'sources.preset',
-    'sources.visible',
-    'templates.preset',
+
+    // `storage.set` does not support nested object
+    // 'sources.preset',
+    // 'sources.visible',
+    // 'templates.preset',
+    'sources',
+    'templates',
+
     'current_service_id',
     'current_template_id',
     'src_dest',
@@ -33,6 +38,7 @@ __['storage'] = {
     'preferences',
     'translation_collection'
   ]
+  // sometimes has wrong because use sync storageArea
   // sync: [
   //   'settings',
   //   'preferences',

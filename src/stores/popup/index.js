@@ -42,7 +42,7 @@ export const state = {
       'current_service_id',
       'src_dest',
 
-      'sources.visible',
+      'sources',
       // 'input_text',
       // 'result'
 

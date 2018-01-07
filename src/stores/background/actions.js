@@ -108,9 +108,10 @@ __[STORAGE_TYPE_SET] = async (
   const helper = (k, v) => k.split('.').reduceRight((p, c) => ({[c]: p}), v)
 
   // storage[sync|local]
-  await storage[type].set(merge({}, helper(key, value))).then(
+  await storage[type].set(jpjs(helper(key, value))).then(
     () => {
       // update "state"
+      // TODO: need to support dot in keys such as 'sources.visible'
       state[key] = value
 
       if (env.production) return true
@@ -123,7 +124,7 @@ __[STORAGE_TYPE_SET] = async (
 }
 
 // feedback all of "state"
-__[INITIAL_FROM_BACKGROUND] = ({ state }, { emit }) => emit(merge({}, state))
+__[INITIAL_FROM_BACKGROUND] = ({ state }, { emit }) => emit(jpjs(state))
 
 __[UPDATE_STORAGE_STATE] = async (
   { state, commit, dispatch },
@@ -138,14 +139,24 @@ __[SAVE_CUSTOM_SOURCES_PRESET] = async (
   { state, commit, dispatch },
   { emit, payload }
 ) => {
+  const _sources = Object.assign(
+    jpjs(state.sources),
+    {
+      visible: Object.keys(payload),
+      preset: payload
+    }
+  )
+
   await dispatch(STORAGE_TYPE_SET, {
     type: 'local',
-    key: 'sources.preset',
-    value: payload
+    key: 'sources',
+    value: _sources
   })
 
-  state.sources.preset = payload
-  state.sources.visible = Object.keys(payload)
+  // state.sources.preset = payload
+  // state.sources.visible = Object.keys(payload)
+  state.sources.visible = _sources.visible
+  state.sources.preset = _sources.preset
 
   commit('compileSourcesPreset')
 

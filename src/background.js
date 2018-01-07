@@ -29,6 +29,13 @@ try {
     if (!success) return false
 
     // do something after all initial successfully
+    // browser.storage.local.set({ settings: { use_fab: false } })
+    // .then(() => {
+    //   browser.storage.local.get()
+    //   .then(all => {
+    //     console.log(all)
+    //   })
+    // })
     // store.dispatch('REQUEST_TRANSLATION', {})
     store.watch(state => state.settings.use_context_menu, (value) => {
       if (!value) store.dispatch(REMOVE_CONTEXT_MENU)

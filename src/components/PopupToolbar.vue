@@ -51,6 +51,9 @@ export default {
     }
   },
   watch: {
+    keep_all (v) {
+      this.keepAll = v
+    },
     '$route' ({ path }) {
       const keys = path.split('/')
 

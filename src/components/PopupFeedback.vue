@@ -4,7 +4,7 @@
       style="margin: 0 0; width: 100%;"
       type="info" :value="true"
       )
-      |There are two places for submitting question below, but recommend to use Github's issues feature.
+      |{{ i('FEEDBACK_INFO') }}
 
     v-container
       v-flex(:class="$style.section")
@@ -20,7 +20,7 @@
         a(:href="github.issues") Issues
 
     v-list(style="padding-bottom: 24px;")
-      v-subheader Also you can message to me for any questions, feel free.
+      v-subheader {{ i('FEEDBACK_CONTACT') }}
       v-list-tile
         v-list-tile-content
           v-list-tile-title E-Mail
@@ -31,7 +31,7 @@
           v-list-tile-sub-title 252518374
       v-list-tile
         v-list-tile-content
-          v-list-tile-title Wechat
+          v-list-tile-title Wechat ID
           v-list-tile-sub-title wallenweel
 </template>
 

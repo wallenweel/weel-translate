@@ -195,6 +195,14 @@
     "message": "反馈"
   },
 
+  "FEEDBACK_INFO": {
+    "message": "以下两个地方都可提交反馈问题，不过推荐使用 Github 的 Issues 功能。"
+  },
+
+  "FEEDBACK_CONTACT": {
+    "message": "你还可以通过下面的方式直接联系作者。"
+  },
+
   "DONATE": {
     "message": "打赏"
   },
@@ -204,7 +212,7 @@
   },
 
   "DONATE_HEADING": {
-    "message": "如果你喜欢并认同我的这个项目，可以给我 $NUM$ 元的打赏以表支持。",
+    "message": "如果你喜欢并认同我的这个项目，可以打赏 $NUM$ 元的表示支持。",
     "placeholders": {
       "num": {
         "content": "$1"

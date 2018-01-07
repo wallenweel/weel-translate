@@ -191,6 +191,14 @@
     "message": "Feedback"
   },
 
+  "FEEDBACK_INFO": {
+    "message": "There are two places for submitting question below, but recommend to use Github's issues feature."
+  },
+
+  "FEEDBACK_CONTACT": {
+    "message": "Also you can message to me for any questions, feel free."
+  },
+
   "DONATE": {
     "message": "Donate"
   },

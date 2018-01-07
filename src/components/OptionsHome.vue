@@ -9,12 +9,12 @@
       v-subheader Documents
       v-expansion-panel(focusable)
         v-expansion-panel-content
-          div(slot="header") 自定义翻译源 API
+          div(slot="header") 自定义翻译源 API （未支持加密的请求）
           v-card
             v-card-text(class="grey lighten-3")
               a(:href="document.api" target="_blank") {{ document.api }}
         v-expansion-panel-content
-          div(slot="header") 自定义结果模板（当前未实现）
+          div(slot="header") 自定义结果模板（只支持默认模板修改保存）
           v-card
             v-card-text(class="grey lighten-3")
               a(:href="document.api" target="_blank") {{ document.api }}

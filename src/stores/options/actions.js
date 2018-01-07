@@ -1,10 +1,12 @@
 import merge from 'deepmerge'
 import { istype } from '@/functions/utils'
 import { sendMessage } from '@/functions/runtime'
+import { templateCompiler } from '@/functions/templateHelper'
 import {
   INITIAL_FROM_BACKGROUND,
   UPDATE_STORAGE_STATE,
   SAVE_CUSTOM_SOURCES_PRESET,
+  SAVE_CUSTOM_TEMPLATES_PRESET,
   REQUEST_TRANSLATION,
   FETCH_REQUEST,
   REQUEST_VOICE
@@ -21,13 +23,15 @@ __[INITIAL_FROM_BACKGROUND] = async ({ state, dispatch, commit }) => {
     // storage,
     sources,
     templates,
-    preferences
+    preferences,
+    settings
   }) => {
     state = Object.assign(state, {
       // storage,
       sources,
       templates,
-      preferences
+      preferences,
+      settings
     })
 
     state.tmp.sources = merge(state.tmp.sources, sources)
@@ -82,6 +86,32 @@ __[SAVE_CUSTOM_SOURCES_PRESET] = ({ state, commit }) => {
     }
 
     state.tmp['sources'].alert = [true, 'All Presets Have Been Saved.']
+  })
+}
+
+__[SAVE_CUSTOM_TEMPLATES_PRESET] = ({ state: { tmp }, commit }) => {
+  const defaultPreset = tmp['templates'].preset.default
+
+  try {
+    templateCompiler(defaultPreset)
+  } catch (error) {
+    tmp['templates'].alert = [true, 'The preset compile failed, can not save it.']
+    return false
+  }
+
+  sendMessage({
+    type: SAVE_CUSTOM_TEMPLATES_PRESET,
+    payload: {
+      default: defaultPreset
+    }
+  })
+  .then(success => {
+    if (!success) {
+      tmp['templates'].alert = [true, 'Save Presets Failed.']
+      return false
+    }
+
+    tmp['templates'].alert = [true, 'All Presets Have Been Saved.']
   })
 }
 

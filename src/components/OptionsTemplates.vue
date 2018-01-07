@@ -1,36 +1,40 @@
 <template lang="pug">
   v-layout(wrap)
-    options-modify-toolbar
+    options-modify-toolbar(:create="false" @save="savePreset")
+    v-snackbar(
+      absolute
+      :timeout="3000"
+      top
+      v-model="snackbar"
+      ) {{ alert[1] }}
+      v-btn(flat small color="pink" @click.native="snackbar = false") Close
 
     v-layout(wrap :class="$style.content")
-      v-flex(d-flex sm6 lg6 :class="$style.editorPart")
+      v-flex(d-flex sm12 lg12 :class="$style.editorPart")
         base-code-editor(
           editorStyle="min-height: calc(100vh - 96px);"
           :content="preset"
           mode="text/html"
+          @changes="editorChanges"
           @compile="editorCompile"
           )
 
-      v-flex(d-flex sm6 lg6 :class="$style.respondPart")
+      v-flex(d-flex sm6 lg6 :class="$style.respondPart" v-if="false")
         v-layout(column style="width: 100%; height: 100%;")
           v-toolbar(dense)
             v-btn(
-              icon color="accent"
-              style="margin-top: 8px;"
-              @click="openLink"
+              icon
+              @click="$refs.iframe.contentWindow.location.reload()"
               )
-              v-icon touch_app
+              v-icon refresh
+            v-btn(icon @click="openLink")
+              v-icon done
             v-text-field(
               label="Open other link in iframe."
               placeholder="https://"
               clearable hide-details
               v-model="iframeLink"
               )
-            v-btn(
-              icon
-              @click="$refs.iframe.contentWindow.location.reload()"
-              )
-              v-icon refresh
 
           iframe(
             height="100%" width="100%"
@@ -41,6 +45,7 @@
 
 <script>
 import { mapState, mapMutations } from 'vuex'
+import { SAVE_CUSTOM_TEMPLATES_PRESET } from '@/types'
 import BaseCodeEditor from '@/components/BaseCodeEditor'
 import BaseTranslation from '@/components/BaseTranslation'
 import OptionsModifyToolbar from '@/components/OptionsModifyToolbar'
@@ -54,6 +59,7 @@ export default {
   name: 'ServiceSourceAPI',
   data () {
     return {
+      snackbar: false,
       id: 'default',
       href: '/content/index.html',
       iframeLink: '',
@@ -65,6 +71,7 @@ export default {
     presets () { return this.templates['preset'] },
     compiled () { return this.templates['compiled'] },
     preset () { return this.presets[this.id] },
+    alert () { return this.templates['alert'] },
 
     ...mapState({
       templates ({ tmp }) {
@@ -73,6 +80,9 @@ export default {
     })
   },
   methods: {
+    savePreset () {
+      this.$store.dispatch(SAVE_CUSTOM_TEMPLATES_PRESET)
+    },
     openLink () {
       this.iframeHref = this.iframeLink || this.href
     },
@@ -101,10 +111,16 @@ export default {
       editorCompile (commit, content) {
         commit('compileCurrentCodes', [tmpType, { id: this.id, content }])
         // this.injectInstance()
+      },
+      editorChanges (commit, content) {
+        commit('currentEditorChanges', [tmpType, { id: this.id, content }])
       }
     })
   },
   watch: {
+    alert ([flag]) {
+      this.snackbar = flag
+    },
     iframeLink (v) {
       if (!v) this.iframeHref = this.href
     }

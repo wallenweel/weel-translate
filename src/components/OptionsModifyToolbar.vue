@@ -1,6 +1,6 @@
 <template lang="pug">
   v-toolbar(dense style="z-index: 4;")
-    v-tooltip(bottom)
+    v-tooltip(bottom v-if="create !== false")
       v-btn(icon color="accent" slot="activator" @click="() => $emit('create')")
         v-icon add
       span Create New One
@@ -33,6 +33,6 @@
 <script>
 export default {
   name: 'OptionsModifyToolbar',
-  props: ['items', 'currentId']
+  props: ['items', 'currentId', 'create']
 }
 </script>

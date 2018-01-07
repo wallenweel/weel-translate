@@ -16,6 +16,7 @@ import {
   REMOVE_CONTEXT_MENU,
   CONTEXT_MENU_ACTION_TRANSLATE,
   SAVE_CUSTOM_SOURCES_PRESET,
+  SAVE_CUSTOM_TEMPLATES_PRESET,
   FETCH_REQUEST
 } from '@/types'
 import originalState from './state'
@@ -167,6 +168,25 @@ __[SAVE_CUSTOM_SOURCES_PRESET] = async (
   state.sources.preset = _sources.preset
 
   commit('compileSourcesPreset')
+
+  emit(true)
+}
+
+__[SAVE_CUSTOM_TEMPLATES_PRESET] = async (
+  { state, commit, dispatch },
+  { emit, payload }
+) => {
+  await dispatch(STORAGE_TYPE_SET, {
+    type: 'local',
+    key: 'templates',
+    value: {
+      preset: payload
+    }
+  })
+
+  state.templates.preset = payload
+
+  commit('compileTemplatesPreset')
 
   emit(true)
 }

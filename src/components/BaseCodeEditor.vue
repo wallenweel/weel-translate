@@ -20,7 +20,7 @@ v-layout(column style="width: 100%; height: 100%;")
       //-   v-btn(icon slot="activator" @click="() => $emit('restore')")
       //-     v-icon restore
       //-   span Restore Previous Compilation
-      v-tooltip(bottom)
+      v-tooltip(bottom v-if="mode === 'application/json'")
         v-btn(depressed slot="activator" @click="compile")
           span Compile
           v-icon keyboard_arrow_right

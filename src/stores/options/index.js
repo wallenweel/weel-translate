@@ -25,6 +25,7 @@ export const state = {
       preset: {}
     },
     templates: {
+      alert: [false, '...'],
       compiled: {},
       preset: {}
     }
@@ -43,7 +44,9 @@ export const state = {
   },
   templates: {
     preset: {}
-  }
+  },
+
+  settings: {}
 }
 
 const store = new Vuex.Store({

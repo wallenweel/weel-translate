@@ -51,8 +51,17 @@ export const nextServiceSource = ({ tmp }) => {
   tmp.sources.current_api = Object.values(tmp.sources.current_id)[nextIndex]
 }
 
+export const languageChanges = ({ tmp }, langs) => {
+  tmp.sources.src_dest = langs
+}
+
+export const swapLanguages = ({ tmp }) => {
+  const [src, dest] = tmp.sources['src_dest']
+
+  tmp.sources['src_dest'] = [dest, src]
+}
+
 export const currentEditorChanges = ({ tmp }, [type, { id, content }]) => {
-  // console.log(content)
   tmp[type].preset[id] = content
 }
 
@@ -91,7 +100,8 @@ export const compileCurrentCodes = ({ tmp }, [type, { id, content }]) => {
     }
 
     tmp[type].preset[id] = content
-    tmp[type].current_api = api
+    tmp[type]['current_api'] = api
+    tmp[type]['src_dest'] = api['fromto']
   }
 }
 

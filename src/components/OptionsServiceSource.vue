@@ -55,12 +55,16 @@
             v-toolbar-title Test This Preset
           v-container
             base-translation(
+              template="default"
+              :settings="settings"
+              :src-dest="src_dest"
               :api="api"
               :result="result"
               :input="queryText"
               @input="inputChanged"
+              @changes="languageChanges"
               )
-            v-flex {{ queryDetail }}
+            i {{ queryDetail }}
             v-flex(:class="overlay").overlay.overlay--absolute
 </template>
 
@@ -81,7 +85,11 @@ export default {
       snackbar: false,
       createDialog: false,
       tip: false,
-      tipMsg: '...'
+      tipMsg: '...',
+      settings: {
+        use_phonetic_src: true,
+        use_phonetic_dest: true
+      }
     }
   },
   computed: {
@@ -93,6 +101,7 @@ export default {
     id () { return this.sources['current_id'] },
     api () { return this.sources['current_api'] },
     preset () { return this.presets[this.id] },
+    src_dest () { return this.sources['src_dest'] },
     response () { return this.sources['current_response'] },
     items () { return this.sources['items'] },
     queryText () { return this.sources['current_input'] },
@@ -110,6 +119,9 @@ export default {
     ...mapMutations({
       inputChanged (commit, text) {
         commit('tmpStateUpdate', [tmpType, { current_input: text }])
+      },
+      languageChanges (commit, langs) {
+        commit('languageChanges', langs)
       },
       editorChanges (commit, content) {
         commit('currentEditorChanges', [tmpType, { id: this.id, content }])

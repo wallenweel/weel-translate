@@ -15,7 +15,8 @@ import {
   CREATE_CONTEXT_MENU,
   REMOVE_CONTEXT_MENU,
   CONTEXT_MENU_ACTION_TRANSLATE,
-  SAVE_CUSTOM_SOURCES_PRESET
+  SAVE_CUSTOM_SOURCES_PRESET,
+  FETCH_REQUEST
 } from '@/types'
 import originalState from './state'
 
@@ -209,6 +210,24 @@ __[REMOVE_CONTEXT_MENU] = ({ state }) => {
     if (menus.onClicked.hasListener(state.menusListener)) {
       menus.onClicked.removeListener(state.menusListener)
     }
+  })
+}
+
+__[FETCH_REQUEST] = async ({ state }, { emit, parser, payload = {} }) => {
+  const { url, request, dataType = 'json' } = payload
+
+  await fetch(url, request)
+  .then(res => {
+    return res[dataType]()
+  })
+  .then(data => {
+    if (typeof data === 'string') {
+      emit(data)
+    } else if (typeof data === 'object') {
+      emit(parser(data))
+    }
+
+    return true
   })
 }
 

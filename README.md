@@ -30,6 +30,11 @@
   // 翻译源地址，主要用于提供变量，不用的话可省略
   ~"host": "https://translate.google.com",
 
+  // 定义一些响应内容的设置
+  ~"response": {
+    ~"type": "json" // or "text", response data type
+  },
+
   // 查询对象
   *"query": {
     // 文本翻译的请求

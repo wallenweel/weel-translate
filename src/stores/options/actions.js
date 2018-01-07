@@ -6,7 +6,8 @@ import {
   UPDATE_STORAGE_STATE,
   SAVE_CUSTOM_SOURCES_PRESET,
   REQUEST_TRANSLATION,
-  FETCH_REQUEST
+  FETCH_REQUEST,
+  REQUEST_VOICE
 } from '@/types'
 
 const __ = {}
@@ -120,6 +121,18 @@ __[REQUEST_TRANSLATION] = ({ state: { tmp }, commit }, payload = {}) => {
     tmp.sources['current_result'] = parser(tmp.sources['current_response'])
 
     return true
+  })
+}
+
+__[REQUEST_VOICE] = (
+  { state: { tmp }, getters },
+  { q, from, id }
+) => {
+  const url = tmp.sources.current_api.query.audio({ q, from })
+
+  sendMessage({
+    type: REQUEST_VOICE,
+    payload: { url }
   })
 }
 

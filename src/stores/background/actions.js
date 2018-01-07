@@ -277,13 +277,14 @@ __[REQUEST_VOICE] = (
   { emit, payload: {
     q,
     from,
-    id
+    id,
+    url
   } }
 ) => {
-  const url = getters.currentSource.query.audio({ q, from })
+  const _url = url || getters.currentSource.query.audio({ q, from })
   const audio = new Audio()
 
-  audio.src = url
+  audio.src = _url
   audio.play()
   .then(() => true, () => false)
   .then(status => emit(status))

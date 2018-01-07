@@ -26,6 +26,11 @@
               clearable hide-details
               v-model="iframeLink"
               )
+            v-btn(
+              icon
+              @click="$refs.iframe.contentWindow.location.reload()"
+              )
+              v-icon refresh
 
           iframe(
             height="100%" width="100%"

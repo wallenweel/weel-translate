@@ -10,7 +10,7 @@ export const mergeStorageState = (state, storage = {}) => {
       delete config.compiled
     }
 
-    state[name] = config
+    state[name] = typeof config !== 'object' ? config : Object.assign(state[name], config)
   }
 }
 

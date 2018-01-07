@@ -1,4 +1,4 @@
-import merge from 'deepmerge'
+// import merge from 'deepmerge'
 import { storage, tabs, management, menus, env } from '@/globals'
 import { clog, jpjs, istype } from '@/functions/utils'
 import {
@@ -19,22 +19,24 @@ import {
 } from '@/types'
 import originalState from './state'
 
-const initialState = merge({}, originalState)
+const initialState = jpjs(originalState)
 
 const __ = {}
 
 __[INITIAL_STORAGE_FROM_DEFAULT] = async ({ state }) => {
   // get value in 'state.a.b.c'
-  const value = (k, s) => k.split('.').reduce((p, c) => p[c], s)
+  // const value = (k, s) => k.split('.').reduce((p, c) => p[c], s)
   // generate storage type data
-  const helper = (k, v) => k.split('.').reduceRight((p, c) => ({[c]: p}), v)
+  // const helper = (k, v) => k.split('.').reduceRight((p, c) => ({[c]: p}), v)
 
   for (const [type, states] of Object.entries(state.storage)) {
-    const config = states.reduce((p, c) => {
-      if (/\./.test(c)) p = Object.assign(p, helper(c, value(c, state)))
-      else p[c] = state[c]
+    const config = states.reduce((p, k) => {
+      // if (/\./.test(k)) p = Object.assign(p, helper(k, value(k, state)))
+      // else p[k] = state[k]
 
-      return merge({}, p)
+      // return merge({}, p)
+      p[k] = jpjs(state[k])
+      return p
     }, {})
 
     await storage[type].set(config)
@@ -107,12 +109,17 @@ __[STORAGE_TYPE_SET] = async (
   // ('a.b.c', v) => {a: {b: {c: v}}}
   const helper = (k, v) => k.split('.').reduceRight((p, c) => ({[c]: p}), v)
 
+  const _value = jpjs(value)
+  if (Object.keys(_value).includes('compiled')) {
+    delete _value.compiled
+  }
+
   // storage[sync|local]
-  await storage[type].set(jpjs(helper(key, value))).then(
+  await storage[type].set(jpjs(helper(key, _value))).then(
     () => {
       // update "state"
       // TODO: need to support dot in keys such as 'sources.visible'
-      state[key] = value
+      state[key] = typeof _value !== 'object' ? _value : Object.assign(state[key], _value)
 
       if (env.production) return true
 

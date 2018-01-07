@@ -153,7 +153,7 @@ __[RESET_LOCAL_STORAGE] = ({ state, dispatch, commit }) => {
       // dispatch(INITIAL_FROM_BACKGROUND)
       window.location.reload()
 
-      commit('globalTip', [true, i('RESET_SUCCESS_TIP')])
+      // commit('globalTip', [true, i('RESET_SUCCESS_TIP')])
     } else {
       commit('globalTip', [true, i('RESET_FAIL_TIP')])
     }

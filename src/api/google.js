@@ -42,7 +42,7 @@ export default
     "explain": "dict(pos////terms)"
   },
 
-  "fromto" : ["en", "zh-cn"],
+  "fromto" : ["auto", "auto"],
 
-  "include": ["en", "zh-cn", "ja", "ko", "es", "de"]
+  "include": ["auto", "en", "zh-cn", "ja", "ko", "es", "de"]
 }`

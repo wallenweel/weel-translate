@@ -65,12 +65,17 @@
             color="white" style="opacity: .66; top: -5px; left: -5px;"
             )
 
-        v-tooltip(top)
+        v-tooltip(top v-if="!isPreStyle")
           v-btn(flat depressed slot="activator" @click="pasteContent")
             v-icon(color="blue-grey") content_paste
-          span {{ i('PASTE_CONTENT') }}            
+          span {{ i('PASTE_CONTENT') }}
+        v-tooltip(top v-else)
+          v-btn(flat depressed slot="activator" @click="nextServiceSource")
+            v-icon(color="blue-grey") next_week
+          span {{ name }}
+        
       
-    v-flex(:class="$style.selection" v-show="languageSwitcher")
+    v-flex(:class="$style.selection" v-show="languageSwitcher && !isPreStyle")
       v-btn(block medium dark color="accent" @click="nextServiceSource")
         b {{ name }}
         //- img(style="margin-left: 4px;" height=16 width=16 :src="icon")
@@ -132,7 +137,7 @@ export default {
       required: false,
       default () {
         return {
-          name: 'API Name'
+          name: 'Unknown API'
         }
       }
     },
@@ -154,7 +159,8 @@ export default {
     id () { return this.api.id || '' },
     name () { return this.api.name || '' },
     icon () { return this.api.icon || '' },
-    collected () { return this.$store.state.currentCollected }
+    collected () { return this.$store.state.currentCollected },
+    isPreStyle () { return this.$store.getters.isPreStyle }
   },
   methods: {
     requestTranslation () {

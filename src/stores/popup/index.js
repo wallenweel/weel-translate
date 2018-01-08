@@ -76,6 +76,9 @@ const store = new Vuex.Store({
     },
     currentSource: (state) => {
       return state.sources.compiled[state.current_service_id]
+    },
+    isPreStyle: (state) => {
+      return state.preferences['v1_style'] || false
     }
   }
 })

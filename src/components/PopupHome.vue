@@ -1,11 +1,10 @@
 <template lang="pug">
   v-layout
     transition(:name="transitionName")
-      router-view(class="child-view")
+      router-view(:class="!isPreStyle ? 'child-view' : 'child-view-preStyle'")
     v-bottom-nav(
-      style="left: 0;"
-      color
-      absolute
+      v-if="!isPreStyle"
+      color absolute style="left: 0;"
       :value="true"
       :active.sync="navActive"
       )
@@ -50,6 +49,9 @@ export default {
 
     next()
   },
+  computed: {
+    isPreStyle () { return this.$store.getters.isPreStyle }
+  },
   methods: {
     restoreNavBtn () {
       const currentPath = this.$router.history.current.path
@@ -74,6 +76,13 @@ export default {
   right: 0;
   top: 0;
   position: absolute;
+
+  overflow-x: hidden;
+  overflow-y: auto;
+}
+
+.child-view-preStyle {
+  padding: 0;
 
   overflow-x: hidden;
   overflow-y: auto;

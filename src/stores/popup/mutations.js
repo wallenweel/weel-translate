@@ -22,6 +22,11 @@ export const settingChanges = (state, [key, value]) => {
   state.settings[key] = value
 }
 
+export const preferenceChanges = (state, [key, value]) => {
+  console.log(key, value)
+  state.preferences[key] = value
+}
+
 export const languageChanges = (state, langs) => {
   state.src_dest = langs
 }

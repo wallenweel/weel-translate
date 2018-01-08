@@ -77,7 +77,8 @@ __['settings'] = {
 }
 
 __['preferences'] = {
-  dark: false
+  dark: false,
+  v1_style: false
 }
 
 __['sources'] = {

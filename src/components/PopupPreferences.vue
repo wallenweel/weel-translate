@@ -14,26 +14,33 @@ v-layout(column warp)
       v-card(flat)
         v-card-text
           v-switch(
+            hide-details color="primary"
             :label="i('DARK_THEME')"
-            v-model="dark"
+            :input-value="dark"
+            @change="update(['dark', !dark])"
+            )
+          v-switch(
+            hide-details color="primary"
+            :label="i('PREVIOUS_UI_STYLE')"
+            :input-value="v1_style"
+            @change="update(['v1_style', !v1_style])"
             )
 </template>
 
 <script>
+import { mapState, mapMutations } from 'vuex'
+
 export default {
   name: 'PopupPreference',
-  data () {
-    return {
-      dark: false
-    }
+  computed: {
+    ...mapState(['preferences']),
+    dark () { return this.preferences['dark'] },
+    v1_style () { return this.preferences['v1_style'] }
   },
-  beforeMount () {
-    this.dark = this.$store.state.preferences.dark
-  },
-  watch: {
-    dark (value) {
-      this.$store.state.preferences.dark = value
-    }
+  methods: {
+    ...mapMutations({
+      update: 'preferenceChanges'
+    })
   }
 }
 </script>

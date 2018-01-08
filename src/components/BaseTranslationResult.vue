@@ -8,7 +8,7 @@
       )
     v-layout(column wrap)
       v-flex(style="position: absolute; top: 0; right: 0;")
-        v-tooltip(top)
+        v-tooltip(top v-if="!isPreStyle")
           v-btn(
             flat small icon slot="activator"
             @click="pickIt(picked)"
@@ -79,7 +79,8 @@ export default {
       }
     },
     useSrc () { return this.settings['use_phonetic_src'] },
-    useDest () { return this.settings['use_phonetic_dest'] }
+    useDest () { return this.settings['use_phonetic_dest'] },
+    isPreStyle () { return this.$store.getters.isPreStyle }
   },
   methods: {
     pickIt (v) {

@@ -1,5 +1,5 @@
 <template lang="pug">
-  v-app(:dark="dark" :class="$style.app")
+  v-app(:dark="dark" :class="$style.app" :style="preStyleApp")
     v-tooltip(v-model="tip" bottom)
       v-flex(slot="activator")
       span {{ tipMsg }}
@@ -8,7 +8,7 @@
 
     popup-navigation-drawer
 
-    v-content(:class="$style.content")
+    v-content(:class="$style.content" :style="preStyleContent")
       router-view
 </template>
 
@@ -21,7 +21,9 @@ export default {
   data () {
     return {
       tip: false,
-      tipMsg: '...'
+      tipMsg: '...',
+      preStyleApp: null,
+      preStyleContent: null
     }
   },
   computed: {
@@ -30,7 +32,8 @@ export default {
     },
     globalTip () {
       return this.$store.state.globalTip
-    }
+    },
+    isPreStyle () { return this.$store.getters.isPreStyle }
   },
   methods: {
     useTip (value) {
@@ -39,7 +42,21 @@ export default {
     }
   },
   watch: {
-    globalTip (value) { this.useTip(value) }
+    globalTip (value) { this.useTip(value) },
+    '$route' ({ path }) {
+      this.preStyleApp = null
+      this.preStyleContent = null
+
+      if (!this.isPreStyle || !/(translation)$/.test(path)) return
+      this.preStyleApp = {
+        height: 'auto',
+        minHeight: 'auto'
+      }
+      this.preStyleContent = {
+        height: '0%',
+        minHeight: 'auto'
+      }
+    }
   },
   components: {
     PopupToolbar,

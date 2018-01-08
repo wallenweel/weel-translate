@@ -39,6 +39,10 @@
     "message": "Paste Content"
   },
 
+  "NEXT_SOURCE": {
+    "message": "Next Source"
+  },
+
   "TRANSLATING_FAILED_TIP": {
     "message": "Translating request failed."
   },
@@ -85,6 +89,10 @@
 
   "DARK_THEME": {
     "message": "Dark Theme"
+  },
+
+  "PREVIOUS_UI_STYLE": {
+    "message": "Privious UI Style"
   },
 
   "SETTING": {

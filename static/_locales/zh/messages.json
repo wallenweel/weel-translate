@@ -43,6 +43,10 @@
     "message": "粘贴内容"
   },
 
+  "NEXT_SOURCE": {
+    "message": "下一个翻译源"
+  },
+
   "TRANSLATING_FAILED_TIP": {
     "message": "翻译请求失败。"
   },
@@ -89,6 +93,10 @@
 
   "DARK_THEME": {
     "message": "暗色主题"
+  },
+
+  "PREVIOUS_UI_STYLE": {
+    "message": "之前的界面风格(实验性)"
   },
 
   "SETTING": {

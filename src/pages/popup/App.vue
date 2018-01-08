@@ -48,6 +48,19 @@ export default {
       this.preStyleContent = null
 
       if (!this.isPreStyle || !/(translation)$/.test(path)) return
+
+      this.preStyleApp = {
+        height: 'auto',
+        minHeight: 'auto'
+      }
+      this.preStyleContent = {
+        height: '0%',
+        minHeight: 'auto'
+      }
+    },
+    isPreStyle (v) {
+      if (!v) return
+
       this.preStyleApp = {
         height: 'auto',
         minHeight: 'auto'

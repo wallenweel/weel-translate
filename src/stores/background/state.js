@@ -78,7 +78,11 @@ __['settings'] = {
 
 __['preferences'] = {
   dark: false,
-  v1_style: false
+  v1_style: false,
+  // 0: selection, 1: follow mouse
+  float_button_position: 0,
+  // 0: selection, 1: follow fab, 2: right bottom
+  float_panel_position: 0
 }
 
 __['sources'] = {

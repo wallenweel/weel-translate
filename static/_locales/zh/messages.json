@@ -99,6 +99,34 @@
     "message": "之前的界面风格(实验性)"
   },
 
+  "FLOAT_ACTIONS_RELATED": {
+    "message": "浮动动作组件相关"
+  },
+
+  "FLOAT_BUTTON_POSITION": {
+    "message": "浮动按钮位置"
+  },
+
+  "FLOAT_PANEL_POSITION": {
+    "message": "浮动面板位置"
+  },
+
+  "CENTER_OF_SELECTION_RECT": {
+    "message": "文字选块中间"
+  },
+
+  "FOLLOW_MOUSE": {
+    "message": "跟随鼠标"
+  },
+
+  "FOLLOW_FLOAT_BUTTON": {
+    "message": "跟随浮动按钮"
+  },
+
+  "RIGHT_BOTTOM_OF_PAGE": {
+    "message": "页面右下角"
+  },
+
   "SETTING": {
     "message": "设置"
   },

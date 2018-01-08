@@ -12,7 +12,8 @@ export default ({ el, store, template }) => ({
   data () {
     return {
       selectedText: null,
-      loading: false
+      loading: false,
+      fabXY: [0, 0]
     }
   },
   mounted () {
@@ -57,14 +58,14 @@ export default ({ el, store, template }) => ({
 
       if (this.useFAB) {
         this.fabToggle(true)
-        this.$nextTick(() => this.fabPosition())
+        this.$nextTick(() => this.fabPosition(ev))
       }
 
       return true
     }, false)
   },
   computed: {
-    ...mapState(['result', 'selectionRect', 'settings', 'src_dest', 'fabShow', 'fapShow']),
+    ...mapState(['result', 'selectionRect', 'settings', 'preferences', 'src_dest', 'fabShow', 'fapShow']),
     getResult () {
       const { translation, explain } = this.result
 
@@ -80,10 +81,14 @@ export default ({ el, store, template }) => ({
     useFAB () { return this.settings['use_fab'] },
     useFAP () { return this.settings['use_fap'] },
     useSrc () { return this.settings['use_phonetic_src'] },
-    useDest () { return this.settings['use_phonetic_dest'] }
+    useDest () { return this.settings['use_phonetic_dest'] },
+
+    fabPos () { return this.preferences['float_button_position'] || 0 },
+    fapPos () { return this.preferences['float_panel_position'] || 0 }
   },
   methods: {
     ...mapMutations(['fabToggle', 'fapToggle']),
+
     handleFAB () {
       this.loading = true
       this.$store.dispatch(REQUEST_TRANSLATION, { q: this.selectedText })
@@ -107,15 +112,25 @@ export default ({ el, store, template }) => ({
       this.$refs.copyTmp.select()
       document.execCommand('Copy')
     },
-    fabPosition () {
+    fabPosition ({ clientX, clientY }) {
       const { innerWidth, innerHeight } = window
       const { offsetWidth, offsetHeight } = this.$refs.fab
       const { height, width, x, y } = this.selectionRect
 
-      let [offsetX, offsetY] = [
-        x + width / 2 - offsetWidth / 2,
-        y + height + offsetHeight * 0.125
-      ]
+      let [offsetX, offsetY] = [0, 0]
+
+      switch (this.fabPos) {
+        case 0:
+          [offsetX, offsetY] = [
+            x + width / 2 - offsetWidth / 2,
+            y + height + offsetHeight * 0.125
+          ]
+          break
+
+        case 1:
+          [offsetX, offsetY] = [clientX, clientY]
+          break
+      }
 
       offsetX = offsetX > 0 ? offsetX : 16
       offsetY = offsetY > 0 ? offsetY : 16
@@ -124,16 +139,35 @@ export default ({ el, store, template }) => ({
       offsetY = innerHeight - offsetY - offsetHeight > 0 ? offsetY : y - offsetHeight / 0.875
 
       this.$refs.fab.style.WebkitTransform = `translate3d(${offsetX}px, ${offsetY}px, 0)`
+
+      this.fabXY = [offsetX, offsetY]
     },
     fapPosition () {
       const { innerWidth, innerHeight } = window
       const { offsetWidth, offsetHeight } = this.$refs.fap
       const { height, width, x, y } = this.selectionRect
 
-      let [offsetX, offsetY] = [
-        x + width / 2 - offsetWidth / 2,
-        y + height + 16
-      ]
+      let [offsetX, offsetY] = [0, 0]
+
+      switch (this.fapPos) {
+        case 0:
+          [offsetX, offsetY] = [
+            x + width / 2 - offsetWidth / 2,
+            y + height + 16
+          ]
+          break
+
+        case 1:
+          const [fabX, fabY] = this.fabXY
+
+          offsetX = fabX + width / 2 - offsetWidth / 2
+          offsetY = fabY + height + 16
+          break
+
+        case 2:
+          [offsetX, offsetY] = [innerWidth - offsetWidth - 32, innerHeight - offsetHeight - 24]
+          break
+      }
 
       offsetX = offsetX > 0 ? offsetX : 16
       offsetY = offsetY > 0 ? offsetY : 16

@@ -95,6 +95,34 @@
     "message": "Privious UI Style"
   },
 
+  "FLOAT_ACTIONS_RELATED": {
+    "message": "Float Actions Related"
+  },
+
+  "FLOAT_BUTTON_POSITION": {
+    "message": "Float Button Position"
+  },
+
+  "FLOAT_PANEL_POSITION": {
+    "message": "Float Panel Position"
+  },
+
+  "CENTER_OF_SELECTION_RECT": {
+    "message": "Center of selection rect"
+  },
+
+  "FOLLOW_MOUSE": {
+    "message": "Follow mouse"
+  },
+
+  "FOLLOW_FLOAT_BUTTON": {
+    "message": "Follow float button"
+  },
+
+  "RIGHT_BOTTOM_OF_PAGE": {
+    "message": "Right bottom of page"
+  },
+
   "SETTING": {
     "message": "Setting"
   },

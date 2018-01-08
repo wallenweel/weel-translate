@@ -1,4 +1,4 @@
-import { jpjs } from '@/functions/utils'
+import { jpjs, istype } from '@/functions/utils'
 
 export const globalTip = (state, [open, msg]) => {
   state.globalTip = [open, msg]
@@ -23,7 +23,6 @@ export const settingChanges = (state, [key, value]) => {
 }
 
 export const preferenceChanges = (state, [key, value]) => {
-  console.log(key, value)
   state.preferences[key] = value
 }
 
@@ -46,7 +45,7 @@ export const addCollection = (state, { q, from, to, name, id, result: { translat
     meta: { q, from, to },
     source: { name, id },
     result: {
-      translation
+      translation: istype(translation, 'array') ? translation.join(' ') : translation
     }
   })
   state.currentCollected = true

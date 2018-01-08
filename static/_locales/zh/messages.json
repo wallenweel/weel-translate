@@ -52,7 +52,7 @@
   },
 
   "VOICE_FAILED_TIP": {
-    "message": "获取发音失败。"
+    "message": "获取当前语言发音失败。"
   },
 
   "RECENT": {
@@ -96,7 +96,7 @@
   },
 
   "PREVIOUS_UI_STYLE": {
-    "message": "之前的界面风格(实验性)"
+    "message": "简洁界面(实验性)"
   },
 
   "FLOAT_ACTIONS_RELATED": {

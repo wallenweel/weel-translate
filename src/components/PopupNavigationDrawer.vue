@@ -7,7 +7,7 @@
     v-model="toggle"
     )
     v-toolbar(flat)
-      blockquote.blockquote {{ i18n.getMessage('EXTENSION_NAME') }}
+      blockquote.blockquote.subheading {{ i('EXTENSION_NAME') }}
 
     v-list
       v-list-tile(

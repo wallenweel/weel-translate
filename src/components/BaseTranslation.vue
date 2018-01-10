@@ -338,6 +338,7 @@ export default {
 
 .translate {
   margin-top: -4px;
+  overflow: hidden;
 }
 
 .selection {

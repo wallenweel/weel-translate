@@ -87,12 +87,16 @@ __[INITIAL_BACKGROUND_SCRIPT] = async ({ state, getters, commit, dispatch }, ski
 
     if (!id || !ids.includes(id)) state['current_service_id'] = ids[0]
 
-    if (istype(getters.currentSource.fromto, 'array')) {
-      state.src_dest = jpjs(getters.currentSource.fromto)
-    } else {
-      const code = getters.currentSource.languages[0].code
+    const [src, dest] = state.src_dest
 
-      state.src_dest = [code, code]
+    if (!src && !dest) {
+      if (istype(getters.currentSource.fromto, 'array')) {
+        state.src_dest = jpjs(getters.currentSource.fromto)
+      } else {
+        const code = getters.currentSource.languages[0].code
+
+        state.src_dest = [code, code]
+      }
     }
 
     // TODO: here may occur an unexpected error after "RESET_LOCAL_STORAGE"

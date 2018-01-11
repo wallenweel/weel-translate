@@ -191,6 +191,9 @@ __['nextServiceSource'] = ({ state, getters }) => {
   const source = getters.currentSource
   const code = source.languages[0].code
 
+  // clear result panel
+  state.result = {}
+
   state['src_dest'] = source.fromto || [code, code]
 }
 

@@ -24,6 +24,8 @@ export default ({ el, store, template }) => ({
         this.$nextTick(() => {
           this.fapToggle(false)
           this.fabToggle(false)
+
+          this.loading = false
           this.$store.commit('clearselectionText')
         })
       }
@@ -38,20 +40,21 @@ export default ({ el, store, template }) => ({
       // 2. only left click can trigger this
       if (!this.selectedText.length || ev.button !== 0) return true
 
+      // FIX: if click other area, here always return and fab does not appear
       // prevent tirgger the same text rect again
-      if (this.selectionRect) {
-        const { clientX, clientY } = ev
-        const { height, width, x, y } = this.selectionRect
+      // if (this.selectionRect) {
+      //   const { clientX, clientY } = ev
+      //   const { height, width, x, y } = this.selectionRect
 
-        if (
-          (clientX > x && clientX < x + width) &&
-          (clientY > y && clientY < y + height)
-        ) {
-          this.$store.commit('clearSelection')
+      //   if (
+      //     (clientX > x && clientX < x + width) &&
+      //     (clientY > y && clientY < y + height)
+      //   ) {
+      //     this.$store.commit('clearSelection')
 
-          return true
-        }
-      }
+      //     return true
+      //   }
+      // }
 
       this.$store.commit('getSelection')
 

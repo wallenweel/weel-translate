@@ -18,10 +18,13 @@ export default ({ el, store, template }) => ({
   },
   mounted () {
     document.addEventListener('mousedown', ev => {
+      if (!this.selectedText.length || ev.button !== 0) return true
+
       if (this.selectedText) {
         this.$nextTick(() => {
           this.fapToggle(false)
           this.fabToggle(false)
+          this.$store.commit('clearselectionText')
         })
       }
 

@@ -267,4 +267,7 @@ npm run build:pro
 # package /dist to /web-ext-artifacts/[extension_name-version].zip
 npm run build:ext
 
+# build and package extension
+npm run release
+
 ```

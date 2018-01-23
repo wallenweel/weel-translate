@@ -1,4 +1,6 @@
-# Weel Translate 2
+# Weel Translate 2 
+[![Dependency Status](https://david-dm.org/wallenweel/weel-translate.svg)](https://david-dm.org/wallenweel/weel-translate)
+[![Build Status](https://travis-ci.org/wallenweel/weel-translate.svg)](https://travis-ci.org/wallenweel/weel-translate)
 
 > 一款 Material Design 风格的（火狐）浏览器翻译扩展。当前 v2.0 版本旨在能够让扩展程序与翻译数据源分离，避免因为翻译源停止服务或变更接口而造成功能的减损甚至完全不可用。
 

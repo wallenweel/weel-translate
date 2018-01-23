@@ -1,0 +1,265 @@
+{
+  "EXTENSION_DESCRIPTION": {
+    "message": "A translation extension that has Material Design UI and support to modify translation source API."
+  },
+
+  "TRANSLATION": {
+    "message": "翻訳"
+  },
+
+  "TRANSLATION_TEXTAREA_TIP": {
+    "message": "\"Enter\"キーを押すと翻訳します。"
+  },
+
+  "KEEP_ALL": {
+    "message": "Keep All"
+  },
+
+  "KEEP_ALL_TIP": {
+    "message": "Need a translating at least."
+  },
+
+  "BLANK_TRANSLATING_TIP": {
+    "message": "翻訳する単語がありません。"
+  },
+
+  "CLEAR_CONTENT": {
+    "message": "内容を消去する"
+  },
+
+  "PASTE_CONTENT": {
+    "message": "内容を貼り付け"
+  },
+
+  "NEXT_SOURCE": {
+    "message": "次のソース"
+  },
+
+  "TRANSLATING_FAILED_TIP": {
+    "message": "翻訳リクエストに失敗しました。"
+  },
+
+  "VOICE_FAILED_TIP": {
+    "message": "Get current lang voice failed."
+  },
+
+  "RECENT": {
+    "message": "履歴"
+  },
+
+  "RECENT_INFO": {
+    "message": "保存できるのは20タイルまでです。"
+  },
+
+  "SERVICE": {
+    "message": "サービス"
+  },
+
+  "COLLECTION": {
+    "message": "コレクション"
+  },
+
+  "COLLECTION_INFO": {
+    "message": "このリストを適切に使用する。"
+  },
+
+  "COLLECTION_REMOVE_INFO": {
+    "message": "このリストから削除しますか？"
+  },
+
+  "PREFERENCE": {
+    "message": "設定"
+  },
+
+  "PREFERENCE_INFO": {
+    "message": "ここでは\"設定\"の部分と異なり、すべて拡張機能のスタイルに関する項目です。"
+  },
+
+  "CUSTOM_THEME": {
+    "message": "カスタムテーマ"
+  },
+
+  "DARK_THEME": {
+    "message": "暗いテーマ"
+  },
+
+  "PREVIOUS_UI_STYLE": {
+    "message": "Privious UI Style"
+  },
+
+  "FLOAT_ACTIONS_RELATED": {
+    "message": "Float Actions Related"
+  },
+
+  "FLOAT_BUTTON_POSITION": {
+    "message": "フロートボタンの位置"
+  },
+
+  "FLOAT_PANEL_POSITION": {
+    "message": "フロートパネルの位置"
+  },
+
+  "CENTER_OF_SELECTION_RECT": {
+    "message": "短形選択の中心"
+  },
+
+  "FOLLOW_MOUSE": {
+    "message": "マウスに追従"
+  },
+
+  "FOLLOW_FLOAT_BUTTON": {
+    "message": "フロートボタンに追従"
+  },
+
+  "RIGHT_BOTTOM_OF_PAGE": {
+    "message": "ページの右下"
+  },
+
+  "SETTING": {
+    "message": "設定"
+  },ｇｇ
+  "SETTING_INFO": {
+    "message": "ヒント: 問題が起きた場合には、下部にある\"拡張機能のリセット\"をクリックしてください。"
+  },
+
+  "SELECT_SERVICE_SOURCES": {
+    "message": "Select Service Sources"
+  },
+
+  "ENABLE_NEEDED_SOURCES": {
+    "message": "Enable needed sources"
+  },
+
+  "CUSTOM_UI": {
+    "message": "Custom UI"
+  },
+
+  "PAGE_FLOAT_BUTTON": {
+    "message": "ページのフロートボタン"
+  },
+
+  "PAGE_FLOAT_PANEL": {
+    "message": "ページのフロートパネル"
+  },
+
+  "CONTEXT_MENU_ENTRY": {
+    "message": "コンテキストメニューの項目"
+  },
+
+  "POPUP_PANEL": {
+    "message": "ポップアップパネル"
+  },
+
+  "FLOAT_PANEL": {
+    "message": "フロートパネル"
+  },
+
+  "BROWSER_ACTION_TRANSLATE": {
+    "message": "Browser Action to Translate"
+  },
+
+  "TRANSLATE_AFTER_SELECTED": {
+    "message": "テキストを選択した後に翻訳"
+  },
+    
+  "USE_PHONETIC_SRC": {
+    "message": "原文"
+  },
+  
+  "USE_PHONETIC_DEST": {
+    "message": "訳文"
+  },
+
+  "EXTENSION_MANAGEMENT": {
+    "message": "拡張機能の管理"
+  },
+
+  "RESET": {
+    "message": "リセット"
+  },
+
+  "UNINSTALL": {
+    "message": "アンインストール"
+  },
+
+  "THE_EXTENSION": {
+    "message": "拡張機能"
+  },
+
+  "RESET_INFO": {
+    "message": "この操作は拡張機能のデフォルトデータを復元します、必要に応じて\"OK\"ボタンをクリックしてください。"
+  },
+
+  "RESET_SUCCESS_TIP": {
+    "message": "拡張機能のリセットが正常に完了しました。"
+  },
+
+  "RESET_FAIL_TIP": {
+    "message": "拡張機能のリセットに失敗しました。"
+  },
+
+  "UNINSTALL_INFO": {
+    "message": "拡張機能をアンインストールしようとしています、この操作は関連するすべてのデータが削除されます。確認をしたら\"OK\"ボタンをクリックしてください。"
+  },
+
+  "UNINSTALL_CANCEL_TIP": {
+    "message": "アンインストールをキャンセルしますか？"
+  },
+
+  "CANCEL": {
+    "message": "キャンセル"
+  },
+
+  "OKAY": {
+    "message": "OK"
+  },
+
+  "FEEDBACK": {
+    "message": "フィードバック"
+  },
+
+  "FEEDBACK_INFO": {
+    "message": "質問を受け付ける窓口は2つありますが、GitHubのissues機能を使用することをおすすめします。"
+  },
+
+  "FEEDBACK_CONTACT": {
+    "message": "何か質問があれば、自由に感じたことをメッセージで私に送ってください。"
+  },
+
+  "DONATE": {
+    "message": "寄付"
+  },
+
+  "DONATE_INFO": {
+    "message": "この拡張機能は完全に無料であり、これらの機能を利用するために支払いを行う義務はありません。"
+  },
+
+  "DONATE_HEADING": {
+    "message": "この拡張機能を気に入った場合には、一種の賞賛として $NUM$ 人民元を寄付して頂けると助かります。",
+    "placeholders": {
+      "num": {
+        "content": "$1"
+      }
+    }
+  },
+
+  "SELECT": {
+    "message": "選択"
+  },
+
+  "DEMO": {
+    "message": "デモ"
+  },
+
+  "AUTOMATIC": {
+    "message": "自動"
+  },
+  
+  "ENGLISH": {
+    "message": "英語"
+  },
+  
+  "JAPANESE": {
+    "message": "日本語"
+  },
+}

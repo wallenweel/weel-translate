@@ -28,7 +28,7 @@
   },
 
   "PASTE_CONTENT": {
-    "message": "内容を貼り付け"
+    "message": "クリップボードの内容を貼り付け"
   },
 
   "NEXT_SOURCE": {
@@ -48,7 +48,7 @@
   },
 
   "RECENT_INFO": {
-    "message": "保存できるのは20タイルまでです。"
+    "message": "履歴は20件まで保存されます。"
   },
 
   "SERVICE": {
@@ -68,11 +68,11 @@
   },
 
   "PREFERENCE": {
-    "message": "設定"
+    "message": "テーマ"
   },
 
   "PREFERENCE_INFO": {
-    "message": "ここでは\"設定\"の部分と異なり、すべて拡張機能のスタイルに関する項目です。"
+    "message": "拡張機能の表示スタイルに関する項目を設定します。"
   },
 
   "CUSTOM_THEME": {
@@ -124,11 +124,11 @@
   },
 
   "SELECT_SERVICE_SOURCES": {
-    "message": "Select Service Sources"
+    "message": "サービスを選択"
   },
 
   "ENABLE_NEEDED_SOURCES": {
-    "message": "Enable needed sources"
+    "message": "利用するサービスを選択してください"
   },
 
   "CUSTOM_UI": {
@@ -236,7 +236,7 @@
   },
 
   "DONATE_HEADING": {
-    "message": "この拡張機能を気に入った場合には、一種の賞賛として $NUM$ 人民元を寄付して頂けると助かります。",
+    "message": "この拡張機能を気に入った場合には、$NUM$ 人民元を寄付して頂けると今後の開発の手助けとなります。",
     "placeholders": {
       "num": {
         "content": "$1"
@@ -256,11 +256,31 @@
     "message": "自動"
   },
   
+  "CHINESE_SIMPLIFIED": {
+    "message": "中国語(簡体字)"
+  },
+  
+  "CHINESE_TRADITIONAL": {
+    "message": "中国語(繁体字)"
+  },
+
   "ENGLISH": {
     "message": "英語"
+  },
+
+  "GERMAN": {
+    "message": "ドイツ語"
   },
   
   "JAPANESE": {
     "message": "日本語"
+  },
+
+  "KOREAN": {
+    "message": "韓国語"
+  },
+
+  "SPANISH": {
+    "message": "スペイン語"
   }
 }

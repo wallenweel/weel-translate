@@ -178,6 +178,14 @@
   "USE_PHONETIC_DEST": {
     "message": "Destination phonetic"
   },
+  
+  "NETWORK": {
+    "message": "Network"
+  },
+
+  "TIMEOUT": {
+    "message": "Timeout"
+  },
 
   "EXTENSION_MANAGEMENT": {
     "message": "Extension Management"

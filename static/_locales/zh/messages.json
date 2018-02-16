@@ -183,6 +183,14 @@
     "message": "目标语言的音标"
   },
 
+  "NETWORK": {
+    "message": "网络请求"
+  },
+
+  "TIMEOUT": {
+    "message": "超时"
+  },
+
   "EXTENSION_MANAGEMENT": {
     "message": "扩展管理"
   },

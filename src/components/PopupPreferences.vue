@@ -41,7 +41,8 @@ v-layout(column warp)
             )
             v-radio(
               hide-details color="primary"
-              v-for="item in fabPositions"
+              v-for="(item, index) in fabPositions"
+              :key="index"
               :label="i(item[1])"
               :value="item[0]")
               
@@ -53,7 +54,8 @@ v-layout(column warp)
             )
             v-radio(
               hide-details color="primary"
-              v-for="item in fapPositions"
+              v-for="(item, index) in fapPositions"
+              :key="index"
               :label="i(item[1])"
               :value="item[0]")
 </template>

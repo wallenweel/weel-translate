@@ -90,6 +90,18 @@
 
     v-flex(:class="$style.section")
       header
+        v-icon(left) language
+        span {{ i('NETWORK') }}
+      v-layout(row)
+        v-slider(
+          color="primary" min="1" max="60"
+          :label="i('TIMEOUT')" hide-details thumb-label
+          v-model="ui.timeout"
+          @input="settingChanges(['timeout', ui.timeout])"          
+          )
+
+    v-flex(:class="$style.section")
+      header
         v-icon(left) extension
         span {{ i('EXTENSION_MANAGEMENT') }}
       v-btn(block color="error" dark lazy @click.native="resetDialog = true")
@@ -127,7 +139,8 @@ export default {
   data () {
     return {
       resetDialog: false,
-      uninstallDialog: false
+      uninstallDialog: false,
+      timeout: 0
     }
   },
   created () {
@@ -144,7 +157,8 @@ export default {
         browser_action_translate,
         selection_translate,
         use_phonetic_src,
-        use_phonetic_dest
+        use_phonetic_dest,
+        timeout
         } = this.settings
 
       return {
@@ -155,7 +169,8 @@ export default {
         browser_action_translate,
         selection_translate,
         use_phonetic_src,
-        use_phonetic_dest
+        use_phonetic_dest,
+        timeout
       }
     },
     ...mapState(['sources', 'settings']),

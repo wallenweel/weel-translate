@@ -117,7 +117,7 @@ __[REQUEST_TRANSLATION] = ({ state, commit, getters }, { q, from, to }) => {
     type: REQUEST_TRANSLATION
   }).then(result => {
     if (result === 'timeout') {
-      commit('globalTip', [true, `Timeout: ${i('TRANSLATING_FAILED_TIP')}`])
+      commit('globalTip', [true, i('TIMEOUT')])
       return true
     }
 

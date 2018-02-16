@@ -274,7 +274,7 @@ __[REQUEST_TRANSLATION] = async (
   const { query, parser, response = {} } = getters.currentSource
   const queryText = query.text({ q, from, to })
 
-  let [url, request] = [queryText, { mode: 'no-cors' }]
+  let [url, request] = [queryText, { mode: 'no-cors', timeout: state.settings.timeout * 1000 }]
 
   if (istype(queryText, 'array')) {
     url = queryText[0]

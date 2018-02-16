@@ -73,7 +73,10 @@ __['settings'] = {
   selection_translate: false,
 
   use_phonetic_src: true,
-  use_phonetic_dest: true
+  use_phonetic_dest: true,
+
+  // (s) * 1000
+  timeout: 20
 }
 
 __['preferences'] = {

@@ -15,9 +15,9 @@
     "dev:watch": "npm run build:dev -- --watch",
     "dev:server": "cross-env NODE_ENV=development webpack-dev-server --inline --progress --config build/webpack.dev.conf.js --content-base dist/",
     "build:ext": "web-ext build -s=dist",
-    "build:dev": "rimraf dist/ && cross-env NODE_ENV=development webpack --progress --config build/webpack.dev.conf.js",
+    "build:dev": "cross-env NODE_ENV=development webpack --progress --config build/webpack.dev.conf.js",
     "build:pro": "node build/build.js",
-    "release": "npm run build:pro && web-ext build -s=dist"    
+    "release": "rimraf dist/ && npm run build:pro && web-ext build -s=dist"    
   },
   "dependencies": {
     "deepmerge": "^2.0.1",

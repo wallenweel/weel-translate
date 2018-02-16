@@ -41,7 +41,7 @@ __[TAB_LOADED_COMPLETE] = ({ commit }) => {
 }
 
 __[REQUEST_TRANSLATION] = (
-  { state },
+  { state, commit },
   { q, from = state.src_dest[0], to = state.src_dest[1] }
 ) => {
   return sendMessage({
@@ -49,6 +49,15 @@ __[REQUEST_TRANSLATION] = (
     payload: { q },
     type: REQUEST_TRANSLATION
   }).then(result => {
+    if (result === 'timeout') {
+      commit('fabToggle', false)
+      return console.info(
+        '%c weel translate ',
+        'background-color: #0A8DFF; color: #fff; padding: 2px 0; border-radius: 0 1em;',
+        'request timeout.'
+      )
+    }
+
     return (state.result = result)
   })
 }

@@ -116,9 +116,14 @@ __[REQUEST_TRANSLATION] = ({ state, commit, getters }, { q, from, to }) => {
     payload: { q, from, to },
     type: REQUEST_TRANSLATION
   }).then(result => {
+    if (result === 'timeout') {
+      commit('globalTip', [true, `Timeout: ${i('TRANSLATING_FAILED_TIP')}`])
+      return true
+    }
+
     if (!result) {
       commit('globalTip', [true, i('TRANSLATING_FAILED_TIP')])
-      return false
+      return true
     }
 
     state.result = result

@@ -1,6 +1,6 @@
 // import merge from 'deepmerge'
 import { storage, tabs, management, menus, env } from '@/globals'
-import { clog, jpjs, istype } from '@/functions/utils'
+import { clog, jpjs, istype, fetch2 as fetch } from '@/functions/utils'
 import {
   INITIAL_STORAGE_FROM_DEFAULT,
   INITIAL_BACKGROUND_SCRIPT,
@@ -240,19 +240,22 @@ __[REMOVE_CONTEXT_MENU] = ({ state }) => {
 __[FETCH_REQUEST] = async ({ state }, { emit, parser, payload = {} }) => {
   const { url, request, dataType = 'json' } = payload
 
-  await fetch(url, request)
-  .then(res => {
-    return res[dataType]()
-  })
-  .then(data => {
-    if (typeof data === 'string') {
-      emit(data)
-    } else if (typeof data === 'object') {
-      emit(parser(data))
-    }
-
-    return true
-  })
+  try {
+    await fetch(url, request)
+    .then(res => {
+      return res[dataType]()
+    })
+    .then(data => {
+      if (typeof data === 'string') {
+        emit(data)
+      } else if (typeof data === 'object') {
+        emit(parser(data))
+      }
+      return true
+    })
+  } catch (error) {
+    emit('timeout')
+  }
 }
 
 // TODO: complete this
@@ -279,21 +282,26 @@ __[REQUEST_TRANSLATION] = async (
     // console.log(url, decodeURI(request.body.toString()))
   }
 
-  await fetch(url, request)
-  .then(res => {
-    return res[response.type || 'json']()
-  })
-  .then(data => {
-    // console.log(data)
-    // console.log(parser(data))
-    if (typeof data === 'string') {
-      emit(data)
-    } else if (typeof data === 'object') {
-      emit(parser(data))
-    }
+  try {
+    // request.timeout = 20
+    await fetch(url, request)
+    .then(res => {
+      return res[response.type || 'json']()
+    })
+    .then(data => {
+      // console.log(data)
+      // console.log(parser(data))
+      if (typeof data === 'string') {
+        emit(data)
+      } else if (typeof data === 'object') {
+        emit(parser(data))
+      }
 
-    return true
-  })
+      return true
+    })
+  } catch (err) {
+    emit('timeout')
+  }
 }
 
 __[REQUEST_VOICE] = (

@@ -65,6 +65,30 @@ export const whattype = thing =>
  */
 export const istype = (thing, type) => whattype(thing) === type
 
+export const fetch2 = (input, init = {}) => {
+  return new Promise((resolve, reject) => {
+    const { timeout = 24000 } = init
+
+    setTimeout(() => reject(new Error('fetch timeout.')), timeout)
+
+    fetch(input, init).then(resolve, reject)
+  })
+}
+
+export const checkVersion = (prev, curr) => {
+  const [_prev, _curr] = [prev.split('.'), curr.split('.')]
+
+  for (let i = 0; i < _prev.length; i++) {
+    const n = parseInt(_curr[i]) - parseInt(_prev[i])
+
+    if (i < _prev.length - 1 && n === 0) continue
+
+    if (n > 0) return 1 // new
+    if (n < 0) return -1 // old
+    if (n === 0) return 0 // equal
+  }
+}
+
 /**
  * a watcher hepler for states of storage relatived
  * @param {Object} store vuex's store

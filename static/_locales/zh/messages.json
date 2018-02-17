@@ -182,6 +182,10 @@
   "USE_PHONETIC_DEST": {
     "message": "目标语言的音标"
   },
+    
+  "USE_CONTENT_SCRIPT": {
+    "message": "加载页面翻译脚本"
+  },
 
   "NETWORK": {
     "message": "网络请求"

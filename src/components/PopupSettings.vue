@@ -88,6 +88,13 @@
           )
         span {{ i('USE_PHONETIC_DEST') }}
 
+      v-layout(row)
+        v-switch(
+          hide-details color="primary" v-model="ui.use_content_script"
+          @change="settingChanges(['use_content_script', ui.use_content_script])"
+          )
+        span {{ i('USE_CONTENT_SCRIPT') }}
+
     v-flex(:class="$style.section")
       header
         v-icon(left) language
@@ -158,6 +165,7 @@ export default {
         selection_translate,
         use_phonetic_src,
         use_phonetic_dest,
+        use_content_script,
         timeout
         } = this.settings
 
@@ -170,6 +178,7 @@ export default {
         selection_translate,
         use_phonetic_src,
         use_phonetic_dest,
+        use_content_script,
         timeout
       }
     },

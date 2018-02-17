@@ -172,11 +172,15 @@
   },
     
   "USE_PHONETIC_SRC": {
-    "message": "Source phonetic"
+    "message": "Source Phonetic"
   },
   
   "USE_PHONETIC_DEST": {
-    "message": "Destination phonetic"
+    "message": "Destination Phonetic"
+  },
+  
+  "USE_CONTENT_SCRIPT": {
+    "message": "Load Page Translation Script"
   },
   
   "NETWORK": {

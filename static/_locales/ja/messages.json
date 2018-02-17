@@ -170,6 +170,10 @@
   "USE_PHONETIC_DEST": {
     "message": "訳文"
   },
+    
+  "USE_CONTENT_SCRIPT": {
+    "message": "Load Page Translation Script"
+  },
 
   "NETWORK": {
     "message": "ネットワーク"

@@ -75,6 +75,8 @@ __['settings'] = {
   use_phonetic_src: true,
   use_phonetic_dest: true,
 
+  use_content_script: true,
+
   // (s) * 1000
   timeout: 20
 }

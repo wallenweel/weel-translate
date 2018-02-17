@@ -30,6 +30,11 @@ __[INITIAL_FROM_BACKGROUND] = ({ state, dispatch }) => {
       current_template_id
     })
 
+    // Prevent load content script
+    if (!settings.use_content_script) {
+      return false
+    }
+
     dispatch(TAB_LOADED_COMPLETE)
 
     return true

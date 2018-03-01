@@ -2,13 +2,22 @@
 [![Dependency Status](https://david-dm.org/wallenweel/weel-translate.svg)](https://david-dm.org/wallenweel/weel-translate)
 [![Build Status](https://travis-ci.org/wallenweel/weel-translate.svg)](https://travis-ci.org/wallenweel/weel-translate)
 
-> 一款 Material Design 风格的（火狐）浏览器翻译扩展。当前 v2.0 版本旨在能够让扩展程序与翻译数据源分离，避免因为翻译源停止服务或变更接口而造成功能的减损甚至完全不可用。
+> 一款 MD 风格使用新版火狐扩展接口的翻译工具，支持自定义配置翻译服务源。
+
+## 小提示 ✨
+
+- **翻译语言** 中的 **自动** 为支持此语言参数的翻译源完成的，不过例如 google 不支持 **自动语言** 的发音，所以需要手动选择正确的目标语言
+- 因为一些支持 HTML 的富文本编辑器会用到 iframe 元素保存内容，在 v2.3.2 之后默认在 iframe 中不启用，可到 **设置** 中手动开启
+- 扩展自带中国版和国际版的 Google 翻译源，前者大陆地区偶尔会有延迟但可用且推荐使用，后者需要先开启外网代理
+- 如果遇到新安装扩展或者升级浏览器一些功能不可用的情况可以在 **设置** 中重置扩展数据（偶尔有邮件提到这个问题，我自己没有遇到过所以不清楚缘故，猜测是浏览器初始化扩展时出现意外）
+
+
 
 ## 界面 i18n 翻译
 
 - English
 - Chinese Simplified
-- Japanese (by ScratchBuild)
+- Japanese (thanks ScratchBuild)
 
 
 ## 自由定制/添加翻译源（API）
@@ -252,28 +261,28 @@
 ## 项目构建命令
 
 ``` bash
-# install dependencies
+# 按装依赖
 npm install
 
-# or but recommend
+# 同上，推荐
 yarn
 
-# serve with hot reload at localhost:3030
+# 开启一个 web 服务器 localhost:3030，用于使用 vue 开发工具编写页面
 npm run dev:server
 
-# dynamic compile /src to /dist and listen files change
+# 开发环境下编译并监听源代码
 npm run dev:watch
 
-# start a temporary firefox for extension development
+# 开发环境下打开一个临时的浏览器
 npm run dev:ext
 
-# build for production with minification
+# 发布环境编译（压缩）
 npm run build:pro 
 
-# package /dist to /web-ext-artifacts/[extension_name-version].zip
+# 打包编译完成的扩展资源
 npm run build:ext
 
-# build and package extension
+# 开发环境下编译并打包扩展
 npm run release
 
 ```

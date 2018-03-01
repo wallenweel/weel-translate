@@ -32,6 +32,21 @@
       header
         v-icon(left) style
         span {{ i('CUSTOM_UI') }}
+
+      v-layout(row)
+        v-switch(
+          hide-details color="primary" v-model="ui.use_content_script"
+          @change="settingChanges(['use_content_script', ui.use_content_script])"
+          )
+        span {{ i('USE_CONTENT_SCRIPT') }}
+
+      v-layout(row)
+        v-switch(
+          hide-details color="primary" v-model="ui.enable_iframe"
+          @change="settingChanges(['enable_iframe', ui.enable_iframe])"
+          )
+        span {{ i('ENABLE_IFRAME') }}
+
       v-layout(row)
         v-switch(
           hide-details color="primary" v-model="ui.fab"
@@ -87,13 +102,6 @@
           @change="settingChanges(['use_phonetic_dest', ui.use_phonetic_dest])"
           )
         span {{ i('USE_PHONETIC_DEST') }}
-
-      v-layout(row)
-        v-switch(
-          hide-details color="primary" v-model="ui.use_content_script"
-          @change="settingChanges(['use_content_script', ui.use_content_script])"
-          )
-        span {{ i('USE_CONTENT_SCRIPT') }}
 
     v-flex(:class="$style.section")
       header
@@ -157,6 +165,8 @@ export default {
   computed: {
     ui () {
       const {
+        use_content_script,
+        enable_iframe,
         use_fab,
         use_fap,
         use_context_menu,
@@ -165,11 +175,12 @@ export default {
         selection_translate,
         use_phonetic_src,
         use_phonetic_dest,
-        use_content_script,
         timeout
         } = this.settings
 
       return {
+        use_content_script,
+        enable_iframe,
         fab: use_fab,
         fap: use_fap,
         context: use_context_menu,
@@ -178,7 +189,6 @@ export default {
         selection_translate,
         use_phonetic_src,
         use_phonetic_dest,
-        use_content_script,
         timeout
       }
     },

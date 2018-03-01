@@ -76,6 +76,7 @@ __['settings'] = {
   use_phonetic_dest: true,
 
   use_content_script: true,
+  enable_iframe: false,
 
   // (s) * 1000
   timeout: 20

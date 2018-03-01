@@ -146,6 +146,14 @@
   "CUSTOM_UI": {
     "message": "自定义交互控件"
   },
+    
+  "USE_CONTENT_SCRIPT": {
+    "message": "加载内容脚本"
+  },
+
+  "ENABLE_IFRAME": {
+    "message": "在 iframe 中启用"
+  },
 
   "PAGE_FLOAT_BUTTON": {
     "message": "页面浮动按钮"
@@ -181,10 +189,6 @@
   
   "USE_PHONETIC_DEST": {
     "message": "目标语言的音标"
-  },
-    
-  "USE_CONTENT_SCRIPT": {
-    "message": "加载页面翻译脚本"
   },
 
   "NETWORK": {

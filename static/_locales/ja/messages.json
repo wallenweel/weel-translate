@@ -134,6 +134,14 @@
   "CUSTOM_UI": {
     "message": "Custom UI"
   },
+    
+  "USE_CONTENT_SCRIPT": {
+    "message": "Load Page Script"
+  },
+
+  "ENABLE_IFRAME": {
+    "message": "Enable In iframe"
+  },
 
   "PAGE_FLOAT_BUTTON": {
     "message": "ページのフロートボタン"
@@ -169,10 +177,6 @@
   
   "USE_PHONETIC_DEST": {
     "message": "訳文"
-  },
-    
-  "USE_CONTENT_SCRIPT": {
-    "message": "Load Page Translation Script"
   },
 
   "NETWORK": {

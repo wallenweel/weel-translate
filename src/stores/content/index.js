@@ -24,7 +24,10 @@ export const state = {
 const store = new Vuex.Store({
   state,
   mutations,
-  actions
+  actions,
+  getters: {
+    isIframe: () => self === top
+  }
 })
 
 export default store

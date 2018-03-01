@@ -9,7 +9,7 @@ import {
 
 const __ = {}
 
-__[INITIAL_FROM_BACKGROUND] = ({ state, dispatch }) => {
+__[INITIAL_FROM_BACKGROUND] = ({ state, getters, dispatch }) => {
   return sendMessage(INITIAL_FROM_BACKGROUND)
   .then(({
     result,
@@ -31,7 +31,12 @@ __[INITIAL_FROM_BACKGROUND] = ({ state, dispatch }) => {
     })
 
     // Prevent load content script
-    if (!settings.use_content_script) {
+    if (
+      // about iframe
+      (!getters.isIframe && !settings['enable_iframe']) ||
+      // whether or not execute content script
+      !settings['use_content_script']
+    ) {
       return false
     }
 

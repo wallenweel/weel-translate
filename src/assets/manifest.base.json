@@ -23,7 +23,7 @@
   "default_locale": "en",
 
   "icons": {
-    "24": "icons/weel-translate.svg"
+    "24": "icon.svg"
   },
 
   "commands": {
@@ -38,13 +38,6 @@
     "<all_urls>"
   ],
 
-  "background": {
-    "scripts": [
-      "js/chunk-vendors.js",
-      "js/background/main.js"
-    ]
-  },
-
   "browser_action": {
     "browser_style": false,
     "default_icon": {
@@ -58,15 +51,5 @@
     "page": "options/main.html",
     "open_in_tab": true,
     "browser_style": false
-  },
-
-  "content_scripts": [{
-    "matches": ["<all_urls>"],
-    "match_about_blank": true,
-    "all_frames": true,
-    "js": [
-      "js/content/main.js"
-    ],
-    "run_at": "document_end"
-  }]
+  }
 }

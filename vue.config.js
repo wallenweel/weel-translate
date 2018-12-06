@@ -1,4 +1,5 @@
-const GenerateJsonPlugin = require('generate-json-webpack-plugin')
+const GenerateJsonPlugin = require('generate-json-webpack-plugin');
+const VuetifyLoaderPlugin = require('vuetify-loader/lib/plugin');
 
 module.exports = {
   pages: {
@@ -11,10 +12,11 @@ module.exports = {
   configureWebpack: {
     devtool: "inline-source-map",
     plugins: [
+      new VuetifyLoaderPlugin(),
       new GenerateJsonPlugin('manifest.json', Object.assign(
         require('./src/assets/manifest.base.json'),
         require(`./src/assets/manifest.${process.env.NODE_ENV}.json`)
-      ))
-    ]
+      )),
+    ],
   },
 };

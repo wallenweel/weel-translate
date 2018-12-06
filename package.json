@@ -7,6 +7,8 @@
   "scripts": {
     "serve": "vue-cli-service serve",
     "build": "vue-cli-service build",
+    "watch": "vue-cli-service build --mode=development --watch",
+    "web-ext": "web-ext run -s=dist --start-url about:debugging#addons",
     "lint": "vue-cli-service lint",
     "test:unit": "vue-cli-service test:unit"
   },
@@ -25,10 +27,12 @@
     "@vue/cli-service": "^3.2.0",
     "@vue/test-utils": "^1.0.0-beta.20",
     "babel-core": "7.0.0-bridge.0",
+    "generate-json-webpack-plugin": "^0.3.1",
     "stylus": "^0.54.5",
     "stylus-loader": "^3.0.2",
     "ts-jest": "^23.0.0",
     "typescript": "^3.0.0",
-    "vue-template-compiler": "^2.5.17"
+    "vue-template-compiler": "^2.5.17",
+    "web-ext": "^2.9.2"
   }
 }

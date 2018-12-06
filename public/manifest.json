@@ -1,0 +1,71 @@
+{
+
+  "manifest_version": 2,
+  "name": "__MSG_EXTENSION_NAME__",
+  "short_name": "__MSG_EXTENSION_SHORT_NAME__",
+  "description": "__MSG_EXTENSION_DESCRIPTION__",
+  "version": "3.0.1",
+
+  "homepage_url": "https://github.com/wallenweel/weel-translation",
+
+  "developer": {
+    "name": "Wallen Weel",
+    "url": "https://github.com/wallenweel/weel-translation"
+  },
+
+  "applications": {
+    "gecko": {
+      "id": "@weel-translate",
+      "strict_min_version": "52.0"
+    }
+  },
+
+  "default_locale": "en",
+
+  "icons": {
+    "24": "icons/weel-translate.svg"
+  },
+
+  "commands": {
+    "_execute_browser_action": {
+      "suggested_key": {
+        "default": "Alt+Shift+W"
+      }
+    }
+  },
+
+  "permissions": [
+    "<all_urls>"
+  ],
+
+  "background": {
+    "scripts": [
+      "js/background/main.js"
+    ]
+  },
+
+  "browser_action": {
+    "browser_style": false,
+    "default_icon": {
+      "24": "icon.svg"
+    },
+    "default_title": "Weel Translate X",
+    "default_popup": "popup/main.html"
+  },
+
+  "options_ui": {
+    "page": "options/main.html",
+    "open_in_tab": true,
+    "browser_style": false
+  },
+
+  "content_scripts": [{
+    "matches": ["<all_urls>"],
+    "match_about_blank": true,
+    "all_frames": true,
+    "js": [
+      "js/content/main.js"
+    ],
+    "run_at": "document_end"
+  }]
+}

@@ -1,6 +1,8 @@
 {
   "name": "weel-translate-x",
   "version": "0.1.0",
+  "author": "wallen <wallen_weel@outlook.com>",
+  "license": "MIT",
   "private": true,
   "scripts": {
     "serve": "vue-cli-service serve",

@@ -1,4 +1,4 @@
-# weel-translate-x
+# Weel Translate X
 
 ## Project setup
 ```

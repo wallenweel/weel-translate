@@ -1,0 +1,698 @@
+{
+  "EXTENSION_NAME": {
+    "message": "Weel Translate X"
+  },
+
+  "EXTENSION_SHORT_NAME": {
+    "message": "Weel Translate X"
+  },
+
+  "EXTENSION_DESCRIPTION": {
+    "message": "一款 Material Design 外观的翻译扩展"
+  },
+
+  "SELECT": {
+    "message": "选择"
+  },
+
+  "TRANSLATION": {
+    "message": "翻译"
+  },
+
+  "TRANSLATION_TEXTAREA_TIP": {
+    "message": "使用“回车”键开始翻译。"
+  },
+
+  "KEEP_ALL": {
+    "message": "保持现状"
+  },
+
+  "KEEP_ALL_TIP": {
+    "message": "需要至少有一次翻译成功。"
+  },
+
+  "BLANK_TRANSLATING_TIP": {
+    "message": "没有发现待翻译的内容。"
+  },
+
+  "CLEAR_CONTENT": {
+    "message": "清空内容"
+  },
+
+  "PASTE_CONTENT": {
+    "message": "粘贴内容"
+  },
+
+  "NEXT_SOURCE": {
+    "message": "下一个翻译源"
+  },
+
+  "TRANSLATING_FAILED_TIP": {
+    "message": "翻译请求失败。"
+  },
+
+  "VOICE_FAILED_TIP": {
+    "message": "获取当前语言发音失败。"
+  },
+
+  "RECENT": {
+    "message": "最近"
+  },
+
+  "RECENT_INFO": {
+    "message": "最多保存 20 条记录。"
+  },
+
+  "SERVICE": {
+    "message": "服务"
+  },
+
+  "COLLECTION": {
+    "message": "收藏"
+  },
+
+  "COLLECTION_INFO": {
+    "message": "适当使用这个清单。"
+  },
+
+  "COLLECTION_REMOVE_INFO": {
+    "message": "从列表中移除它？"
+  },
+
+  "PREFERENCE": {
+    "message": "偏好"
+  },
+
+  "PREFERENCE_INFO": {
+    "message": "这里和“设置”部分不同，会是些和扩展外观有关的调整选项。"
+  },
+
+  "CUSTOM_THEME": {
+    "message": "自定义主题"
+  },
+
+  "DARK_THEME": {
+    "message": "暗色主题"
+  },
+
+  "PREVIOUS_UI_STYLE": {
+    "message": "简洁界面(实验性)"
+  },
+
+  "FLOAT_ACTIONS_RELATED": {
+    "message": "浮动动作组件相关"
+  },
+
+  "FLOAT_BUTTON_POSITION": {
+    "message": "浮动按钮位置"
+  },
+
+  "FLOAT_PANEL_POSITION": {
+    "message": "浮动面板位置"
+  },
+
+  "CENTER_OF_SELECTION_RECT": {
+    "message": "文字选块中间"
+  },
+
+  "FOLLOW_MOUSE": {
+    "message": "跟随鼠标"
+  },
+
+  "FOLLOW_FLOAT_BUTTON": {
+    "message": "跟随浮动按钮"
+  },
+
+  "RIGHT_BOTTOM_OF_PAGE": {
+    "message": "页面右下角"
+  },
+
+  "SETTING": {
+    "message": "设置"
+  },
+
+  "SETTING_INFO": {
+    "message": "测试提醒：如果调整设置项后发现任何异常可以尝试使用底部的 “重置” 按钮。"
+  },
+
+  "SELECT_SERVICE_SOURCES": {
+    "message": "选择服务源"
+  },
+
+  "ENABLE_NEEDED_SOURCES": {
+    "message": "启用需要的服务源"
+  },
+
+  "CUSTOM_UI": {
+    "message": "自定义交互控件"
+  },
+
+  "USE_CONTENT_SCRIPT": {
+    "message": "加载内容脚本"
+  },
+
+  "ENABLE_IFRAME": {
+    "message": "在 iframe 中启用"
+  },
+
+  "PAGE_FLOAT_BUTTON": {
+    "message": "页面浮动按钮"
+  },
+
+  "PAGE_FLOAT_PANEL": {
+    "message": "页面浮动面板"
+  },
+
+  "CONTEXT_MENU_ENTRY": {
+    "message": "右键菜单入口"
+  },
+
+  "POPUP_PANEL": {
+    "message": "弹出面板"
+  },
+
+  "FLOAT_PANEL": {
+    "message": "浮动面板"
+  },
+
+  "BROWSER_ACTION_TRANSLATE": {
+    "message": "工具栏触发按钮翻译"
+  },
+
+  "TRANSLATE_AFTER_SELECTED": {
+    "message": "选中文本立即翻译"
+  },
+
+  "USE_PHONETIC_SRC": {
+    "message": "源语言的音标"
+  },
+
+  "USE_PHONETIC_DEST": {
+    "message": "目标语言的音标"
+  },
+
+  "NETWORK": {
+    "message": "网络请求"
+  },
+
+  "TIMEOUT": {
+    "message": "超时"
+  },
+
+  "EXTENSION_MANAGEMENT": {
+    "message": "扩展管理"
+  },
+
+  "RESET": {
+    "message": "重置"
+  },
+
+  "UNINSTALL": {
+    "message": "卸载"
+  },
+
+  "THE_EXTENSION": {
+    "message": "这个扩展"
+  },
+
+  "RESET_INFO": {
+    "message": "这个操作会重置扩展的大部分数据至默认状态，点击“好的”确认操作。"
+  },
+
+  "RESET_SUCCESS_TIP": {
+    "message": "重置扩展完成。"
+  },
+
+  "RESET_FAIL_TIP": {
+    "message": "重置扩展失败。"
+  },
+
+  "UNINSTALL_INFO": {
+    "message": "你在尝试卸载这个扩展，确认之后无法回退，需要在扩展市场重新下载安装。"
+  },
+
+  "UNINSTALL_CANCEL_TIP": {
+    "message": "你取消了卸载？"
+  },
+
+  "CANCEL": {
+    "message": "取消"
+  },
+
+  "OKAY": {
+    "message": "好的"
+  },
+
+  "FEEDBACK": {
+    "message": "反馈"
+  },
+
+  "FEEDBACK_INFO": {
+    "message": "以下两个地方都可提交反馈问题，不过推荐使用 Github 的 Issues 功能。"
+  },
+
+  "FEEDBACK_CONTACT": {
+    "message": "你还可以通过下面的方式直接联系作者。"
+  },
+
+  "DONATE": {
+    "message": "打赏"
+  },
+
+  "DONATE_INFO": {
+    "message": "这个扩展完全免费，没有任何需要付费开启的隐藏功能和特性，使用愉快。"
+  },
+
+  "DONATE_HEADING": {
+    "message": "如果你喜欢并认同我的这个项目，可以打赏 $NUM$ 元的表示支持。",
+    "placeholders": {
+      "num": {
+        "content": "$1"
+      }
+    }
+  },
+
+  "DEMO": {
+    "message": "示例"
+  },
+
+  "AUTOMATIC": {
+    "message": "自动"
+  },
+
+  "AFRIKAANS": {
+    "message": "南非荷兰语"
+  },
+
+  "ALBANIAN": {
+    "message": "阿尔巴尼亚语"
+  },
+
+  "AMHARIC": {
+    "message": "阿姆哈拉语"
+  },
+
+  "ARABIC": {
+    "message": "阿拉伯"
+  },
+
+  "ARMENIAN": {
+    "message": "亚美尼亚"
+  },
+
+  "AZERBAIJANI": {
+    "message": "阿塞拜疆"
+  },
+
+  "BASQUE": {
+    "message": "巴斯克"
+  },
+
+  "BELARUSIAN": {
+    "message": "白俄罗斯"
+  },
+
+  "BENGALI": {
+    "message": "孟加拉"
+  },
+
+  "BOSNIAN": {
+    "message": "波斯尼亚"
+  },
+
+  "BULGARIAN": {
+    "message": "保加利亚语"
+  },
+
+  "CATALAN": {
+    "message": "加泰罗尼亚"
+  },
+
+  "CEBUANO": {
+    "message": "宿务"
+  },
+
+  "CHICHEWA": {
+    "message": "奇切瓦"
+  },
+
+  "CHINESE_SIMPLIFIED": {
+    "message": "中文 简体"
+  },
+
+  "CHINESE_TRADITIONAL": {
+    "message": "中文 繁体"
+  },
+
+  "CORSICAN": {
+    "message": "科西嘉"
+  },
+
+  "CROATIAN": {
+    "message": "克罗地亚"
+  },
+
+  "CZECH": {
+    "message": "捷克"
+  },
+
+  "DANISH": {
+    "message": "丹麦"
+  },
+
+  "DUTCH": {
+    "message": "荷兰语"
+  },
+
+  "ENGLISH": {
+    "message": "英语"
+  },
+
+  "ESPERANTO": {
+    "message": "世界语"
+  },
+
+  "ESTONIAN": {
+    "message": "爱沙尼亚语"
+  },
+
+  "FILIPINO": {
+    "message": "菲律宾"
+  },
+
+  "FINNISH": {
+    "message": "芬兰"
+  },
+
+  "FRENCH": {
+    "message": "法国"
+  },
+
+  "FRISIAN": {
+    "message": "弗里斯兰"
+  },
+
+  "GALICIAN": {
+    "message": "加利西亚"
+  },
+
+  "GEORGIAN": {
+    "message": "格鲁吉亚"
+  },
+
+  "GERMAN": {
+    "message": "德语"
+  },
+
+  "GREEK": {
+    "message": "希腊语"
+  },
+
+  "GUJARATI": {
+    "message": "古吉拉特语"
+  },
+
+  "HAITIAN_CREOLE": {
+    "message": "海地克里奥尔语"
+  },
+
+  "HAUSA": {
+    "message": "豪萨语"
+  },
+
+  "HAWAIIAN": {
+    "message": "夏威夷"
+  },
+
+  "HEBREW": {
+    "message": "希伯来语"
+  },
+
+  "HINDI": {
+    "message": "印地语"
+  },
+
+  "HMONG": {
+    "message": "苗族"
+  },
+
+  "HUNGARIAN": {
+    "message": "匈牙利"
+  },
+
+  "ICELANDIC": {
+    "message": "冰岛语"
+  },
+
+  "IGBO": {
+    "message": "伊博"
+  },
+
+  "INDONESIAN": {
+    "message": "印度尼西亚"
+  },
+
+  "IRISH": {
+    "message": "爱尔兰的"
+  },
+
+  "ITALIAN": {
+    "message": "意大利"
+  },
+
+  "JAPANESE": {
+    "message": "日语"
+  },
+
+  "JAVANESE": {
+    "message": "爪哇"
+  },
+
+  "KANNADA": {
+    "message": "卡纳达语"
+  },
+
+  "KAZAKH": {
+    "message": "哈萨克语"
+  },
+
+  "KHMER": {
+    "message": "高棉"
+  },
+
+  "KOREAN": {
+    "message": "朝鲜语"
+  },
+
+  "KURDISH_KURMANJI": {
+    "message": "库尔德语"
+  },
+
+  "KYRGYZ": {
+    "message": "吉尔吉斯"
+  },
+
+  "LAO": {
+    "message": "老挝"
+  },
+
+  "LATIN": {
+    "message": "拉丁"
+  },
+
+  "LATVIAN": {
+    "message": "拉脱维亚"
+  },
+
+  "LITHUANIAN": {
+    "message": "立陶宛"
+  },
+
+  "LUXEMBOURGISH": {
+    "message": "卢森堡"
+  },
+
+  "MACEDONIAN": {
+    "message": "马其顿"
+  },
+
+  "MALAGASY": {
+    "message": "马尔加什"
+  },
+
+  "MALAY": {
+    "message": "马来语"
+  },
+
+  "MALAYALAM": {
+    "message": "马拉雅拉姆语"
+  },
+
+  "MALTESE": {
+    "message": "马耳他语"
+  },
+
+  "MAORI": {
+    "message": "毛利"
+  },
+
+  "MARATHI": {
+    "message": "马拉"
+  },
+
+  "MONGOLIAN": {
+    "message": "蒙古语"
+  },
+
+  "MYANMAR_BURMESE": {
+    "message": "缅甸（缅甸）"
+  },
+
+  "NEPALI": {
+    "message": "尼泊尔"
+  },
+
+  "NORWEGIAN": {
+    "message": "挪威"
+  },
+
+  "PASHTO": {
+    "message": "普什图语"
+  },
+
+  "PERSIAN": {
+    "message": "波斯语"
+  },
+
+  "POLISH": {
+    "message": "抛光"
+  },
+
+  "PORTUGUESE": {
+    "message": "葡萄牙语"
+  },
+
+  "PUNJABI": {
+    "message": "旁遮普"
+  },
+
+  "ROMANIAN": {
+    "message": "罗马尼亚"
+  },
+
+  "RUSSIAN": {
+    "message": "俄语"
+  },
+
+  "SAMOAN": {
+    "message": "萨摩亚"
+  },
+
+  "SCOTS_GAELIC": {
+    "message": "苏格兰盖尔语"
+  },
+
+  "SERBIAN": {
+    "message": "塞尔维亚"
+  },
+
+  "SESOTHO": {
+    "message": "塞索托语"
+  },
+
+  "SHONA": {
+    "message": "绍纳语"
+  },
+
+  "SINDHI": {
+    "message": "信德"
+  },
+
+  "SINHALA": {
+    "message": "僧伽罗语"
+  },
+
+  "SLOVAK": {
+    "message": "斯洛伐克"
+  },
+
+  "SLOVENIAN": {
+    "message": "斯洛文尼亚"
+  },
+
+  "SOMALI": {
+    "message": "索马里"
+  },
+
+  "SPANISH": {
+    "message": "西班牙语"
+  },
+
+  "SUNDANESE": {
+    "message": "巽他语"
+  },
+
+  "SWAHILI": {
+    "message": "斯瓦希里"
+  },
+
+  "SWEDISH": {
+    "message": "瑞典"
+  },
+
+  "TAJIK": {
+    "message": "塔吉克"
+  },
+
+  "TAMIL": {
+    "message": "泰米尔语"
+  },
+
+  "TELUGU": {
+    "message": "泰卢固语"
+  },
+
+  "THAI": {
+    "message": "泰语"
+  },
+
+  "TURKISH": {
+    "message": "土耳其"
+  },
+
+  "UKRAINIAN": {
+    "message": "乌克兰"
+  },
+
+  "URDU": {
+    "message": "乌尔都语"
+  },
+
+  "UZBEK": {
+    "message": "乌兹别克"
+  },
+
+  "VIETNAMESE": {
+    "message": "越南"
+  },
+
+  "WELSH": {
+    "message": "威尔士语"
+  },
+
+  "XHOSA": {
+    "message": "科萨"
+  },
+
+  "YIDDISH": {
+    "message": "意第绪语"
+  },
+
+  "YORUBA": {
+    "message": "约鲁巴"
+  },
+
+  "ZULU": {
+    "message": "祖鲁"
+  }
+}

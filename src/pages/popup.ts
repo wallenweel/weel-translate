@@ -2,7 +2,7 @@ import Vue from 'vue';
 import Vuetify from 'vuetify/lib';
 import App from './Popup.vue';
 import router from '@/routers/popup';
-import store from '@/store';
+import store from '@/stores/popup';
 
 import 'normalize.css';
 import 'material-design-icons-iconfont/dist/material-design-icons.css';

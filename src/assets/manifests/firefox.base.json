@@ -16,7 +16,7 @@
   "applications": {
     "gecko": {
       "id": "@weel-translate",
-      "strict_min_version": "52.0"
+      "strict_min_version": "55.0"
     }
   },
 
@@ -33,10 +33,6 @@
       }
     }
   },
-
-  "permissions": [
-    "<all_urls>"
-  ],
 
   "browser_action": {
     "browser_style": false,

@@ -1,4 +1,9 @@
 {
+  "permissions": [
+    "<all_urls>",
+    "storage"
+  ],
+
   "background": {
     "scripts": [
       "background/main.js"

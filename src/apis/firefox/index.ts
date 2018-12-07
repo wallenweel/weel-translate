@@ -1,5 +1,16 @@
-import { Browser } from '@/interfaces';
+import { Browser } from '../browser';
+
+const {
+  storage,
+  runtime,
+} = browser as any;
+
+const manifest = runtime.getManifest();
 
 export default {
-  storage: browser.storage,
+  origin: browser as object,
+  manifest,
+  storage,
+  runtime,
+  // get storage(): object { return browser.storage; },
 } as Browser;

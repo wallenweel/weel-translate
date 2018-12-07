@@ -11,7 +11,7 @@
 <style lang="stylus">
 html
   height 480px
-  width 360px
+  width 320px
 
 body
   height inherit

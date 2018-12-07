@@ -8,6 +8,9 @@ import 'normalize.css';
 import 'material-design-icons-iconfont/dist/material-design-icons.css';
 import 'vuetify/src/stylus/app.styl';
 
+// tslint:disable-next-line:no-console
+console.log(TARGET_BROWSER);
+
 Vue.config.productionTip = false;
 Vue.use(Vuetify);
 
@@ -16,6 +19,3 @@ new Vue({
   store,
   render: (h) => h(App),
 }).$mount('#app');
-
-// tslint:disable-next-line:no-console
-// console.log(location);

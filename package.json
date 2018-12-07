@@ -6,9 +6,13 @@
   "private": true,
   "scripts": {
     "serve": "vue-cli-service serve",
-    "build": "vue-cli-service build --modern",
-    "watch": "vue-cli-service build --mode=development --watch",
-    "web-ext": "web-ext run -s=dist --start-url about:debugging#addons",
+    "build": "vue-cli-service build --no-unsafe-inline",
+    "build:firefox": "TARGET_BROWSER=firefox yarn build",
+    "build:chrome": "TARGET_BROWSER=chrome yarn build",
+    "watch:firefox": "yarn build:firefox --mode=development --watch",
+    "watch:chrome": "yarn build:chrome --mode=development --watch",
+    "webext:firefox": "web-ext run -s=dist/firefox --start-url about:debugging#addons",
+    "pack:firefox": "yarn build:firefox && web-ext build -s=dist/firefox",
     "lint": "vue-cli-service lint",
     "test:unit": "vue-cli-service test:unit"
   },

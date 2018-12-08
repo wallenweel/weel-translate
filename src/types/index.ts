@@ -2,38 +2,5 @@ type type = string;
 
 export const TEST = 'TEST' as type;
 
-export const INITIAL_STORAGE_FROM_DEFAULT = 'INITIAL_STORAGE_FROM_DEFAULT' as type;
+export const QUERY_CONFIG = 'QUERY_CONFIG' as type;
 
-export const INITIAL_BACKGROUND_SCRIPT = 'INITIAL_BACKGROUND_SCRIPT' as type;
-
-export const INITIAL_FROM_BACKGROUND = 'INITIAL_FROM_BACKGROUND' as type;
-
-export const SIMULATE_SEND_MESSAGE = 'SIMULATE_SEND_MESSAGE' as type;
-
-export const STORAGE_TYPE_SET = 'STORAGE_TYPE_SET' as type;
-
-export const UPDATE_STORAGE_STATE = 'UPDATE_STORAGE_STATE' as type;
-
-export const REQUEST_TRANSLATION = 'REQUEST_TRANSLATION' as type;
-
-export const REQUEST_VOICE = 'REQUEST_VOICE' as type;
-
-export const RESET_LOCAL_STORAGE = 'RESET_LOCAL_STORAGE' as type;
-
-export const UNINSTALL_EXTENSION = 'UNINSTALL_EXTENSION' as type;
-
-export const TAB_LOADED_COMPLETE = 'TAB_LOADED_COMPLETE' as type;
-
-export const CREATE_CONTEXT_MENU = 'CREATE_CONTEXT_MENU' as type;
-
-export const REMOVE_CONTEXT_MENU = 'REMOVE_CONTEXT_MENU' as type;
-
-export const CONTEXT_MENU_ACTION_TRANSLATE = 'CONTEXT_MENU_ACTION_TRANSLATE' as type;
-
-export const GET_PAGE_SELECTED_TEXT = 'GET_PAGE_SELECTED_TEXT' as type;
-
-export const SAVE_CUSTOM_SOURCES_PRESET = 'SAVE_CUSTOM_SOURCES_PRESET' as type;
-
-export const SAVE_CUSTOM_TEMPLATES_PRESET = 'SAVE_CUSTOM_TEMPLATES_PRESET' as type;
-
-export const FETCH_REQUEST = 'FETCH_REQUEST' as type;

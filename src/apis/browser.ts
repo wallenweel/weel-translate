@@ -29,12 +29,32 @@ export interface Browser {
 }
 
 interface Runtime {
+  onMessage: {
+    // send a response asynchronously, `return true;` in the listener
+    addListener(listener: listenerHandler): void;
+  };
   getManifest(): {
     version: string; // like 0.0.0
   };
 }
 
 interface Storage {
-  readonly local: any;
-  readonly sync: any;
+  readonly local: StorageAreaMethods;
+  readonly sync: StorageAreaMethods;
+  readonly [type: string]: StorageAreaMethods;
+}
+
+interface StorageAreaMethods {
+  get(keys: storageKeys): Promise<object | Error>;
+  set(keys: object): Promise<object | Error>;
+}
+
+type listenerHandler = (message: object, sender: MessageSender, sendResponse: () => {}) => boolean | Promise<any>;
+
+interface MessageSender {
+  tab?: any;
+  frameId?: number;
+  id?: string;
+  url?: string;
+  tlsChannelId?: string;
 }

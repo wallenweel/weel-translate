@@ -1,6 +1,6 @@
-import { MutationTree, ActionTree, Module } from 'vuex';
-import { DefaultStorage, storage as defaultStorage } from '@/defaults';
-import { RootState } from '../index';
+import { MutationTree, ActionTree, Payload, Module } from 'vuex';
+import { DefaultConfig } from '@/defaults/config';
+import { State as RootState } from '../index';
 
 import { storage as apiStorage } from '@/apis/browser';
 
@@ -11,19 +11,31 @@ const state: State = {
 };
 
 const mutations: MutationTree<State> = {
-  update: (state, [name, value]: [string, any]): void => {
-    state[name] = value;
+  updateState: (state, payload: DefaultConfig): void => {
+    for (const [name, value] of Object.entries(payload)) {
+      state[name] = value;
+    }
   },
 };
 
 const actions: ActionTree<State, RootState> = {
-  update: async ({ state, commit }, payload: DefaultStorage): void => {
-    // TODO:
-    await apiStorage.local.get(payload);
+  query: async (keys?: storageKeys, type?: storageType): Promise<std> => {
+    const config = await apiStorage[type || 'local'].get(keys || {});
 
-    for (const [k, v] of Object.entries(payload)) {
-      commit('update', [k, v]);
+    return [null, config];
+  },
+
+  // TODO: more details
+  update: async ({ state, commit }, payload: UpdatePayload): Promise<void | boolean> => {
+    const { type, data } = payload;
+
+    if (!Object.keys(data).length) {
+      return false;
     }
+
+    await apiStorage[type || 'local'].set(data);
+
+    commit('updateState', data);
   },
 };
 
@@ -34,4 +46,9 @@ export const storage: Module<State, RootState> = {
 interface State {
   name: string;
   [key: string]: any;
+}
+
+interface UpdatePayload {
+  type?: 'local' | 'sync' | 'managed';
+  data: DefaultConfig;
 }

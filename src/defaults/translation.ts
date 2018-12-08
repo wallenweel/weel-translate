@@ -1,12 +1,12 @@
 import translationSources, { Sources as TranslationSources } from './sources';
 
-export const prefixer = (name: string): string => `translation-${name}`;
-
 export default {
   'translation-recent': [],
   'translation-picked': [],
   'translation-sources': translationSources,
 } as Data;
+
+export const prefixer = (name: string): string => `translation-${name}`;
 
 export interface Data {
   'translation-recent': ListItem[] | [];

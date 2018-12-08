@@ -1,5 +1,3 @@
-import { Browser } from '../browser';
-
 const {
   storage,
   runtime,

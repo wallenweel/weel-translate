@@ -1,5 +1,3 @@
-import { SourcePreset } from './';
-
 export default JSON.stringify({
   id: 'google',
   name: 'Google',
@@ -39,4 +37,4 @@ export default JSON.stringify({
     explain: 'dict(pos....terms)',
   },
   fromto: ['auto', 'auto'],
-} as SourcePreset);
+} as TranslationSourcePreset) as jsonString;

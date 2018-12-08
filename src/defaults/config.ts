@@ -2,9 +2,8 @@
  * defaults storage config struct
  */
 import browser from '@/apis/browser';
-import extensionPreference, { Preference } from './preference';
-import translationData, { Data } from './translation';
-// import manifest from ''
+import extensionPreference from './preference';
+import translationData from './translation';
 
 const manifest = browser.runtime.getManifest();
 
@@ -15,12 +14,3 @@ export default {
   ...extensionPreference,
   ...translationData,
 } as DefaultConfig;
-
-export interface DefaultConfig extends Preference, Data {
-  'runtime-env': 'development' | 'production';
-
-  'version': string; // 0.0.0
-  'version-last'?: string;
-
-  [name: string]: any;
-}

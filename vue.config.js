@@ -28,7 +28,8 @@ module.exports = {
 function plugins() {
   const r = [
     new DefinePlugin({
-      TARGET_BROWSER: JSON.stringify(TARGET_BROWSER)
+      TARGET_BROWSER: JSON.stringify(TARGET_BROWSER),
+      RUNTIME_ENV: JSON.stringify(process.env.NODE_ENV)
     }),
     new VuetifyLoaderPlugin()
   ]

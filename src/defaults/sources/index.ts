@@ -1,3 +1,16 @@
+import google from './google';
+
+export default [
+  google,
+] as jsonString[];
+
+type jsonString = string;
+
+export interface Sources {
+  // id: "source-[source.id]"
+  [id: number]: jsonString;
+}
+
 export interface SourcePreset {
   readonly id: string;
 

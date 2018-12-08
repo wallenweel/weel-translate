@@ -1,6 +1,6 @@
 import { SourcePreset } from './';
 
-export default (): string => JSON.stringify({
+export default JSON.stringify({
   id: 'google',
   name: 'Google',
   url: 'https://translate.google.com',
@@ -30,7 +30,7 @@ export default (): string => JSON.stringify({
         client: 'gtx',
         ie: 'UTF-8',
       },
-    }
+    },
   },
   parser: {
     phoneticSrc: 'sentences.$.src_translit',

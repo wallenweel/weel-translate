@@ -160,3 +160,10 @@ declare interface TextParser {
   explain?: selector;
   [more: string]: selector;
 }
+
+declare type parserItemResult = string;
+
+declare interface Template {
+  'template-popup': parserItemResult[][];
+  'template-fap': parserItemResult[][];
+}

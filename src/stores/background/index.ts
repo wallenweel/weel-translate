@@ -1,16 +1,22 @@
 import Vue from 'vue';
-import Vuex from 'vuex';
+import Vuex, { ModuleTree } from 'vuex';
+
+import { storage } from './modules/storage';
 
 Vue.use(Vuex);
 
-export default new Vuex.Store({
-  state: {
-    test: true,
-  },
-  mutations: {
+const state: RootState = {
+  test: true,
+};
 
-  },
-  actions: {
+const modules: ModuleTree<RootState> = {
+  storage,
+};
 
-  },
+export default new Vuex.Store<RootState>({
+  state, modules,
 });
+
+export interface RootState {
+  test: boolean;
+}

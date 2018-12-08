@@ -5,12 +5,20 @@
 import ExtensionConfig, { Config } from './config';
 import TranslationData, { Data } from './translation';
 
-export default () => ({
+export default {
   ...ExtensionConfig,
   ...TranslationData,
-}) as DefaultsStruct;
+} as DefaultAll;
 
+export const storage: DefaultStorage = {
+  ...ExtensionConfig,
+  ...TranslationData,
+};
 
-interface DefaultsStruct extends Config, Data {
+export interface DefaultAll extends Config, Data {
+  // [name: string]: any;
+}
+
+export interface DefaultStorage extends Config, Data {
   // [name: string]: any;
 }

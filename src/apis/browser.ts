@@ -5,11 +5,15 @@
 import firefox from './firefox';
 import chrome from './chrome';
 
-export default ({
+const browser = ({
   firefox,
   chrome,
   web: window, // useless
 } as TargetBrowsers)[TARGET_BROWSER] as Browser;
+
+export default browser;
+
+export const storage: Storage = browser.storage;
 
 export interface TargetBrowsers {
   readonly [name: string]: Browser | object;

@@ -18,8 +18,8 @@ const mutations: MutationTree<State> = {
 };
 
 const actions: ActionTree<State, RootState> = {
-  query: async (keys?: storageKeys, type?: storageType): Promise<std> => {
-    const config = await apiStorage[type || 'local'].get(keys || {});
+  query: async (_, keys?: storageKeys, type?: storageType): Promise<std<DefaultConfig>> => {
+    const config = await apiStorage[type || 'local'].get(keys || null);
 
     return [null, config];
   },
@@ -39,7 +39,7 @@ const actions: ActionTree<State, RootState> = {
 };
 
 export const storage: Module<State, RootState> = {
-  namespaced, state,
+  namespaced, state, actions, mutations,
 };
 
 interface State {

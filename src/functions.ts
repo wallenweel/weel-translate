@@ -1,5 +1,24 @@
 import * as types from './types';
 
+type Println = (...args: any[]) => void;
+
+export let println: Println;
+println = (...args: any[]): void => {
+  const type: 'log' | 'warn' | 'error' = args[0];
+  const stuff: string[] = [
+    '%c Weel Translate X ',
+    'border-radius:4px;background-color:#0074e8;color:white;font-weight: bold;',
+  ];
+
+  if (['log', 'warn', 'error'].includes(type)) {
+    args.shift()
+    console[type](...stuff, ...args);
+  } else {
+    // tslint:disable-next-line:no-console
+    console.log(...stuff, ...args);
+  }
+};
+
 export let versionCheck: VersionCheckFn;
 versionCheck = (current, last) => {
   if (!last) {

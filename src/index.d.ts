@@ -48,7 +48,6 @@ declare type storageKeys = null | string | object | string[];
 declare interface Storage {
   readonly local: StorageAreaMethods;
   readonly sync: StorageAreaMethods;
-  readonly [type: string]: StorageAreaMethods;
 }
 
 declare interface StorageAreaMethods {

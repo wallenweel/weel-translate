@@ -22,7 +22,7 @@ const actions: ActionTree<State, State> = {
         return [new Error('load storage failed!')];
       }
 
-      return [null, { over: true }];
+      return [null];
     },
 
     loadStorage: async ({ dispatch, commit }): Promise<std> => {
@@ -71,7 +71,7 @@ const modules: ModuleTree<State> = {
 };
 
 export default new Vuex.Store<State>({
-  state, actions, modules,
+  state, actions, mutations, modules,
 });
 
 export interface State {

@@ -1,15 +1,19 @@
 import store from '@/stores/background';
 import browser from '@/apis/browser';
+import { println } from '@/functions';
 
 const { runtime } = browser;
 
 const { dispatch } = store;
 
 (async () => {
-  const result = await dispatch('startup');
+  const [error, result] = await dispatch('startup');
 
-  // tslint:disable-next-line:no-console
-  console.log(result);
+  if (error !== null) {
+    println('error', `background script startup incomplete\n`, error);
+  }
+
+  println(result);
 })();
 
 runtime.onMessage.addListener((message = {}, sender, sendResponse) => {

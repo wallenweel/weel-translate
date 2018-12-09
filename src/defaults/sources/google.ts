@@ -37,4 +37,4 @@ export default {
     explain: 'dict(pos....terms)',
   },
   fromto: ['auto', 'auto'],
-} as TranslationSourcePreset;
+} as SourcePreset;

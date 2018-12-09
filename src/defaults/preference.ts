@@ -5,6 +5,6 @@ export default {
   'preference-fap-enable': true,
   'preference-fap-position': 'center',
   'preference-fap-position-edge': 'tc',
-} as Preference;
+} as PreferenceConfig;
 
 export const prefixer = (name: string): string => `preference-${name}`;

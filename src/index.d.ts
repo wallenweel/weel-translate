@@ -11,12 +11,12 @@ declare interface VersionCheckFn {
   (current: string, last: string | undefined): std<versionFresh | versionUpdate | versionSame | versionOutdated>;
 }
 
-declare interface TranslationSourcesParserFn {
-  (presets: jsonString[]): std<TranslationSourcePreset[]>
+declare interface SourcePresetsParseFn {
+  (presets: jsonString[]): std<SourcePreset[]>
 }
 
-declare interface TranslationSourcesStringifyFn {
-  (presets: TranslationSourcePreset[]): std<jsonString[]>;
+declare interface SourcePresetsStringifyFn {
+  (presets: SourcePreset[]): std<jsonString[]>;
 }
 
 /** /apis/browser */
@@ -66,16 +66,17 @@ declare interface MessageSender {
 }
 
 /** /defaults */
-declare interface DefaultConfig extends Preference, TranslationData {
-  'runtime-env': 'development' | 'production';
-
-  'version': version;
-  'last-version'?: version;
-
+declare interface DefaultConfig extends BaseConfig, PreferenceConfig, TranslationConfig {
   [name: string]: any;
 }
 
-declare interface Preference {
+interface BaseConfig {
+  'runtime-env': 'development' | 'production';
+  'version': version;
+  'last-version'?: version;
+}
+
+declare interface PreferenceConfig {
   'preference-theme': 'dark' | 'light';
 
   // enable float action button
@@ -97,7 +98,7 @@ declare interface Preference {
   'preference-context-menu-enable': boolean;
 }
 
-declare interface TranslationData {
+declare interface TranslationConfig {
   'translation-recent': TranslationListItem[] | [];
   'translation-picked': TranslationListItem[] | [];
   'translation-sources': TranslationSources;
@@ -117,13 +118,13 @@ declare interface TranslationSources {
 }
 
 // translation source's id, only accpet en words and "_" as separator
-declare type translationSourceID = string;
+declare type sourcePresetId = string;
 
-declare interface TranslationSourcePreset {
+declare interface SourcePreset {
   // extends a full preset, by source's id
-  readonly extends?: translationSourceID,
+  readonly extends?: sourcePresetId,
 
-  readonly id: translationSourceID;
+  readonly id: sourcePresetId;
 
   // display name
   name: string;
@@ -188,7 +189,7 @@ declare interface TextParser {
 
 declare type parserItemResult = string;
 
-declare interface Template {
+declare interface TemplateConfig {
   'template-popup': parserItemResult[][];
   'template-fap': parserItemResult[][];
 }

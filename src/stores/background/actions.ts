@@ -1,11 +1,12 @@
 import { ActionTree } from 'vuex';
 import * as types from '@/types';
 import { State } from './';
-import { debug } from '@/functions';
+import debug from '@/functions/debug';
+import defaultConfig from '@/defaults/config';
 
 export const actions: ActionTree<State, State> = {
   // regular actions
-  startup: async ({ dispatch }): Promise<std> => {
+  startup: async ({ dispatch, state }): Promise<std> => {
     // TODO: start every required things
     const [error, config]: std = await dispatch('loadStorage');
 
@@ -13,7 +14,13 @@ export const actions: ActionTree<State, State> = {
       return [new Error('load storage failed!')];
     }
 
-    debug.log(config);
+    if (!Object.keys(state.storage).length) {
+      const [error] = await dispatch('storage/reset');
+
+      if (error !== null) {
+        return [error];
+      }
+    }
 
     return [null];
   },
@@ -24,8 +31,6 @@ export const actions: ActionTree<State, State> = {
     if (error !== null) {
       return [new Error('query storage config failed!')];
     }
-
-    commit('updateState', { config });
 
     return [null, config];
   },

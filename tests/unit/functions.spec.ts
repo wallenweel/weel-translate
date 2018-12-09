@@ -1,8 +1,8 @@
 import * as types from '@/types';
 import {
   versionCheck,
-  translationSourcesParser,
-  translationSourcesStringify,
+  sourcePresetsParser,
+  sourcePresetsStringifier,
 } from '@/functions';
 import stringifySourcePresets, { sourcePresets } from '@/defaults/sources';
 
@@ -18,17 +18,17 @@ describe('functions/versionCheck', () => {
   });
 });
 
-describe('functions/translationSourcesParser', () => {
+describe('functions/sourcePresetsParser', () => {
   it(`return "JSON.parse"ed full translation sources's presets list`, () => {
-    const fn = translationSourcesParser;
+    const fn = sourcePresetsParser;
 
     expect(fn(stringifySourcePresets)[1]).toHaveLength(2);
   });
 });
 
-describe('functions/translationSourcesStringify', () => {
+describe('functions/sourcePresetsStringifier', () => {
   it(`return "JSON.stringify"ed translation sources's presets list`, () => {
-    const fn = translationSourcesStringify;
+    const fn = sourcePresetsStringifier;
 
     expect(fn(sourcePresets)[1]).toHaveLength(2);
   });

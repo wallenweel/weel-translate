@@ -1,6 +1,6 @@
 import Vue from 'vue';
 import Vuex, { ActionTree, MutationTree, ModuleTree, Action } from 'vuex';
-import { debug } from '@/functions';
+import debug from '@/functions/debug';
 import actions from './actions';
 import { storage } from './modules/storage';
 
@@ -11,7 +11,7 @@ const state: State = {
 };
 
 const mutations: MutationTree<State> = {
-  updateState: (state, data: object = {}): void => {
+  update: (state, data: object = {}): void => {
     for (const [key, value] of Object.entries(data)) {
       const target = state[key];
 

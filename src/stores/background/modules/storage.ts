@@ -1,19 +1,21 @@
 import { MutationTree, ActionTree, Payload, Module } from 'vuex';
 import { State as RootState } from '../index';
-
 import { storage as apiStorage } from '@/apis/browser';
+import defaultConfig from '@/defaults/config';
+import debug from '@/functions/debug';
 
 const namespaced: boolean = true;
 
-const state: State = {
-  name: 'storage',
-};
+const state: State = {};
 
 const mutations: MutationTree<State> = {
-  updateState: (state, payload: DefaultConfig): void => {
+  update: (state, payload: DefaultConfig): void => {
     for (const [name, value] of Object.entries(payload)) {
       state[name] = value;
     }
+  },
+  clear: (state) => {
+    state = Object.assign({});
   },
 };
 
@@ -24,16 +26,29 @@ const actions: ActionTree<State, RootState> = {
     return [null, config];
   },
 
-  update: async ({ state, commit }, config: DefaultConfig, type?: storageType): Promise<std> => {
+  update: async ({ state, commit }, config: DefaultConfig): Promise<std> => {
     if (!Object.keys(config).length) {
       return [true, 'empty config'];
     }
 
-    const result = await apiStorage[type || 'local'].set(config);
+    const result = await apiStorage.local.set(config);
 
-    commit('updateState', config);
+    commit('update', config);
 
     return [null, result];
+  },
+
+  reset: async ({ state, dispatch, commit }): Promise<std> => {
+    commit('clear');
+
+    const [error] = await dispatch('update', defaultConfig);
+
+    if (error !== null) {
+      debug.error(`reset storage config failed.`);
+      return [error];
+    }
+
+    return [null];
   },
 };
 
@@ -42,7 +57,6 @@ export const storage: Module<State, RootState> = {
 };
 
 interface State {
-  name: string;
   [key: string]: any;
 }
 

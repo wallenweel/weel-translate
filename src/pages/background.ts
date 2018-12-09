@@ -1,6 +1,6 @@
 import store from '@/stores/background';
 import browser from '@/apis/browser';
-import { debug } from '@/functions';
+import debug from '@/functions/debug';
 import { ipcActions } from '@/stores/background/actions';
 
 const { runtime } = browser;
@@ -12,7 +12,8 @@ const { dispatch } = store;
   if (error !== null) {
     debug.error(`background script startup incomplete.\n`, error);
   }
-  debug.log(ipcActions);
+
+  debug.log(store.state.storage);
 })();
 
 runtime.onMessage.addListener((message = {}, sender, sendResponse) => {

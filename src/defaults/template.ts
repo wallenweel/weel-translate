@@ -11,4 +11,4 @@ export default {
     ['translation'],
     ['explain'],
   ],
-} as Template;
+} as TemplateConfig;

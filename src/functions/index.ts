@@ -1,26 +1,4 @@
-import * as types from './types';
-import { isDebug } from './variables';
-
-type consoleType = 'log' | 'warn' | 'error' | 'info' | 'trace';
-
-export const debug = (() => {
-  const tag: string[] = [
-    '%c Weel Translate X ',
-    'border-radius:4px;background-color:#0074e8;color:white;font-weight: bold;',
-  ];
-
-  const cls: { [type: string]: any; } = {};
-
-  for (const m of Object.keys(console)) {
-    if (isDebug) {
-      cls[m] = console[m as consoleType].bind(window.console, ...tag);
-    } else {
-      cls[m] = (): void => {/** production mode */};
-    }
-  }
-
-  return cls;
-})();
+import * as types from '../types';
 
 export let versionCheck: VersionCheckFn;
 versionCheck = (current, last) => {
@@ -46,12 +24,12 @@ versionCheck = (current, last) => {
   return [null, types.VERSION_SAME];
 };
 
-export let translationSourcesParser: TranslationSourcesParserFn;
-translationSourcesParser = (presets) => {
+export let sourcePresetsParser: SourcePresetsParseFn;
+sourcePresetsParser = (presets) => {
   try {
-    const tmp: { [id: string]: TranslationSourcePreset } = {};
+    const tmp: { [id: string]: SourcePreset } = {};
     const result = presets.map((preset) => {
-      const json: TranslationSourcePreset = JSON.parse(preset);
+      const json: SourcePreset = JSON.parse(preset);
 
       tmp[json.id] = json;
 
@@ -73,8 +51,8 @@ translationSourcesParser = (presets) => {
   }
 };
 
-export let translationSourcesStringify: TranslationSourcesStringifyFn;
-translationSourcesStringify = (presets) => {
+export let sourcePresetsStringifier: SourcePresetsStringifyFn;
+sourcePresetsStringifier = (presets) => {
   try {
     const result = presets.map((preset) => JSON.stringify(preset));
     return [null, result];

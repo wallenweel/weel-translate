@@ -7,4 +7,4 @@ export default {
   url: 'https://translate.google.cn',
   fromto: ['auto', 'zh-cn'],
   include: ['auto', 'zh-cn', 'en', 'ja', 'ko', 'es', 'de'],
-} as TranslationSourcePreset;
+} as SourcePreset;

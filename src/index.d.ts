@@ -1,7 +1,25 @@
-declare type std = [null | true | Error, any?];
+declare type messageText = string;
+declare type std<T = any> = [Error | null | true | messageText, T?];
+
+/** /funtions */
+declare type versionFresh = 'VERSION_FRESH';
+declare type versionUpdate = 'VERSION_UPDATED';
+declare type versionSame = 'VERSION_SAME';
+declare type versionOutdated = 'VERSION_OUTDATED';
+
+declare interface VersionCheckFn {
+  (current: string, last: string | undefined): std<versionFresh | versionUpdate | versionSame | versionOutdated>;
+}
+
+declare interface TranslationSourcesParserFn {
+  (presets: jsonString[]): std<TranslationSourcePreset[]>
+}
+
+declare interface TranslationSourcesStringifyFn {
+  (presets: TranslationSourcePreset[]): std<jsonString[]>;
+}
 
 /** /apis/browser */
-
 declare interface Browser {
   // browser's original global object
   readonly origin?: any;
@@ -11,13 +29,15 @@ declare interface Browser {
   readonly [name: string]: any;
 }
 
+declare type version = string; // like 0.0.0
+
 declare interface Runtime {
   onMessage: {
     // send a response asynchronously, `return true;` in the listener
     addListener(listener: listenerHandler): void;
   };
   getManifest(): {
-    version: string; // like 0.0.0
+    version: version;
   };
 }
 
@@ -50,8 +70,8 @@ declare interface MessageSender {
 declare interface DefaultConfig extends Preference, TranslationData {
   'runtime-env': 'development' | 'production';
 
-  'version': string; // 0.0.0
-  'version-last'?: string;
+  'version': version;
+  'last-version'?: version;
 
   [name: string]: any;
 }
@@ -97,8 +117,14 @@ declare interface TranslationSources {
   [id: number]: jsonString;
 }
 
+// translation source's id, only accpet en words and "_" as separator
+declare type translationSourceID = string;
+
 declare interface TranslationSourcePreset {
-  readonly id: string;
+  // extends a full preset, by source's id
+  readonly extends?: translationSourceID,
+
+  readonly id: translationSourceID;
 
   // display name
   name: string;

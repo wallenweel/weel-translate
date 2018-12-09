@@ -1,5 +1,5 @@
-export default JSON.stringify({
-  id: 'google',
+export default {
+  id: 'google_com',
   name: 'Google',
   url: 'https://translate.google.com',
   query: {
@@ -37,4 +37,4 @@ export default JSON.stringify({
     explain: 'dict(pos....terms)',
   },
   fromto: ['auto', 'auto'],
-} as TranslationSourcePreset) as jsonString;
+} as TranslationSourcePreset;

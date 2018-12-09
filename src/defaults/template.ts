@@ -1,11 +1,14 @@
 export default {
   'template-popup': [
-    ['phoneticSrc', '{{q}}'],
-    ['phoneticDest', 'translation'],
+    ['<button-voice src>', 'phoneticSrc', '~', '<button-pick>'],
+    ['{{q}}'],
+    ['<button-voice dest>', 'phoneticDest'],
+    ['translation'],
     ['explain'],
   ],
   'template-fap': [
-    ['phoneticDest', 'translation'],
+    ['<button-voice dest>', 'phoneticDest', '~', '<button-pick>'],
+    ['translation'],
     ['explain'],
   ],
 } as Template;

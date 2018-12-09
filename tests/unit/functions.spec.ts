@@ -1,10 +1,20 @@
 import * as types from '@/types';
+import debug from '@/functions/debug';
 import {
   versionCheck,
   sourcePresetsParser,
   sourcePresetsStringifier,
 } from '@/functions';
 import stringifySourcePresets, { sourcePresets } from '@/defaults/sources';
+
+describe('functions/debug', () => {
+  it(`return <global>.console object`, () => {
+    expect(debug.log).toBeDefined();
+    expect(debug.warn).toBeDefined();
+    expect(debug.error).toBeDefined();
+    expect(debug.info).toBeDefined();
+  });
+});
 
 describe('functions/versionCheck', () => {
   it(`return version status after installed`, () => {

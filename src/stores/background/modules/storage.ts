@@ -24,17 +24,16 @@ const actions: ActionTree<State, RootState> = {
     return [null, config];
   },
 
-  // TODO: more details
-  update: async ({ state, commit }, payload: UpdatePayload): Promise<void | boolean> => {
-    const { type, data } = payload;
-
-    if (!Object.keys(data).length) {
-      return false;
+  update: async ({ state, commit }, config: DefaultConfig, type?: storageType): Promise<std> => {
+    if (!Object.keys(config).length) {
+      return [true, 'empty config'];
     }
 
-    await apiStorage[type || 'local'].set(data);
+    const result = await apiStorage[type || 'local'].set(config);
 
-    commit('updateState', data);
+    commit('updateState', config);
+
+    return [null, result];
   },
 };
 

@@ -1,55 +1,13 @@
 import Vue from 'vue';
 import Vuex, { ActionTree, MutationTree, ModuleTree, Action } from 'vuex';
-
-import * as types from '@/types';
-
+import { debug } from '@/functions';
+import actions from './actions';
 import { storage } from './modules/storage';
 
 Vue.use(Vuex);
 
 const state: State = {
   name: 'background',
-};
-
-const actions: ActionTree<State, State> = {
-  // regular actions
-  ...{
-    startup: async ({ dispatch }): Promise<std> => {
-      // TODO: start every required things
-      const [err]: std = await dispatch('loadStorage');
-
-      if (err !== null) {
-        return [new Error('load storage failed!')];
-      }
-
-      return [null];
-    },
-
-    loadStorage: async ({ dispatch, commit }): Promise<std> => {
-      const [err, config]: std = await dispatch('storage/query');
-
-      if (err !== null) {
-        return [new Error('query storage config failed!')];
-      }
-
-      commit('updateState', { config });
-
-      return [null, config];
-    },
-  },
-
-  // type actions for IPC
-  ...{
-    [types.QUERY_CONFIG]: async ({ dispatch }): Promise<std> => {
-      const [err, config] = await dispatch('storage/query');
-
-      if (err !== null) {
-        return [new Error('query storage config failed!')];
-      }
-
-      return [null, config];
-    },
-  },
 };
 
 const mutations: MutationTree<State> = {

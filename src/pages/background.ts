@@ -1,25 +1,30 @@
 import store from '@/stores/background';
 import browser from '@/apis/browser';
-import { println } from '@/functions';
+import { debug } from '@/functions';
+import { ipcActions } from '@/stores/background/actions';
 
 const { runtime } = browser;
-
 const { dispatch } = store;
 
 (async () => {
-  const [error, result] = await dispatch('startup');
+  const [error] = await dispatch('startup');
 
   if (error !== null) {
-    println('error', `background script startup incomplete\n`, error);
+    debug.error(`background script startup incomplete.\n`, error);
   }
-
-  println(result);
+  debug.log(ipcActions);
 })();
 
 runtime.onMessage.addListener((message = {}, sender, sendResponse) => {
   const action = message as { type: '' };
 
   if (!action.type) {
+    debug.log('warn', `IPC message's type is ${action.type}.`);
+    return false;
+  }
+
+  if (!Object.keys(ipcActions).includes(action.type)) {
+    debug.log('warn', `type "${action.type}" is not existed in actions.`);
     return false;
   }
 

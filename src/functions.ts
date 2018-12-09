@@ -1,23 +1,26 @@
 import * as types from './types';
+import { isDebug } from './variables';
 
-type Println = (...args: any[]) => void;
+type consoleType = 'log' | 'warn' | 'error' | 'info' | 'trace';
 
-export let println: Println;
-println = (...args: any[]): void => {
-  const type: 'log' | 'warn' | 'error' = args[0];
-  const stuff: string[] = [
+export const debug = (() => {
+  const tag: string[] = [
     '%c Weel Translate X ',
     'border-radius:4px;background-color:#0074e8;color:white;font-weight: bold;',
   ];
 
-  if (['log', 'warn', 'error'].includes(type)) {
-    args.shift()
-    console[type](...stuff, ...args);
-  } else {
-    // tslint:disable-next-line:no-console
-    console.log(...stuff, ...args);
+  const cls: { [type: string]: any; } = {};
+
+  for (const m of Object.keys(console)) {
+    if (isDebug) {
+      cls[m] = console[m as consoleType].bind(window.console, ...tag);
+    } else {
+      cls[m] = (): void => {/** production mode */};
+    }
   }
-};
+
+  return cls;
+})();
 
 export let versionCheck: VersionCheckFn;
 versionCheck = (current, last) => {

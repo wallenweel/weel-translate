@@ -2,15 +2,14 @@ import * as types from './types';
 
 export let versionCheck: VersionCheckFn;
 versionCheck = (current, last) => {
-
   if (!last) {
     return [`last version is not existed`, types.VERSION_FRESH];
   }
 
-  const toNumber = (s: version): number[] =>
+  const intArr = (s: version): number[] =>
     s.split(/\./).map((n: string) => parseInt(n, 10));
 
-  const [c, l] = [toNumber(current), toNumber(last)];
+  const [c, l] = [intArr(current), intArr(last)];
 
   for (let i = 0; i < c.length; i++) {
     if (c[i] > l[i]) { // [current].0.0 > [last].0.0
@@ -48,6 +47,16 @@ translationSourcesParser = (presets) => {
 
     return [null, result];
   } catch (error) {
-    return [new Error(error)];
+    return [new Error(`translation sources's presets parse failed`), error];
+  }
+};
+
+export let translationSourcesStringify: TranslationSourcesStringifyFn;
+translationSourcesStringify = (presets) => {
+  try {
+    const result = presets.map((preset) => JSON.stringify(preset));
+    return [null, result];
+  } catch (error) {
+    return [new Error(`translation sources's presets stringify failed`), error];
   }
 };

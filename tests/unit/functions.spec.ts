@@ -2,11 +2,12 @@ import * as types from '@/types';
 import {
   versionCheck,
   translationSourcesParser,
+  translationSourcesStringify,
 } from '@/functions';
-import translationSourcePresets from '@/defaults/sources';
+import stringifySourcePresets, { sourcePresets } from '@/defaults/sources';
 
 describe('functions/versionCheck', () => {
-  it('return version status after installed', () => {
+  it(`return version status after installed`, () => {
     const fn = versionCheck;
 
     expect(fn('3.0.1', undefined)[1]).toBe(types.VERSION_FRESH);
@@ -18,9 +19,17 @@ describe('functions/versionCheck', () => {
 });
 
 describe('functions/translationSourcesParser', () => {
-  it('return "JSON.parse"ed full translation sources preset', () => {
+  it(`return "JSON.parse"ed full translation sources's presets list`, () => {
     const fn = translationSourcesParser;
 
-    expect(fn(translationSourcePresets)[1]).toHaveLength(2);
+    expect(fn(stringifySourcePresets)[1]).toHaveLength(2);
+  });
+});
+
+describe('functions/translationSourcesStringify', () => {
+  it(`return "JSON.stringify"ed translation sources's presets list`, () => {
+    const fn = translationSourcesStringify;
+
+    expect(fn(sourcePresets)[1]).toHaveLength(2);
   });
 });

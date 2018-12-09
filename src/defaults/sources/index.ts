@@ -1,3 +1,4 @@
+import { translationSourcesStringify } from '@/functions';
 import google from './google';
 import google_cn from './google_cn';
 
@@ -6,7 +7,7 @@ export const sourcePresets: TranslationSourcePreset[] = [
   google_cn,
 ];
 
-export const sourcePresetsStringify: jsonString[] = sourcePresets
+export const stringifySourcePresets: jsonString[] = sourcePresets
 .map((preset) => JSON.stringify(preset));
 
-export default sourcePresetsStringify;
+export default stringifySourcePresets;

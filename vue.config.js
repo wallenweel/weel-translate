@@ -1,3 +1,4 @@
+const path = require('path');
 const {
   DefinePlugin
 } = require('webpack')
@@ -21,7 +22,15 @@ module.exports = {
   configureWebpack: {
     devtool: "inline-source-map",
     plugins: plugins()
-  }
+  },
+
+  css: {
+    loaderOptions: {
+      sass: {
+        includePaths: [path.resolve(__dirname, 'node_modules')],
+      },
+    },
+  },
 }
 
 function plugins() {

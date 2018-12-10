@@ -1,25 +1,19 @@
-import Vue from 'vue';
-import Router from 'vue-router';
-import Home from '@/views/Home.vue';
+import Vue, { VueConstructor } from 'vue';
+import Router, { RouterOptions, RouteConfig } from 'vue-router';
+import Translation from '@/views/Translation.vue';
 
 Vue.use(Router);
+
+const routes: RouteConfig[] = [
+  {
+    path: '/',
+    name: 'translation',
+    component: Translation as VueConstructor,
+  },
+];
 
 export default new Router({
   mode: 'hash',
   base: process.env.BASE_URL,
-  routes: [
-    {
-      path: '/',
-      name: 'home',
-      component: Home,
-    },
-    {
-      path: '/about',
-      name: 'about',
-      // route level code-splitting
-      // this generates a separate chunk (about.[hash].js) for this route
-      // which is lazy-loaded when the route is visited.
-      component: () => import(/* webpackChunkName: "about" */ '@/views/About.vue'),
-    },
-  ],
-});
+  routes,
+} as RouterOptions);

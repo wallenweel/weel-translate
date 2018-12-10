@@ -1,3 +1,4 @@
+declare module 'vue-property-decorator'
 declare module 'vue-mdc-adapter'
 
 //~ target browser flag for building extension

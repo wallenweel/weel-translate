@@ -1,7 +1,10 @@
 <template>
   <div class="home">
-    <img alt="Vue logo" src="../assets/logo.png">
-    <HelloWorld msg="Welcome to Your Vue.js + TypeScript App"/>
+    <hello-world class="app__hello"
+      title="Welcome to your Vue MDC Adapter App"
+      :vmaLinks="vmaLinks"
+      :mdcLinks="mdcLinks"
+    ></hello-world>
   </div>
 </template>
 
@@ -14,5 +17,18 @@ import HelloWorld from '@/components/HelloWorld.vue'; // @ is an alias to /src
     HelloWorld,
   },
 })
-export default class Home extends Vue {}
+export default class Home extends Vue {
+  private vmaLinks = [
+    {
+      title: 'Documentation',
+      url: 'https://stasson.github.io/vue-mdc-adapter',
+    },
+  ];
+  private mdcLinks = [
+    {
+      title: 'Documentation',
+      url: 'https://material.io/components/web/',
+    },
+  ];
+}
 </script>

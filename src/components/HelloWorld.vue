@@ -37,15 +37,15 @@
   </div>
 </template>
 
-<script>
-  export default {
-    name: 'HelloWorld',
-    props: {
-      title: String,
-      vmaLinks: Array,
-      mdcLinks: Array
-    }
-  }
+<script lang="ts">
+import { Component, Prop, Vue } from 'vue-property-decorator';
+
+@Component
+export default class HelloWorld extends Vue {
+  @Prop() private title!: string;
+  @Prop() private vmaLinks!: string[];
+  @Prop() private mdcLinks!: string[];
+}
 </script>
 
 <style lang="scss">
@@ -94,7 +94,7 @@
     }
 
     &__content {
-      padding: 2.5rem 0;      
+      padding: 2.5rem 0;
     }
 
     &__subtitle {

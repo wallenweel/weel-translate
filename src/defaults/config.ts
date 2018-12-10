@@ -9,8 +9,9 @@ import templateConfig from './template';
 const manifest = browser.runtime.getManifest();
 
 export const baseConfig: BaseConfig = {
-  'runtime-env': RUNTIME_ENV,
-  'version': manifest.version,
+  runtime_env: RUNTIME_ENV,
+  version: manifest.version,
+  last_version: '',
 };
 
 export default {

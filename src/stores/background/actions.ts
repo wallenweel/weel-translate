@@ -1,38 +1,49 @@
 import { ActionTree } from 'vuex';
 import * as types from '@/types';
 import { State } from './';
-import debug from '@/functions/debug';
-import defaultConfig from '@/defaults/config';
+import { versionCheck } from '@/functions';
 
 export const actions: ActionTree<State, State> = {
-  // regular actions
   startup: async ({ dispatch, state }): Promise<std> => {
-    // TODO: start every required things
-    const [error, config]: std = await dispatch('loadStorage');
+    const [err1, config]: std = await dispatch('loadStorage');
+    if (err1 !== null) { return [err1]; }
 
-    if (error !== null) {
-      return [new Error('load storage failed!')];
-    }
-
-    if (!Object.keys(state.storage).length) {
-      const [error] = await dispatch('storage/reset');
-
-      if (error !== null) {
-        return [error];
-      }
-    }
+    const [err2] = await dispatch('checkVersion', config);
+    if (err2 !== null) { return [err2]; }
 
     return [null];
   },
 
   loadStorage: async ({ dispatch, commit }): Promise<std> => {
     const [error, config] = await dispatch('storage/query');
-
-    if (error !== null) {
-      return [new Error('query storage config failed!')];
-    }
+    if (error !== null) { return [error]; }
 
     return [null, config];
+  },
+
+  checkVersion: async ({ dispatch }, config): Promise<std> => {
+    const { version, last_version } = config;
+    const [, status] = versionCheck(version, last_version);
+
+    switch (status) {
+      case types.VERSION_FRESH: // first install
+        const [error] = await dispatch('storage/reset');
+        if (error !== null) {
+          return [error];
+        }
+        return [null];
+
+      case types.VERSION_UPDATED:
+        return [null];
+
+      case types.VERSION_OUTDATED:
+        return [null];
+
+      case types.VERSION_SAME: // nothing change
+        return [null];
+      default:
+        return [null];
+    }
   },
 };
 

@@ -1,4 +1,7 @@
 declare type messageText = string;
+
+declare type jsonString = string;
+
 declare type std<T = any> = [Error | null | true | messageText, T?];
 
 /** /funtions */
@@ -6,9 +9,9 @@ declare type versionFresh = 'VERSION_FRESH';
 declare type versionUpdate = 'VERSION_UPDATED';
 declare type versionSame = 'VERSION_SAME';
 declare type versionOutdated = 'VERSION_OUTDATED';
-
+declare type versionStatus = versionFresh | versionUpdate | versionSame | versionOutdated;
 declare interface VersionCheckFn {
-  (current: string, last: string | undefined): std<versionFresh | versionUpdate | versionSame | versionOutdated>;
+  (current: string, last: string | undefined): std<versionStatus>;
 }
 
 declare interface SourcePresetsParseFn {
@@ -66,56 +69,60 @@ declare interface MessageSender {
 }
 
 /** /defaults */
-declare interface DefaultConfig extends BaseConfig, PreferenceConfig, TranslationConfig {
+declare interface DefaultConfig extends BaseConfig, TranslationConfig, PreferenceConfig, TemplateConfig {
   [name: string]: any;
 }
 
 interface BaseConfig {
-  'runtime-env': 'development' | 'production';
-  'version': version;
-  'last-version'?: version;
+  runtime_env: 'development' | 'production';
+  version: version;
+  last_version?: version;
 }
 
 declare interface PreferenceConfig {
-  'preference-theme': 'dark' | 'light';
+  preference_theme: 'dark' | 'light';
 
   // enable float action button
-  'preference-fab-enable': boolean;
+  preference_fab_enable: boolean;
 
   // after selection | center of selection | follow mouse
-  'preference-fab-position': 'after' | 'center' | 'follow';
+  preference_fab_position: 'after' | 'center' | 'follow';
 
   // enable float action (result) panel
-  'preference-fap-enable': boolean;
+  preference_fap_enable: boolean;
 
   // center of selection | follow fab | window edge
-  'preference-fap-position': 'center' | 'follow' | 'edge';
+  preference_fap_position: 'center' | 'follow' | 'edge';
   // vaild if above set "edge"
   // top left | top center | top right | bottom left | bottom center | bottom right
-  'preference-fap-position-edge': 'tl' | 'tc' | 'tr' | 'bl' | 'bc' | 'br';
+  preference_fap_position_edge: 'tl' | 'tc' | 'tr' | 'bl' | 'bc' | 'br';
 
   // enable context menu entry
-  'preference-context-menu-enable': boolean;
+  preference_context_menu_enable: boolean;
 }
 
-declare interface TranslationConfig {
-  'translation-recent': TranslationListItem[] | [];
-  'translation-picked': TranslationListItem[] | [];
-  'translation-sources': TranslationSources;
-}
-
-declare interface TranslationListItem {
+declare type translationListItem = {
   id: string;
   title: string;
   description?: string;
+};
+
+declare type sourcePresetItem = {
+  readonly id: string;
+  readonly name: string;
+};
+
+declare interface TranslationConfig {
+  translation_recent: translationListItem[] | [];
+  translation_picked: translationListItem[] | [];
+  translation_enabled_sources: sourcePresetItem[] | [];
+  translation_sources: TranslationSources;
 }
 
-declare type jsonString = string;
-
-declare interface TranslationSources {
+declare type TranslationSources = {
   // id: "source-[source.id]"
   [id: number]: jsonString;
-}
+};
 
 // translation source's id, only accpet en words and "_" as separator
 declare type sourcePresetId = string;
@@ -190,6 +197,6 @@ declare interface TextParser {
 declare type parserItemResult = string;
 
 declare interface TemplateConfig {
-  'template-popup': parserItemResult[][];
-  'template-fap': parserItemResult[][];
+  template_popup: parserItemResult[][];
+  template_fap: parserItemResult[][];
 }

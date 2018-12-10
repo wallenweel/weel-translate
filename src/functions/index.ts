@@ -1,7 +1,7 @@
 import * as types from '../types';
 
 export let versionCheck: VersionCheckFn;
-versionCheck = (current, last) => {
+versionCheck = (current, last): std<versionStatus> => {
   if (!last) {
     return [`last version is not existed`, types.VERSION_FRESH];
   }

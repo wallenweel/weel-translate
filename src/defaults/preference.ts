@@ -1,10 +1,10 @@
 export default {
-  'preference-theme': 'light',
-  'preference-fab-enable': true,
-  'preference-fab-position': 'center',
-  'preference-fap-enable': true,
-  'preference-fap-position': 'center',
-  'preference-fap-position-edge': 'tc',
+  preference_theme: 'light',
+  preference_fab_enable: true,
+  preference_fab_position: 'center',
+  preference_fap_enable: true,
+  preference_fap_position: 'center',
+  preference_fap_position_edge: 'tc',
 } as PreferenceConfig;
 
-export const prefixer = (name: string): string => `preference-${name}`;
+export const prefixer = (name: string): string => `preference_${name}`;

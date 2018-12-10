@@ -2,9 +2,9 @@
   #app
     #nav
       router-link(to="/")
-        v-btn Home
+        | Home
       router-link(to="/about")
-        v-btn About
+        | About
     router-view
 </template>
 

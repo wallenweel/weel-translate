@@ -35,12 +35,11 @@
     "@vue/test-utils": "^1.0.0-beta.20",
     "babel-core": "7.0.0-bridge.0",
     "generate-json-webpack-plugin": "^0.3.1",
-    "pug": "^2.0.3",
-    "pug-plain-loader": "^1.0.0",
     "stylus": "^0.54.5",
     "stylus-loader": "^3.0.2",
     "ts-jest": "^23.0.0",
     "typescript": "^3.0.0",
+    "vue-cli-plugin-pug": "^1.0.7",
     "vue-template-compiler": "^2.5.17",
     "vuetify-loader": "^1.0.8",
     "web-ext": "^2.9.2"

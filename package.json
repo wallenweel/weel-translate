@@ -1,29 +1,29 @@
 {
   "name": "weel-translate-x",
   "version": "0.1.0",
-  "author": "wallen <wallen_weel@outlook.com>",
-  "license": "MIT",
   "private": true,
+  "author": "wallen <wallen_weel@outlook.com>",
   "scripts": {
     "serve": "vue-cli-service serve",
     "build": "vue-cli-service build --no-unsafe-inline",
-    "build:firefox": "TARGET_BROWSER=firefox yarn build",
-    "build:chrome": "TARGET_BROWSER=chrome yarn build",
-    "watch:firefox": "yarn build:firefox --mode=development --watch",
-    "watch:chrome": "yarn build:chrome --mode=development --watch",
-    "webext:firefox": "web-ext run -s=dist/firefox --start-url about:debugging#addons",
-    "pack:firefox": "yarn build:firefox && web-ext build -s=dist/firefox",
     "lint": "vue-cli-service lint",
-    "test:unit": "vue-cli-service test:unit"
+    "build:chrome": "TARGET_BROWSER=chrome yarn build",
+    "build:firefox": "TARGET_BROWSER=firefox yarn build",
+    "pack:firefox": "yarn build:firefox && web-ext build -s=dist/firefox",
+    "test:unit": "vue-cli-service test:unit",
+    "watch:chrome": "yarn build:chrome --mode=development --watch",
+    "watch:firefox": "yarn build:firefox --mode=development --watch",
+    "webext:firefox": "web-ext run -s=dist/firefox --start-url about:debugging#addons"
   },
   "dependencies": {
+    "material-components-web": "^0.35.0",
     "material-design-icons-iconfont": "^4.0.3",
     "normalize.css": "^8.0.1",
     "vue": "^2.5.17",
     "vue-class-component": "^6.0.0",
+    "vue-mdc-adapter": "^0.15.0",
     "vue-property-decorator": "^7.0.0",
     "vue-router": "^3.0.1",
-    "vuetify": "^1.3.12",
     "vuex": "^3.0.1"
   },
   "devDependencies": {
@@ -35,13 +35,13 @@
     "@vue/test-utils": "^1.0.0-beta.20",
     "babel-core": "7.0.0-bridge.0",
     "generate-json-webpack-plugin": "^0.3.1",
-    "stylus": "^0.54.5",
-    "stylus-loader": "^3.0.2",
+    "node-sass": "^4.9.0",
+    "sass-loader": "^7.0.1",
     "ts-jest": "^23.0.0",
     "typescript": "^3.0.0",
-    "vue-cli-plugin-pug": "^1.0.7",
+    "vue-cli-plugin-material": "^0.2.2",
     "vue-template-compiler": "^2.5.17",
-    "vuetify-loader": "^1.0.8",
     "web-ext": "^2.9.2"
-  }
+  },
+  "license": "MIT"
 }

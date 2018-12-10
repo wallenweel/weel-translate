@@ -1,3 +1,5 @@
+declare module 'vue-mdc-adapter'
+
 //~ target browser flag for building extension
 //~ defined in "/vue.config.js"
 declare const TARGET_BROWSER: 'firefox' | 'chrome' | 'opera' | 'web';

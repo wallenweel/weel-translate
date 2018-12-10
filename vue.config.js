@@ -2,7 +2,6 @@ const {
   DefinePlugin
 } = require('webpack')
 const GenerateJsonPlugin = require('generate-json-webpack-plugin')
-const VuetifyLoaderPlugin = require('vuetify-loader/lib/plugin')
 
 // firefox, chrome, etc
 const TARGET_BROWSER = process.env.TARGET_BROWSER || 'web'
@@ -30,8 +29,7 @@ function plugins() {
     new DefinePlugin({
       TARGET_BROWSER: JSON.stringify(TARGET_BROWSER),
       RUNTIME_ENV: JSON.stringify(process.env.NODE_ENV)
-    }),
-    new VuetifyLoaderPlugin()
+    })
   ]
 
   if (TARGET_BROWSER !== 'web') {

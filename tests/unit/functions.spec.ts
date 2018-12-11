@@ -2,11 +2,11 @@ import * as types from '@/types';
 import debug from '@/functions/debug';
 import {
   versionCheck,
-  sourcePresetsParser,
-  sourcePresetsStringifier,
-  templatePresetParser,
+  presetsParser,
+  presetsStringifier,
 } from '@/functions';
 import stringifySourcePresets, { sourcePresets } from '@/defaults/sources';
+import stringifyLayoutPresets, { layoutPresets } from '@/defaults/layouts';
 
 describe('functions/debug', () => {
   it(`return <global>.console object`, () => {
@@ -29,32 +29,20 @@ describe('functions/versionCheck', () => {
   });
 });
 
-describe('functions/sourcePresetsParser', () => {
-  it(`return "JSON.parse"ed full translation sources's presets list`, () => {
-    const fn = sourcePresetsParser;
+describe('functions/presetsParser', () => {
+  it(`return "JSON.parse"ed presets list`, () => {
+    const fn = presetsParser;
 
-    expect(fn(stringifySourcePresets)[1]).toHaveLength(2);
+    expect(fn(stringifySourcePresets)[1]).toHaveProperty('length');
+    expect(fn(stringifyLayoutPresets)[1]).toHaveProperty('length');
   });
 });
 
-describe('functions/sourcePresetsStringifier', () => {
-  it(`return "JSON.stringify"ed translation sources's presets list`, () => {
-    const fn = sourcePresetsStringifier;
+describe('functions/presetsStringifier', () => {
+  it(`return "JSON.stringify"ed presets list`, () => {
+    const fn = presetsStringifier;
 
-    expect(fn(sourcePresets)[1]).toHaveLength(2);
-  });
-});
-
-describe('functions/templatePresetParser', () => {
-  it(`return template that has real result`, () => {
-    const fn = templatePresetParser;
-    const [mockT, mockR] = [
-      [['key1', 'key3'], ['key2'], [], ['key3']],
-      { key1: '1', key2: '2', key3: ['3', '03']},
-    ];
-    const result = fn(mockT, mockR);
-
-    expect(result).toHaveLength(2);
-    expect(result[1][0]).toBe('2');
+    expect(fn(sourcePresets)[1]).toHaveProperty('length');
+    expect(fn(layoutPresets)[1]).toHaveProperty('length');
   });
 });

@@ -25,8 +25,8 @@ versionCheck = (current, last): std<versionStatus> => {
   return [null, types.VERSION_SAME];
 };
 
-export let sourcePresetsParser: SourcePresetsParseFn;
-sourcePresetsParser = (presets) => {
+export let presetsParser: PresetsParseFn;
+presetsParser = (presets) => {
   try {
     const tmp: { [id: string]: SourcePreset } = {};
     const result = presets.map((preset) => {
@@ -52,8 +52,8 @@ sourcePresetsParser = (presets) => {
   }
 };
 
-export let sourcePresetsStringifier: SourcePresetsStringifyFn;
-sourcePresetsStringifier = (presets) => {
+export let presetsStringifier: PresetsStringifyFn;
+presetsStringifier = (presets) => {
   try {
     const result = presets.map((preset) => JSON.stringify(preset));
     return [null, result];

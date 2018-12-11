@@ -1,11 +1,11 @@
 import { popup, float } from './translation';
 
-export const templatePresets = [
+export const layoutPresets = [
   popup,
   float,
 ];
 
-export const stringifyTemplatePresets: jsonString[] = templatePresets
+export const stringifyLayoutPresets: jsonString[] = layoutPresets
   .map((preset) => JSON.stringify(preset));
 
-export default stringifyTemplatePresets;
+export default stringifyLayoutPresets;

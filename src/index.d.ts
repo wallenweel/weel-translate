@@ -14,16 +14,17 @@ declare interface VersionCheckFn {
   (current: string, last: string | undefined): std<versionStatus>;
 }
 
-declare interface SourcePresetsParseFn {
-  (presets: jsonString[]): std<SourcePreset[]>;
+declare interface Preset {
+  id: string;
+  [index: string]: any;
 }
 
-declare interface SourcePresetsStringifyFn {
-  (presets: SourcePreset[]): std<jsonString[]>;
+declare interface PresetsParseFn {
+  (presets: jsonString[]): std<Preset[]>;
 }
 
-declare interface TemplatePresetParserFn {
-  (template: templatePreset, result: TextParserResult): templatePreset;
+declare interface PresetsStringifyFn {
+  (presets: Preset[]): std<jsonString[]>;
 }
 
 /** /apis/browser */
@@ -202,11 +203,11 @@ declare interface TextParser {
 declare type TextParserResult = TextParser;
 
 // config/template part
-declare type templatePreset = TemplatePreset;
+declare type templatePreset = layoutPreset;
 
 declare type templateId = string;
 
-declare interface TemplatePresetItem {
+declare interface LayoutPresetItem {
   id: templateId;
   // check has or not existed "keys" in result. such as
   // test ['phonetic', 'translation'] in result { phonetic: '...', translation: '...' } is true
@@ -214,12 +215,12 @@ declare interface TemplatePresetItem {
   title: string;
 }
 
-declare interface TemplatePreset extends TemplatePresetItem {
+declare interface layoutPreset extends LayoutPresetItem {
   rows: string[][]; // output
   description?: string;
 }
 
 declare interface TemplateConfig {
-  template_enabled_layouts: TemplatePresetItem[];
+  template_enabled_layouts: LayoutPresetItem[];
   template_layouts: jsonString[];
 }

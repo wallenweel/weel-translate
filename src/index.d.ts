@@ -22,8 +22,8 @@ declare interface SourcePresetsStringifyFn {
   (presets: SourcePreset[]): std<jsonString[]>;
 }
 
-declare interface TemplateResultParserFn {
-  (template: parserItem[], result: TextParserResult): parserItem[];
+declare interface TemplatePresetParserFn {
+  (template: templatePreset, result: TextParserResult): templatePreset;
 }
 
 /** /apis/browser */
@@ -73,7 +73,11 @@ declare interface MessageSender {
 }
 
 /** /defaults */
-declare interface DefaultConfig extends BaseConfig, TranslationConfig, PreferenceConfig, TemplateConfig {
+declare interface DefaultConfig extends
+TemplateConfig,
+TranslationConfig,
+PreferenceConfig,
+BaseConfig {
   [name: string]: any;
 }
 
@@ -111,34 +115,28 @@ declare type translationListItem = {
   description?: string;
 };
 
-declare type sourcePresetItem = {
-  readonly id: string;
-  readonly name: string;
-};
-
 declare interface TranslationConfig {
   translation_recent: translationListItem[] | [];
   translation_picked: translationListItem[] | [];
-  translation_enabled_sources: sourcePresetItem[] | [];
-  translation_sources: TranslationSources;
+  translation_enabled_sources: SourcePresetItem[] | [];
+  translation_sources: translationSources;
 }
 
-declare type TranslationSources = {
-  // id: "source-[source.id]"
-  [id: number]: jsonString;
+declare type translationSources = {
+  [index: number]: jsonString;
 };
 
 // translation source's id, only accpet en words and "_" as separator
-declare type sourcePresetId = string;
+declare type sourceId = string;
 
-declare interface SourcePreset {
+declare type SourcePresetItem = {
+  readonly id: sourceId;
+  readonly name: string; // display name
+};
+
+declare interface SourcePreset extends SourcePresetItem {
   // extends a full preset, by source's id
-  readonly extends?: sourcePresetId,
-
-  readonly id: sourcePresetId;
-
-  // display name
-  name: string;
+  readonly extends?: sourceId;
 
   // query.<type>.url can override this
   url: string;
@@ -203,9 +201,25 @@ declare interface TextParser {
 
 declare type TextParserResult = TextParser;
 
-declare type parserItem = string[] | [];
+// config/template part
+declare type templatePreset = TemplatePreset;
+
+declare type templateId = string;
+
+declare interface TemplatePresetItem {
+  id: templateId;
+  // check has or not existed "keys" in result. such as
+  // test ['phonetic', 'translation'] in result { phonetic: '...', translation: '...' } is true
+  test: string[],
+  title: string;
+}
+
+declare interface TemplatePreset extends TemplatePresetItem {
+  rows: string[][]; // output
+  description?: string;
+}
 
 declare interface TemplateConfig {
-  template_popup: parserItem[];
-  template_fap: parserItem[];
+  template_enabled_layouts: TemplatePresetItem[];
+  template_layouts: jsonString[];
 }

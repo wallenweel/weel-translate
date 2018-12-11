@@ -1,14 +1,13 @@
-export default {
-  template_popup: [
-    ['<button-voice src>', 'phoneticSrc', '~', '<button-pick>'],
-    ['{{q}}'],
-    ['<button-voice dest>', 'phoneticDest'],
-    ['translation'],
-    ['explain'],
-  ],
-  template_fap: [
-    ['<button-voice dest>', 'phoneticDest', '~', '<button-pick>'],
-    ['translation'],
-    ['explain'],
-  ],
-} as TemplateConfig;
+import stringifyTemplatePresets, { templatePresets } from './layouts';
+
+const enabledTemplates: TemplatePresetItem[] = templatePresets
+  .map(({ id, test, title }) => ({ id, test, title }));
+
+const templateConfig: TemplateConfig = {
+  template_enabled_layouts: enabledTemplates,
+  template_layouts: stringifyTemplatePresets,
+};
+
+export const prefixer = (name: string): string => `template_${name}`;
+
+export default templateConfig;

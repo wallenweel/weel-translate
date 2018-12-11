@@ -11,15 +11,12 @@
 
 <script lang="ts">
 import { Component, Vue } from 'vue-property-decorator';
-import { templateResultParser } from '@/functions';
+import { templatePresetParser } from '@/functions';
+import { popup as popupTemplate } from '@/defaults/templates';
 
 @Component
 export default class TranslationResult extends Vue {
-  private template: parserItem[] = [
-    ['<\'>phonetic<\'>', 'translation'],
-    [],
-    ['translation'],
-  ];
+  private template: templatePreset = popupTemplate;
   private result: TextParser = {
     phonetic: 'fəˈnetik',
     translation: `Lorem ipsum dolor sit amet consectetur, adipisicing elit.`,
@@ -32,16 +29,16 @@ export default class TranslationResult extends Vue {
 
   private get parsedResult(): string[][] {
     const out: any[] = [];
-    const origin = templateResultParser(this.template, this.result);
+    // const origin = templatePresetParser(this.template, this.result);
 
-    let n: number = 0;
-    for (const item of origin) {
-      if (!item.length) { n++; continue; }
+    // let n: number = 0;
+    // for (const item of origin) {
+    //   if (!item.length) { n++; continue; }
 
-      if (typeof out[n] === 'undefined') { out[n] = []; }
+    //   if (typeof out[n] === 'undefined') { out[n] = []; }
 
-      out[n].push(...item);
-    }
+    //   out[n].push(...item);
+    // }
 
     return out;
   }

@@ -61,29 +61,3 @@ sourcePresetsStringifier = (presets) => {
     return [new Error(`translation sources's presets stringify failed`), error];
   }
 };
-
-export let templateResultParser: TemplateResultParserFn;
-templateResultParser = (template, result) => {
-  const r: any = template.map((e: parserItem) => {
-    if (!e.length) { return e; }
-
-    const a = [];
-    for (const k of e) {
-      const value = k.replace(/<(.+)>(.+)<(.+)>/,
-      ($, a, b, c) => {
-        return a + result[b] + c;
-      });
-      if (value === k) {
-        a.push(result[k] || k);
-      } else {
-        a.push(value);
-      }
-
-      // a.push(result[k] || k);
-    }
-
-    return a;
-  });
-
-  return r;
-};

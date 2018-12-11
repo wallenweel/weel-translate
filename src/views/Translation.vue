@@ -21,30 +21,24 @@
       <mdc-button dense>Chinese(Simplise)</mdc-button>
     </div>
 
-    <div class="translation-result">
-      <mdc-card>
-        <mdc-card-header
-          title="Title goes here"
-          subtitle="subtitle here" >
-        </mdc-card-header>
-        <mdc-card-text>Lorem ipsum dolor sit amet consectetur, adipisicing elit. Iure eius necessitatibus, enim natus commodi aut quasi repudiandae eligendi deleniti magnam laborum cupiditate quam, eveniet repellendus architecto. Necessitatibus cumque asperiores consequuntur.</mdc-card-text>
-      </mdc-card>
-    </div>
+    <translation-result></translation-result>
   </div>
 </template>
 
 <script lang="ts">
 import { Component, Vue } from 'vue-property-decorator';
 import TranslationInput from '@/components/TranslationInput.vue';
+import TranslationResult from '@/components/TranslationResult.vue';
 
 @Component({
   components: {
     TranslationInput,
+    TranslationResult,
   },
 })
 export default class TranslationView extends Vue {
-  private toggle = false;
-  private progress = .5;
+  private toggle: boolean = false;
+  private progress: number = .5;
 }
 </script>
 
@@ -100,11 +94,6 @@ export default class TranslationView extends Vue {
     flex-shrink: 0;
     display: flex;
   }
-}
-
-
-.translation-result {
-  padding: 16px;
 }
 </style>
 

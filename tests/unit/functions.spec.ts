@@ -4,6 +4,7 @@ import {
   versionCheck,
   sourcePresetsParser,
   sourcePresetsStringifier,
+  templateResultParser,
 } from '@/functions';
 import stringifySourcePresets, { sourcePresets } from '@/defaults/sources';
 
@@ -41,5 +42,19 @@ describe('functions/sourcePresetsStringifier', () => {
     const fn = sourcePresetsStringifier;
 
     expect(fn(sourcePresets)[1]).toHaveLength(2);
+  });
+});
+
+describe('functions/templateResultParser', () => {
+  it(`return template that has real result`, () => {
+    const fn = templateResultParser;
+    const [mockT, mockR] = [
+      [['key1', 'key3'], ['key2']],
+      { key1: '1', key2: '2', key3: ['3', '03']},
+    ];
+    const result = fn(mockT, mockR);
+
+    expect(result).toHaveLength(2);
+    expect(result[1][0]).toBe('2');
   });
 });

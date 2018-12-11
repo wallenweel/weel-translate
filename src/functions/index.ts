@@ -1,4 +1,5 @@
 import * as types from '../types';
+import debug from './debug';
 
 export let versionCheck: VersionCheckFn;
 versionCheck = (current, last): std<versionStatus> => {
@@ -59,4 +60,12 @@ sourcePresetsStringifier = (presets) => {
   } catch (error) {
     return [new Error(`translation sources's presets stringify failed`), error];
   }
+};
+
+export let templateResultParser: TemplateResultParserFn;
+templateResultParser = (template, result) => {
+  const r: any = template.map((e: parserItem[]) =>
+    e.map((s: parserItem) => result[s] || `[${s}]`));
+
+  return r;
 };

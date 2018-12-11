@@ -15,11 +15,15 @@ declare interface VersionCheckFn {
 }
 
 declare interface SourcePresetsParseFn {
-  (presets: jsonString[]): std<SourcePreset[]>
+  (presets: jsonString[]): std<SourcePreset[]>;
 }
 
 declare interface SourcePresetsStringifyFn {
   (presets: SourcePreset[]): std<jsonString[]>;
+}
+
+declare interface TemplateResultParserFn {
+  (template: parserItem[][], result: TextParserResult): parserItem[][];
 }
 
 /** /apis/browser */
@@ -148,7 +152,7 @@ declare interface SourcePreset {
   } | false;
 
   // parse response result
-  parser: TextParser;
+  parser: TranslationTextParser;
 
   // initial
   fromto?: [Language['code'], Language['code']];
@@ -183,20 +187,25 @@ declare interface AudioQuery extends TextQuery {
   tune?: any;
 }
 
-// object index such as "a.b.c" or Dom selecotr
-declare type selector = string | undefined;
-
-declare interface TextParser {
+declare interface TranslationTextParser extends TextParser {
   phoneticSrc?: selector;
   phoneticDest?: selector;
   translation: selector;
   explain?: selector;
-  [more: string]: selector;
 }
 
-declare type parserItemResult = string;
+// object index such as "a.b.c" or Dom selecotr
+declare type selector = string | string[] | undefined;
+
+declare interface TextParser {
+  [name: string]: selector;
+}
+
+declare type TextParserResult = TextParser;
+
+declare type parserItem = string;
 
 declare interface TemplateConfig {
-  template_popup: parserItemResult[][];
-  template_fap: parserItemResult[][];
+  template_popup: parserItem[][];
+  template_fap: parserItem[][];
 }

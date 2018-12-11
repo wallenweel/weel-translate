@@ -1,14 +1,14 @@
 import Vue, { VueConstructor } from 'vue';
 import Router, { RouterOptions, RouteConfig } from 'vue-router';
-import Translation from '@/views/Translation.vue';
+import TranslationView from '@/views/Translation.vue';
 
 Vue.use(Router);
 
 const routes: RouteConfig[] = [
   {
     path: '/',
-    name: 'translation',
-    component: Translation as VueConstructor,
+    name: 'translation-view',
+    component: TranslationView as VueConstructor,
   },
 ];
 

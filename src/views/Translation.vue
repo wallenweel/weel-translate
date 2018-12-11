@@ -4,21 +4,21 @@
 
     <div class="translation-tool">
       <mdc-button class="_button">Clear</mdc-button>
-      <mdc-fab class="-done" mini icon="done"></mdc-fab>
-      <!-- <mdc-button><mdc-icon icon="done"></mdc-icon></mdc-button> -->
+      <mdc-fab class="-done" icon="done" mini absolute></mdc-fab>
       <mdc-button class="_button">Paste</mdc-button>
+    </div>
+
+    <div class="translation-process">
+      <mdc-linear-progress :progress="progress" :buffer="progress + .05"></mdc-linear-progress>
     </div>
 
     <div class="translation-languages">
       <mdc-button dense>English</mdc-button>
-      <mdc-button dense @click="toggle = !toggle">
-        <mdc-icon-toggle :value="toggle"
-          toggle-off="keyboard_arrow_right"
-          toggle-on="keyboard_arrow_left">
-        </mdc-icon-toggle>
-        <!-- <mdc-icon icon="arrow_right_alt"></mdc-icon> -->
-      </mdc-button>
-      <mdc-button dense>Chinese</mdc-button>
+      <mdc-icon-toggle class="-switch" v-model="toggle" dense primary
+        toggle-off="keyboard_arrow_right"
+        toggle-on="keyboard_arrow_left">
+      </mdc-icon-toggle>
+      <mdc-button dense>Chinese(Simplise)</mdc-button>
     </div>
 
     <div class="translation-result">
@@ -42,44 +42,63 @@ import TranslationInput from '@/components/TranslationInput.vue';
     TranslationInput,
   },
 })
-export default class Translation extends Vue {
+export default class TranslationView extends Vue {
   private toggle = false;
+  private progress = .5;
 }
 </script>
 
 <style lang="scss">
-.translation-tool {
-  margin-top: -48px;
-  display: flex;
-  justify-content: center;
-  margin-bottom: 14px;
-  background: #fff;
-  position: relative;
-  padding: 2px 8px;
-  align-items: center;
+@import 'vue-mdc-adapter/dist/fab/styles';
+@import 'vue-mdc-adapter/dist/card/styles';
+@import 'vue-mdc-adapter/dist/linear-progress/styles';
 
+@mixin _specbtn {
+  width: 100%;
+  white-space: nowrap;
+  text-overflow: ellipsis;
+  overflow: hidden;
+};
+
+.translation-tool {
+  background: #fff;
+  margin: 8px 0;
+  padding: 2px 8px;
+  justify-content: space-evenly;
+  align-items: center;
+  display: flex;
+  position: relative;
   .-done {
+    margin: auto;
     flex-shrink: 0;
+    left: 0;
+    bottom: 0;
+    right: 0;
+    top: 0;
   }
   .mdc-button {
-    width: 100%;
-    white-space: nowrap;
-    overflow: hidden;
-    text-overflow: ellipsis;
-    text-align: left
+    @include _specbtn;
   }
 }
 
 .translation-languages {
   width: 100%;
-  justify-content: center;
+  margin: 8px 0;
+  justify-content: space-evenly;
+  align-items: center;
   display: flex;
-
   button {
+    @include _specbtn;
+
+    font-size: .625em;
     color: var(--mdc-theme-text-hint-on-dark, #ffffff);
-    .mdc-icon-toggle {
-      display: flex;
-    }
+  }
+  .-switch {
+    height: 32px;
+    width: 32px;
+    margin: 0 4px;
+    flex-shrink: 0;
+    display: flex;
   }
 }
 

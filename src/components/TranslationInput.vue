@@ -1,11 +1,8 @@
 <template>
   <div class="translation-input">
-    <mdc-textfield class="-textfield"
+    <mdc-textfield class="-textfield" v-model="text"
       multiline
-      rows="0" cols="0"
-      v-model="text"
-      label="Hint text">
-      </mdc-textfield>
+      label="Hint text" rows="0" cols="0" />
   </div>
 </template>
 
@@ -28,8 +25,8 @@ export default class TranslationInput extends Vue {
 
   .-textfield {
     background-color: var(--mdc-theme-primary, #6200ee);
-    padding-bottom: 42px;
     width: 100%;
+    // padding-bottom: 42px;
     & > .mdc-text-field {
       width: inherit;
       margin-top: 0;
@@ -43,9 +40,9 @@ export default class TranslationInput extends Vue {
       }
 
       .mdc-text-field__input {
-        height: 6em;
+        height: 4em;
         max-height: 16em;
-        min-height: 4em;
+        min-height: 2em;
         width: 100%;
         max-width: 100%;
         min-width: calc(100% - 32px);

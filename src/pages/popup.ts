@@ -1,4 +1,4 @@
-import Vue from 'vue';
+import Vue, { VueConstructor } from 'vue';
 import VueMDCAdapter from 'vue-mdc-adapter';
 import App from './Popup.vue';
 import router from '@/routers/popup';
@@ -16,6 +16,6 @@ Vue.use(VueMDCAdapter);
 new Vue({
   router,
   store,
-  render: (h) => h(App),
+  render: (h) => h(App as VueConstructor),
 }).$mount('#app');
 

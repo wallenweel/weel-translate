@@ -12,15 +12,20 @@
 
 <script lang="ts">
 import { Component, Vue } from 'vue-property-decorator';
+import { templateResultParser } from '@/functions';
 
 @Component
 export default class TranslationResult extends Vue {
-  private template: parserItem[][] = [
+  private template: parserItem[] = [
     ['translation'],
   ];
   private result: TextParser = {
     translation: `Lorem ipsum dolor sit amet consectetur, adipisicing elit.`,
   };
+
+  private get parsedResult() {
+    return templateResultParser(this.template, this.result);
+  }
 }
 </script>
 

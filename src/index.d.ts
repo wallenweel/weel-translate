@@ -23,7 +23,7 @@ declare interface SourcePresetsStringifyFn {
 }
 
 declare interface TemplateResultParserFn {
-  (template: parserItem[][], result: TextParserResult): parserItem[][];
+  (template: parserItem[], result: TextParserResult): parserItem[];
 }
 
 /** /apis/browser */
@@ -203,9 +203,9 @@ declare interface TextParser {
 
 declare type TextParserResult = TextParser;
 
-declare type parserItem = string;
+declare type parserItem = string[] | [];
 
 declare interface TemplateConfig {
-  template_popup: parserItem[][];
-  template_fap: parserItem[][];
+  template_popup: parserItem[];
+  template_fap: parserItem[];
 }

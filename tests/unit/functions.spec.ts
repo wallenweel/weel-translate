@@ -49,7 +49,7 @@ describe('functions/templateResultParser', () => {
   it(`return template that has real result`, () => {
     const fn = templateResultParser;
     const [mockT, mockR] = [
-      [['key1', 'key3'], ['key2']],
+      [['key1', 'key3'], ['key2'], [], ['key3']],
       { key1: '1', key2: '2', key3: ['3', '03']},
     ];
     const result = fn(mockT, mockR);

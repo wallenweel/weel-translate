@@ -64,8 +64,14 @@ sourcePresetsStringifier = (presets) => {
 
 export let templateResultParser: TemplateResultParserFn;
 templateResultParser = (template, result) => {
-  const r: any = template.map((e: parserItem[]) =>
-    e.map((s: parserItem) => result[s] || `[${s}]`));
+  const r: any = template.map((e: parserItem) => {
+    if (!e.length) { return e; }
+
+    const a = [];
+    for (const k of e) { a.push(result[k]); }
+
+    return a;
+  });
 
   return r;
 };

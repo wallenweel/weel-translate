@@ -68,7 +68,19 @@ templateResultParser = (template, result) => {
     if (!e.length) { return e; }
 
     const a = [];
-    for (const k of e) { a.push(result[k]); }
+    for (const k of e) {
+      const value = k.replace(/<(.+)>(.+)<(.+)>/,
+      ($, a, b, c) => {
+        return a + result[b] + c;
+      });
+      if (value === k) {
+        a.push(result[k] || k);
+      } else {
+        a.push(value);
+      }
+
+      // a.push(result[k] || k);
+    }
 
     return a;
   });

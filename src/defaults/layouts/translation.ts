@@ -4,10 +4,10 @@ export const popup: layoutPreset = {
   title: 'Default For Popup',
   description: 'default translation result template in popup page.',
   rows: [
-    ['<voice-src>', '`', '{{phonetic_src}}', '`'],
-    ['<voice-dest>', '`', '{{phonetic_dest}}', '`'],
-    ['{{translation}}'],
-    ['{{explain}}'],
+    ['<voice-src>', '`', '{phonetic_src}', '`'],
+    ['<voice-dest>', '`', '{phonetic_dest}', '`'],
+    ['{translation}'],
+    ['{explain}'],
   ],
 };
 

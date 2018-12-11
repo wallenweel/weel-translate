@@ -1,5 +1,13 @@
 import * as types from '../types';
-import debug from './debug';
+
+export const plainCopy = (target: any): std<any> => {
+  try {
+    const copy = JSON.parse(JSON.stringify(target));
+    return [null, copy];
+  } catch (error) {
+    return [new Error(error)];
+  }
+};
 
 export let versionCheck: VersionCheckFn;
 versionCheck = (current, last): std<versionStatus> => {
@@ -60,4 +68,25 @@ presetsStringifier = (presets) => {
   } catch (error) {
     return [new Error(`translation sources's presets stringify failed`), error];
   }
+};
+
+export let translationResultParser: TranslationResultParseFn;
+translationResultParser = (response, preset) => {
+  return [null];
+};
+
+export let templateLayoutParser: TemplateLayoutParseFn;
+templateLayoutParser = (result, preset, copy = false) => {
+  const rows = !copy ? preset : plainCopy(preset)[1];
+
+  for (let i = 0; i < rows.length; i++) {
+    const row = rows[i];
+
+    rows[i] = row.map((e: string) => {
+      return e.replace(/{(.+)}/,
+        (_, $1) => result[$1] as string);
+    });
+  }
+
+  return [null, rows];
 };

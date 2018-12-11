@@ -1,46 +1,38 @@
 <template>
   <div class="translation-result">
-    <mdc-card class="-section" v-for="(section, i) in parsedResult" :key="i">
-      <div class="__row" v-for="(value, key) in section" :key="key">
-        <span :v="value" v-if="!isValue(value)">{{ value }}</span>
-        <mdc-card-text class="-text" v-if="isValue(value)">{{ value }}</mdc-card-text>
-      </div>
+    <mdc-card :class="`_section--${layout.id}`">
+      <mdc-card-text v-for="(row, n) in this.parsedRows" :key="n"
+        :class="`_row--${n}`">
+        <span v-for="(value, i) in row" :key="i"
+          :class="`_span--${i}`">{{value}}</span>
+      </mdc-card-text>
     </mdc-card>
   </div>
 </template>
 
 <script lang="ts">
 import { Component, Vue } from 'vue-property-decorator';
-import { templatePresetParser } from '@/functions';
-import { popup as popupTemplate } from '@/defaults/templates';
+import { templateLayoutParser } from '@/functions';
+import { popup as popupLayout } from '@/defaults/layouts/translation';
+import debug from '@/functions/debug';
 
 @Component
 export default class TranslationResult extends Vue {
-  private template: templatePreset = popupTemplate;
-  private result: TextParser = {
-    phonetic: 'fəˈnetik',
-    translation: `Lorem ipsum dolor sit amet consectetur, adipisicing elit.`,
+  private layout: templatePreset = popupLayout;
+  private result: SourcePreset['parser'] = {
+    phonetic_src: 'transˈlāSHən',
+    phonetic_dest: 'Fan Yi',
+    translation: '翻译',
+    explain: `Lorem ipsum dolor sit amet consectetur, adipisicing elit.`,
   };
 
   private created() {
-    // tslint:disable-next-line:no-console
-    console.log(this.parsedResult);
+    debug.log(this.parsedRows);
   }
 
-  private get parsedResult(): string[][] {
-    const out: any[] = [];
-    // const origin = templatePresetParser(this.template, this.result);
-
-    // let n: number = 0;
-    // for (const item of origin) {
-    //   if (!item.length) { n++; continue; }
-
-    //   if (typeof out[n] === 'undefined') { out[n] = []; }
-
-    //   out[n].push(...item);
-    // }
-
-    return out;
+  private get parsedRows(): templatePreset['rows'] {
+    const [, rows] = templateLayoutParser(this.result, this.layout.rows);
+    return rows!;
   }
 
   private isValue(value: string): boolean {

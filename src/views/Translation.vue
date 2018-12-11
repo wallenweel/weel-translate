@@ -18,7 +18,7 @@
         toggle-off="keyboard_arrow_right"
         toggle-on="keyboard_arrow_left">
       </mdc-icon-toggle>
-      <mdc-button dense>Chinese(Simplise)</mdc-button>
+      <mdc-button dense>中文（简体）</mdc-button>
     </div>
 
     <translation-result></translation-result>

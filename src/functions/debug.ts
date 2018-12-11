@@ -2,10 +2,11 @@ export const isDebug: boolean = RUNTIME_ENV === 'development';
 export const debugTag: string = 'weel-translate-x';
 
 export default (() => {
+  const style = `font-family:sans-serif;display:inline-block;padding-bottom:.5px;`;
   const tag: string[] = [
-    `%c ${debugTag} %c debug `,
-    'border-radius:2px 0 0 2px;background:#505057;color:#f7f7f7;',
-    'border-radius:0 2px 2px 0;background:#4f3896;color:#7f7fff;',
+    `%c  ${debugTag}  %c  Debug  `,
+    `${style}border-radius:3px 0 0 3px;background:#6200ee;color:#f7f7f7;`,
+    `${style}border-radius:0 3px 3px 0;background:#505050;color:#9f9f9f;font-style:italic;`,
   ];
 
   let mock: { [type: string]: (...args: any[]) => void };

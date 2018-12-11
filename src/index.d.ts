@@ -10,6 +10,7 @@ declare type versionUpdate = 'VERSION_UPDATED';
 declare type versionSame = 'VERSION_SAME';
 declare type versionOutdated = 'VERSION_OUTDATED';
 declare type versionStatus = versionFresh | versionUpdate | versionSame | versionOutdated;
+
 declare interface VersionCheckFn {
   (current: string, last: string | undefined): std<versionStatus>;
 }
@@ -25,6 +26,16 @@ declare interface PresetsParseFn {
 
 declare interface PresetsStringifyFn {
   (presets: Preset[]): std<jsonString[]>;
+}
+
+declare interface TranslationResultParseFn {
+  (response: any, preset: SourcePreset['parser'],
+    copy?: boolean): std<SourcePreset['parser']>;
+}
+
+declare interface TemplateLayoutParseFn {
+  (result: SourcePreset['parser'], preset: layoutPreset['rows'],
+    copy?: boolean): std<layoutPreset['rows']>;
 }
 
 /** /apis/browser */
@@ -132,7 +143,7 @@ declare type sourceId = string;
 
 declare type SourcePresetItem = {
   readonly id: sourceId;
-  readonly name: string; // display name
+  readonly name?: string; // display name
 };
 
 declare interface SourcePreset extends SourcePresetItem {
@@ -151,7 +162,9 @@ declare interface SourcePreset extends SourcePresetItem {
   } | false;
 
   // parse response result
-  parser: TranslationTextParser;
+  parser: {
+    [name: string]: selector;
+  };
 
   // initial
   fromto?: [Language['code'], Language['code']];
@@ -186,21 +199,8 @@ declare interface AudioQuery extends TextQuery {
   tune?: any;
 }
 
-declare interface TranslationTextParser extends TextParser {
-  phoneticSrc?: selector;
-  phoneticDest?: selector;
-  translation: selector;
-  explain?: selector;
-}
-
 // object index such as "a.b.c" or Dom selecotr
 declare type selector = string | string[] | undefined;
-
-declare interface TextParser {
-  [name: string]: selector;
-}
-
-declare type TextParserResult = TextParser;
 
 // config/template part
 declare type templatePreset = layoutPreset;
@@ -212,7 +212,7 @@ declare interface LayoutPresetItem {
   // check has or not existed "keys" in result. such as
   // test ['phonetic', 'translation'] in result { phonetic: '...', translation: '...' } is true
   test: string[],
-  title: string;
+  title?: string;
 }
 
 declare interface layoutPreset extends LayoutPresetItem {

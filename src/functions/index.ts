@@ -1,4 +1,5 @@
 import * as types from '../types';
+import debug from './debug';
 
 export const plainCopy = (target: any): std<any> => {
   try {
@@ -7,6 +8,20 @@ export const plainCopy = (target: any): std<any> => {
   } catch (error) {
     return [new Error(error)];
   }
+};
+
+export const paramsParser = (target: string): std => {
+  const [host, paramsString] = target.split('?');
+
+  if (!paramsString) {
+    return ['has not valid params string', host];
+  }
+
+  const params: { [name: string]: any } = paramsString
+    .split('&').reduce((p, c) => !!((o) =>
+      Object.assign(p, { [o[0]]: o[1] || true }))(c.split('=')) && p, {});
+
+  return [null, params, host];
 };
 
 export let versionCheck: VersionCheckFn;
@@ -76,17 +91,15 @@ translationResultParser = (response, preset) => {
 };
 
 export let templateLayoutParser: TemplateLayoutParseFn;
-templateLayoutParser = (result, preset, copy = false) => {
-  const rows = !copy ? preset : plainCopy(preset)[1];
+templateLayoutParser = (result, preset, copy = true) => {
+  const rows = copy ? [...preset] : preset;
 
   for (let i = 0; i < rows.length; i++) {
     const row = rows[i];
 
-    rows[i] = row.map((e: string) => {
-      return e.replace(/{(.+)}/,
-        (_, $1) => result[$1] as string);
-    });
+    rows[i] = row.map((e: string) =>
+      e.replace(/{(.+)}/, (_, $1) => result[$1] as string));
   }
 
-  return [null, rows];
+  return [null, rows, rows];
 };

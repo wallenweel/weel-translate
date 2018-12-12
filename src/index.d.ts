@@ -2,7 +2,7 @@ declare type messageText = string;
 
 declare type jsonString = string;
 
-declare type std<T = any> = [Error | null | true | messageText, T?];
+declare type std<T = any> = [Error | null | true | messageText, T?, any?];
 
 /** /funtions */
 declare type versionFresh = 'VERSION_FRESH';

@@ -23,7 +23,7 @@ export default class PopupDrawer extends Vue {
 </script>
 
 <style lang="scss">
-@import 'vue-mdc-adapter/dist/drawer/styles';
+// @import 'vue-mdc-adapter/dist/drawer/styles';
 
 // .popup-drawer {
 //   .mdc-drawer-list {

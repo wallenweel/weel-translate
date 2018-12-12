@@ -16,12 +16,12 @@
     "webext:firefox": "web-ext run -s=dist/firefox --start-url about:debugging#addons"
   },
   "dependencies": {
-    "material-components-web": "^0.35.0",
+    "material-components-web": "^0.42.0",
     "material-design-icons-iconfont": "^4.0.3",
     "normalize.css": "^8.0.1",
-    "vue": "^2.5.17",
+    "vue": "^2.5.21",
     "vue-class-component": "^6.0.0",
-    "vue-mdc-adapter": "^0.15.0",
+    "vue-mdc-adapter": "^0.18.2",
     "vue-property-decorator": "^7.0.0",
     "vue-router": "^3.0.1",
     "vuex": "^3.0.1"
@@ -32,16 +32,16 @@
     "@vue/cli-plugin-typescript": "^3.2.0",
     "@vue/cli-plugin-unit-jest": "^3.2.0",
     "@vue/cli-service": "^3.2.0",
-    "@vue/test-utils": "^1.0.0-beta.20",
+    "@vue/test-utils": "^1.0.0-beta.27",
     "babel-core": "7.0.0-bridge.0",
     "cross-env": "^5.2.0",
     "generate-json-webpack-plugin": "^0.3.1",
     "node-sass": "^4.9.0",
     "sass-loader": "^7.0.1",
     "ts-jest": "^23.0.0",
-    "typescript": "^3.0.0",
+    "typescript": "^3.2.2",
     "vue-cli-plugin-material": "^0.2.2",
-    "vue-template-compiler": "^2.5.17",
+    "vue-template-compiler": "^2.5.21",
     "web-ext": "^2.9.2"
   },
   "license": "MIT"

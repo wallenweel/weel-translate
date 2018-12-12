@@ -6,9 +6,8 @@ const {
 const manifest = runtime.getManifest();
 
 export default {
-  origin: browser as object,
+  origin: browser,
   manifest,
   storage,
   runtime,
-  // get storage(): object { return browser.storage; },
 } as Browser;

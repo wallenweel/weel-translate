@@ -15,6 +15,7 @@ import { Component, Vue } from 'vue-property-decorator';
 import { templateLayoutParser } from '@/functions';
 import { popup as popupLayout } from '@/defaults/layouts/translation';
 import debug from '@/functions/debug';
+import defaultConfig from '@/defaults/config';
 
 @Component
 export default class TranslationResult extends Vue {
@@ -27,7 +28,7 @@ export default class TranslationResult extends Vue {
   };
 
   private created() {
-    debug.log(this.parsedRows);
+    debug.log(defaultConfig);
   }
 
   private get parsedRows(): templatePreset['rows'] {

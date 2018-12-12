@@ -43,14 +43,14 @@ declare interface Browser {
   // browser's original global object
   readonly origin?: any;
 
-  readonly runtime: Runtime;
-  readonly storage: Storage;
+  readonly runtime: BrowserRuntime;
+  readonly storage: BrowserStorage;
   readonly [name: string]: any;
 }
 
 declare type version = string; // like 0.0.0
 
-declare interface Runtime {
+declare interface BrowserRuntime {
   onMessage: {
     // send a response asynchronously, `return true;` in the listener
     addListener(listener: listenerHandler): void;
@@ -64,9 +64,10 @@ declare type storageType = 'local' | 'sync' | 'managed';
 
 declare type storageKeys = null | string | object | string[];
 
-declare interface Storage {
+declare interface BrowserStorage {
   readonly local: StorageAreaMethods;
   readonly sync: StorageAreaMethods;
+  [area: string]: StorageAreaMethods;
 }
 
 declare interface StorageAreaMethods {
@@ -221,6 +222,12 @@ declare interface layoutPreset extends LayoutPresetItem {
 }
 
 declare interface TemplateConfig {
+  // template_enabled_crawlers: {
+  //   [crawlerId: string]: LayoutPresetItem;
+  // },
+  template_enabled_sources: {
+    [sourceId: string]: [LayoutPresetItem, LayoutPresetItem];
+  };
   template_enabled_layouts: LayoutPresetItem[];
   template_layouts: jsonString[];
 }

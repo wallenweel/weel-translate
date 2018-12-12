@@ -20,13 +20,13 @@ const mutations: MutationTree<State> = {
 };
 
 const actions: ActionTree<State, RootState> = {
-  query: async (_, keys?: storageKeys, type?: storageType): Promise<std<DefaultConfig>> => {
+  query: async (_, keys?: storageKeys, type?: storageType): Promise<std<any>> => {
     const config = await apiStorage[type || 'local'].get(keys || null);
 
     return [null, config];
   },
 
-  update: async ({ state, commit }, config: DefaultConfig): Promise<std> => {
+  update: async ({ commit }, config: DefaultConfig): Promise<std> => {
     if (!Object.keys(config).length) {
       return [true, 'empty config'];
     }
@@ -38,7 +38,7 @@ const actions: ActionTree<State, RootState> = {
     return [null, result];
   },
 
-  reset: async ({ state, dispatch, commit }): Promise<std> => {
+  reset: async ({ dispatch, commit }): Promise<std> => {
     commit('clear');
 
     const [error] = await dispatch('update', defaultConfig);

@@ -4,7 +4,7 @@
   "private": true,
   "author": "wallen <wallen_weel@outlook.com>",
   "scripts": {
-    "serve": "vue-cli-service serve",
+    "serve": "TARGET_BROWSER=web vue-cli-service serve",
     "build": "vue-cli-service build --no-unsafe-inline",
     "lint": "vue-cli-service lint",
     "build:chrome": "TARGET_BROWSER=chrome yarn build",

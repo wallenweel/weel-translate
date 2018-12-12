@@ -37,6 +37,7 @@ $mdc-typography-font-family: "Roboto Mono", "Microsoft Yahei", "sans-serif", mon
 @import 'vue-mdc-adapter/dist/icon/styles';
 @import 'vue-mdc-adapter/dist/icon-toggle/styles';
 @import 'vue-mdc-adapter/dist/button/styles';
+@import 'vue-mdc-adapter/dist/chips/styles';
 
 // Then, import required files
 @import "@material/typography/mixins";

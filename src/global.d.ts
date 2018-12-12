@@ -1,5 +1,6 @@
 declare module 'vue-property-decorator'
 declare module 'vue-mdc-adapter'
+declare module '*.png';
 
 //~ target browser flag for building extension
 //~ defined in "/vue.config.js"

@@ -1,5 +1,5 @@
 <template>
-  <div class="view_translation">
+  <div class="view-translation">
     <translation-input></translation-input>
 
     <div class="translation-tool">
@@ -21,7 +21,7 @@
       <mdc-button dense>中文（简体）</mdc-button>
     </div>
 
-    <translation-result></translation-result>
+    <translation-result class="-result"></translation-result>
   </div>
 </template>
 
@@ -54,6 +54,15 @@ export default class TranslationView extends Vue {
   overflow: hidden;
 };
 
+.view-translation {
+  padding-bottom: 48px;
+  .-result {
+    ._section {
+      border-radius: 8px 24px;
+    }
+  }
+}
+
 .translation-tool {
   background: #fff;
   margin: 8px 0;
@@ -69,6 +78,7 @@ export default class TranslationView extends Vue {
     bottom: 0;
     right: 0;
     top: 0;
+    z-index: 1;
   }
   .mdc-button {
     @include _specbtn;

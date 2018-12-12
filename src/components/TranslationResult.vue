@@ -43,7 +43,6 @@ export default class TranslationResult extends Vue {
   };
 
   private get parseRows(): templatePreset['rows'] {
-    debug.log(this.layout.rows);
     const [, rows] = templateLayoutParser(this.result, this.layout.rows);
     return rows!;
   }
@@ -64,7 +63,6 @@ export default class TranslationResult extends Vue {
   private isAction(value: string, name?: string): boolean {
     const action: null | any = this.parseAction(value);
 
-    debug.log(action);
     if (!action || !name) { return false; }
 
     return action.name === name;

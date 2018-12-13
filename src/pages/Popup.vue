@@ -42,6 +42,11 @@ $mdc-typography-font-family: "Roboto Mono", "Microsoft Yahei", "sans-serif", mon
 @import '~vue-mdc-adapter/dist/button/button.min.css';
 @import '~vue-mdc-adapter/dist/chips/chips.min.css';
 
+html {
+  height: 420px;
+  width: 280px;
+}
+
 body {
   @include mdc-typography(body2);
 

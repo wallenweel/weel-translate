@@ -17,6 +17,11 @@ export const browserShim: Browser = {
     local: storageAreaMethods,
     sync: storageAreaMethods,
   },
+  // i18n: {
+  //   getMessage: (name, substitions) => {
+  //     return '';
+  //   },
+  // },
 };
 
 if (TARGET_BROWSER === 'web') {

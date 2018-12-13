@@ -1,6 +1,8 @@
 declare module 'vue-property-decorator'
 declare module 'vue-mdc-adapter'
 declare module 'vue-mdc-adapter/*'
+declare module 'vue-perfect-scrollbar'
+
 declare module '*.png';
 
 //~ target browser flag for building extension

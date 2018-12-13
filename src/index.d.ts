@@ -45,6 +45,8 @@ declare interface Browser {
 
   readonly runtime: BrowserRuntime;
   readonly storage: BrowserStorage;
+  // readonly i18n: BrowserI18n;
+
   readonly [name: string]: any;
 }
 
@@ -83,6 +85,12 @@ declare interface MessageSender {
   id?: string;
   url?: string;
   tlsChannelId?: string;
+}
+
+declare interface BrowserI18n {
+  readonly getMessage: {
+    (messageName: string, substitutions?: string | string[]): string;
+  };
 }
 
 /** /defaults */

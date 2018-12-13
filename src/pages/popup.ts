@@ -1,14 +1,14 @@
+import 'material-design-icons-iconfont/dist/material-design-icons.css';
+
 import Vue, { VueConstructor } from 'vue';
+
+Vue.config.productionTip = false;
 
 import VueMDCAdapter from 'vue-mdc-adapter';
 Vue.use(VueMDCAdapter);
 
 import MdcAdapterPatch from '@/plugins/mdc-adapter-patch';
 Vue.use(MdcAdapterPatch);
-
-import 'material-design-icons-iconfont/dist/material-design-icons.css';
-
-Vue.config.productionTip = false;
 
 import router from '@/routers/popup';
 import store from '@/stores/popup';

@@ -1,9 +1,9 @@
 import Vue, { VueConstructor } from 'vue';
 import Router, { RouterOptions, RouteConfig } from 'vue-router';
+Vue.use(Router);
+
 import TranslationView from '@/views/Translation.vue';
 import SettingsView from '@/views/Settings.vue';
-
-Vue.use(Router);
 
 const routes: RouteConfig[] = [
   {
@@ -14,13 +14,13 @@ const routes: RouteConfig[] = [
     path: '/translation',
     name: 'translation',
     component: TranslationView as VueConstructor,
-    meta: { title: 'Translate' },
+    meta: { locale: 'translate' },
   },
   {
     path: '/settings',
     name: 'settings',
     component: SettingsView as VueConstructor,
-    meta: { title: 'Settings' },
+    meta: { locale: 'settings' },
   },
 ];
 

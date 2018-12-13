@@ -3,7 +3,7 @@
     <mdc-toolbar-row>
       <mdc-toolbar-section align-start>
         <mdc-toolbar-menu-icon event="toggle-drawer"></mdc-toolbar-menu-icon>
-        <mdc-toolbar-title>{{ title }}</mdc-toolbar-title>
+        <mdc-toolbar-title>{{ $t(title) }}</mdc-toolbar-title>
 
         <mdc-chip-set class="-source">
           <mdc-chip>{{ sourceName }}</mdc-chip>
@@ -23,17 +23,14 @@ export default class PopupToolbar extends Vue {
   private sourceName = 'Google';
 
   private created() {
-    this.title = this.$route.meta.title;
-  }
+    const { title, locale } = this.$route.meta;
 
-  private beforeRouteEnter(to: any, from: any, next: any) {
-    debug.log(to, from);
-    next();
+    this.title = title || locale;
   }
 
   @Watch('$route.meta')
-  private onViewChanged(val: any, old: any) {
-    this.title = val.title;
+  private onViewChanged({ title, locale }: any) {
+    this.title = title || locale;
   }
 }
 </script>

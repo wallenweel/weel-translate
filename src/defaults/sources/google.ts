@@ -1,10 +1,11 @@
 export default {
   id: 'google_com',
   name: 'Google',
-  url: 'https://translate.google.com',
+  url: 'https://translate.google.cn',
+  method: 'get',
   query: {
     text: {
-      method: 'GET',
+      method: '{{method}}',
       url: '{{url}}/translate_a/single',
       params: {
         q: '{{q}}',
@@ -20,7 +21,7 @@ export default {
       },
     },
     audio: {
-      method: 'GET',
+      method: '{{method}}',
       url: '{{url}}/translate_a/translate_tts',
       params: {
         q: '{{q}}',

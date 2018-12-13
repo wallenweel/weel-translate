@@ -9,7 +9,10 @@
     </div>
 
     <div class="translation-process">
-      <mdc-linear-progress :progress="progress" :buffer="progress + .05"></mdc-linear-progress>
+      <mdc-linear-progress
+        :progress="progress"
+        :buffer="progress + .05 >= 1 ? 1 : progress + .05">
+      </mdc-linear-progress>
     </div>
 
     <div class="translation-languages">
@@ -39,7 +42,7 @@ import debug from '@/functions/debug';
 })
 export default class TranslationView extends Vue {
   private toggle: boolean = false;
-  private progress: number = .5;
+  private progress: number = .76;
 }
 </script>
 

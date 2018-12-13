@@ -70,6 +70,7 @@ $mdc-typography-font-family: "Roboto Mono", "Microsoft Yahei", "sans-serif", mon
 html {
   height: 420px;
   width: 280px;
+  overflow: hidden;
 }
 
 body {

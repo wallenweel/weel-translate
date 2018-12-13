@@ -2,6 +2,7 @@ declare type messageText = string;
 
 declare type jsonString = string;
 
+// standard return
 declare type std<T = any> = [Error | null | true | messageText, T?, any?];
 
 /** /funtions */
@@ -36,6 +37,20 @@ declare interface TranslationResultParseFn {
 declare interface TemplateLayoutParseFn {
   (result: SourcePreset['parser'], preset: layoutPreset['rows'],
     copy?: boolean): std<layoutPreset['rows']>;
+}
+
+/** /apis/request */
+declare type apiResponse = any;
+
+declare type apiRequestType = 'text' | 'audio' | 'web';
+
+declare type apiRequestParams = {
+  [key: string]: string;
+};
+
+declare interface ApiRequest {
+  (sourcePreset: SourcePreset, type?: apiRequestType):
+    (params: apiRequestParams) => Promise<std<apiResponse>>;
 }
 
 /** /apis/browser */
@@ -162,6 +177,8 @@ declare interface SourcePreset extends SourcePresetItem {
   // query.<type>.url can override this
   url: string;
 
+  method?: 'get' | 'post' | string;
+
   // translation request
   // if false, use xhr or fetch by "url" and
   // parser's selectors as Dom selector
@@ -197,7 +214,7 @@ declare interface Language {
 }
 
 declare interface TextQuery {
-  method: 'GET' | 'POST' | string;
+  method: 'get' | 'post' | string;
   url: string;
   params: string | {
     [param: string]: string | string[];

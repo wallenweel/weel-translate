@@ -16,6 +16,7 @@
     "webext:firefox": "web-ext run -s=dist/firefox --start-url about:debugging#addons"
   },
   "dependencies": {
+    "axios": "^0.18.0",
     "material-components-web": "^0.42.0",
     "material-design-icons-iconfont": "^4.0.3",
     "normalize.css": "^8.0.1",

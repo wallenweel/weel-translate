@@ -3,6 +3,18 @@ import browser from '@/apis/browser';
 import debug from '@/functions/debug';
 import { ipcActions } from '@/stores/background/actions';
 
+// import request from '@/apis/request';
+// import google from '@/defaults/sources/google';
+// (async () => {
+//   const translationRequest = request(google);
+//   const response = await translationRequest({
+//     q: 'translation',
+//     from: 'auto',
+//     to: 'zh-cn',
+//   });
+//   debug.log(response);
+// })();
+
 const { runtime } = browser;
 const { dispatch } = store;
 

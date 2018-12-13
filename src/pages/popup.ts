@@ -12,12 +12,14 @@ Vue.use(MdcAdapterPatch);
 
 import router from '@/routers/popup';
 import store from '@/stores/popup';
+import i18n from '@/i18n';
 
 import App from './Popup.vue';
 
 new Vue({
   router,
   store,
+  i18n,
   render: (h) => h(App as VueConstructor),
 }).$mount('#app');
 

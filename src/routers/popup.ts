@@ -14,11 +14,13 @@ const routes: RouteConfig[] = [
     path: '/translation',
     name: 'translation',
     component: TranslationView as VueConstructor,
+    meta: { title: 'Translate' },
   },
   {
     path: '/settings',
     name: 'settings',
     component: SettingsView as VueConstructor,
+    meta: { title: 'Settings' },
   },
 ];
 

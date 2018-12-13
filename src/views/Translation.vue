@@ -29,6 +29,7 @@
 import { Component, Vue } from 'vue-property-decorator';
 import TranslationInput from '@/components/TranslationInput.vue';
 import TranslationResult from '@/components/TranslationResult.vue';
+import debug from '@/functions/debug';
 
 @Component({
   components: {

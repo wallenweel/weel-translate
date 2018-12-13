@@ -10,6 +10,9 @@ Vue.use(VueMDCAdapter);
 import MdcAdapterPatch from '@/plugins/mdc-adapter-patch';
 Vue.use(MdcAdapterPatch);
 
+import Scrollbar from '@/plugins/scrollbar';
+Vue.use(Scrollbar);
+
 import router from '@/routers/popup';
 import store from '@/stores/popup';
 import i18n from '@/i18n';

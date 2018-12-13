@@ -1,5 +1,5 @@
 <template>
-  <mdc-toolbar class="popup-toolbar" slot="toolbar" waterfall>
+  <mdc-toolbar class="popup-toolbar" slot="toolbar" waterfall ref="wrap">
     <mdc-toolbar-row>
       <mdc-toolbar-section align-start>
         <mdc-toolbar-menu-icon event="toggle-drawer"></mdc-toolbar-menu-icon>
@@ -14,7 +14,7 @@
 </template>
 
 <script lang="ts">
-import { Component, Watch, Vue } from 'vue-property-decorator';
+import { Component, Prop, Watch, Vue } from 'vue-property-decorator';
 import debug from '@/functions/debug';
 
 @Component
@@ -22,10 +22,29 @@ export default class PopupToolbar extends Vue {
   private title = '';
   private sourceName = 'Google';
 
+  @Prop(Boolean)
+  private raised?: boolean;
+
   private created() {
     const { title, locale } = this.$route.meta;
 
     this.title = title || locale;
+  }
+
+  @Watch('raised')
+  private onScrollReachStart(val: boolean, old: boolean) {
+    const [max, min, cls] = [
+      'mdc-toolbar--flexible-space-maximized',
+      'mdc-toolbar--flexible-space-minimized',
+      this.$refs.wrap.$el.firstChild.classList,
+    ];
+    if (val) {
+      cls.remove(max);
+      cls.add(min);
+    } else {
+      cls.remove(min);
+      cls.add(max);
+    }
   }
 
   @Watch('$route.meta')

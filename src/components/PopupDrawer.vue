@@ -34,7 +34,6 @@ export default class PopupDrawer extends Vue {
     { icon: 'history', title: 'History', to: '/history' },
     { icon: 'style', title: 'Presets', to: '/presets' },
     { icon: 'settings', title: 'Settings', to: '/settings' },
-    { icon: 'extension', title: 'Advance Options', to: '/options' },
   ];
 }
 </script>

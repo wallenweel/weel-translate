@@ -23,7 +23,7 @@ export default class PopupToolbar extends Vue {
 </script>
 
 <style lang="scss">
-@import 'vue-mdc-adapter/dist/toolbar/styles';
+@import '~vue-mdc-adapter/dist/toolbar/toolbar.min.css';
 
 .popup-toolbar {
   .-source {

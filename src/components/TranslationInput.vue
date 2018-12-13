@@ -16,7 +16,7 @@ export default class TranslationInput extends Vue {
 </script>
 
 <style lang="scss">
-// @import 'vue-mdc-adapter/dist/textfield/styles';
+@import '~vue-mdc-adapter/dist/textfield/textfield.min.css';
 
 .translation-input {
   max-width: 100vw;

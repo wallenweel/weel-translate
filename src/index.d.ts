@@ -185,11 +185,13 @@ declare type SourcePresetItem = {
 
 declare interface SourcePreset extends SourcePresetItem {
   // extends a full preset, by source's id
+  // must be set in children preset
   readonly extends?: sourceId;
 
   // query.<type>.url can override this
   url: string;
 
+  // request method
   method?: 'get' | 'post' | string;
 
   // translation request
@@ -201,17 +203,20 @@ declare interface SourcePreset extends SourcePresetItem {
   } | false;
 
   // parse response result
-  parser: {
+  // must be set in parent preset, optional in children
+  // preset which has extends
+  parser?: {
     [name: string]: selector;
   };
 
-  // initial
+  // initial translating direction
   fromto?: [Language['code'], Language['code']];
 
   // support modify by symbol ":>"
   // such as "['auto:>AUTO', 'zh-cn:>zh-CHS']"
   modify?: string[];
 
+  // just include necessary languages
   // if not exist, load all of languages
   include?: Array<Language['code']>;
 

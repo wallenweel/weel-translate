@@ -170,7 +170,7 @@ templateLayoutParser = (result, preset, copy = true) => {
     const row = rows[i];
 
     rows[i] = row.map((e: string) =>
-      e.replace(/{(.+)}/, (_, $1) => result[$1] as string));
+      e.replace(/{(.+)}/, (_, $1) => result![$1] as string));
   }
 
   return [null, rows, rows];

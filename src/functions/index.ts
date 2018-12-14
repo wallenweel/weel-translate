@@ -2,8 +2,25 @@ import * as types from '../types';
 import debug from './debug';
 
 export let istype: IsType;
-istype = (target, type) => Object.prototype.toString.call(target)
-  .match(/\[object\s(.+)\]/)![1].toLowerCase() === type;
+istype = (target, type) => {
+  let types: string[] = [];
+
+  if (typeof type === 'string') {
+    types = [type];
+  } else {
+    types = [...type];
+  }
+
+  if (!types.length) { return false; }
+
+  for (const t of types as string[]) {
+    const ck = Object.prototype.toString.call(target)
+      .match(/\[object\s(.+)\]/)![1].toLowerCase() === t;
+    if (ck) { return ck; }
+  }
+
+  return false;
+};
 
 export const plainCopy = (target: any): std<any> => {
   try {
@@ -16,16 +33,12 @@ export const plainCopy = (target: any): std<any> => {
 
 // parse params string to params object
 // such as: 'host?a&b=b&c=c' => { a: true, b: 'b', c: 'c' }
-export let stringParamsParaser: StringParamsParser;
+export let stringParamsParaser: StringParamsParseFn;
 stringParamsParaser = (target) => {
   if (istype(target, 'string')) {
-    const [host, paramsString] = target.split('?');
+    const [host, paramsString] = (target as string).split('?');
 
-    if (!paramsString) {
-      return ['has not valid params string', host];
-    }
-
-    const params: { [name: string]: any } = paramsString
+    const params: { [name: string]: any } = (paramsString || host)
       .split('&').reduce((p: { [k: string]: any }, c: string) => !!((o) =>
         Object.assign(p, { [o[0]]: o[1] || true }))(c.split('=')) && p, {});
 
@@ -33,20 +46,30 @@ stringParamsParaser = (target) => {
   }
 
   let s: string = '';
-  for (const [k, v] of Object.entries(target)) {
-    if (istype(v, 'array')) {
-      for (const e of v) {
-        s += `${k}=${e}&`;
+
+  if (istype(target, 'array')) {
+    for (const [k, v] of target as string[][]) {
+      s += `${k}=${v}&`;
+    }
+  }
+
+  if (istype(target, 'object')) {
+    for (const [k, v] of Object.entries(target)) {
+      if (istype(v, 'array')) {
+        for (const e of v) {
+          s += `${k}=${e}&`;
+        }
         continue;
       }
+      s += `${k}=${v}&`;
     }
-    s += `${k}=${v}&`;
   }
-  return [null, s];
-};
 
-export const searchParamsParser = (): std<URLSearchParams> => {
-  return [null];
+  if (!s.length) {
+    return [`target param: ${target} gets nothing.`];
+  }
+
+  return [null, s.replace(/&$/, '')];
 };
 
 export let versionCheck: VersionCheckFn;
@@ -108,6 +131,30 @@ presetsStringifier = (presets) => {
   } catch (error) {
     return [new Error(`translation sources's presets stringify failed`), error];
   }
+};
+
+export let presetParamsParser: PresetParamsParseFn;
+presetParamsParser = (target, stringify) => {
+  if (!istype(target, ['object', 'array', 'string'])) {
+    return [`check target params type: ${target}`];
+  }
+
+  let out: URLSearchParams;
+
+  if (istype(target, 'object')) {
+    out = new URLSearchParams(stringParamsParaser(target)[1] as string);
+  }
+
+  if (istype(target, 'array')) {
+    out = new URLSearchParams(target as string[][]);
+  }
+
+  // no url host, just 'q=q&...' or '?q=q&...'
+  if (istype(target, 'string')) {
+    out = new URLSearchParams(target as string);
+  }
+
+  return [null, !stringify ? out! : out!.toString()];
 };
 
 export let translationResultParser: TranslationResultParseFn;

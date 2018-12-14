@@ -18,8 +18,8 @@ export const float: layoutPreset = {
   title: 'Default For Float',
   description: 'default translation result template in content page as float panel.',
   rows: [
-    ['<voice-dest>', '`', '{{phonetic_dest}}', '`'],
-    ['{{translation}}'],
-    ['{{explain}}'],
+    ['<voice-dest>', '`', '{phonetic_dest}', '`'],
+    ['{translation}'],
+    ['{explain}'],
   ],
 };

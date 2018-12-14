@@ -1,11 +1,14 @@
 import * as types from '@/types';
 import debug from '@/functions/debug';
 import {
+  istype,
   plainCopy,
   versionCheck,
   presetsParser,
   presetsStringifier,
   templateLayoutParser,
+  stringParamsParaser,
+  presetParamsParser,
 } from '@/functions';
 import stringifySourcePresets, { sourcePresets } from '@/defaults/sources';
 import stringifyLayoutPresets, { layoutPresets } from '@/defaults/layouts';
@@ -19,7 +22,7 @@ describe('functions/debug', () => {
   });
 });
 
-describe('function/plainCopy', () => {
+describe('functions/plainCopy', () => {
   it(`simple copy a plain object`, () => {
     const o1 = { test: true };
     const [, o2] = plainCopy(o1);
@@ -31,48 +34,90 @@ describe('function/plainCopy', () => {
   });
 });
 
-describe('functions/versionCheck', () => {
-  it(`return version status after installed`, () => {
-    const fn = versionCheck;
+describe('functions/istype', () => {
+  it(`check target's type`, () =>
+    expect(istype(null, 'null')).toBe(true));
+  it(`check target's type is or not in types list (type[])`, () =>
+    expect(istype([], ['string', 'array'])).toBe(true));
+});
 
-    expect(fn('3.0.1', undefined)[1]).toBe(types.VERSION_FRESH);
-    expect(fn('3.0.1', '')[1]).toBe(types.VERSION_FRESH);
-    expect(fn('3.0.1', '2.3.2')[1]).toBe(types.VERSION_UPDATED);
-    expect(fn('3.0.1', '3.0.1')[1]).toBe(types.VERSION_SAME);
-    expect(fn('3.0.0', '3.1.0')[1]).toBe(types.VERSION_OUTDATED);
-  });
+describe('functions/versionCheck', () => {
+  const fn = versionCheck;
+
+  it(`check extension is or not first install`, () =>
+    expect(fn('3.0.1', undefined)[1]).toBe(types.VERSION_FRESH));
+  it(`check extension does or not updated`, () =>
+    expect(fn('3.0.1', '2.3.2')[1]).toBe(types.VERSION_UPDATED));
+  it(`check extension has or not same version`, () =>
+    expect(fn('3.0.1', '3.0.1')[1]).toBe(types.VERSION_SAME));
+  it(`check extension is or not outdated`, () =>
+    expect(fn('3.0.0', '3.1.0')[1]).toBe(types.VERSION_OUTDATED));
 });
 
 describe('functions/presetsParser', () => {
-  it(`parse presets list`, () => {
-    const fn = presetsParser;
+  const fn = presetsParser;
 
+  it(`parse presets list`, () => {
     expect(fn(stringifySourcePresets)[1]).toHaveProperty('length');
     expect(fn(stringifyLayoutPresets)[1]).toHaveProperty('length');
   });
 });
 
 describe('functions/presetsStringifier', () => {
-  it(`stringify presets list`, () => {
-    const fn = presetsStringifier;
+  const fn = presetsStringifier;
 
+  it(`stringify presets list`, () => {
     expect(fn(sourcePresets)[1]).toHaveProperty('length');
     expect(fn(layoutPresets)[1]).toHaveProperty('length');
   });
 });
 
 describe('function/templateLayoutParser', () => {
-  it(`parse layout's preset in result`, () => {
-    const fn = templateLayoutParser;
-    const result = { a: 'r_a', b: 'r_b', c: 'r_c' };
-    const rows = [
-      ['<action>', '{{a}}', '{{b}}', '{{c}}'],
-      ['{{b}}', '<action>'],
-      ['[ ', '{{c}}', ' ]'],
-    ];
+  const fn = templateLayoutParser;
+  const result = { a: 'r_a', b: 'r_b', c: 'r_c' };
+  const rows = [
+    ['<action>', '{a}', '{b}', '{c}'],
+    ['{b}', '<action>'],
+    ['[ ', '{c}', ' ]'],
+  ];
 
-    expect(fn(result, rows)[0]).toBeNull();
-    expect(fn(result, rows)[1]![0][0]).toBe('<action>');
-    expect(fn(result, rows)[1]![0][1]).toBe(result.a);
+  it(`parse layout's preset in result`, () =>
+    expect(fn(result, rows)[1]![0][1]).toBe(result.a));
+  it(`return original content if does not parse`, () =>
+    expect(fn(result, rows)[1]![0][0]).toBe('<action>'));
+});
+
+describe('functions/stringParamsParaser', () => {
+  const fn = stringParamsParaser;
+
+  it(`parse params string to params object`, () => {
+    const { test, key } = fn('test&key=value&extra=more')[1] as any;
+    expect(test).toBe(true);
+    expect(key).toBe('value');
   });
+  it(`parse params object to parms string`, () =>
+    expect(fn({ q: 'test', m: ['a', 'b'] })[1]).toBe('q=test&m=a&m=b'));
+  it(`parse params <string[][]> to parms string`, () =>
+    expect(fn([['q', 'test'], ['m', 'a'], ['m', 'b']])[1]).toBe('q=test&m=a&m=b'));
+  it(`return "host" as third element in 'std' type`, () =>
+    expect(fn('https://test.io?q=something')[2]).toBe('https://test.io'));
+});
+
+describe('functions/presetParamsParser', () => {
+  const fn = presetParamsParser;
+  const [s, o, a, x] = [
+    'q=test&m=a&m=b',
+    fn({ q: 'test', m: ['a', 'b'] })[1],
+    fn([['q', 'test'], ['m', 'a'], ['m', 'b']])[1],
+    fn([['q', 'test'], ['m', 'a'], ['m', 'b']], true)[1],
+  ];
+
+  it(`parse <string>params to <URLSearchParams>`, () =>
+    expect(s!.toString()).toBe('q=test&m=a&m=b'));
+  it(`parse <object>params to <URLSearchParams>`, () =>
+    expect(o!.toString()).toBe('q=test&m=a&m=b'));
+  it(`parse <string[][]>params to <URLSearchParams>`, () =>
+    expect(a!.toString()).toBe('q=test&m=a&m=b'));
+  it(`parse <string[][]>params to <URLSearchParams<string>> directly`, () =>
+    expect(x).toBe('q=test&m=a&m=b'));
 });

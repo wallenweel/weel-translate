@@ -7,11 +7,12 @@ declare type std<T = any> = [Error | null | true | messageText, T?, any?];
 
 /** /funtions */
 declare interface IsType {
-  (target: any, type: string): boolean;
+  (target: any, type: string | string[]): boolean;
 }
 
-declare interface StringParamsParser {
-  (target: string | { [k: string]: any }): std<string | { [k: string]: any }>;
+declare interface StringParamsParseFn {
+  (target: queryParams):
+    std<string | { [k: string]: any }>;
 }
 
 declare type versionFresh = 'VERSION_FRESH';
@@ -35,6 +36,10 @@ declare interface PresetsParseFn {
 
 declare interface PresetsStringifyFn {
   (presets: Preset[]): std<jsonString[]>;
+}
+
+declare interface PresetParamsParseFn {
+  (target: queryParams, stringify?: boolean): std<URLSearchParams | string>;
 }
 
 declare interface TranslationResultParseFn {
@@ -221,12 +226,11 @@ declare interface Language {
   readonly locale?: string; // for i18n translation
 }
 
+declare type queryParams = string | { [param: string]: string | string[]; } | string[][];
 declare interface TextQuery {
   method: 'get' | 'post' | string;
   url: string;
-  params: string | {
-    [param: string]: string | string[];
-  };
+  params: queryParams;
 }
 
 declare interface AudioQuery extends TextQuery {

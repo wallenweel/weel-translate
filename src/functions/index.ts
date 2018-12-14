@@ -1,6 +1,10 @@
 import * as types from '../types';
 import debug from './debug';
 
+export let istype: IsType;
+istype = (target, type) => Object.prototype.toString.call(target)
+  .match(/\[object\s(.+)\]/)![1].toLowerCase() === type;
+
 export const plainCopy = (target: any): std<any> => {
   try {
     const copy = JSON.parse(JSON.stringify(target));
@@ -10,18 +14,39 @@ export const plainCopy = (target: any): std<any> => {
   }
 };
 
-export const paramsParser = (target: string): std => {
-  const [host, paramsString] = target.split('?');
+// parse params string to params object
+// such as: 'host?a&b=b&c=c' => { a: true, b: 'b', c: 'c' }
+export let stringParamsParaser: StringParamsParser;
+stringParamsParaser = (target) => {
+  if (istype(target, 'string')) {
+    const [host, paramsString] = target.split('?');
 
-  if (!paramsString) {
-    return ['has not valid params string', host];
+    if (!paramsString) {
+      return ['has not valid params string', host];
+    }
+
+    const params: { [name: string]: any } = paramsString
+      .split('&').reduce((p: { [k: string]: any }, c: string) => !!((o) =>
+        Object.assign(p, { [o[0]]: o[1] || true }))(c.split('=')) && p, {});
+
+    return [null, params, host];
   }
 
-  const params: { [name: string]: any } = paramsString
-    .split('&').reduce((p, c) => !!((o) =>
-      Object.assign(p, { [o[0]]: o[1] || true }))(c.split('=')) && p, {});
+  let s: string = '';
+  for (const [k, v] of Object.entries(target)) {
+    if (istype(v, 'array')) {
+      for (const e of v) {
+        s += `${k}=${e}&`;
+        continue;
+      }
+    }
+    s += `${k}=${v}&`;
+  }
+  return [null, s];
+};
 
-  return [null, params, host];
+export const searchParamsParser = (): std<URLSearchParams> => {
+  return [null];
 };
 
 export let versionCheck: VersionCheckFn;

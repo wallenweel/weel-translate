@@ -6,6 +6,14 @@ declare type jsonString = string;
 declare type std<T = any> = [Error | null | true | messageText, T?, any?];
 
 /** /funtions */
+declare interface IsType {
+  (target: any, type: string): boolean;
+}
+
+declare interface StringParamsParser {
+  (target: string | { [k: string]: any }): std<string | { [k: string]: any }>;
+}
+
 declare type versionFresh = 'VERSION_FRESH';
 declare type versionUpdate = 'VERSION_UPDATED';
 declare type versionSame = 'VERSION_SAME';

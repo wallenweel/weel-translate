@@ -23,7 +23,7 @@
 import { Component, Vue } from 'vue-property-decorator';
 import VoiceActionButton from '@/components/ActionButtonVoice.vue';
 import PickActionButton from '@/components/ActionButtonPick.vue';
-import { templateLayoutParser, paramsParser } from '@/functions';
+import { templateLayoutParser, stringParamsParaser, istype } from '@/functions';
 import { popup as popupLayout } from '@/defaults/layouts/translation';
 import debug from '@/functions/debug';
 
@@ -52,13 +52,13 @@ export default class TranslationResult extends Vue {
     if (!/<(.+)>/.test(value)) { return null; }
 
     const match = value.match(/[<](.+)[>]/);
-    const [error, result, name] = paramsParser(match![1]);
+    const [error, result, name] = stringParamsParaser(match![1]);
 
     if (error !== null) {
-      return { name: result };
+      return { name: result as string };
     }
 
-    return { name, ...result };
+    return { name, ...result as object };
   }
   private isAction(value: string, name?: string): boolean {
     const action: null | any = this.parseAction(value);

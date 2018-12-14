@@ -6,8 +6,12 @@ declare type jsonString = string;
 declare type std<T = any> = [Error | null | true | messageText, T?, any?];
 
 /** /funtions */
-declare interface IsType {
+declare interface IsTypeFn {
   (target: any, type: string | string[]): boolean;
+}
+
+declare interface PathValueFn {
+  (path: 'string', target: any): string | any;
 }
 
 declare interface StringParamsParseFn {
@@ -42,13 +46,21 @@ declare interface PresetParamsParseFn {
   (target: queryParams, stringify?: boolean): std<URLSearchParams | string>;
 }
 
+declare interface ParserPathSplitFn {
+  (path: string): std<string[] | string[][]>;
+}
+
+declare interface ParserPathReduceFn {
+  (path: string, response: any, stringify?: boolean): std<string[] | string>;
+}
+
 declare interface TranslationResultParseFn {
-  (response: any, preset: SourcePreset['parser'],
+  (response: any, parserPreset: SourcePreset['parser'],
     copy?: boolean): std<SourcePreset['parser']>;
 }
 
 declare interface TemplateLayoutParseFn {
-  (result: SourcePreset['parser'], preset: layoutPreset['rows'],
+  (result: SourcePreset['parser'], rowsPreset: layoutPreset['rows'],
     copy?: boolean): std<layoutPreset['rows']>;
 }
 

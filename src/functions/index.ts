@@ -1,7 +1,7 @@
 import * as types from '../types';
 import debug from './debug';
 
-export let istype: IsType;
+export let istype: IsTypeFn;
 istype = (target, type) => {
   let types: string[] = [];
 
@@ -30,6 +30,8 @@ export const plainCopy = (target: any): std<any> => {
     return [new Error(error)];
   }
 };
+
+// export let pathValue
 
 // parse params string to params object
 // such as: 'host?a&b=b&c=c' => { a: true, b: 'b', c: 'c' }
@@ -134,7 +136,7 @@ presetsStringifier = (presets) => {
 };
 
 export let presetParamsParser: PresetParamsParseFn;
-presetParamsParser = (target, stringify) => {
+presetParamsParser = (target, stringify = false) => {
   if (!istype(target, ['object', 'array', 'string'])) {
     return [`check target params type: ${target}`];
   }
@@ -155,6 +157,75 @@ presetParamsParser = (target, stringify) => {
   }
 
   return [null, !stringify ? out! : out!.toString()];
+};
+
+export let parserPathSplitter: ParserPathSplitFn;
+parserPathSplitter = (path) => {
+  const [identifierReg, separatorReg] = [
+    new RegExp(/\.\b/),
+    new RegExp(/(\/.*?\/|\[.*?\]|{.*?})/),
+  ];
+
+  const splitSeparator: string[] = path.split(separatorReg)
+  .filter((e: string) => !!e);
+
+  if (!splitSeparator.length) {
+    return [`not found any vaild path in "${path}".`];
+  }
+
+  const out = [];
+
+  for (const e of splitSeparator) {
+    if (identifierReg.test(e)) {
+      out.push(e.split(identifierReg).filter((e) => e !== '$') as string[]);
+    }
+    if (separatorReg.test(e)) {
+      out.push(e);
+    }
+  }
+
+  return [null, out as string[][]];
+};
+
+export let parserPathReducer: ParserPathReduceFn;
+parserPathReducer = (path, response, stringify = false) => {
+  const [error, ap] = parserPathSplitter(path);
+
+  if (error !== null) { return [error]; }
+
+  let out: string[] = [];
+
+  for (let i = 0; i < ap!.length; i++) {
+    const point = ap![i];
+
+    if (istype(point, 'array')) { // get value
+      out[i] = (point as string[]).reduce((r: any, c: string) => r[c], response);
+      continue;
+    }
+
+    const last = out![i - 1] as any;
+
+    if (istype(point, 'string')) {
+      if (/\/.*\//.test(point as string)) { // just a separator
+        out[i] = (point as string).replace(/\/(.+)\//, (_: string, $: string) => $);
+      }
+
+      if (istype(last, 'undefined')) { continue; }
+
+      if (/\[.*\]/.test(point as string)) { // aim is array
+        out[i - 1] = [...last]
+          .join((point as string).replace(/\[(.*)\]/, (_: string, $: string) => $));
+      }
+      if (/\{.*\}/.test(point as string)) { // aim is object
+        out[i - 1] = Object.values(last)
+          .join((point as string).replace(/\{(.*)\}/, (_: string, $: string) => $));
+      }
+    }
+  }
+
+  out = out.filter((e) => !!e);
+
+  return [null, !stringify ? out : out.join('')];
 };
 
 export let translationResultParser: TranslationResultParseFn;

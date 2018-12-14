@@ -31,10 +31,10 @@ export default {
     },
   },
   parser: {
-    phoneticSrc: 'sentences.$.src_translit',
-    phoneticDest: 'sentences.$.translit',
-    translation: 'sentences(trans)',
-    explain: 'dict(pos....terms)',
+    phoneticSrc: 'sentences.-0.src_translit',
+    phoneticDest: 'sentences.-.translit',
+    translation: 'sentences.0.trans',
+    explain: 'dict.0.pos/: /dict.0.terms[, ]',
   },
   fromto: ['auto', 'auto'],
 } as SourcePreset;

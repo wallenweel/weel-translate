@@ -9,6 +9,8 @@ import {
   templateLayoutParser,
   stringParamsParaser,
   presetParamsParser,
+  parserPathSplitter,
+  parserPathReducer,
 } from '@/functions';
 import stringifySourcePresets, { sourcePresets } from '@/defaults/sources';
 import stringifyLayoutPresets, { layoutPresets } from '@/defaults/layouts';
@@ -120,4 +122,36 @@ describe('functions/presetParamsParser', () => {
     expect(a!.toString()).toBe('q=test&m=a&m=b'));
   it(`parse <string[][]>params to <URLSearchParams<string>> directly`, () =>
     expect(x).toBe('q=test&m=a&m=b'));
+});
+
+describe('functions/parserPathSplitter', () => {
+  const fn = parserPathSplitter;
+  const s = 'dict.0.pos/: /dict.0.terms[,]';
+  const o = fn(s)[1];
+
+  it(`split path selector pattern to meta list`, () =>
+    expect(o).toHaveLength(4));
+  it(`serialize value selector into array <string[]>`, () =>
+    expect(o![0]).toHaveLength(3));
+  it(`separactor is string element`, () =>
+    expect(o![1]).toBe('/: /'));
+});
+
+describe('functions/parserPathReducer', () => {
+  const fn = parserPathReducer;
+  const s = 'a.b.c/: (/b.b[ + ]/) "/$.c{}/"/';
+  const r = {
+    a: { b: { c: 'Test' } },
+    b: { b: ['start', 1, 2, 3, '4', 'end'] },
+    c: { a: 'h', b: 'e', c: 'l', d: 'l', e: 'o' },
+  };
+  const rs = `Test: (start + 1 + 2 + 3 + 4 + end) "hello"`;
+
+  it(`inject real value to preset parser in array`, () => expect(fn(s, r)[1]![0]).toBe('Test'));
+  it(`directly return a string`, () => expect(fn(s, r, true)[1]).toBe(rs));
+});
+
+describe('functions/translationResultParser', () => {
+  // tslint:disable-next-line:no-console
+  // console.log(s.split(/(\/.+\/)/));
 });

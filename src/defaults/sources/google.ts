@@ -31,8 +31,8 @@ export default {
     },
   },
   parser: {
-    phoneticSrc: 'sentences.-0.src_translit',
-    phoneticDest: 'sentences.-.translit',
+    phoneticSrc: 'sentences.1.src_translit',
+    phoneticDest: 'sentences.1.translit',
     translation: 'sentences.0.trans',
     explain: 'dict.0.pos/: /dict.0.terms[, ]',
   },

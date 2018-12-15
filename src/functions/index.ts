@@ -149,24 +149,30 @@ presetsStringifier = (presets) => {
 };
 
 export let presetParamsParser: PresetParamsParseFn;
-presetParamsParser = (target, stringify = false) => {
+presetParamsParser = (target, requestParams, stringify = false) => {
   if (!istype(target, ['object', 'array', 'string'])) {
     return [`check target params type: ${target}`];
   }
 
+  // object: {q: 'test'} -> {"q": "{q}"} => {"q": "test"}
+  // array: {q: 'test'} -> [["q": "{q}"]] => [["q": "test"]]
+  // string: {q: 'test'} -> 'q={q}&...' => "q=test&...""
+  const params = JSON.parse(JSON.stringify(target)
+    .replace(/{\b(.+?)\b}/g, (_, $) => requestParams[$] || _));
+
   let out: URLSearchParams;
 
-  if (istype(target, 'object')) {
-    out = new URLSearchParams(stringParamsParaser(target)[1] as string);
+  if (istype(params, 'object')) {
+    out = new URLSearchParams(stringParamsParaser(params)[1] as string);
   }
 
-  if (istype(target, 'array')) {
-    out = new URLSearchParams(target as string[][]);
+  if (istype(params, 'array')) {
+    out = new URLSearchParams(params as string[][]);
   }
 
   // no url host, just 'q=q&...' or '?q=q&...'
-  if (istype(target, 'string')) {
-    out = new URLSearchParams(target as string);
+  if (istype(params, 'string')) {
+    out = new URLSearchParams(params as string);
   }
 
   return [null, !stringify ? out! : out!.toString()];
@@ -267,4 +273,26 @@ templateLayoutParser = (result, preset, copy = true) => {
   }
 
   return [null, rows, rows];
+};
+
+export let configKeysReducer: ConfigKeysReduceFn;
+configKeysReducer = (keys, config) => {
+  const out: { [k: string]: any } = {};
+
+  if (istype(keys, 'string')) {
+    const k = keys as string;
+    out[k] = config[k];
+  }
+  if (istype(keys, 'array')) {
+    for (const k of keys as string[]) {
+      out[k] = config[k];
+    }
+  }
+  if (istype(keys, 'object')) {
+    for (const k of Object.keys(keys as string[])) {
+      out[k] = config[k];
+    }
+  }
+
+  return [null, out];
 };

@@ -10,36 +10,46 @@ export const request: ApiRequest = (preset, type = 'text') => {
   if (typeof query === 'object') {
     querier = query[type as 'text' | 'audio'];
     if (!!querier && !!querier.url) {
-      // { url: '{{url}}/a/b' } + { ..., url: 'https://test' } => { url: 'https://test/a/b' }
+      // { url: '{url}/a/b' } + { ..., url: 'https://test' } => { url: 'https://test/a/b' }
       querier.url = querier.url
-        .replace(/{{(url)}}/, (_, $: 'url') => preset[$] || _);
-      // { method: '{{method}}' } + { ..., method: 'get' } => { method: 'get}
+        .replace(/{(url)}/, (_, $: 'url') => preset[$] || _);
+      // { method: '{method}' } + { ..., method: 'get' } => { method: 'get}
       querier.method = querier.method
-        .replace(/{{(method)}}/, (_, $: 'method') => preset[$] || _);
+        .replace(/{(method)}/, (_, $: 'method') => preset[$] || _);
     }
   }
 
-  return () => {
-    let config: AxiosRequestConfig;
+  return (requestParams) => {
+    let config: AxiosRequestConfig = {
+      headers: {
+        // 'Access-Control-Allow-Origin': '*',
+        // 'Content-Type': 'application/json',
+        // 'X-HTTP-Method-Override': 'GET',
+      },
+    };
 
     if (!!querier) { // for translation
       const { method, url } = querier;
 
-      config = { method, url };
+      config = { ...config, method, url };
 
       if (!/\?/.test(url)) {
         if (['post', 'put'].includes(method)) {
-          const data = presetParamsParser(querier.params)[1];
+          const data = presetParamsParser(querier.params, requestParams)[1];
           config = { data, ...config };
         }
         if (['get'].includes(method)) {
-          const params = presetParamsParser(querier.params)[1];
+          const params = presetParamsParser(querier.params, requestParams)[1];
           config = { params, ...config };
         }
       }
       debug.log(config);
     } else { // for web crawl
-      config = { url, method };
+      config = { ...config, url, method };
+      if (/\?/.test(url)) {
+        const [host, params] = url.split('?');
+        config.url = `${host}?${presetParamsParser(params, requestParams)[1]}`;
+      }
     }
 
     return new Promise((resolve, reject) => axios(config)

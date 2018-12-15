@@ -1,5 +1,8 @@
 import { MutationTree, ActionTree, Module } from 'vuex';
 import { State as RootState } from '../index';
+
+import { update, clear } from '@/stores/mutations';
+
 import { storage as apiStorage } from '@/apis/browser';
 import defaultConfig from '@/defaults/config';
 import debug from '@/functions/debug';
@@ -8,18 +11,20 @@ const namespaced: boolean = true;
 
 const state: State = {};
 
-const mutations: MutationTree<State> = {
-  update: (state, payload: DefaultConfig): void => {
-    for (const [name, value] of Object.entries(payload)) {
-      state[name] = value;
-    }
-  },
-  clear: (state) => {
-    state = Object.assign({});
-  },
-};
+
+const mutations: MutationTree<State> = Object.assign({
+}, { update, clear });
 
 const actions: ActionTree<State, RootState> = {
+  init: async ({ dispatch, commit }): Promise<std> => {
+    const [error, config] = await dispatch('query');
+    if (error !== null) { return [error]; }
+
+    commit('update', config);
+
+    return [null, config];
+  },
+
   query: async (_, keys?: storageKeys, type?: storageType): Promise<std<any>> => {
     const config = await apiStorage[type || 'local'].get(keys || null);
 

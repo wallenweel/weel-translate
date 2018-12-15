@@ -19,6 +19,8 @@ import i18n from '@/i18n';
 
 import App from './Popup.vue';
 
+store.dispatch('init');
+
 new Vue({
   router,
   store,

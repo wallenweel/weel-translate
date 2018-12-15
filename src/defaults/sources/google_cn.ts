@@ -8,13 +8,13 @@ export default {
   method: 'get',
   query: {
     text: {
-      method: '{{method}}',
-      url: '{{url}}/translate_a/single',
+      method: '{method}',
+      url: '{url}/translate_a/single',
       params: [
-        ['q', '{{q}}'],
-        ['sl', '{{from}}'],
-        ['tl', '{{to}}'],
-        ['hl', '{{to}}'],
+        ['q', '{q}'],
+        ['sl', '{from}'],
+        ['tl', '{to}'],
+        ['hl', '{to}'],
         ['client', 'gtx'],
         ['ie', 'UTF-8'],
         ['oe', 'UTF-8'],
@@ -26,11 +26,11 @@ export default {
       ],
     },
     audio: {
-      method: '{{method}}',
-      url: '{{url}}/translate_a/translate_tts',
+      method: '{method}',
+      url: '{url}/translate_a/translate_tts',
       params: [
-        ['q', '{{q}}'],
-        ['tl', '{{from}}'],
+        ['q', '{q}'],
+        ['tl', '{from}'],
         ['client', 'gtx'],
         ['ie', 'UTF-8'],
       ],

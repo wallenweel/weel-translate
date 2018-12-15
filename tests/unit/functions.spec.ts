@@ -113,11 +113,12 @@ describe('functions/stringParamsParaser', () => {
 
 describe('functions/presetParamsParser', () => {
   const fn = presetParamsParser;
+  const r = { q: 'test', t: 'a' };
   const [s, o, a, x] = [
     'q=test&m=a&m=b',
-    fn({ q: 'test', m: ['a', 'b'] })[1],
-    fn([['q', 'test'], ['m', 'a'], ['m', 'b']])[1],
-    fn([['q', 'test'], ['m', 'a'], ['m', 'b']], true)[1],
+    fn({ q: '{q}', m: ['{t}', 'b'] }, r)[1],
+    fn([['q', '{q}'], ['m', '{t}'], ['m', 'b']], r)[1],
+    fn([['q', '{q}'], ['m', '{t}'], ['m', 'b']], r, true)[1],
   ];
 
   it(`parse <string>params to <URLSearchParams>`, () =>
@@ -177,6 +178,4 @@ describe('functions/translationResultParser', () => {
   });
   it(`could use pettern format string`, () =>
     expect(result.content).toBe('Test: "hello" (t_h_e) "world"~'));
-  // tslint:disable-next-line:no-console
-  console.log(result);
 });

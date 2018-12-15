@@ -47,7 +47,7 @@ declare interface PresetsStringifyFn {
 }
 
 declare interface PresetParamsParseFn {
-  (target: queryParams, stringify?: boolean): std<URLSearchParams | string>;
+  (target: queryParams, requestParams: apiRequestParams, stringify?: boolean): std<URLSearchParams | string>;
 }
 
 declare interface ParserPathSplitFn {
@@ -56,6 +56,10 @@ declare interface ParserPathSplitFn {
 
 declare interface ParserPathReduceFn {
   (path: string, response: any, stringify?: boolean): std<string[] | string>;
+}
+
+declare interface ConfigKeysReduceFn {
+  (keys: storageKeys, config: any): std<any>;
 }
 
 declare interface TranslationResultParseFn {
@@ -79,7 +83,7 @@ declare type apiRequestParams = {
 
 declare interface ApiRequest {
   (sourcePreset: SourcePreset, type?: apiRequestType):
-    () => Promise<std<apiResponse>>;
+    (requestParams: apiRequestParams) => Promise<std<apiResponse>>;
 }
 
 /** /apis/browser */

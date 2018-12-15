@@ -2,6 +2,10 @@ import { MutationTree, ActionTree, Module } from 'vuex';
 import { State as RootState } from '../index';
 import debug from '@/functions/debug';
 
+import request from '@/apis/request';
+import google from '@/defaults/sources/google';
+import { translationResultParser } from '@/functions';
+
 const namespaced: boolean = true;
 
 const state: State = {};
@@ -9,8 +13,18 @@ const state: State = {};
 const mutations: MutationTree<State> = {};
 
 const webActions: ActionTree<State, RootState> = {
-  translateText: (_, data) => {
-    debug.log(data);
+  translateText: async ({ rootState }, data) => {
+    const { storage } = rootState;
+
+    const translationRequest = request(google);
+    const response = await translationRequest({
+      q: 'translation',
+      from: 'auto',
+      to: 'zh-cn',
+    });
+    const res = response[1].data;
+    const result = translationResultParser(res, google.parser);
+    debug.log(res, result);
   },
 };
 

@@ -242,13 +242,14 @@ parserPathReducer = (path, response, stringify = false) => {
 };
 
 export let translationResultParser: TranslationResultParseFn;
-translationResultParser = (response, parserPreset) => {
+translationResultParser = (response, parserPreset, stringify = true) => {
   const entries = Object.entries(parserPreset!);
 
   const result: { [n: string]: any } = {};
 
   for (const [name, selector] of entries) {
-    result[name] = parserPathReducer((selector as string), response);
+    const reducer = parserPathReducer((selector as string), response, stringify);
+    result[name] = reducer[1];
   }
 
   return [null, result];

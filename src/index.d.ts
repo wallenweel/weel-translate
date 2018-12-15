@@ -60,7 +60,7 @@ declare interface ParserPathReduceFn {
 
 declare interface TranslationResultParseFn {
   (response: any, parserPreset: SourcePreset['parser'],
-    copy?: boolean): std<SourcePreset['parser']>;
+    stringify?: boolean): std<SourcePreset['parser']>;
 }
 
 declare interface TemplateLayoutParseFn {

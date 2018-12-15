@@ -11,6 +11,7 @@ import {
   presetParamsParser,
   parserPathSplitter,
   parserPathReducer,
+  translationResultParser,
 } from '@/functions';
 import stringifySourcePresets, { sourcePresets } from '@/defaults/sources';
 import stringifyLayoutPresets, { layoutPresets } from '@/defaults/layouts';
@@ -157,6 +158,25 @@ describe('functions/parserPathReducer', () => {
 });
 
 describe('functions/translationResultParser', () => {
+  const fn = translationResultParser;
+  const p = {
+    title: 'a.b.c',
+    message: '$.c[]',
+    content: 'a.b.c/: "/$.c[]/" (/b.1{_}/) "/b.2.g/"~/',
+  };
+  const r = {
+    a: { b: { c: 'Test' } },
+    b: [{}, { d: 't', e: 'h', f: 'e' }, { g: 'world' }],
+    c: ['h', 'e', 'l', 'l', 'o'],
+  };
+  const result = fn(r, p)[1]!;
+
+  it(`return parser preset that have got real value in selector path`, () => {
+   expect(result.title).toBe('Test');
+   expect(result.message).toBe('hello');
+  });
+  it(`could use pettern format string`, () =>
+    expect(result.content).toBe('Test: "hello" (t_h_e) "world"~'));
   // tslint:disable-next-line:no-console
-  // console.log(s.split(/(\/.+\/)/));
+  console.log(result);
 });

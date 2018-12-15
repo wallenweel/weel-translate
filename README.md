@@ -1,10 +1,23 @@
-# Weel Translate X
+# Weel Translate MD
+> Material Design Style Web Extension for Languages Translating.
 
-## Presets
+## Main Features
+- [x] Support base translation (out of the box)
+- [ ] Easy frontend settings
+- [ ] Base customizable components (in frontend settings)
+- [ ] Advance preset templates costom support (in options page)
+- [ ] More web infomation crawler
+- [ ] Custimizable styles
 
-### Translation Source
+## Screenshots
+
+## Simple Useing
+
+## Advance Features
+
+## Translation Source Presets
+### Interface
 ```typescript
-/** Interface */
 {
   // source id, only support "_" as separator
   id: string;
@@ -58,8 +71,10 @@
   // if exist, exclude from all languages
   exclude?: Array<Language['code']>;
 }
+```
 
-/** Demo*/
+#### Example
+```json
 {
   "id": "google_com",
   "name": "Google",
@@ -111,14 +126,34 @@
 yarn install
 ```
 
-### Compiles and hot-reloads for development
+### Compiles and hot-reloads for development (web)
 ```
 yarn run serve
 ```
 
-### Compiles and minifies for production
+### Compiles and minifies for production (web)
 ```
 yarn run build
+```
+
+### Compiles and minifies for production (firefox)
+```
+yarn run build:firefox
+```
+
+### Compiles and auto reloads for development (firefox)
+```
+yarn run watch:firefox
+```
+
+### Strat a temporary browser for development (firefox)
+```
+yarn run webext:firefox
+```
+
+### Package a .zip extension file for publishing (firefox)
+```
+yarn run pack:firefox
 ```
 
 ### Run your tests
@@ -135,6 +170,3 @@ yarn run lint
 ```
 yarn run test:unit
 ```
-
-### Customize configuration
-See [Configuration Reference](https://cli.vuejs.org/config/).

@@ -4,7 +4,10 @@
 
     <div class="translation-tool">
       <mdc-button class="_button">Clear</mdc-button>
-      <mdc-fab class="-done" icon="done" mini absolute></mdc-fab>
+      <mdc-fab class="-done"
+        icon="done" mini absolute
+        @click="handleTranslate">
+      </mdc-fab>
       <mdc-button class="_button">Paste</mdc-button>
     </div>
 
@@ -43,6 +46,9 @@ import debug from '@/functions/debug';
 export default class TranslationView extends Vue {
   private toggle: boolean = false;
   private progress: number = .76;
+  private handleTranslate(ev: any) {
+    debug.log(this.$store.dispatch('translation/queryText', { test: true }));
+  }
 }
 </script>
 

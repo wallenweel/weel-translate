@@ -1,4 +1,4 @@
-import { MutationTree, ActionTree, Payload, Module } from 'vuex';
+import { MutationTree, ActionTree, Module } from 'vuex';
 import { State as RootState } from '../index';
 import { storage as apiStorage } from '@/apis/browser';
 import defaultConfig from '@/defaults/config';

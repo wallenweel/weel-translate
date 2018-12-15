@@ -1,5 +1,6 @@
 import axios, { AxiosRequestConfig } from 'axios';
 import debug from '@/functions/debug';
+import { presetParamsParser } from '@/functions';
 
 export const request: ApiRequest = (preset, type = 'text') => {
   const { query, url, method } = Object.assign({}, preset);
@@ -18,32 +19,24 @@ export const request: ApiRequest = (preset, type = 'text') => {
     }
   }
 
-  return (params) => {
+  return () => {
     let config: AxiosRequestConfig;
 
-    // TODO: use URLSearchParams here
     if (!!querier) { // for translation
-      const search = JSON.parse(JSON.stringify(querier.params)
-        .replace(/{{(.+?)}}/g, (_, $) => params[$]));
+      const { method, url } = querier;
 
-      let s: string = '';
-      for (const [k, v] of Object.entries(search)) {
-        if (typeof v === 'object') {
-          for (const p of v as []) {
-            s += `${k}=${p}&`;
-          }
-          continue;
+      config = { method, url };
+
+      if (!/\?/.test(url)) {
+        if (['post', 'put'].includes(method)) {
+          const data = presetParamsParser(querier.params)[1];
+          config = { data, ...config };
         }
-        s += `${k}=${v}&`;
+        if (['get'].includes(method)) {
+          const params = presetParamsParser(querier.params)[1];
+          config = { params, ...config };
+        }
       }
-
-      config = {
-        method: querier.method,
-        url: querier.url + '?' + s,
-
-        // { s: '{{q}}' } + { q: 'test' } => { s: 'test' }
-        // params: search,
-      };
       debug.log(config);
     } else { // for web crawl
       config = { url, method };

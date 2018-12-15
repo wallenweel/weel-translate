@@ -47,7 +47,7 @@ export default class TranslationResult extends Vue {
     return rows!;
   }
 
-  private isValue(value: string): boolean { return Object.values(this.result).includes(value); }
+  private isValue(value: string): boolean { return Object.values(this.result as object).includes(value); }
   private parseAction(value: string): null | { name: string, [param: string]: any } {
     if (!/<(.+)>/.test(value)) { return null; }
 

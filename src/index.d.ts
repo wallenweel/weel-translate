@@ -79,7 +79,7 @@ declare type apiRequestParams = {
 
 declare interface ApiRequest {
   (sourcePreset: SourcePreset, type?: apiRequestType):
-    (params: apiRequestParams) => Promise<std<apiResponse>>;
+    () => Promise<std<apiResponse>>;
 }
 
 /** /apis/browser */

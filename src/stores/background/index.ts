@@ -1,14 +1,12 @@
 import Vue from 'vue';
-import Vuex, { ActionTree, MutationTree, ModuleTree, Action } from 'vuex';
+import Vuex, { MutationTree, ModuleTree } from 'vuex';
 import debug from '@/functions/debug';
 import actions from './actions';
 import { storage } from './modules/storage';
 
 Vue.use(Vuex);
 
-const state: State = {
-  name: 'background',
-};
+const state: State = {};
 
 const mutations: MutationTree<State> = {
   update: (state, data: object = {}): void => {
@@ -33,6 +31,5 @@ export default new Vuex.Store<State>({
 });
 
 export interface State {
-  name: string;
   [name: string]: any;
 }

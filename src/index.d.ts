@@ -14,6 +14,8 @@ declare interface PathValueFn {
   (path: 'string', target: any): string | any;
 }
 
+// parse params string to params object
+// such as: 'host?a&b=b&c=c' => { a: true, b: 'b', c: 'c' }
 declare interface StringParamsParseFn {
   (target: queryParams):
     std<string | { [k: string]: any }>;
@@ -25,6 +27,8 @@ declare type versionSame = 'VERSION_SAME';
 declare type versionOutdated = 'VERSION_OUTDATED';
 declare type versionStatus = versionFresh | versionUpdate | versionSame | versionOutdated;
 
+// => [error, versionStatus, incompatibleLevel]
+// incompatible level: compatible(-1), maybe(0), must(1)
 declare interface VersionCheckFn {
   (current: string, last: string | undefined): std<versionStatus>;
 }

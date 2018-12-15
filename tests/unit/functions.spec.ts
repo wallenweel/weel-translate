@@ -39,21 +39,26 @@ describe('functions/plainCopy', () => {
 describe('functions/istype', () => {
   it(`check target's type`, () =>
     expect(istype(null, 'null')).toBe(true));
-  it(`check target's type is or not in types list (type[])`, () =>
+  it(`check target's type whether or not in types list (type[])`, () =>
     expect(istype([], ['string', 'array'])).toBe(true));
 });
 
 describe('functions/versionCheck', () => {
   const fn = versionCheck;
 
-  it(`check extension is or not first install`, () =>
+  it(`check extension whether or not first install`, () =>
     expect(fn('3.0.1', undefined)[1]).toBe(types.VERSION_FRESH));
   it(`check extension does or not updated`, () =>
     expect(fn('3.0.1', '2.3.2')[1]).toBe(types.VERSION_UPDATED));
   it(`check extension has or not same version`, () =>
     expect(fn('3.0.1', '3.0.1')[1]).toBe(types.VERSION_SAME));
-  it(`check extension is or not outdated`, () =>
+  it(`check extension whether or not outdated`, () =>
     expect(fn('3.0.0', '3.1.0')[1]).toBe(types.VERSION_OUTDATED));
+  it(`chekc version whether or not incompatible`, () => {
+    expect(fn('2.0.1', '3.0.1')[2]).toBe(1);
+    expect(fn('3.12.1', '3.20.1')[2]).toBe(0);
+    expect(fn('3.6.15', '3.6.11')[2]).toBe(-1);
+  });
 });
 
 describe('functions/presetsParser', () => {

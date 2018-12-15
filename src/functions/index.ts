@@ -31,10 +31,6 @@ export const plainCopy = (target: any): std<any> => {
   }
 };
 
-// export let pathValue
-
-// parse params string to params object
-// such as: 'host?a&b=b&c=c' => { a: true, b: 'b', c: 'c' }
 export let stringParamsParaser: StringParamsParseFn;
 stringParamsParaser = (target) => {
   if (istype(target, 'string')) {
@@ -77,7 +73,7 @@ stringParamsParaser = (target) => {
 export let versionCheck: VersionCheckFn;
 versionCheck = (current, last): std<versionStatus> => {
   if (!last) {
-    return [`last version is not existed`, types.VERSION_FRESH];
+    return [`last version is not existed`, types.VERSION_FRESH, -1];
   }
 
   const intArr = (s: version): number[] =>
@@ -85,17 +81,34 @@ versionCheck = (current, last): std<versionStatus> => {
 
   const [c, l] = [intArr(current), intArr(last)];
 
+  const incompatibleLevel = (idx: number, c: number[], l: number[]): number => {
+    // (1).2.1 & (3).1.1 => must be incompatible
+    if (idx === 0 && c[0] !== l[0]) { return 1; }
+
+    const [cv, lv] = [c[1], l[1]];
+
+    // 3.(11).2 & 3.(10).2 => maybe incompatible
+    if (cv >= 10 && lv >= 10) {
+      const [c, l] = [`${cv}`.replace(/\d$/, ''), `${lv}`.replace(/\d$/, '')];
+      if (Math.abs(parseInt(c, 10) - parseInt(l, 10)) > 0) {
+        return 0;
+      }
+    }
+
+    return -1; // compatible
+  };
+
   for (let i = 0; i < c.length; i++) {
     if (c[i] > l[i]) { // [current].0.0 > [last].0.0
-      return [null, types.VERSION_UPDATED];
+      return [null, types.VERSION_UPDATED, incompatibleLevel(i, c, l)];
     }
 
     if (c[i] < l[i]) { // [current].0.0 < [last].0.0
-      return [null, types.VERSION_OUTDATED];
+      return [null, types.VERSION_OUTDATED, incompatibleLevel(i, c, l)];
     }
   }
 
-  return [null, types.VERSION_SAME];
+  return [null, types.VERSION_SAME, -1];
 };
 
 export let presetsParser: PresetsParseFn;
@@ -229,8 +242,16 @@ parserPathReducer = (path, response, stringify = false) => {
 };
 
 export let translationResultParser: TranslationResultParseFn;
-translationResultParser = (response, preset) => {
-  return [null];
+translationResultParser = (response, parserPreset) => {
+  const entries = Object.entries(parserPreset!);
+
+  const result: { [n: string]: any } = {};
+
+  for (const [name, selector] of entries) {
+    result[name] = parserPathReducer((selector as string), response);
+  }
+
+  return [null, result];
 };
 
 export let templateLayoutParser: TemplateLayoutParseFn;

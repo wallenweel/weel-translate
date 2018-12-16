@@ -8,9 +8,17 @@ import { translationResultParser } from '@/functions';
 
 const namespaced: boolean = true;
 
-const state: State = {};
+const state: State = {
+  text: '',
+  hotkey: 'enter',
+};
 
-const mutations: MutationTree<State> = {};
+const mutations: MutationTree<State> = {
+  text: (state, text) => {
+    debug.log('text', text);
+    state.text = text;
+  },
+};
 
 const webActions: ActionTree<State, RootState> = {
   translateText: async ({ rootState }, data) => {
@@ -31,7 +39,7 @@ const webActions: ActionTree<State, RootState> = {
 const ipcActions: ActionTree<State, RootState> = {};
 
 const actions = Object.assign({
-  queryText: ({ dispatch }, data: any) => {
+  query: ({ dispatch }, data: any) => {
     dispatch('translateText', data);
   },
 } as ActionTree<State, RootState>, TARGET_BROWSER === 'web' ? webActions : ipcActions);
@@ -43,5 +51,7 @@ export const translation: Module<State, RootState> = {
 export default translation;
 
 interface State {
+  text: string;
+  hotkey: 'enter' | 'ctrl+enter';
   [key: string]: any;
 }

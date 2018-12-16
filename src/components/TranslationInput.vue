@@ -1,17 +1,34 @@
 <template>
   <div class="translation-input">
-    <mdc-textfield class="-textfield" v-model="text"
+    <mdc-textfield class="-textfield"
+      v-model="input" @keypress.enter="handleEnter"
       multiline
-      label="Hint text" rows="0" cols="0" />
+      label="Hint text" rows="0" cols="0">
+    </mdc-textfield>
   </div>
 </template>
 
 <script lang="ts">
-import { Component, Vue } from 'vue-property-decorator';
+import Vue from 'vue';
+import { Component, Model, Watch, Emit } from 'vue-property-decorator';
 
 @Component
 export default class TranslationInput extends Vue {
-  private text = '';
+  @Model('change', String) private value?: string;
+
+  private input: string = this.value || '';
+
+  @Watch('input')
+  private onChange(text: string) { this.$emit('change', text); }
+  @Watch('value')
+  private onUpdate(text: string) { this.input = this.value!; }
+
+  @Emit()
+  private handleEnter(ev: Event) {
+    const { value } = this.$emit('enter', ev, this.input);
+    // console.log(JSON.stringify(this.value));
+    // this.input = `${this.value}\n` || '';
+  }
 }
 </script>
 

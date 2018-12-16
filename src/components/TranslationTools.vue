@@ -1,12 +1,15 @@
 <template>
   <div class="translation-tools">
     <div class="input-actions">
-      <mdc-button class="_button">Clear</mdc-button>
+      <mdc-button class="_button" :disabled="disabled"
+        @click="$emit('clear')">Clear</mdc-button>
+
       <mdc-fab class="-done"
         icon="done" mini absolute
-        @click="handleTranslate">
-      </mdc-fab>
-      <mdc-button class="_button">Paste</mdc-button>
+        @click="$emit('query')"></mdc-fab>
+
+      <mdc-button class="_button"
+        @click="$('paste')">Paste</mdc-button>
     </div>
 
     <div class="query-process">
@@ -28,17 +31,15 @@
 </template>
 
 <script lang="ts">
-import { Component, Vue } from 'vue-property-decorator';
+import { Component, Prop, Vue } from 'vue-property-decorator';
 import debug from '@/functions/debug';
 
 @Component
 export default class TranslationTools extends Vue {
+  @Prop(Boolean) private disabled?: boolean;
+
   private toggle: boolean = false;
   private progress: number = .76;
-  private handleTranslate(ev: any) {
-    debug.log();
-    // this.$store.dispatch('translation/queryText', { test: true })
-  }
 }
 </script>
 

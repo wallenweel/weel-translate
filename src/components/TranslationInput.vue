@@ -21,14 +21,13 @@ export default class TranslationInput extends Vue {
   @Watch('input')
   private onChange(text: string) { this.$emit('change', text); }
   @Watch('value')
-  private onUpdate(text: string) { this.input = this.value!; }
+  private onUpdate(text: string) {
+    if (this.input === text) { return; }
+    this.input = this.value!;
+  }
 
   @Emit()
-  private handleEnter(ev: Event) {
-    const { value } = this.$emit('enter', ev, this.input);
-    // console.log(JSON.stringify(this.value));
-    // this.input = `${this.value}\n` || '';
-  }
+  private handleEnter(ev: Event) { this.$emit('enter', ev, this.input); }
 }
 </script>
 

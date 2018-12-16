@@ -1,12 +1,16 @@
 <template>
   <div class="view-translation">
     <translation-input class="-input"
-      :value="value" @change="mutateText"
+      :value="value" @change="handleChange"
       @enter="handleEnter"
     >
     </translation-input>
-    <!-- <translation-input class="-input" v-model="text"></translation-input> -->
-    <translation-tools class="-tools"></translation-tools>
+
+    <translation-tools class="-tools"
+      :disabled="!value || !value.length"
+      @clear="handleClear" @query="handleQuery" @paste="handlePaste"
+    ></translation-tools>
+
     <translation-result class="-result"></translation-result>
   </div>
 </template>
@@ -46,6 +50,11 @@ export default class TranslationView extends Vue {
     this.value = this.text;
   }
 
+  private handleChange(text: string) {
+    this.value = text;
+    this.mutateText(text);
+  }
+
   private handleEnter(ev: any) {
     const { ctrlKey }: { ctrlKey: boolean } = ev;
 
@@ -61,6 +70,12 @@ export default class TranslationView extends Vue {
       // return this.translate();
     }
   }
+
+  private handleClear() { this.value = ''; }
+  private handleQuery() {
+    this.translate();
+  }
+  private handlePaste() {/** */}
 }
 </script>
 

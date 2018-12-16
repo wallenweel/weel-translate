@@ -1,5 +1,8 @@
 <template>
-  <mdc-toolbar class="popup-toolbar" slot="toolbar" waterfall ref="wrap">
+  <mdc-toolbar class="popup-toolbar"
+    waterfall
+    slot="toolbar"
+    ref="wrap">
     <mdc-toolbar-row>
       <mdc-toolbar-section align-start>
         <mdc-toolbar-menu-icon event="toggle-drawer"></mdc-toolbar-menu-icon>
@@ -58,6 +61,12 @@ export default class PopupToolbar extends Vue {
 @import '~vue-mdc-adapter/dist/toolbar/toolbar.min.css';
 
 .popup-toolbar {
+  .mdc-toolbar {
+    width: 100%;
+    flex-shrink: 0;
+    position: relative;
+  }
+
   .-source {
     margin-left: auto;
     .mdc-chip {

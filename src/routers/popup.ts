@@ -4,6 +4,7 @@ Vue.use(Router);
 
 import TranslationView from '@/views/Translation.vue';
 import SettingsView from '@/views/Settings.vue';
+import PickedView from '@/views/Picked.vue';
 
 const routes: RouteConfig[] = [
   {
@@ -15,6 +16,12 @@ const routes: RouteConfig[] = [
     name: 'translation',
     component: TranslationView as VueConstructor,
     meta: { locale: 'translate' },
+  },
+  {
+    path: '/picked',
+    name: 'picked',
+    component: PickedView as VueConstructor,
+    meta: { locale: 'picked' },
   },
   {
     path: '/settings',

@@ -1,5 +1,8 @@
 <template>
-  <mdc-drawer class="popup-drawer" slot="drawer" toggle-on="toggle-drawer">
+  <mdc-drawer class="popup-drawer"
+    temporary
+    toggle-on="toggle-drawer"
+    slot="drawer">
     <mdc-card-media :src="logo"></mdc-card-media>
     <mdc-drawer-list class="-list">
       <mdc-drawer-item v-for="(item, i) in items" :key="i"

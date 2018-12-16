@@ -2,15 +2,7 @@
   <mdc-layout-app>
     <popup-toolbar :raised="!isReachStart"></popup-toolbar>
     <popup-drawer></popup-drawer>
-
-    <main>
-      <scrollbar class="main-scrollbar" v-once ref="scrollbar"
-        @ps-y-reach-start="handleScrollReachStart"
-        @ps-scroll-down="handleScrollDown"
-      >
-        <router-view></router-view>
-      </scrollbar>
-    </main>
+    <popup-content v-model="isReachStart"></popup-content>
   </mdc-layout-app>
 </template>
 
@@ -18,33 +10,18 @@
 import { Component, Vue } from 'vue-property-decorator';
 import PopupToolbar from '@/components/PopupToolbar.vue';
 import PopupDrawer from '@/components/PopupDrawer.vue';
+import PopupContent from '@/components/PopupContent.vue';
 import debug from '@/functions/debug';
 
 @Component({
   components: {
     PopupDrawer,
     PopupToolbar,
+    PopupContent,
   },
 })
 export default class Popup extends Vue {
   private isReachStart: boolean = true;
-
-  private mounted() {
-    if (this.$refs.scrollbar.$el.scrollTop > 0) {
-      this.isReachStart = false;
-      debug.log(this.$refs.scrollbar.$el.scrollTop);
-    }
-  }
-
-  private handleScrollReachStart() {
-    if (this.isReachStart) { return; }
-    this.isReachStart = true;
-  }
-
-  private handleScrollDown(ev: any) {
-    if (!this.isReachStart) { return; }
-    this.isReachStart = false;
-  }
 }
 </script>
 
@@ -68,8 +45,12 @@ $mdc-typography-font-family: "Roboto Mono", "Microsoft Yahei", "sans-serif", mon
 @import '~vue-mdc-adapter/dist/chips/chips.min.css';
 
 html {
-  height: 420px;
-  width: 280px;
+  --app-height: 420px;
+  --app-width: 280px;
+
+  height: var(--app-height);
+  width: var(--app-width);
+  margin: auto;
   overflow: hidden;
 }
 
@@ -82,22 +63,11 @@ body {
   margin: 0;
 }
 
-.main-scrollbar {
-  height: calc(100vh - 56px);
-  width: 100%;
+body {
+  background-color: #f5f5f5;
 }
 
-.ps {
-  $y-w: 4px;
-  .ps__scrollbar-y-rail {
-    background-color: var(--mdc-theme-text-secondary-on-dark, transparent) !important;
-    width: $y-w !important;
-    right: 2px !important;
-    .ps__scrollbar-y {
-      background-color: var(--mdc-theme-text-hint-on-light, transparent) !important;
-      width: $y-w !important;
-      right: 0 !important;
-    }
-  }
+.popup-content {
+  background-color: white;
 }
 </style>

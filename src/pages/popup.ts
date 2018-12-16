@@ -1,5 +1,3 @@
-import 'material-design-icons-iconfont/dist/material-design-icons.css';
-
 import Vue, { VueConstructor } from 'vue';
 
 Vue.config.productionTip = false;
@@ -18,6 +16,8 @@ import store from '@/stores/popup';
 import i18n from '@/i18n';
 
 import App from './Popup.vue';
+
+import 'material-design-icons-iconfont/dist/material-design-icons.css';
 
 store.dispatch('init');
 

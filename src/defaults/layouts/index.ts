@@ -5,7 +5,7 @@ export const layoutPresets = [
   float,
 ];
 
-export const stringifyLayoutPresets: jsonString[] = layoutPresets
+export const stringifyLayoutPresets: presetStringJson[] = layoutPresets
   .map((preset) => JSON.stringify(preset));
 
 export default stringifyLayoutPresets;

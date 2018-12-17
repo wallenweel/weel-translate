@@ -1,4 +1,5 @@
 import * as types from '../types';
+import { presetIdJsonReg } from '@/variables';
 import debug from './debug';
 
 export let istype: IsTypeFn;
@@ -299,7 +300,7 @@ configKeysReducer = (keys, config) => {
 
 export let presetLanguagesModifier: PresetLanguagesModifyFn;
 presetLanguagesModifier = (languages, rules = []) => {
-  if (!rules.length) { return ['no any rules']; }
+  if (!rules.length) { return ['no any rules', languages]; }
 
   const out: Language[] = [];
 
@@ -352,17 +353,49 @@ presetLanguagesModifier = (languages, rules = []) => {
 
 export let presetLanguagesFilter: PresetLanguagesFilterFn;
 presetLanguagesFilter = (languages, include, exclude) => {
-  let out: Language[] = [...languages];
+  let out: Language[] = [];
 
-  if (!include && !exclude) { return [null, out]; }
+  if (!include && !exclude) { return [null, languages]; }
 
   if (include && include.length) {
-    out = out.filter(({ code }) => include.includes(code));
+    out = languages.filter(({ code }) => include.includes(code));
   }
 
   if (exclude && exclude.length) {
-    out = out.filter(({ code }) => !exclude.includes(code));
+    out = languages.filter(({ code }) => !exclude.includes(code));
   }
 
   return [null, out];
+};
+
+export let presetInvoker: PresetInvokeFn;
+presetInvoker = (presetId, presets) => {
+  let preset: presetStringJson | Preset | SourcePreset | LayoutPreset;
+
+  const find = (id: string) => presets.filter((stringifyPreset) => {
+    const [_, mid] = stringifyPreset.match(presetIdJsonReg) || ['', ''];
+    return id === mid;
+  })[0];
+
+  try {
+    preset = find(presetId) as presetStringJson;
+
+    if (!preset) { return [`no preset id is "${presetId}"`]; }
+
+    preset = JSON.parse(preset) as Preset | SourcePreset | LayoutPreset;
+
+    if (!!preset.extends) {
+      const parent = find(preset.extends);
+
+      if (!parent) {
+        return [`no parent preset id is "${preset.extends}"`, preset];
+      }
+
+      preset = Object.assign(JSON.parse(parent), preset) as Preset | SourcePreset | LayoutPreset;
+    }
+  } catch (error) {
+    return [new Error(error)];
+  }
+
+  return [null, preset];
 };

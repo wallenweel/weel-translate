@@ -1,4 +1,4 @@
-export const popup: layoutPreset = {
+export const popup: LayoutPreset = {
   id: 'default_popup',
   test: ['phonetic_src', 'phonetic_dest', 'translation', 'explain'],
   title: 'Default For Popup',
@@ -12,7 +12,7 @@ export const popup: layoutPreset = {
   ],
 };
 
-export const float: layoutPreset = {
+export const float: LayoutPreset = {
   id: 'default_float',
   test: ['phonetic_dest', 'translation', 'explain'],
   title: 'Default For Float',

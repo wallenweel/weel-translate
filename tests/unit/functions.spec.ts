@@ -14,6 +14,7 @@ import {
   translationResultParser,
   presetLanguagesModifier,
   presetLanguagesFilter,
+  presetInvoker,
 } from '@/functions';
 import stringifySourcePresets, { sourcePresets } from '@/defaults/sources';
 import stringifyLayoutPresets, { layoutPresets } from '@/defaults/layouts';
@@ -223,5 +224,15 @@ describe('functions/presetLanguagesFilter', () => {
     expect(excludeDemo![0].code).not.toBe('auto');
 
     expect(fn(languages, include, exclude)[1]).toHaveLength(3);
+  });
+});
+
+describe('functions/presetInvoker', () => {
+  const fn = presetInvoker;
+
+  it(`invokes a preset from JSON string to object.`, () => {
+    const demo = fn('google_cn', stringifySourcePresets)[1];
+    expect(demo!.name).toBe('谷歌');
+    expect(demo).toHaveProperty('parser');
   });
 });

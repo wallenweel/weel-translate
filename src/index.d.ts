@@ -33,9 +33,24 @@ declare interface VersionCheckFn {
   (current: string, last: string | undefined): std<versionStatus>;
 }
 
+declare type presetId = string;
+
 declare interface Preset {
-  id: string;
+  // translation source's id, only accpet en words
+  // and "_" as separator
+  readonly id: presetId;
+  // extends a full preset, by source's id
+  // must be set in children preset
+  readonly extends?: presetId;
+
   [index: string]: any;
+}
+
+declare type presetStringJson = jsonString;
+
+declare interface PresetInvokeFn {
+  (id: presetId, presets: presetStringJson[]):
+    std<Preset | SourcePreset | LayoutPreset>;
 }
 
 declare interface PresetLanguagesModifyFn {
@@ -76,8 +91,8 @@ declare interface TranslationResultParseFn {
 }
 
 declare interface TemplateLayoutParseFn {
-  (result: SourcePreset['parser'], rowsPreset: layoutPreset['rows'],
-    copy?: boolean): std<layoutPreset['rows']>;
+  (result: SourcePreset['parser'], rowsPreset: LayoutPreset['rows'],
+    copy?: boolean): std<LayoutPreset['rows']>;
 }
 
 /** /apis/request */
@@ -211,15 +226,11 @@ declare type SourcePresetItem = {
   modify?: SourcePreset['modify'];
 };
 
-// translation source's id, only accpet en words
-// and "_" as separator
-declare type sourceId = string;
+declare type sourceId = presetId;
 
-declare interface SourcePreset {
+declare interface SourcePreset extends Preset {
   readonly id: sourceId;
 
-  // extends a full preset, by source's id
-  // must be set in children preset
   readonly extends?: sourceId;
 
   // display name
@@ -289,20 +300,28 @@ declare interface AudioQuery extends TextQuery {
 declare type selector = string | string[] | undefined;
 
 // config/template part
-declare type templatePreset = layoutPreset;
-
-declare type templateId = string;
+declare type templatePreset = LayoutPreset;
 
 declare interface LayoutPresetItem {
+  id: LayoutPreset['id'];
+  test: LayoutPreset['test'],
+  title?: LayoutPreset['title'];
+}
+
+declare type templateId = presetId;
+
+declare interface LayoutPreset extends Preset {
   id: templateId;
+  extends?: templateId;
+
   // check has or not existed "keys" in result. such as
   // test ['phonetic', 'translation'] in result { phonetic: '...', translation: '...' } is true
   test: string[],
-  title?: string;
-}
 
-declare interface layoutPreset extends LayoutPresetItem {
-  rows: string[][]; // output
+  // layout
+  rows: string[][];
+
+  title?: string;
   description?: string;
 }
 

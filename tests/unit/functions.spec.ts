@@ -13,6 +13,7 @@ import {
   parserPathReducer,
   translationResultParser,
   presetLanguagesModifier,
+  presetLanguagesFilter,
 } from '@/functions';
 import stringifySourcePresets, { sourcePresets } from '@/defaults/sources';
 import stringifyLayoutPresets, { layoutPresets } from '@/defaults/layouts';
@@ -202,5 +203,25 @@ describe('functions/presetLanguagesModifier', () => {
     expect(objectDemo![15].code).toBe('CHS');
     expect(objectDemo![0].locale).toBe('auto');
     expect(objectDemo![15].name).toBe('简体中文');
+  });
+});
+
+describe('functions/presetLanguagesFilter', () => {
+  const fn = presetLanguagesFilter;
+  const [include, exclude] = [
+    ['auto', 'zh-cn', 'ja', 'en'],
+    ['auto', 'da'],
+  ];
+
+  it(`filters languages if set "include" or "exclude" params in preset`, () => {
+    const includeDemo = fn(languages, include)[1];
+    expect(includeDemo).toHaveLength(4);
+    expect(includeDemo![0].code).toBe('auto');
+
+    const excludeDemo = fn(languages, undefined, exclude)[1];
+    expect(excludeDemo).toHaveLength(103);
+    expect(excludeDemo![0].code).not.toBe('auto');
+
+    expect(fn(languages, include, exclude)[1]).toHaveLength(3);
   });
 });

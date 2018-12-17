@@ -349,3 +349,20 @@ presetLanguagesModifier = (languages, rules = []) => {
 
   return [null, out];
 };
+
+export let presetLanguagesFilter: PresetLanguagesFilterFn;
+presetLanguagesFilter = (languages, include, exclude) => {
+  let out: Language[] = [...languages];
+
+  if (!include && !exclude) { return [null, out]; }
+
+  if (include && include.length) {
+    out = out.filter(({ code }) => include.includes(code));
+  }
+
+  if (exclude && exclude.length) {
+    out = out.filter(({ code }) => !exclude.includes(code));
+  }
+
+  return [null, out];
+};

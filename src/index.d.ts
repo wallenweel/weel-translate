@@ -42,6 +42,10 @@ declare interface PresetLanguagesModifyFn {
   (languages: Language[], rules: SourcePreset['modify']): std<Language[]>
 }
 
+declare interface PresetLanguagesFilterFn {
+  (languages: Language[], include?: Array<Language['code']>, exclude?: Array<Language['code']>): std<Language[]>
+}
+
 declare interface PresetsParseFn {
   (presets: jsonString[]): std<Preset[]>;
 }
@@ -246,8 +250,11 @@ declare interface SourcePreset {
   // or [['auto', 'AUTO'], ['zh-cn', 'zh-CHS'], ...]
   // or [[{ code: 'auto' }, { code: 'AUTO' }], ...]
   modify?: string[] |
-    Language['code'][][] |
-    { code: Language['code'], name?: Language['name'], locale?: Language['locale'] }[][];
+    Array<Language['code'][]> |
+    Array<[
+      { code: Language['code'], name?: Language['name'], locale?: Language['locale'] },
+      { code?: Language['code'], name?: Language['name'], locale?: Language['locale'] }
+    ]>;
 
   // initial translating direction
   fromto: [Language['code'], Language['code']];

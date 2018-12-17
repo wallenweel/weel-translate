@@ -296,3 +296,56 @@ configKeysReducer = (keys, config) => {
 
   return [null, out];
 };
+
+export let presetLanguagesModifier: PresetLanguagesModifyFn;
+presetLanguagesModifier = (languages, rules = []) => {
+  if (!rules.length) { return ['no any rules']; }
+
+  const out: Language[] = [];
+
+  for (const lang of languages) {
+    let { code, name, locale } = lang;
+
+    for (const rule of rules) {
+      // ['auto:>AUTO', ...]
+      if (istype(rule, 'string')) {
+        const [origin, target] = (rule as string).split(':>');
+
+        if (!origin || !target) { continue; }
+
+        if (code === origin) {
+          code = target; name = name; locale = locale;
+        }
+        continue;
+      }
+
+      if (istype(rule, 'array')) {
+        const [origin, target] = rule;
+
+        // [['auto', 'AUTO'], ...]
+        if (istype(origin, 'string') && istype(target, 'string')) {
+          if (!origin || !target) { continue; }
+
+          if (code === origin) {
+            code = (target as string); name = name; locale = locale;
+          }
+          continue;
+        }
+
+        // [[{ code: 'auto', ... }, { code: 'AUTO', ... }], ...]
+        if (istype(origin, 'object'), istype(target, 'object')) {
+          if (code === (origin as Language).code) {
+            const { code: tc, name: tn, locale: tl } = (target as Language);
+            code = tc || code;
+            name = tn || name;
+            locale = tl || locale;
+          }
+        }
+      }
+    }
+
+    out.push({ code, name, locale });
+  }
+
+  return [null, out];
+};

@@ -4,6 +4,7 @@ declare module 'vue-mdc-adapter/*'
 declare module 'vue-perfect-scrollbar'
 
 declare module '*.png';
+declare module '*.json';
 
 //~ target browser flag for building extension
 //~ defined in "/vue.config.js"

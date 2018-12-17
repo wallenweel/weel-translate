@@ -15,9 +15,7 @@ const mutations: MutationTree<State> = Object.assign({
 }, { update, clear });
 
 const webActions: ActionTree<State, RootState> = {
-  reset: () => {
-    localStorage.setItem('config', JSON.stringify(defaultConfig));
-  },
+  reset: () => localStorage.setItem('config', JSON.stringify(defaultConfig)),
 
   query: async ({ dispatch }, keys?: storageKeys): Promise<std> => {
     // patch, set storage

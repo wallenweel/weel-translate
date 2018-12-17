@@ -12,9 +12,11 @@ import {
   parserPathSplitter,
   parserPathReducer,
   translationResultParser,
+  presetLanguagesModifier,
 } from '@/functions';
 import stringifySourcePresets, { sourcePresets } from '@/defaults/sources';
 import stringifyLayoutPresets, { layoutPresets } from '@/defaults/layouts';
+import languages from '@/assets/languages.json';
 
 describe('functions/debug', () => {
   it(`return <global>.console object`, () => {
@@ -178,4 +180,27 @@ describe('functions/translationResultParser', () => {
   });
   it(`could use pettern format string`, () =>
     expect(result.content).toBe('Test: "hello" (t_h_e) "world"~'));
+});
+
+describe('functions/presetLanguagesModifier', () => {
+  const fn = presetLanguagesModifier;
+
+  it(`modifies origin language's meta to target's`, () => {
+    const stringDemo = fn(languages, ['auto:>AUTO', 'zh-cn:>CHS'])[1];
+    expect(stringDemo![0].code).toBe('AUTO');
+    expect(stringDemo![15].code).toBe('CHS');
+
+    const arrayDemo = fn(languages, [['auto', 'AUTO'], ['zh-cn', 'CHS']])[1];
+    expect(arrayDemo![0].code).toBe('AUTO');
+    expect(arrayDemo![15].code).toBe('CHS');
+
+    const objectDemo = fn(languages, [
+      [{ code: 'auto' }, { code: 'AUTO', locale: 'auto' }],
+      [{ code: 'zh-cn' }, { code: 'CHS', name: '简体中文' }],
+    ])[1];
+    expect(objectDemo![0].code).toBe('AUTO');
+    expect(objectDemo![15].code).toBe('CHS');
+    expect(objectDemo![0].locale).toBe('auto');
+    expect(objectDemo![15].name).toBe('简体中文');
+  });
 });

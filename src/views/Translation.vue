@@ -39,6 +39,7 @@ export default class TranslationView extends Vue {
 
   @__.State private text!: string;
   @__.State private hotkey!: string;
+  @__.State private source!: string;
 
   @__.Mutation('text')
   private mutateText: any;

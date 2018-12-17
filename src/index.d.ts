@@ -38,6 +38,10 @@ declare interface Preset {
   [index: string]: any;
 }
 
+declare interface PresetLanguagesModifyFn {
+  (languages: Language[], rules: SourcePreset['modify']): std<Language[]>
+}
+
 declare interface PresetsParseFn {
   (presets: jsonString[]): std<Preset[]>;
 }
@@ -187,6 +191,7 @@ declare type translationListItem = {
 declare interface TranslationConfig {
   translation_recent: translationListItem[] | [];
   translation_picked: translationListItem[] | [];
+  translation_current_source: SourcePresetItem;
   translation_enabled_sources: SourcePresetItem[] | [];
   translation_sources: translationSources;
 }
@@ -195,18 +200,26 @@ declare type translationSources = {
   [index: number]: jsonString;
 };
 
-// translation source's id, only accpet en words and "_" as separator
-declare type sourceId = string;
-
 declare type SourcePresetItem = {
-  readonly id: sourceId;
-  readonly name?: string; // display name
+  id: SourcePreset['id'];
+  name: SourcePreset['name'];
+  fromto: SourcePreset['fromto'];
+  modify?: SourcePreset['modify'];
 };
 
-declare interface SourcePreset extends SourcePresetItem {
+// translation source's id, only accpet en words
+// and "_" as separator
+declare type sourceId = string;
+
+declare interface SourcePreset {
+  readonly id: sourceId;
+
   // extends a full preset, by source's id
   // must be set in children preset
   readonly extends?: sourceId;
+
+  // display name
+  readonly name?: string;
 
   // query.<type>.url can override this
   url: string;
@@ -229,12 +242,15 @@ declare interface SourcePreset extends SourcePresetItem {
     [name: string]: selector;
   };
 
-  // initial translating direction
-  fromto?: [Language['code'], Language['code']];
+  // support ['auto:>AUTO', 'zh-cn:>zh-CHS', ...]
+  // or [['auto', 'AUTO'], ['zh-cn', 'zh-CHS'], ...]
+  // or [[{ code: 'auto' }, { code: 'AUTO' }], ...]
+  modify?: string[] |
+    Language['code'][][] |
+    { code: Language['code'], name?: Language['name'], locale?: Language['locale'] }[][];
 
-  // support modify by symbol ":>"
-  // such as "['auto:>AUTO', 'zh-cn:>zh-CHS']"
-  modify?: string[];
+  // initial translating direction
+  fromto: [Language['code'], Language['code']];
 
   // just include necessary languages
   // if not exist, load all of languages

@@ -1,4 +1,4 @@
-import { MutationTree, ActionTree, Module } from 'vuex';
+import { MutationTree, ActionTree, Module, GetterTree } from 'vuex';
 import { State as RootState } from '../index';
 
 import { update, clear } from '@/stores/mutations';
@@ -28,7 +28,6 @@ const state: State = {
 };
 
 const mutations = Object.assign({
-  text: (state, text) => { state.text = text; },
 } as MutationTree<State>, { update, clear });
 
 const webActions: ActionTree<State, RootState> = {
@@ -65,7 +64,7 @@ const actions = Object.assign({
   },
 
   languages: async ({ state, commit }) => {
-    let languages: Language[] = await import(/** webpackChunkName: "languages" */ '@/assets/languages.json');
+    let languages: Language[] = await import(/** webpackChunkName "languages" */ '@/assets/languages.json');
 
     const { source, sources } = state;
     const [_, preset] = presetInvoker(source.id, sources) as [null, SourcePreset];
@@ -78,10 +77,19 @@ const actions = Object.assign({
 
     return languages;
   },
+
+  text: ({ commit }, text) => { commit('update', { text }); },
+  fromto: ({ state, commit }, fromto) => {
+    commit('update', { source: { ...state.source, fromto } });
+  },
 } as ActionTree<State, RootState>, TARGET_BROWSER === 'web' ? webActions : ipcActions);
 
+const getters: GetterTree<State, RootState> = {
+  fromto: (state) => state.source.fromto,
+};
+
 export const translation: Module<State, RootState> = {
-  namespaced, state, actions, mutations,
+  namespaced, state, actions, mutations, getters,
 };
 
 export default translation;

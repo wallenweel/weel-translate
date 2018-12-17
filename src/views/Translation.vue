@@ -1,12 +1,15 @@
 <template>
   <div class="view-translation">
     <translation-input class="-input"
-      :value="value" @change="handleChange"
+      :value="value" @change="handleText"
       @enter="handleEnter"
     >
     </translation-input>
 
     <translation-tools class="-tools"
+      :fromto="fromto"
+      @change="handleFromto"
+      :languages="languages"
       :disabled="!value || !value.length"
       @clear="handleClear" @query="handleQuery" @paste="handlePaste"
     ></translation-tools>
@@ -39,21 +42,26 @@ export default class TranslationView extends Vue {
 
   @__.State private text!: string;
   @__.State private hotkey!: string;
-  @__.State private source!: string;
+  @__.State private languages!: Language[];
+  @__.State private source!: SourcePresetItem;
 
-  @__.Mutation('text')
-  private mutateText: any;
+  @__.Getter private fromto!: Array<Language['code']>;
 
-  @__.Action('query')
-  private translate: any;
+  @__.Action('text') private updateText: any;
+  @__.Action('fromto') private updateFromto: any;
+  @__.Action('query') private translate: any;
 
   private created() {
     this.value = this.text;
   }
 
-  private handleChange(text: string) {
+  private handleFromto(fromto: Array<Language['code']>) {
+    this.updateFromto(fromto);
+  }
+
+  private handleText(text: string) {
     this.value = text;
-    this.mutateText(text);
+    this.updateText(text);
   }
 
   private handleEnter(ev: any) {
@@ -74,15 +82,14 @@ export default class TranslationView extends Vue {
 
   private handleClear() { this.value = ''; }
   private handleQuery() {
-    this.translate();
+    this.$i18n.locale = 'zh-CN';
+
+    // this.translate();
   }
   private handlePaste() {/** */}
 }
 </script>
 
 <style lang="scss">
-@import 'vue-mdc-adapter/dist/fab/styles';
-@import 'vue-mdc-adapter/dist/card/styles';
-@import 'vue-mdc-adapter/dist/linear-progress/styles';
 </style>
 

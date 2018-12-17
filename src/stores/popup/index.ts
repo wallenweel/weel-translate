@@ -15,7 +15,7 @@ const actions: ActionTree<State, State> = {
     dispatch('storage/init')
       .then(() => dispatch('translation/init'))
       .then(() => {
-        debug.log(state.translation.source);
+        // debug.log(state.translation.source);
       });
   },
 };

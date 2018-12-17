@@ -20,26 +20,80 @@
     </div>
 
     <div class="support-languages">
-      <mdc-button dense>English</mdc-button>
+      <mdc-button dense
+        @click="selectLanguages('from')"
+      >{{ $t(from.locale) }}</mdc-button>
+
       <mdc-icon-toggle class="-switch" v-model="toggle" dense primary
         toggle-off="keyboard_arrow_right"
         toggle-on="keyboard_arrow_left">
       </mdc-icon-toggle>
-      <mdc-button dense>中文（简体）</mdc-button>
+
+      <mdc-button dense
+        @click="selectLanguages('to')"
+      >{{ $t(to.locale) }}</mdc-button>
     </div>
+
+    <mdc-dialog v-model="open" scrollable
+      title="Select Language"
+      ref="select"
+    >
+      <mdc-list interactive dense>
+        <mdc-list-item
+          v-for="(lang, i) in languages" :key="i"
+          :ref="lang.code === selected ? 'selected' : null"
+          :selected="lang.code === selected"
+          @click="select(lang.code)"
+        >
+          {{ `${lang.name} (${lang.code})` }}
+        </mdc-list-item>
+      </mdc-list>
+    </mdc-dialog>
   </div>
 </template>
 
 <script lang="ts">
-import { Component, Prop, Vue } from 'vue-property-decorator';
+import { Component, Prop, Model, Vue } from 'vue-property-decorator';
 import debug from '@/functions/debug';
 
 @Component
 export default class TranslationTools extends Vue {
+  @Model('change', { type: Array }) private fromto!: Array<Language['code']>;
+
+  @Prop(Array) private languages!: Language[];
   @Prop(Boolean) private disabled?: boolean;
 
-  private toggle: boolean = false;
   private progress: number = .76;
+  private toggle: boolean = false;
+  private open: boolean = false;
+  private selected: Language['code'] = '';
+  private type: 'from' | 'to' | null = null;
+
+  private get from() {
+    return this.languages.filter(({ code }) => this.fromto[0] === code)[0] || '';
+  }
+  private get to() {
+    return this.languages.filter(({ code }) => this.fromto[1] === code)[0] || '';
+  }
+
+  private select(code: Language['code']) {
+    this.selected = code;
+    if (this.type === 'from') { this.$emit('change', [code, this.to.code]); }
+    if (this.type === 'to') { this.$emit('change', [this.from.code, code]); }
+    this.open = false;
+  }
+
+  private selectLanguages(type: 'from' | 'to') {
+    if (type === 'from') { this.selected = this.from.code; }
+    if (type === 'to') { this.selected = this.to.code; }
+    this.$nextTick(() => {
+      const wrap = this.$refs.select.$el.children[0].children[1];
+      wrap.scrollTop = this.$refs.selected[0].$el.offsetTop - 96;
+
+      this.type = type;
+      this.open = true;
+    });
+  }
 }
 </script>
 

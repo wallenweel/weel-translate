@@ -1,12 +1,6 @@
 <template>
   <div class="translation-result">
     <transition name="fade">
-      <mdc-display v-if="!hasResult">
-        Not Just Translation
-      </mdc-display>
-    </transition>
-
-    <transition name="fade">
       <mdc-card class="_section" :wlt-id="layout.id" v-if="hasResult">
         <div v-for="(row, n) in this.parseRows" :key="n"
           class="_row" :wlt-id="n">

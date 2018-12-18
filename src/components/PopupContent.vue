@@ -39,11 +39,8 @@ export default class PopupContent extends Vue {
 
 <style lang="scss">
 .main-scrollbar {
-  height: calc(var(--app-height) - 64px);
+  height: calc(var(--app-height) - var(--app-toolbar-height));
   width: 100%;
-  @media (max-width: 598px) {
-    height: calc(var(--app-height) - 56px);
-  }
 }
 
 .ps {

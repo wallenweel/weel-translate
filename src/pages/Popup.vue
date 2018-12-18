@@ -48,10 +48,19 @@ $mdc-typography-font-family: "Roboto Mono", "Microsoft Yahei", "sans-serif", mon
 @import '~vue-mdc-adapter/dist/dialog/dialog.min.css';
 @import '~vue-mdc-adapter/dist/snackbar/snackbar.min.css';
 @import '~vue-mdc-adapter/dist/linear-progress/linear-progress.min.css';
-html {
+@import '~vue-mdc-adapter/dist/textfield/textfield.min.css';
+
+:root {
   --app-height: 420px;
   --app-width: 280px;
+  --app-toolbar-height: 56px;
 
+  @media (min-width: 599px) {
+    --app-toolbar-height: 64px;
+  }
+}
+
+html {
   height: var(--app-height);
   width: var(--app-width);
   margin: auto;

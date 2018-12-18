@@ -3,6 +3,7 @@
     <translation-input class="-input"
       :value="value" @change="handleText"
       :hotkey="hotkey"
+      :has="hasResult"
       @enter="handleEnter"
     >
     </translation-input>
@@ -15,6 +16,7 @@
       @clear="handleClear"
       @query="handleQuery" :flag="flag" :failed="failed"
       @paste="handlePaste"
+      @hide="resetFailed"
     ></translation-tools>
 
     <translation-result class="-result"
@@ -54,10 +56,12 @@ export default class TranslationView extends Vue {
   @__.State private source!: SourcePresetItem;
 
   @__.Getter private fromto!: Array<Language['code']>;
+  @__.Getter private hasResult!: boolean;
 
   @__.Action('text') private updateText: any;
   @__.Action('fromto') private updateFromto: any;
   @__.Action('translate') private doTranslate: any;
+  @__.Action('failed') private resetFailed: any;
 
   private created() {
     this.value = this.text;
@@ -91,7 +95,6 @@ export default class TranslationView extends Vue {
   private handleClear() { this.value = ''; }
   private handleQuery() {
     this.doTranslate().then(() => {
-      this.$i18n.locale = 'zh-cn';
       this.flag = !this.flag;
     });
   }
@@ -100,5 +103,12 @@ export default class TranslationView extends Vue {
 </script>
 
 <style lang="scss">
+.view-translation {
+  // padding-bottom: 48px;
+  .-result {
+    ._section {
+      border-radius: 8px 24px;
+    }
+  }
+}
 </style>
-

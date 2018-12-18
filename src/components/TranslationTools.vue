@@ -14,7 +14,7 @@
 
     <div class="query-process">
       <mdc-linear-progress
-        :progress="progress"
+        :progress="progress >= 1 ? 1 : progress"
         :buffer="progress + .05 >= 1 ? 1 : progress + .05">
       </mdc-linear-progress>
     </div>
@@ -50,7 +50,7 @@
       </mdc-list>
     </mdc-dialog>
 
-    <mdc-snackbar v-model="snack" ref="snack" />
+    <mdc-snackbar v-model="snack" @hide="$emit('hide')" ref="snack" />
   </div>
 </template>
 
@@ -64,7 +64,7 @@ export default class TranslationTools extends Vue {
 
   @Prop(Array) private languages!: Language[];
   @Prop(Boolean) private disabled?: boolean;
-  @Prop(Boolean) private flag?: boolean = false;
+  @Prop(Boolean) private flag?: boolean;
 
   @Prop(String || null)
   private failed?: null | string = null;
@@ -87,9 +87,9 @@ export default class TranslationTools extends Vue {
   private handleQuery() {
     this.progress = .05;
     this.interval = setInterval(() => {
-      if (this.progress >= .8) { clearInterval(this.interval); }
-      this.progress += .05;
-    }, 1000);
+      if (this.progress >= .8) { return clearInterval(this.interval); }
+      this.progress += parseFloat('0.0' + new Date().getTime().toString().slice(-1)) * 2;
+    }, 800);
     this.$emit('query');
   }
 
@@ -137,15 +137,6 @@ export default class TranslationTools extends Vue {
   text-overflow: ellipsis;
   overflow: hidden;
 };
-
-.view-translation {
-  padding-bottom: 48px;
-  .-result {
-    ._section {
-      border-radius: 8px 24px;
-    }
-  }
-}
 
 .input-actions {
   background: #fff;

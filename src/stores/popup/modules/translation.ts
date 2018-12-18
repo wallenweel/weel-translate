@@ -82,11 +82,10 @@ const actions = Object.assign({
   translate: ({ state, dispatch }) => {
     const { text: q, source: { fromto: [from, to] } } = state;
     if (!q.trim().length) {
-      debug.log(q.trim());
       return dispatch('failed', i18n.t('blank_input_msg'));
     }
     if (istype(cancelTranslate, 'function')) { cancelTranslate(); }
-    dispatch('query', { q, from, to });
+    return dispatch('query', { q, from, to });
   },
 
   languages: async ({ state, commit }) => {
@@ -109,7 +108,6 @@ const actions = Object.assign({
 
   failed: ({ commit }, message: string) => {
     commit('update', { failed: message || null });
-    // commit('update', { failed: null });
   },
   done: ({ commit }, [_, result]) => {
     commit('update', { result });
@@ -117,7 +115,8 @@ const actions = Object.assign({
 } as ActionTree<State, RootState>, TARGET_BROWSER === 'web' ? webActions : ipcActions);
 
 const getters: GetterTree<State, RootState> = {
-  fromto: (state) => state.source.fromto,
+  fromto: (state): Array<Language['code']> => state.source.fromto,
+  hasResult: (state): boolean => !!Object.values(state.result).length,
 };
 
 export const translation: Module<State, RootState> = {

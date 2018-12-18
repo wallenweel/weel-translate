@@ -1,6 +1,8 @@
-import axios, { AxiosRequestConfig } from 'axios';
-import debug from '@/functions/debug';
+import axios, { AxiosRequestConfig, CancelTokenSource } from 'axios';
 import { presetParamsParser } from '@/functions';
+import debug from '@/functions/debug';
+
+export const source = axios.CancelToken.source();
 
 export const request: ApiRequest = (preset, type = 'text') => {
   const { query, url, method } = Object.assign({}, preset);
@@ -19,15 +21,16 @@ export const request: ApiRequest = (preset, type = 'text') => {
     }
   }
 
-  return (requestParams, userConfig: AxiosRequestConfig = {}) => {
+  return (requestParams, userConfig = {} as AxiosRequestConfig) => {
     let config: AxiosRequestConfig = Object.assign({
-      timeout: '5000',
+      timeout: 5000,
+      cancelToken: source.token,
       headers: {
         // 'Access-Control-Allow-Origin': '*',
         // 'Content-Type': 'application/json',
         // 'X-HTTP-Method-Override': 'GET',
       },
-    }, userConfig);
+    } as AxiosRequestConfig, userConfig);
 
     if (!!querier) { // for translation
       const { method, url } = querier;
@@ -58,4 +61,17 @@ export const request: ApiRequest = (preset, type = 'text') => {
   };
 };
 
+request.source = source;
+
 export default request;
+
+/** /apis/request */
+declare type apiResponse = any;
+declare type apiRequestType = 'text' | 'audio' | 'web';
+
+declare interface ApiRequest {
+  (sourcePreset: Preset, type?: apiRequestType):
+    (requestParams: { [key: string]: string; }, userConfig?: AxiosRequestConfig) =>
+      Promise<std<apiResponse>>;
+  source: CancelTokenSource;
+}

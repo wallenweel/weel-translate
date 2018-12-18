@@ -118,10 +118,13 @@ export default class TranslationTools extends Vue {
     this.progress = 1;
   }
   @Watch('failed')
-  private onFailed(val: boolean) {
-    const message = typeof this.failed === 'string' ?
-      this.failed : `Request failed.`;
-    if (val) { this.$refs.snack.show({ message }); }
+  private onFailed(val: null | string) {
+    if (!val) { return; }
+
+    let message: string = val || 'something wrong';
+    if (/cancel/i.test(val)) { message = this.$t('request_cancel_msg'); }
+    if (/timeout/i.test(val)) { message = this.$t('request_timeout_msg'); }
+    this.$refs.snack.show({ message });
   }
 }
 </script>

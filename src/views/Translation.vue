@@ -90,8 +90,8 @@ export default class TranslationView extends Vue {
 
   private handleClear() { this.value = ''; }
   private handleQuery() {
-    this.doTranslate().then((result: any) => {
-      debug.log(result);
+    this.doTranslate().then(() => {
+      this.$i18n.locale = 'zh-cn';
       this.flag = !this.flag;
     });
   }

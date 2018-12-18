@@ -70,7 +70,7 @@ declare interface PresetsStringifyFn {
 }
 
 declare interface PresetParamsParseFn {
-  (target: queryParams, requestParams: apiRequestParams, stringify?: boolean): std<URLSearchParams | string>;
+  (target: queryParams, requestParams: { [key: string]: string; }, stringify?: boolean): std<URLSearchParams | string>;
 }
 
 declare interface ParserPathSplitFn {
@@ -93,18 +93,6 @@ declare interface TranslationResultParseFn {
 declare interface TemplateLayoutParseFn {
   (result: SourcePreset['parser'], rowsPreset: LayoutPreset['rows'],
     copy?: boolean): std<LayoutPreset['rows']>;
-}
-
-/** /apis/request */
-declare type apiResponse = any;
-declare type apiRequestType = 'text' | 'audio' | 'web';
-declare type apiRequestParams = { [key: string]: string; };
-declare type apiRequestConfig = { [key: string]: string; };
-
-declare interface ApiRequest {
-  (sourcePreset: Preset, type?: apiRequestType):
-    (requestParams: apiRequestParams, userConfig?: apiRequestConfig) =>
-      Promise<std<apiResponse>>;
 }
 
 /** /apis/browser */
@@ -178,7 +166,7 @@ interface BaseConfig {
 
   // use these language's code that in "@/assets/languages.json"
   ui_language: Language['code'];
-  request_timeout: string | number;
+  request_timeout?: number;
 }
 
 declare interface PreferenceConfig {

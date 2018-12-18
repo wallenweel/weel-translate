@@ -1,5 +1,7 @@
+import axios, { Canceler } from 'axios';
 import { MutationTree, ActionTree, Module, GetterTree } from 'vuex';
 import { State as RootState } from '../index';
+import i18n from '@/i18n';
 
 import { update, clear } from '@/stores/mutations';
 import request from '@/apis/request';
@@ -8,9 +10,12 @@ import {
   presetInvoker,
   presetLanguagesFilter,
   presetLanguagesModifier,
+  istype,
 } from '@/functions';
 
 import debug from '@/functions/debug';
+
+let cancelTranslate: Canceler;
 
 const namespaced: boolean = true;
 
@@ -21,7 +26,7 @@ const state: State = {
   languages: [],
   result: {},
   failed: null,
-  timeout: '1000',
+  timeout: 1000,
 
   sources: [],
   source: { id: 'nil', name: 'Nil', fromto: ['nil', 'nil'] },
@@ -34,14 +39,20 @@ const mutations = Object.assign({
 } as MutationTree<State>, { update, clear });
 
 const webActions: ActionTree<State, RootState> = {
-  query: ({ state, commit, dispatch }, params) => {
+  query: ({ state, dispatch }, params) => {
     const { timeout, sources, source: { id } } = state;
     const preset = presetInvoker(id, sources)[1] as SourcePreset;
     const translationRequest = request(preset);
 
-    return translationRequest(params, { timeout })
+    return translationRequest(params, {
+      timeout,
+      cancelToken: new axios.CancelToken((cancel: Canceler) => {
+        cancelTranslate = cancel;
+      }),
+    })
       .then(([_, { data }]) => {
         dispatch('done', resultParser(data, preset.parser));
+        dispatch('failed', null);
       })
       .catch(([error]) => {
         debug.log(error);
@@ -70,7 +81,12 @@ const actions = Object.assign({
 
   translate: ({ state, dispatch }) => {
     const { text: q, source: { fromto: [from, to] } } = state;
-    return dispatch('query', { q, from, to });
+    if (!q.trim().length) {
+      debug.log(q.trim());
+      return dispatch('failed', i18n.t('blank_input_msg'));
+    }
+    if (istype(cancelTranslate, 'function')) { cancelTranslate(); }
+    dispatch('query', { q, from, to });
   },
 
   languages: async ({ state, commit }) => {
@@ -93,6 +109,7 @@ const actions = Object.assign({
 
   failed: ({ commit }, message: string) => {
     commit('update', { failed: message || null });
+    // commit('update', { failed: null });
   },
   done: ({ commit }, [_, result]) => {
     commit('update', { result });
@@ -116,7 +133,7 @@ interface State {
   languages: Language[];
   result: { [name: string]: any };
   failed: null | string;
-  timeout: string;
+  timeout?: number;
 
   sources: presetStringJson[];
   source: SourcePresetItem;

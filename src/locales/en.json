@@ -10,6 +10,10 @@
   "clear": "Clear",
   "paste": "Paste",
 
+  "request_cancel_msg": "Request canceled",
+  "request_timeout_msg": "Request is timeout",
+  "blank_input_msg": "Need an input first",
+
   "languages": "Languages",
   "automatic": "Automatic",
   "afrikaans": "Afrikaans",

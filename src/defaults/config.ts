@@ -12,6 +12,7 @@ export const baseConfig: BaseConfig = {
   runtime_env: RUNTIME_ENV,
   version: manifest.version,
   last_version: '',
+  ui_language: 'en',
 };
 
 const defaultConfig: DefaultConfig = {

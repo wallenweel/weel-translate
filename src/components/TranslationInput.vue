@@ -3,20 +3,29 @@
     <mdc-textfield class="-textfield"
       v-model="input" @keypress.enter="handleEnter"
       multiline
-      label="Hint text" rows="0" cols="0">
+      :label="hintText" rows="0" cols="0">
     </mdc-textfield>
   </div>
 </template>
 
 <script lang="ts">
 import Vue from 'vue';
-import { Component, Model, Watch, Emit } from 'vue-property-decorator';
+import { Component, Prop, Model, Watch, Emit } from 'vue-property-decorator';
 
 @Component
 export default class TranslationInput extends Vue {
   @Model('change', String) private value?: string;
+  @Prop(String) private hotkey?: string;
 
   private input: string = this.value || '';
+  private get hintText() {
+    const hotkey: string = ({
+      'enter': 'Enter',
+      'ctrl+enter': 'Ctrl + Enter',
+    } as { [k: string]: string })[this.hotkey as string];
+
+    return this.$t('input_hint_text', { hotkey });
+  }
 
   @Watch('input')
   private onChange(text: string) { this.$emit('change', text); }

@@ -7,7 +7,7 @@
     <mdc-drawer-list class="-list">
       <mdc-drawer-item v-for="(item, i) in items" :key="i"
         :start-icon="item.icon" :to="item.to" :href="item.href"
-      >{{ item.title }}
+      >{{ $t(item.locale) }}
       </mdc-drawer-item>
     </mdc-drawer-list>
   </mdc-drawer>
@@ -21,7 +21,8 @@ import debug from '@/functions/debug';
 interface ListItems {
   [index: number]: {
     icon: string,
-    title: string,
+    title?: string,
+    locale: string,
     to?: string,
     href?: string,
     activated?: boolean;
@@ -32,11 +33,11 @@ interface ListItems {
 export default class PopupDrawer extends Vue {
   private logo = logo;
   private items: ListItems = [
-    { icon: 'translate', title: 'Translate', to: '/translation' },
-    { icon: 'favorite', title: 'Picked', to: '/picked' },
-    { icon: 'history', title: 'History', to: '/history' },
-    { icon: 'style', title: 'Presets', to: '/presets' },
-    { icon: 'settings', title: 'Settings', to: '/settings' },
+    { icon: 'translate', locale: 'translate', to: '/translation' },
+    { icon: 'favorite', locale: 'picked', to: '/picked' },
+    { icon: 'history', locale: 'history', to: '/history' },
+    { icon: 'settings', locale: 'preference', to: '/preference' },
+    { icon: 'style', locale: 'presets', to: '/presets' },
   ];
 }
 </script>

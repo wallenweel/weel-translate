@@ -177,6 +177,9 @@ interface BaseConfig {
   runtime_env: 'development' | 'production';
   version: version;
   last_version?: version;
+
+  // use these language's code that in "@/assets/languages.json"
+  ui_language: Language['code'];
 }
 
 declare interface PreferenceConfig {

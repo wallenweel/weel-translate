@@ -2,14 +2,14 @@
   <div class="translation-tools">
     <div class="input-actions">
       <mdc-button class="_button" :disabled="disabled"
-        @click="$emit('clear')">Clear</mdc-button>
+        @click="$emit('clear')">{{ $t('clear') }}</mdc-button>
 
       <mdc-fab class="-done"
         icon="done" mini absolute
         @click="$emit('query')"></mdc-fab>
 
       <mdc-button class="_button"
-        @click="$('paste')">Paste</mdc-button>
+        @click="$('paste')">{{ $t('paste') }}</mdc-button>
     </div>
 
     <div class="query-process">

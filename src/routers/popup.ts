@@ -1,9 +1,10 @@
 import Vue, { VueConstructor } from 'vue';
 import Router, { RouterOptions, RouteConfig } from 'vue-router';
+
 Vue.use(Router);
 
 import TranslationView from '@/views/Translation.vue';
-import SettingsView from '@/views/Settings.vue';
+import PreferenceView from '@/views/Preference.vue';
 import PickedView from '@/views/Picked.vue';
 
 const routes: RouteConfig[] = [
@@ -24,10 +25,10 @@ const routes: RouteConfig[] = [
     meta: { locale: 'picked' },
   },
   {
-    path: '/settings',
-    name: 'settings',
-    component: SettingsView as VueConstructor,
-    meta: { locale: 'settings' },
+    path: '/preference',
+    name: 'preference',
+    component: PreferenceView as VueConstructor,
+    meta: { locale: 'preference' },
   },
 ];
 

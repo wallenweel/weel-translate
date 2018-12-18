@@ -1,6 +1,14 @@
 {
   "translate": "翻译",
   "settings": "设置",
+  "picked": "收集",
+  "history": "历史",
+  "preference": "设置偏好",
+  "presets": "模板预设",
+
+  "input_hint_text": "热键 {hotkey} 开始翻译",
+  "clear": "清除",
+  "paste": "粘贴",
 
   "languages": "语言",
   "automatic": "自动",

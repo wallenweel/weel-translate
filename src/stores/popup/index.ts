@@ -11,11 +11,11 @@ const state: State = {};
 const mutations: MutationTree<State> = {};
 
 const actions: ActionTree<State, State> = {
-  init: ({ dispatch }) => {
+  init: ({ state, dispatch }) => {
     dispatch('storage/init')
       .then(() => dispatch('translation/init'))
       .then(() => {
-        // debug.log(state.translation.source);
+        // debug.log(state.storage);
       });
   },
 };

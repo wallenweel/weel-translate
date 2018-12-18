@@ -8,6 +8,7 @@
 - [ ] Advance preset templates costom support (in options page)
 - [ ] More web infomation crawler
 - [ ] Custimizable styles
+- [?] Multiple UI languages support (Ready: `en`, `zh-cn`)
 
 ## Screenshots
 

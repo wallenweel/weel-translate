@@ -1,7 +1,14 @@
 {
-  "message": "hello i18n !!",
   "translate": "Translate",
   "settings": "Settings",
+  "picked": "Picked",
+  "history": "History",
+  "preference": "Preference",
+  "presets": "Presets",
+
+  "input_hint_text": "Hotkey `{hotkey}` to Translate",
+  "clear": "Clear",
+  "paste": "Paste",
 
   "languages": "Languages",
   "automatic": "Automatic",

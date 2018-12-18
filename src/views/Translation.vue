@@ -2,6 +2,7 @@
   <div class="view-translation">
     <translation-input class="-input"
       :value="value" @change="handleText"
+      :hotkey="hotkey"
       @enter="handleEnter"
     >
     </translation-input>

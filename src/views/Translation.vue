@@ -82,7 +82,7 @@ export default class TranslationView extends Vue {
 
   private handleClear() { this.value = ''; }
   private handleQuery() {
-    this.$i18n.locale = 'zh-CN';
+    this.$i18n.locale = 'zh-cn';
 
     // this.translate();
   }

@@ -45,7 +45,7 @@
           :selected="lang.code === selected"
           @click="select(lang.code)"
         >
-          {{ `${lang.name} (${lang.code})` }}
+          {{ `${$t(lang.locale)} (${lang.code})` }}
         </mdc-list-item>
       </mdc-list>
     </mdc-dialog>

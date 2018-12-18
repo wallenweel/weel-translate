@@ -13,6 +13,7 @@ export const baseConfig: BaseConfig = {
   version: manifest.version,
   last_version: '',
   ui_language: 'en',
+  request_timeout: '10000',
 };
 
 const defaultConfig: DefaultConfig = {

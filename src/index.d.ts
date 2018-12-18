@@ -97,16 +97,14 @@ declare interface TemplateLayoutParseFn {
 
 /** /apis/request */
 declare type apiResponse = any;
-
 declare type apiRequestType = 'text' | 'audio' | 'web';
-
-declare type apiRequestParams = {
-  [key: string]: string;
-};
+declare type apiRequestParams = { [key: string]: string; };
+declare type apiRequestConfig = { [key: string]: string; };
 
 declare interface ApiRequest {
   (sourcePreset: Preset, type?: apiRequestType):
-    (requestParams: apiRequestParams) => Promise<std<apiResponse>>;
+    (requestParams: apiRequestParams, userConfig?: apiRequestConfig) =>
+      Promise<std<apiResponse>>;
 }
 
 /** /apis/browser */
@@ -180,6 +178,7 @@ interface BaseConfig {
 
   // use these language's code that in "@/assets/languages.json"
   ui_language: Language['code'];
+  request_timeout: string | number;
 }
 
 declare interface PreferenceConfig {

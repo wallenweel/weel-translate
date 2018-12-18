@@ -19,15 +19,15 @@ export const request: ApiRequest = (preset, type = 'text') => {
     }
   }
 
-  return (requestParams) => {
-    let config: AxiosRequestConfig = {
-      timeout: 1000,
+  return (requestParams, userConfig: AxiosRequestConfig = {}) => {
+    let config: AxiosRequestConfig = Object.assign({
+      timeout: '5000',
       headers: {
         // 'Access-Control-Allow-Origin': '*',
         // 'Content-Type': 'application/json',
         // 'X-HTTP-Method-Override': 'GET',
       },
-    };
+    }, userConfig);
 
     if (!!querier) { // for translation
       const { method, url } = querier;
@@ -44,7 +44,6 @@ export const request: ApiRequest = (preset, type = 'text') => {
           config = { params, ...config };
         }
       }
-      debug.log(config);
     } else { // for web crawl
       config = { ...config, url, method };
       if (/\?/.test(url)) {

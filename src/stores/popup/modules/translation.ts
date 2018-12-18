@@ -4,7 +4,7 @@ import { State as RootState } from '../index';
 import { update, clear } from '@/stores/mutations';
 import request from '@/apis/request';
 import {
-  translationResultParser,
+  translationResultParser as resultParser,
   presetInvoker,
   presetLanguagesFilter,
   presetLanguagesModifier,
@@ -20,6 +20,8 @@ const state: State = {
   text: '', // query text {q}
   languages: [],
   result: {},
+  failed: null,
+  timeout: '1000',
 
   sources: [],
   source: { id: 'nil', name: 'Nil', fromto: ['nil', 'nil'] },
@@ -32,17 +34,19 @@ const mutations = Object.assign({
 } as MutationTree<State>, { update, clear });
 
 const webActions: ActionTree<State, RootState> = {
-  query: ({ state, commit }, params) => {
-    const { sources, source: { id } } = state;
+  query: ({ state, commit, dispatch }, params) => {
+    const { timeout, sources, source: { id } } = state;
     const preset = presetInvoker(id, sources)[1] as SourcePreset;
     const translationRequest = request(preset);
 
-    return translationRequest(params).then(([_, { data }]) => {
-      debug.log(data);
-      const [error, result] = translationResultParser(data, preset.parser);
-      commit('update', { result });
-      return result;
-    });
+    return translationRequest(params, { timeout })
+      .then(([_, { data }]) => {
+        dispatch('done', resultParser(data, preset.parser));
+      })
+      .catch(([error]) => {
+        debug.log(error);
+        dispatch('failed', error.message);
+      });
   },
 };
 
@@ -51,6 +55,7 @@ const ipcActions: ActionTree<State, RootState> = {};
 const actions = Object.assign({
   init: ({ commit, dispatch, rootState }) => {
     const {
+      request_timeout: timeout,
       translation_sources: sources,
       translation_current_source: source,
       translation_enabled_sources: enabledSources,
@@ -58,7 +63,7 @@ const actions = Object.assign({
       translation_picked: picked,
     } = rootState.storage;
 
-    commit('update', { source, sources, enabledSources, recent, picked });
+    commit('update', { timeout, source, sources, enabledSources, recent, picked });
 
     dispatch('languages');
   },
@@ -84,8 +89,13 @@ const actions = Object.assign({
   },
 
   text: ({ commit }, text) => { commit('update', { text }); },
-  fromto: ({ state, commit }, fromto) => {
-    commit('update', { source: { ...state.source, fromto } });
+  fromto: ({ state, commit }, fromto) => { commit('update', { source: { ...state.source, fromto } }); },
+
+  failed: ({ commit }, message: string) => {
+    commit('update', { failed: message || null });
+  },
+  done: ({ commit }, [_, result]) => {
+    commit('update', { result });
   },
 } as ActionTree<State, RootState>, TARGET_BROWSER === 'web' ? webActions : ipcActions);
 
@@ -105,6 +115,8 @@ interface State {
   text: string;
   languages: Language[];
   result: { [name: string]: any };
+  failed: null | string;
+  timeout: string;
 
   sources: presetStringJson[];
   source: SourcePresetItem;

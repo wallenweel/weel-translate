@@ -49,6 +49,8 @@
         </mdc-list-item>
       </mdc-list>
     </mdc-dialog>
+
+    <mdc-snackbar v-model="snack" ref="snack" />
   </div>
 </template>
 
@@ -64,6 +66,10 @@ export default class TranslationTools extends Vue {
   @Prop(Boolean) private disabled?: boolean;
   @Prop(Boolean) private flag?: boolean = false;
 
+  @Prop(String || null)
+  private failed?: null | string = null;
+
+  private snack: any = { message: `` };
   private progress: number = 1;
   private interval: any;
   private toggle: boolean = false;
@@ -110,6 +116,12 @@ export default class TranslationTools extends Vue {
   private onDone(val: boolean) {
     clearInterval(this.interval);
     this.progress = 1;
+  }
+  @Watch('failed')
+  private onFailed(val: boolean) {
+    const message = typeof this.failed === 'string' ?
+      this.failed : `Request failed.`;
+    if (val) { this.$refs.snack.show({ message }); }
   }
 }
 </script>

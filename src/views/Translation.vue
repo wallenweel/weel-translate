@@ -13,7 +13,7 @@
       :languages="languages"
       :disabled="!value || !value.length"
       @clear="handleClear"
-      @query="handleQuery" :flag="flag"
+      @query="handleQuery" :flag="flag" :failed="failed"
       @paste="handlePaste"
     ></translation-tools>
 
@@ -49,6 +49,7 @@ export default class TranslationView extends Vue {
   @__.State private text!: string;
   @__.State private languages!: Language[];
   @__.State private result!: translationResult;
+  @__.State private failed!: null | string;
   @__.State private hotkey!: string;
   @__.State private source!: SourcePresetItem;
 

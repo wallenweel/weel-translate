@@ -46,6 +46,7 @@ $mdc-typography-font-family: "Roboto Mono", "Microsoft Yahei", "sans-serif", mon
 @import '~vue-mdc-adapter/dist/fab/fab.min.css';
 @import '~vue-mdc-adapter/dist/card/card.min.css';
 @import '~vue-mdc-adapter/dist/dialog/dialog.min.css';
+@import '~vue-mdc-adapter/dist/snackbar/snackbar.min.css';
 @import '~vue-mdc-adapter/dist/linear-progress/linear-progress.min.css';
 html {
   --app-height: 420px;

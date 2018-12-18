@@ -105,7 +105,7 @@ declare type apiRequestParams = {
 };
 
 declare interface ApiRequest {
-  (sourcePreset: SourcePreset, type?: apiRequestType):
+  (sourcePreset: Preset, type?: apiRequestType):
     (requestParams: apiRequestParams) => Promise<std<apiResponse>>;
 }
 
@@ -218,6 +218,9 @@ declare interface TranslationConfig {
   translation_sources: translationSources;
 }
 
+declare type translationResult = {
+  [name: string]: string | string[];
+};
 declare type translationSources = {
   [index: number]: jsonString;
 };

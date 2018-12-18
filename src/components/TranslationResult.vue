@@ -1,26 +1,34 @@
 <template>
   <div class="translation-result">
-    <mdc-card class="_section" :wlt-id="layout.id">
-      <div v-for="(row, n) in this.parseRows" :key="n"
-        class="_row" :wlt-id="n">
-        <template v-for="(value, i) in row">
-          <voice-action-button class="_button" :key="`a_${i}`"
-            v-if="isAction(value, 'voice')" :params="parseAction(value)">
-          </voice-action-button>
-          <pick-action-button class="_button" :key="`a_${i}`"
-            v-else-if="isAction(value, 'pick')" :params="parseAction(value)">
-          </pick-action-button>
+    <transition name="fade">
+      <mdc-display v-if="!hasResult">
+        Not Just Translation
+      </mdc-display>
+    </transition>
 
-          <span class="_span" :key="`s_${i}`" v-else
-            :wlt-tag="layout.rows[n][i]">{{value}}</span>
-        </template>
-      </div>
-    </mdc-card>
+    <transition name="fade">
+      <mdc-card class="_section" :wlt-id="layout.id" v-if="hasResult">
+        <div v-for="(row, n) in this.parseRows" :key="n"
+          class="_row" :wlt-id="n">
+          <template v-for="(value, i) in row">
+            <voice-action-button class="_button" :key="`a_${i}`"
+              v-if="isAction(value, 'voice')" :params="parseAction(value)">
+            </voice-action-button>
+            <pick-action-button class="_button" :key="`a_${i}`"
+              v-else-if="isAction(value, 'pick')" :params="parseAction(value)">
+            </pick-action-button>
+
+            <span class="_span" :key="`s_${i}`" v-else
+              :wlt-tag="layout.rows[n][i]">{{ value }}</span>
+          </template>
+        </div>
+      </mdc-card>
+    </transition>
   </div>
 </template>
 
 <script lang="ts">
-import { Component, Vue } from 'vue-property-decorator';
+import { Component, Prop, Vue } from 'vue-property-decorator';
 import VoiceActionButton from '@/components/ActionButtonVoice.vue';
 import PickActionButton from '@/components/ActionButtonPick.vue';
 import { templateLayoutParser, stringParamsParaser, istype } from '@/functions';
@@ -35,15 +43,19 @@ import debug from '@/functions/debug';
 })
 export default class TranslationResult extends Vue {
   private layout: templatePreset = popupLayout;
-  private result: SourcePreset['parser'] = {
-    phonetic_src: 'transˈlāSHən',
-    phonetic_dest: 'Fan Yi',
-    translation: '翻译',
-    explain: `Lorem ipsum dolor sit amet consectetur, adipisicing elit.`,
-  };
+  // private result: SourcePreset['parser'] = {
+  //   phonetic_src: 'transˈlāSHən',
+  //   phonetic_dest: 'Fan Yi',
+  //   translation: '翻译',
+  //   explain: `Lorem ipsum dolor sit amet consectetur, adipisicing elit.`,
+  // };
 
+  @Prop(Object) private result!: translationResult;
+
+  private get hasResult(): boolean { return !!Object.values(this.result).length; }
   private get parseRows(): templatePreset['rows'] {
     const [, rows] = templateLayoutParser(this.result, this.layout.rows);
+    debug.log(rows);
     return rows!;
   }
 
@@ -71,6 +83,13 @@ export default class TranslationResult extends Vue {
 </script>
 
 <style lang="scss">
+.fade-enter-active, .fade-leave-active {
+  transition: opacity .5s;
+}
+.fade-enter, .fade-leave-to {
+  opacity: 0;
+}
+
 .translation-result {
   padding: 0 16px;
   position: relative;

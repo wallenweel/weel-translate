@@ -158,8 +158,17 @@ presetParamsParser = (target, requestParams, stringify = false) => {
   // object: {q: 'test'} -> {"q": "{q}"} => {"q": "test"}
   // array: {q: 'test'} -> [["q": "{q}"]] => [["q": "test"]]
   // string: {q: 'test'} -> 'q={q}&...' => "q=test&...""
-  const params = JSON.parse(JSON.stringify(target)
-    .replace(/{\b(.+?)\b}/g, (_, $) => requestParams[$] || _));
+  let params: queryParams;
+
+  params = JSON.stringify(target)
+    .replace(/{\b(.+?)\b}/g, (_, $) => requestParams[$] || _)
+    .replace(/\n/g, '\\n').replace(/\r/g, '\\r') as string;
+
+  try {
+    params = JSON.parse(params) as queryParams;
+  } catch (error) {
+    return [new Error(error), params];
+  }
 
   let out: URLSearchParams;
 
@@ -209,6 +218,8 @@ parserPathSplitter = (path) => {
 
 export let parserPathReducer: ParserPathReduceFn;
 parserPathReducer = (path, response, stringify = false) => {
+  if (!response) { return [`response is ${response}`]; }
+
   const [error, ap] = parserPathSplitter(path);
 
   if (error !== null) { return [error]; }
@@ -219,7 +230,8 @@ parserPathReducer = (path, response, stringify = false) => {
     const point = ap![i];
 
     if (istype(point, 'array')) { // get value
-      out[i] = (point as string[]).reduce((r: any, c: string) => r[c], response);
+      out[i] = (point as string[]).reduce((r: any, c: string) =>
+        istype(r, ['object', 'array']) ? r[c] : r, response);
       continue;
     }
 
@@ -270,7 +282,7 @@ templateLayoutParser = (result, preset, copy = true) => {
     const row = rows[i];
 
     rows[i] = row.map((e: string) =>
-      e.replace(/{(.+)}/, (_, $1) => result![$1] as string));
+      e.replace(/{(.+)}/, (_, $1) => result![$1] as string || _));
   }
 
   return [null, rows, rows];

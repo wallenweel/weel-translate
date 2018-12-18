@@ -12,10 +12,14 @@
       @change="handleFromto"
       :languages="languages"
       :disabled="!value || !value.length"
-      @clear="handleClear" @query="handleQuery" @paste="handlePaste"
+      @clear="handleClear"
+      @query="handleQuery" :flag="flag"
+      @paste="handlePaste"
     ></translation-tools>
 
-    <translation-result class="-result"></translation-result>
+    <translation-result class="-result"
+      :result="result"
+    ></translation-result>
   </div>
 </template>
 
@@ -40,17 +44,19 @@ const __ = namespace('translation');
 })
 export default class TranslationView extends Vue {
   private value?: string = '';
+  private flag?: boolean = false;
 
   @__.State private text!: string;
-  @__.State private hotkey!: string;
   @__.State private languages!: Language[];
+  @__.State private result!: translationResult;
+  @__.State private hotkey!: string;
   @__.State private source!: SourcePresetItem;
 
   @__.Getter private fromto!: Array<Language['code']>;
 
   @__.Action('text') private updateText: any;
   @__.Action('fromto') private updateFromto: any;
-  @__.Action('query') private translate: any;
+  @__.Action('translate') private doTranslate: any;
 
   private created() {
     this.value = this.text;
@@ -70,22 +76,23 @@ export default class TranslationView extends Vue {
 
     if (this.hotkey === 'enter' && !ctrlKey) {
       ev.preventDefault();
-      // return this.translate();
+      return this.doTranslate();
     }
     if (this.hotkey === 'enter' && ctrlKey) {
       this.value = `${this.text}\n`;
     }
     if (this.hotkey === 'ctrl+enter' && ctrlKey) {
       ev.preventDefault();
-      // return this.translate();
+      return this.doTranslate();
     }
   }
 
   private handleClear() { this.value = ''; }
   private handleQuery() {
-    this.$i18n.locale = 'zh-cn';
-
-    // this.translate();
+    this.doTranslate().then((result: any) => {
+      debug.log(result);
+      this.flag = !this.flag;
+    });
   }
   private handlePaste() {/** */}
 }

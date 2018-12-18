@@ -19,9 +19,10 @@ const state: State = {
 
   text: '', // query text {q}
   languages: [],
+  result: {},
 
-  source: { id: 'nil', name: 'Nil', fromto: ['nil', 'nil'] },
   sources: [],
+  source: { id: 'nil', name: 'Nil', fromto: ['nil', 'nil'] },
   enabledSources: [],
   recent: [],
   picked: [],
@@ -31,14 +32,17 @@ const mutations = Object.assign({
 } as MutationTree<State>, { update, clear });
 
 const webActions: ActionTree<State, RootState> = {
-  translateText: async ({ state }, data) => {
-    const { text: q, source: { id, fromto: [from, to] } } = state;
+  query: ({ state, commit }, params) => {
+    const { sources, source: { id } } = state;
+    const preset = presetInvoker(id, sources)[1] as SourcePreset;
+    const translationRequest = request(preset);
 
-    // const translationRequest = request(google);
-    // const response = await translationRequest({ q, from, to });
-    // const res = response[1].data;
-    // const result = translationResultParser(res, google.parser);
-    // debug.log(res, result);
+    return translationRequest(params).then(([_, { data }]) => {
+      debug.log(data);
+      const [error, result] = translationResultParser(data, preset.parser);
+      commit('update', { result });
+      return result;
+    });
   },
 };
 
@@ -59,8 +63,9 @@ const actions = Object.assign({
     dispatch('languages');
   },
 
-  query: ({ dispatch }, data: any) => {
-    dispatch('translateText', data);
+  translate: ({ state, dispatch }) => {
+    const { text: q, source: { fromto: [from, to] } } = state;
+    return dispatch('query', { q, from, to });
   },
 
   languages: async ({ state, commit }) => {
@@ -99,11 +104,13 @@ interface State {
 
   text: string;
   languages: Language[];
+  result: { [name: string]: any };
 
-  source: SourcePresetItem;
   sources: presetStringJson[];
+  source: SourcePresetItem;
   enabledSources: SourcePresetItem[];
   recent: translationListItem[] | [];
   picked: translationListItem[] | [];
+
   [key: string]: any;
 }

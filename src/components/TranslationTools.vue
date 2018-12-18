@@ -6,10 +6,10 @@
 
       <mdc-fab class="-done"
         icon="done" mini absolute
-        @click="$emit('query')"></mdc-fab>
+        @click="handleQuery"></mdc-fab>
 
       <mdc-button class="_button"
-        @click="$('paste')">{{ $t('paste') }}</mdc-button>
+        @click="$emit('paste')">{{ $t('paste') }}</mdc-button>
     </div>
 
     <div class="query-process">
@@ -45,7 +45,7 @@
           :selected="lang.code === selected"
           @click="select(lang.code)"
         >
-          {{ `${$t(lang.locale)} (${lang.code})` }}
+          <span>{{ $t(lang.locale) }}</span><span>({{ lang.code }})</span>
         </mdc-list-item>
       </mdc-list>
     </mdc-dialog>
@@ -53,7 +53,7 @@
 </template>
 
 <script lang="ts">
-import { Component, Prop, Model, Vue } from 'vue-property-decorator';
+import { Component, Prop, Watch, Model, Vue } from 'vue-property-decorator';
 import debug from '@/functions/debug';
 
 @Component
@@ -62,8 +62,10 @@ export default class TranslationTools extends Vue {
 
   @Prop(Array) private languages!: Language[];
   @Prop(Boolean) private disabled?: boolean;
+  @Prop(Boolean) private flag?: boolean = false;
 
-  private progress: number = .76;
+  private progress: number = 1;
+  private interval: any;
   private toggle: boolean = false;
   private open: boolean = false;
   private selected: Language['code'] = '';
@@ -74,6 +76,15 @@ export default class TranslationTools extends Vue {
   }
   private get to() {
     return this.languages.filter(({ code }) => this.fromto[1] === code)[0] || '';
+  }
+
+  private handleQuery() {
+    this.progress = .05;
+    this.interval = setInterval(() => {
+      if (this.progress >= .8) { clearInterval(this.interval); }
+      this.progress += .05;
+    }, 1000);
+    this.$emit('query');
   }
 
   private select(code: Language['code']) {
@@ -93,6 +104,12 @@ export default class TranslationTools extends Vue {
       this.type = type;
       this.open = true;
     });
+  }
+
+  @Watch('flag')
+  private onDone(val: boolean) {
+    clearInterval(this.interval);
+    this.progress = 1;
   }
 }
 </script>

@@ -3,10 +3,12 @@
 
 ## Main Features
 - [x] Support base translation (out of the box)
+- [x] Main translation in popup page (Browser Action)
+- [ ] Float translation panel in web page (Content Script)
 - [ ] Easy frontend settings
 - [ ] Base customizable components (in frontend settings)
 - [ ] Advance preset templates costom support (in options page)
-- [ ] More web infomation crawler
+- [ ] Support web infomation crawler (for sources that no api)
 - [ ] Custimizable styles
 - [?] Multiple UI languages support (Ready: `en`, `zh-cn`)
 

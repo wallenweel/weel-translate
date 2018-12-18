@@ -21,6 +21,7 @@ export const request: ApiRequest = (preset, type = 'text') => {
 
   return (requestParams) => {
     let config: AxiosRequestConfig = {
+      timeout: 1000,
       headers: {
         // 'Access-Control-Allow-Origin': '*',
         // 'Content-Type': 'application/json',

@@ -191,7 +191,7 @@ presetParamsParser = (target, requestParams, stringify = false) => {
 export let parserPathSplitter: ParserPathSplitFn;
 parserPathSplitter = (path) => {
   const [identifierReg, separatorReg] = [
-    new RegExp(/\.\b/),
+    new RegExp(/\./),
     new RegExp(/(\/.*?\/|\[.*?\]|{.*?})/),
   ];
 
@@ -230,8 +230,15 @@ parserPathReducer = (path, response, stringify = false) => {
     const point = ap![i];
 
     if (istype(point, 'array')) { // get value
-      out[i] = (point as string[]).reduce((r: any, c: string) =>
-        istype(r, ['object', 'array']) ? r[c] : r, response);
+      out[i] = (point as string[]).reduce((r: any, c: string) => {
+        if (istype(r, 'object')) { return r[c]; }
+        if (istype(r, 'array')) {
+          const match = c.match(/-(\d+)/);
+          if (!match) { return r[c]; }
+          return r[r.length - parseInt(match[1], 10) - 1];
+        }
+        return r;
+      }, response);
       continue;
     }
 
@@ -365,16 +372,16 @@ presetLanguagesModifier = (languages, rules = []) => {
 
 export let presetLanguagesFilter: PresetLanguagesFilterFn;
 presetLanguagesFilter = (languages, include, exclude) => {
-  let out: Language[] = [];
-
   if (!include && !exclude) { return [null, languages]; }
 
+  let out: Language[] = [...languages];
+
   if (include && include.length) {
-    out = languages.filter(({ code }) => include.includes(code));
+    out = out.filter(({ code }) => include.includes(code));
   }
 
   if (exclude && exclude.length) {
-    out = languages.filter(({ code }) => !exclude.includes(code));
+    out = out.filter(({ code }) => !exclude.includes(code));
   }
 
   return [null, out];

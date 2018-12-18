@@ -160,6 +160,10 @@ describe('functions/parserPathReducer', () => {
 
   it(`inject real value to preset parser in array`, () => expect(fn(s, r)[1]![0]).toBe('Test'));
   it(`directly return a string`, () => expect(fn(s, r, true)[1]).toBe(rs));
+
+  const s2 = 'b.b.0/-/b.b.-0/.../b.b.1/-/b.b.-1';
+  it(`support reversely parse path in index`, () =>
+    expect(fn(s2, r, true)[1]).toBe('start-end...1-4'));
 });
 
 describe('functions/translationResultParser', () => {

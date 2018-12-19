@@ -67,7 +67,7 @@ export default class TranslationTools extends Vue {
   @Prop(Boolean) private flag?: boolean;
 
   @Prop(String || null)
-  private failed?: null | string = null;
+  private notify?: null | string = null;
 
   private snack: any = { message: `` };
   private progress: number = 1;
@@ -117,8 +117,8 @@ export default class TranslationTools extends Vue {
     clearInterval(this.interval);
     this.progress = 1;
   }
-  @Watch('failed')
-  private onFailed(val: null | string) {
+  @Watch('notify')
+  private onNotify(val: null | string) {
     if (!val) { return; }
 
     let message: string = val || 'something wrong';

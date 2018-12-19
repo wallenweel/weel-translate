@@ -25,7 +25,7 @@ const state: State = {
   text: '', // query text {q}
   languages: [],
   result: {},
-  failed: null,
+  notify: null,
   timeout: 1000,
 
   sources: [],
@@ -52,11 +52,11 @@ const webActions: ActionTree<State, RootState> = {
     })
       .then(([_, { data }]) => {
         dispatch('done', resultParser(data, preset.parser));
-        dispatch('failed', null);
+        dispatch('notify', null);
       })
       .catch(([error]) => {
         debug.log(error);
-        dispatch('failed', error.message);
+        dispatch('notify', error.message);
       });
   },
 };
@@ -82,7 +82,7 @@ const actions = Object.assign({
   translate: ({ state, dispatch }) => {
     const { text: q, source: { fromto: [from, to] } } = state;
     if (!q.trim().length) {
-      return dispatch('failed', i18n.t('blank_input_msg'));
+      return dispatch('notify', i18n.t('blank_input_msg'));
     }
     if (istype(cancelTranslate, 'function')) { cancelTranslate(); }
     return dispatch('query', { q, from, to });
@@ -106,8 +106,8 @@ const actions = Object.assign({
   text: ({ commit }, text) => { commit('update', { text }); },
   fromto: ({ state, commit }, fromto) => { commit('update', { source: { ...state.source, fromto } }); },
 
-  failed: ({ commit }, message: string) => {
-    commit('update', { failed: message || null });
+  notify: ({ commit }, message: string) => {
+    commit('update', { notify: message || null });
   },
   done: ({ commit }, [_, result]) => {
     commit('update', { result });
@@ -131,7 +131,7 @@ interface State {
   text: string;
   languages: Language[];
   result: { [name: string]: any };
-  failed: null | string;
+  notify: null | string;
   timeout?: number;
 
   sources: presetStringJson[];

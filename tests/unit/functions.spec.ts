@@ -155,6 +155,7 @@ describe('functions/parserPathReducer', () => {
     a: { b: { c: 'Test' } },
     b: { b: ['start', 1, 2, 3, '4', 'end'] },
     c: { a: 'h', b: 'e', c: 'l', d: 'l', e: 'o' },
+    d: [{ e: 'h' }, { e: 'e' }, { e: 'y' }, { f: '~' }],
   };
   const rs = `Test: (start + 1 + 2 + 3 + 4 + end) "hello"`;
 
@@ -164,6 +165,8 @@ describe('functions/parserPathReducer', () => {
   const s2 = 'b.b.0/-/b.b.-0/.../b.b.1/-/b.b.-1';
   it(`support reversely parse path in index`, () =>
     expect(fn(s2, r, true)[1]).toBe('start-end...1-4'));
+
+  const s3 = '$.d.(0,-1).e//$.d.-1.f';
 });
 
 describe('functions/translationResultParser', () => {

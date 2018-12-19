@@ -14,9 +14,9 @@
       :languages="languages"
       :disabled="!value || !value.length"
       @clear="handleClear"
-      @query="handleQuery" :flag="flag" :failed="failed"
+      @query="handleQuery" :flag="flag" :notify="notify"
       @paste="handlePaste"
-      @hide="resetFailed"
+      @hide="resetNotify"
     ></translation-tools>
 
     <translation-result class="-result"
@@ -51,7 +51,7 @@ export default class TranslationView extends Vue {
   @__.State private text!: string;
   @__.State private languages!: Language[];
   @__.State private result!: translationResult;
-  @__.State private failed!: null | string;
+  @__.State private notify!: null | string;
   @__.State private hotkey!: string;
   @__.State private source!: SourcePresetItem;
 
@@ -61,7 +61,7 @@ export default class TranslationView extends Vue {
   @__.Action('text') private updateText: any;
   @__.Action('fromto') private updateFromto: any;
   @__.Action('translate') private doTranslate: any;
-  @__.Action('failed') private resetFailed: any;
+  @__.Action('notify') private resetNotify: any;
 
   private created() {
     this.value = this.text;

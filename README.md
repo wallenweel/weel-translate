@@ -1,6 +1,21 @@
 # Weel Translate MD
 > Material Design Style Web Extension for Languages Translating.
 
+## Screenshots
+![waiting an input](docs/images/screenshot_popup_translate_a.jpg)
+![get translating result](docs/images/screenshot_popup_translate_b.jpg)
+
+## ~~Get Started~~
+> developing, no release now.
+
+support debug in normal web mode:
+
+1. clone this repo's `develop` branch
+2. run `yarn` in project's root directory
+3. run `yarn serve` start a development serve for web debug
+4. open `http://localhost::8080/popup/main.html`
+5. install "cors" ignore extension () for avoiding CORS Error from translation source
+
 ## Main Features
 - [x] Support base translation (out of the box)
 - [x] Main translation in popup page (Browser Action)
@@ -11,10 +26,6 @@
 - [ ] Support web infomation crawler (for sources that no api)
 - [ ] Custimizable styles
 - [?] Multiple UI languages support (Ready: `en`, `zh-cn`)
-
-## Screenshots
-
-## Simple Useing
 
 ## Advance Features
 
@@ -51,11 +62,6 @@
   // must be set in parent preset, optional in children
   // preset which has extends
   parser?: {
-    // selector example:
-    // "$.a/: /b.c[, ]/ /d.e{}/~/" in
-    // { a: 'Example', b: { c: [1, 2, 3] }, d: { e: { 1: "he", 2: "llo" } } } =>
-    // "Example: 1, 2, 3 hello~"
-    // "/separator/", "[sep]" for array, "{sep}" for object
     [name: string]: selector;
   };
 
@@ -111,10 +117,10 @@
     }
   },
   "parser": {
-    "phoneticSrc": "sentences.1.src_translit",
-    "phoneticDest": "sentences.1.translit",
-    "translation": "sentences.0.trans",
-    "explain": "dict.0.pos/: /dict.0.terms[, ]"
+    "phonetic_src": "sentences.-0.src_translit",
+    "phonetic_dest": "sentences.-0.translit",
+    "translation": "$.sentences[0,-1]{trans}<\n>",
+    "explain": "dict.0.pos/: /dict.0.terms<, >"
   },
   "fromto": ["auto", "auto"]
 }

@@ -21,17 +21,20 @@
 
     <div class="support-languages">
       <mdc-button dense
-        @click="selectLanguages('from')"
-      >{{ $t(from.locale) }}</mdc-button>
+        @click="selectLanguages(toggle ? 'to' : 'from')"
+      >{{ toggle ? $t(to.locale) : $t(from.locale) }}</mdc-button>
 
-      <mdc-icon-toggle class="-switch" v-model="toggle" dense primary
+      <mdc-icon-toggle class="-switch" v-model="toggle"
+        dense primary
         toggle-off="keyboard_arrow_right"
-        toggle-on="keyboard_arrow_left">
+        toggle-on="keyboard_arrow_left"
+        :disabled="toggleDisabled"
+      >
       </mdc-icon-toggle>
 
       <mdc-button dense
-        @click="selectLanguages('to')"
-      >{{ $t(to.locale) }}</mdc-button>
+        @click="selectLanguages(toggle ? 'from' : 'to')"
+      >{{ toggle ? $t(from.locale) : $t(to.locale) }}</mdc-button>
     </div>
 
     <mdc-dialog v-model="open" scrollable
@@ -73,6 +76,7 @@ export default class TranslationTools extends Vue {
   private progress: number = 1;
   private interval: any;
   private toggle: boolean = false;
+  private toggleDisabled: boolean = false;
   private open: boolean = false;
   private selected: Language['code'] = '';
   private type: 'from' | 'to' | null = null;
@@ -110,6 +114,11 @@ export default class TranslationTools extends Vue {
       this.type = type;
       this.open = true;
     });
+  }
+
+  @Watch('toggle')
+  private swichLanguages(val: boolean) {
+    this.$emit('change', [this.to.code, this.from.code]);
   }
 
   @Watch('flag')

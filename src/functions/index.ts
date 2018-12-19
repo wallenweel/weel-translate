@@ -162,7 +162,7 @@ presetParamsParser = (target, requestParams, stringify = false) => {
 
   params = JSON.stringify(target)
     .replace(/{\b(.+?)\b}/g, (_, $) => requestParams[$] || _)
-    .replace(/\n/g, '\\n').replace(/\r/g, '\\r') as string;
+    .replace(/(\r\n|\r|\n)/g, '\\n') as string;
 
   try {
     params = JSON.parse(params) as queryParams;

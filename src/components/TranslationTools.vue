@@ -9,7 +9,7 @@
         @click="handleQuery"></mdc-fab>
 
       <mdc-button class="_button"
-        @click="$emit('paste')">{{ $t('paste') }}</mdc-button>
+        @click="handlePaste">{{ $t('paste') }}</mdc-button>
     </div>
 
     <div class="query-process">
@@ -95,6 +95,10 @@ export default class TranslationTools extends Vue {
       this.progress += parseFloat('0.0' + new Date().getTime().toString().slice(-1)) * 2;
     }, 800);
     this.$emit('query');
+  }
+
+  private handlePaste(ev: Event) {
+    this.$emit('paste');
   }
 
   private select(code: Language['code']) {

@@ -137,44 +137,33 @@ describe('functions/presetParamsParser', () => {
 
 describe('functions/parserPathSplitter', () => {
   const fn = parserPathSplitter;
-  const s = 'dict.0.pos/: /dict.0.terms[,]';
-  const o = fn(s)[1];
+  const s = '/Start /$.a[0, -1]{a,b}< | > /; / $.b.c[0,2]{0,2}<, >/; /$.c.a//$.c.b//$.d/./';
 
   it(`split path selector pattern to meta list`, () =>
-    expect(o).toHaveLength(4));
-  it(`serialize value selector into array <string[]>`, () =>
-    expect(o![0]).toHaveLength(3));
-  it(`separactor is string element`, () =>
-    expect(o![1]).toBe('/: /'));
+    expect(fn(s)[1]).toHaveLength(11));
 });
 
 describe('functions/parserPathReducer', () => {
   const fn = parserPathReducer;
-  const s = 'a.b.c/: (/b.b[ + ]/) "/$.c{}/"/';
-  const r = {
-    a: { b: { c: 'Test' } },
-    b: { b: ['start', 1, 2, 3, '4', 'end'] },
-    c: { a: 'h', b: 'e', c: 'l', d: 'l', e: 'o' },
-    d: [{ e: 'h' }, { e: 'e' }, { e: 'y' }, { f: '~' }],
+  const s = '/Start /$.a[0, -1]{a,b}< | > /; / $.b[0,2]{0,2}<, >/; /$.c.a//$.c.b//d.a/./';
+  const response = {
+    a: [{a: 'h', b: 'e'}, {a: 'l', b: 'l'}, {a: 'o'}, {a: 'nil'}],
+    b: [['w', 0, 'o'], ['r', 1, 'l'], ['d', 2], ['nil']],
+    c: {},
+    d: { a: 'End' },
   };
-  const rs = `Test: (start + 1 + 2 + 3 + 4 + end) "hello"`;
+  const result = 'Start h | e | l | l | o; w, o, r, l, d; End.';
 
-  it(`inject real value to preset parser in array`, () => expect(fn(s, r)[1]![0]).toBe('Test'));
-  it(`directly return a string`, () => expect(fn(s, r, true)[1]).toBe(rs));
-
-  const s2 = 'b.b.0/-/b.b.-0/.../b.b.1/-/b.b.-1';
-  it(`support reversely parse path in index`, () =>
-    expect(fn(s2, r, true)[1]).toBe('start-end...1-4'));
-
-  const s3 = '$.d.(0,-1).e//$.d.-1.f';
+  it(`support "range|reverse range|insert separactor text|object,array values format..."`, () =>
+    expect(fn(s, response, true)[1]).toBe(result));
 });
 
 describe('functions/translationResultParser', () => {
   const fn = translationResultParser;
   const p = {
     title: 'a.b.c',
-    message: '$.c[]',
-    content: 'a.b.c/: "/$.c[]/" (/b.1{_}/) "/b.2.g/"~/',
+    message: '$.c<>',
+    content: 'a.b.c /: "/ $.c<> /" (/ b.1<_> /) "/ b.-0.g/"~/',
   };
   const r = {
     a: { b: { c: 'Test' } },

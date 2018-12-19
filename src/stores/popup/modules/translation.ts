@@ -49,15 +49,13 @@ const webActions: ActionTree<State, RootState> = {
       cancelToken: new axios.CancelToken((cancel: Canceler) => {
         cancelTranslate = cancel;
       }),
-    })
-      .then(([_, { data }]) => {
-        dispatch('done', resultParser(data, preset.parser));
-        dispatch('notify', null);
-      })
-      .catch(([error]) => {
-        debug.log(error);
-        dispatch('notify', error.message);
-      });
+    }).then(([_, { data }]) => {
+      dispatch('done', resultParser(data, preset.parser));
+      dispatch('notify', null);
+    }).catch(([error]) => {
+      debug.log(error);
+      dispatch('notify', error.message);
+    });
   },
 };
 

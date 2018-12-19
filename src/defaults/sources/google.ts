@@ -33,8 +33,8 @@ export default {
   parser: {
     phonetic_src: 'sentences.-0.src_translit',
     phonetic_dest: 'sentences.-0.translit',
-    translation: 'sentences.0.trans',
-    explain: 'dict.0.pos/: /dict.0.terms[, ]',
+    translation: '$.sentences[0,-1]{trans}<\n>',
+    explain: 'dict.0.pos/: /dict.0.terms<, >',
   },
   fromto: ['auto', 'auto'],
 } as SourcePreset;

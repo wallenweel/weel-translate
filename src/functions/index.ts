@@ -190,79 +190,116 @@ presetParamsParser = (target, requestParams, stringify = false) => {
 
 export let parserPathSplitter: ParserPathSplitFn;
 parserPathSplitter = (path) => {
-  const [identifierReg, separatorReg] = [
-    new RegExp(/\./),
-    new RegExp(/(\/.*?\/|\[.*?\]|{.*?})/),
-  ];
+  const sectionReg = /(\/.*?\/)/;
+  const operatorReg = /(\[.*?\]|\{.*?\}|\<.*?\>)/;
 
-  const splitSeparator: string[] = path.split(separatorReg)
-  .filter((e: string) => !!e);
+  const cleaner = (target: string[]): string[] => target
+    .filter((s: string) => !!s.length)
+    .map((s: string) => s.trim());
 
-  if (!splitSeparator.length) {
-    return [`not found any vaild path in "${path}".`];
-  }
+  const sections = cleaner(path.split(sectionReg));
 
-  const out = [];
+  let out: string[][];
+  out = sections.map((s: string) =>
+    cleaner(s.split(operatorReg)));
 
-  for (const e of splitSeparator) {
-    if (identifierReg.test(e)) {
-      out.push(e.split(identifierReg).filter((e) => e !== '$') as string[]);
-    }
-    if (separatorReg.test(e)) {
-      out.push(e);
-    }
-  }
-
-  return [null, out as string[][]];
+  return [null, out];
 };
 
 export let parserPathReducer: ParserPathReduceFn;
 parserPathReducer = (path, response, stringify = false) => {
-  if (!response) { return [`response is ${response}`]; }
+  const sectionReg = /\/(.*?)\//;
+  const identifierReg = /\./;
+  const rangeReg = /\[([-]*\d*),*\s*([-]*\d*)\]/;
+  const selectReg = /\{(.*?)\}/;
+  const multiReg = /\s*,\s*/;
+  const separatorReg = /\<(.*?)\>/;
 
-  const [error, ap] = parserPathSplitter(path);
+  const [_, splitedPath] = parserPathSplitter(path);
 
-  if (error !== null) { return [error]; }
+  if (!splitedPath) { return [`${splitedPath} is invaild path`]; }
 
-  let out: string[] = [];
+  let out: any[] = [];
 
-  for (let i = 0; i < ap!.length; i++) {
-    const point = ap![i];
+  for (const sp of splitedPath) {
+    for (const point of sp) {
+      if (sectionReg.test(point)) {
+        out.push(point.match(sectionReg)![1] as string);
+        continue;
+      }
+      if (identifierReg.test(point)) {
+        const identifiers = point.split(identifierReg).filter((e) => e !== '$');
+        const value: any = (identifiers as string[]).reduce((r: any, c: string) => {
+          if (istype(r, 'object')) { return r[c]; }
+          if (istype(r, 'array')) {
+            const match = c.match(/-(\d+)/);
+            if (!match) { return r[c]; }
+            return r[r.length - parseInt(match[1], 10) - 1];
+          }
+          return r;
+        }, response);
+        out.push(value);
+        continue;
+      }
 
-    if (istype(point, 'array')) { // get value
-      out[i] = (point as string[]).reduce((r: any, c: string) => {
-        if (istype(r, 'object')) { return r[c]; }
-        if (istype(r, 'array')) {
-          const match = c.match(/-(\d+)/);
-          if (!match) { return r[c]; }
-          return r[r.length - parseInt(match[1], 10) - 1];
+      const last: any = out[out.length - 1];
+
+      if (last === undefined) { continue; }
+
+      if (rangeReg.test(point) && istype(last, 'array')) {
+        const [_, start = '0', end = '0'] = point.match(rangeReg)!;
+        const [s, e] = [parseInt(start, 10), parseInt(end, 10)];
+        if (s >= 0 && e >= 0) {
+          last.splice(0, s);
+          last.splice((e - s) + 1);
         }
-        return r;
-      }, response);
-      continue;
-    }
-
-    const last = out![i - 1] as any;
-
-    if (istype(point, 'string')) {
-      if (/\/.*\//.test(point as string)) { // just a separator
-        out[i] = (point as string).replace(/\/(.+)\//, (_: string, $: string) => $);
+        if (s >= 0 && e < 0) {
+          last.splice(0, s);
+          last.splice(-1, -e);
+        }
+        if (s < 0 && e < 0) {
+          last.splice(s);
+          last.splice(0, (last.length + (e - s)) - 1);
+        }
+        continue;
       }
 
-      if (istype(last, 'undefined')) { continue; }
+      if (selectReg.test(point)) {
+        const keys = point
+          .match(selectReg)![1]
+          .split(multiReg);
 
-      if (/\[.*\]/.test(point as string)) { // aim is array
-        out[i - 1] = [...last]
-          .join((point as string).replace(/\[(.*)\]/, (_: string, $: string) => $));
+        let r = [] as any[];
+
+        for (const item of last) {
+          r = [
+            ...r,
+            ...Object.entries(item)
+              .filter(([k, v]) => keys.includes(k))
+              .map(([k, v]) => v),
+          ];
+        }
+
+        out[out.length - 1] = r;
+        continue;
       }
-      if (/\{.*\}/.test(point as string)) { // aim is object
-        out[i - 1] = Object.values(last)
-          .join((point as string).replace(/\{(.*)\}/, (_: string, $: string) => $));
+
+      if (separatorReg.test(point)) {
+        const separator = point.match(separatorReg)![1];
+        const r = out[out.length - 1];
+        if (istype(r, 'array')) {
+          out[out.length - 1] = r.join(separator || '');
+          continue;
+        }
+        if (istype(r, 'object')) {
+          out[out.length - 1] = Object.values(r).join(separator || '');
+          continue;
+        }
       }
     }
   }
 
-  out = out.filter((e) => !!e);
+  out = out.filter((s: string | undefined) => s !== '' || s !== undefined);
 
   return [null, !stringify ? out : out.join('')];
 };

@@ -34,13 +34,33 @@ const actions = Object.assign({
 
     commit('update', { theme, fabEnable, fabPosition, fapEnable, fapPosition, fapPositionEdge, contextMenuEnable });
   },
+
+  save: ({ commit }, [key, value]) => {
+    debug.log({ [key]: value });
+    commit('update', { [key]: value });
+  },
 } as ActionTree<State, RootState>, TARGET_BROWSER === 'web' ? webActions : ipcActions);
 
 const mutations = Object.assign({
 } as MutationTree<State>, { update, clear });
 
+const getters: GetterTree<State, RootState> = {
+  options: (state) => [
+    'theme',
+    'fabEnable',
+    'fabPosition',
+    'fapEnable',
+    'fapPosition',
+    'fapPositionEdge',
+    'contextMenuEnable',
+  ].reduce((p: any, c: string) => {
+    if (Object.keys(state).includes(c)) { p[c] = state[c]; }
+    return p;
+  }, {}),
+};
+
 export const preference: Module<State, RootState> = {
-  namespaced, state, actions, mutations,
+  namespaced, state, actions, mutations, getters,
 };
 
 export default preference;

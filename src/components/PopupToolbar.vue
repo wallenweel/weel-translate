@@ -12,7 +12,7 @@
           <mdc-chip>{{ sourceName }}</mdc-chip>
         </mdc-chip-set>
         <mdc-chip-set class="-source" v-if="title.toLowerCase() === 'preference'">
-          <mdc-chip>Save</mdc-chip>
+          <mdc-chip>Reset</mdc-chip>
         </mdc-chip-set>
       </mdc-toolbar-section>
     </mdc-toolbar-row>

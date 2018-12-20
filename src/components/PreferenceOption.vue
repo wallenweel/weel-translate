@@ -5,7 +5,7 @@
 
     <mdc-radio v-model="values[item.value]"
       v-if="item.type === 'radio'" v-for="(m, n) in item.values" :key="`${m[0]}_${n}`"
-      name="radios" :value="m[1]" :label="m[0]"
+      :name="item.name" :value="m[1]" :label="m[0]"
     />
     
     <mdc-checkbox v-model="values[item.value]"

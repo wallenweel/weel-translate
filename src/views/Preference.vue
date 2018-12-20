@@ -2,8 +2,8 @@
   <div class="view-preference">
     <mdc-layout-grid class="-banner">
       <mdc-text typo='overline' tag="span">
-        <!-- If changes got anything wrong, please click "reset" button at last. -->
-        Changes are not saved automaticly, click "Save" button to validate.
+        If changes got anything wrong, please click "reset" button.
+        <!-- Changes are not saved automaticly, click "Save" button to validate. -->
       </mdc-text>
     </mdc-layout-grid>
 
@@ -22,9 +22,13 @@
 </template>
 
 <script lang="ts">
-import { Component, Watch, Vue } from 'vue-property-decorator';
+import Vue from 'vue';
+import { Component, Watch } from 'vue-property-decorator';
+import { namespace } from 'vuex-class';
 import PreferenceOption from '@/components/PreferenceOption.vue';
 import debug from '@/functions/debug';
+
+const __ = namespace('preference');
 
 @Component({
   components: {
@@ -41,10 +45,15 @@ export default class PreferenceView extends Vue {
     fapPositionEdge: null,
     contextMenuEnable: null,
   };
+
+  @__.Getter private options!: any;
+  @__.Action('save') private saveOption!: any;
+
   private items: any = [
     {
       headline: 'Theme Color',
       type: 'radio',
+      name: 'theme-color',
       values: [['Light', 'light'], ['Dark', 'dark']],
       value: 'theme',
     },
@@ -57,6 +66,7 @@ export default class PreferenceView extends Vue {
         {
           subheading: 'Appearance Position',
           type: 'radio',
+          name: 'fab-position',
           values: [['After', 'after'], ['Center', 'center'], ['Follow', 'follow']],
           value: 'fabPosition',
         },
@@ -71,12 +81,14 @@ export default class PreferenceView extends Vue {
         {
           subheading: 'Appearance Position',
           type: 'radio',
+          name: 'fap-position',
           values: [['Center', 'center'], ['Follow', 'follow'], ['Edge', 'edge']],
           value: 'fapPosition',
         },
         {
           subheading: 'Edge Appearance Position',
           type: 'radio',
+          name: 'fap-position-edge',
           values: [
             ['Top Left', 'tl'], ['Top Center', 'tc'], ['Top Right', 'tr'],
             ['Bottom Left', 'bl'], ['Bottom Center', 'bc'], ['Bottom Right', 'br'],
@@ -93,12 +105,13 @@ export default class PreferenceView extends Vue {
     },
   ];
 
-  private theme: any = null;
-  private checked: boolean = false;
+  private created() {
+    Object.assign(this.values, this.options);
 
-  @Watch('values', { deep: true })
-  private onChange(val: any) {
-    debug.log(JSON.stringify(val));
+    for (const k of Object.keys(this.values)) {
+      this.$watch(`values.${k}`, (val, old) =>
+        this.saveOption([k, val]));
+    }
   }
 }
 </script>

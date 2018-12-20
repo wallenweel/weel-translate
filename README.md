@@ -11,10 +11,10 @@
 support debug in normal web mode:
 
 1. clone this repo's `develop` branch
-2. run `yarn` in project's root directory
-3. run `yarn serve` start a development serve for web debug
-4. open `http://localhost::8080/popup/main.html`
-5. install "cors" ignore extension () for avoiding CORS Error from translation source
+2. run `yarn install` or `npm install` in project's root directory
+3. run `yarn serve` or `npm run serve` start a development serve for web debug
+4. visit `http://localhost::8080/popup/main.html` and press `F12` open web console then triggle mobile mode
+5. done, but install "cors" ignore extension for avoiding CORS Error from translation source
 
 ## Main Features
 - [x] Support base translation (out of the box)
@@ -25,33 +25,47 @@ support debug in normal web mode:
 - [ ] Advance preset templates costom support (in options page)
 - [ ] Support web infomation crawler (for sources that no api)
 - [ ] Custimizable styles
-- [?] Multiple UI languages support (Ready: `en`, `zh-cn`)
+- [ ] Multiple UI languages support (Ready: `en`, `zh-cn`)
 
 ## Advance Features
+> contine using without updating.
 
-## Translation Source Presets
-### Interface
+### Add Translation Source Presets
+> For modifing more translation sources.
+
+#### Interface:
 ```typescript
-{
-  // source id, only support "_" as separator
-  id: string;
+declare type presetId = string;
 
-  // display name
-  name?: string;
-
+declare interface Preset {
+  // translation source's id, only accpet en words
+  // and "_" as separator
+  readonly id: presetId;
   // extends a full preset, by source's id
   // must be set in children preset
-  extends?: string;
+  readonly extends?: presetId;
+
+  [index: string]: any;
+}
+
+declare type sourceId = presetId;
+
+declare interface SourcePreset extends Preset {
+  readonly id: sourceId;
+
+  readonly extends?: sourceId;
+
+  // display name
+  readonly name?: string;
 
   // query.<type>.url can override this
   url: string;
 
-  // request method, axios relatived
-  // could get this value by {{method}} in queries
+  // request method
   method?: 'get' | 'post' | string;
 
   // translation request
-  // if is falsy, may use xhr or fetch by "url" and
+  // if false, use xhr or fetch by "url" and
   // parser's selectors as Dom selector
   query?: {
     text: TextQuery;
@@ -65,12 +79,18 @@ support debug in normal web mode:
     [name: string]: selector;
   };
 
-  // initial translating direction
-  fromto?: [Language['code'], Language['code']];
+  // support ['auto:>AUTO', 'zh-cn:>zh-CHS', ...]
+  // or [['auto', 'AUTO'], ['zh-cn', 'zh-CHS'], ...]
+  // or [[{ code: 'auto' }, { code: 'AUTO' }], ...]
+  modify?: string[] |
+    Array<Language['code'][]> |
+    Array<[
+      { code: Language['code'], name?: Language['name'], locale?: Language['locale'] },
+      { code?: Language['code'], name?: Language['name'], locale?: Language['locale'] }
+    ]>;
 
-  // support modify by symbol ":>"
-  // such as "['auto:>AUTO', 'zh-cn:>zh-CHS']"
-  modify?: string[];
+  // initial translating direction
+  fromto: [Language['code'], Language['code']];
 
   // just include necessary languages
   // if not exist, load all of languages
@@ -80,9 +100,29 @@ support debug in normal web mode:
   // if exist, exclude from all languages
   exclude?: Array<Language['code']>;
 }
+
+declare interface Language {
+  readonly code: string; // standard language code
+  readonly name: string; // show when has not "locale"
+  readonly locale?: string; // for i18n translation
+}
+
+declare type queryParams = string | { [param: string]: string | string[]; } | string[][];
+declare interface TextQuery {
+  method: 'get' | 'post' | string;
+  url: string;
+  params: queryParams;
+}
+
+declare interface AudioQuery extends TextQuery {
+  tune?: any;
+}
+
+// object index such as "a.b.c" or Dom selecotr
+declare type selector = string | string[] | undefined;
 ```
 
-#### Example
+#### Example:
 ```json
 {
   "id": "google_com",
@@ -126,56 +166,88 @@ support debug in normal web mode:
 }
 ```
 
-### Template Layout
+### Add Web Crawler (*not yet implement*)
+> For fast getting more other infomation or using some translation source without standard api service.
 
-### Web Crawler
+#### Interface:
+#### Example:
+
+### Add Template Layout
+> For customizing how response results are showed.
+
+#### Interface:
+```typescript
+declare type templateId = presetId;
+
+declare interface LayoutPreset extends Preset {
+  id: templateId;
+  extends?: templateId;
+
+  // check has or not existed "keys" in result. such as
+  // test ['phonetic', 'translation'] in result { phonetic: '...', translation: '...' } is true
+  test: string[],
+
+  // layout
+  rows: string[][];
+
+  title?: string;
+  description?: string;
+}
+```
+#### Example:
+```json
+ {
+  "id": "default_popup",
+  "test": ["phonetic_src", "phonetic_dest", "translation", "explain"],
+  "title": "Default For Popup",
+  "description": "default translation result template in popup page.",
+  "rows": [
+    ["<pick>"],
+    ["<voice?src>", "[", "{phonetic_src}", "]"],
+    ["<voice?dest>", "[", "{phonetic_dest}", "]"],
+    ["{translation}"],
+    ["{explain}"]
+  ]
+}
+```
+```json
+{
+  "id": "default_float",
+  "test": ["phonetic_dest", "translation", "explain"],
+  "title": "Default For Float",
+  "description": "default translation result template in content page as float panel.",
+  "rows": [
+    ["<voice-dest>", "`", "{phonetic_dest}", "`"],
+    ["{translation}"],
+    ["{explain}"],
+  ]
+}
+```
+
 
 ## Project setup
-```
+```ini
+# Install dependencies
 yarn install
-```
 
-### Compiles and hot-reloads for development (web)
-```
+# Compiles and hot-reloads for development (web mode)
 yarn run serve
-```
 
-### Compiles and minifies for production (web)
-```
+# Compiles and minifies for production (dist/web)
 yarn run build
-```
 
-### Compiles and minifies for production (firefox)
-```
+# Compiles and minifies for production (dist/firefox)
 yarn run build:firefox
-```
 
-### Compiles and auto reloads for development (firefox)
-```
+# Compiles and auto reloads for development (dist/firefox)
 yarn run watch:firefox
-```
 
-### Strat a temporary browser for development (firefox)
-```
+# Strat a temporary browser for development (dist/firefox)
 yarn run webext:firefox
-```
 
-### Package a .zip extension file for publishing (firefox)
-```
+# Package a .zip extension file for publishing (web-ext-artifacts/)
 yarn run pack:firefox
-```
 
-### Run your tests
-```
-yarn run test
-```
-
-### Lints and fixes files
-```
-yarn run lint
-```
-
-### Run your unit tests
-```
+# Run unit tests
 yarn run test:unit
 ```

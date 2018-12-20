@@ -8,6 +8,15 @@
     </mdc-layout-grid>
 
     <mdc-layout-grid class="-options">
+      <mdc-layout-cell class="-row">
+        <mdc-headline>Interface</mdc-headline>
+        <mdc-subheading>UI Languages</mdc-subheading>
+        <mdc-radio v-model="locale"
+          v-for="(lang, n) in locales" :key="n"
+          name="ui-language" :value="lang.code" :label="$t(lang.locale)"
+        />
+      </mdc-layout-cell>
+
       <mdc-layout-cell class="-row" v-for="(item, i) in items" :key="`item_${i}`">
         <preference-option class="-option" :wl-value="item.value"
           :values="values" :item="item" :key="`opt_${i}`" />
@@ -16,6 +25,12 @@
           <preference-option class="-option" :wl-value="append.value"
             :values="values" :item="append" :key="`opt_${n}`" />
         </template>
+      </mdc-layout-cell>
+
+      <mdc-layout-cell class="-row">
+        <mdc-headline>Network</mdc-headline>
+        <mdc-subheading>Request Timeout (in seconds)</mdc-subheading>
+        <mdc-slider min=0 max=120 step=10 display-markers v-model="timeoutValue" />
       </mdc-layout-cell>
     </mdc-layout-grid>
   </div>
@@ -36,6 +51,10 @@ const __ = namespace('preference');
   },
 })
 export default class PreferenceView extends Vue {
+  // TODO: add these two into action 
+  private locale: string = 'en';
+  private timeoutValue: number = 20;
+
   private values: any = {
     theme: null,
     fabEnable: null,
@@ -46,7 +65,10 @@ export default class PreferenceView extends Vue {
     contextMenuEnable: null,
   };
 
+  @__.State private locales!: Language[];
+
   @__.Getter private options!: any;
+
   @__.Action('save') private saveOption!: any;
 
   private items: any = [
@@ -113,6 +135,11 @@ export default class PreferenceView extends Vue {
         this.saveOption([k, val]));
     }
   }
+
+  @Watch('locale')
+  private onLocale(val: string) {
+    this.$i18n.locale = val;
+  }
 }
 </script>
 
@@ -124,44 +151,42 @@ export default class PreferenceView extends Vue {
     padding: 0 16px 16px;
   }
 
-  .-options {
-    padding: 0 16px 16px;
-
-    .mdc-headline,
-    .mdc-subheading {
-      width: 100%;
-      margin: 8px 0;
-      flex-shrink: 0;
-    }
-    .mdc-headline {
-      border-radius: 0 16px 16px 0;
+  .mdc-headline,
+  .mdc-subheading {
+    width: 100%;
+    margin: 8px 0;
+    flex-shrink: 0;
+  }
+  .mdc-headline {
+    border-radius: 0 16px 16px 0;
+    background-color: var(--mdc-theme-primary, #6200ee);
+    color: var(--mdc-theme-text-primary-on-dark, #ffffff);
+    font-size: 1rem;
+    position: relative;
+    &::before {
+      content: "";
       background-color: var(--mdc-theme-primary, #6200ee);
-      color: var(--mdc-theme-text-primary-on-dark, #ffffff);
-      font-size: 1rem;
-      position: relative;
-      &::before {
-        content: "";
-        background-color: var(--mdc-theme-primary, #6200ee);
-        height: 100%;
-        width: 16px;
-        margin: auto;
-        left: -16px;
-        top: 0;
-        bottom: 0;
-        position: absolute;
-        display: block;
-      }
+      height: 100%;
+      width: 16px;
+      margin: auto;
+      left: -16px;
+      top: 0;
+      bottom: 0;
+      position: absolute;
+      display: block;
     }
-    .mdc-subheading {
-      font-size: .75rem;
-    }
+  }
+  .mdc-subheading {
+    font-size: .75rem;
+  }
 
+  .-options {
     label {
       font-size: .75rem;
     }
 
     .-row {
-      margin: 8px 0;
+      padding: 0 16px 16px;
     }
 
     .-option {

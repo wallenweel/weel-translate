@@ -1,12 +1,16 @@
 import { MutationTree, ActionTree, Module, GetterTree } from 'vuex';
 import { State as RootState } from '../index';
+import i18n from '@/i18n';
 
 import { update, clear } from '@/stores/mutations';
 import debug from '@/functions/debug';
+import { presetLanguagesFilter } from '@/functions';
 
 const namespaced: boolean = true;
 
 const state: State = {
+  locales: [],
+
   theme: 'light',
   fabEnable: true,
   fabPosition: 'center',
@@ -21,7 +25,7 @@ const webActions: ActionTree<State, RootState> = {};
 const ipcActions: ActionTree<State, RootState> = {};
 
 const actions = Object.assign({
-  init: ({ rootState, commit }) => {
+  init: ({ rootState, commit, dispatch }) => {
     const {
       preference_theme: theme,
       preference_fab_enable: fabEnable,
@@ -33,6 +37,16 @@ const actions = Object.assign({
     } = rootState.storage;
 
     commit('update', { theme, fabEnable, fabPosition, fapEnable, fapPosition, fapPositionEdge, contextMenuEnable });
+
+    dispatch('locales');
+  },
+
+  locales: async ({ commit }) => {
+    let languages: Language[] = await import(/** webpackChunkName "languages" */ '@/assets/languages.json');
+    languages = (languages as any).default;
+    const locales = Object.keys(i18n.messages);
+    languages = presetLanguagesFilter(languages, locales)[1] as Language[];
+    commit('update', { locales: languages });
   },
 
   save: ({ commit }, [key, value]) => {
@@ -66,6 +80,8 @@ export const preference: Module<State, RootState> = {
 export default preference;
 
 interface State {
+  locales?: Language[];
+
   theme: 'dark' | 'light';
   fabEnable: boolean;
   fabPosition: 'after' | 'center' | 'follow';

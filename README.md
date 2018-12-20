@@ -24,6 +24,7 @@ support debug in normal web mode:
 - [ ] Base customizable components (in frontend settings)
 - [ ] Advance preset templates costom support (in options page)
 - [ ] Support web infomation crawler (for sources that no api)
+- [ ] Support translating histories & picks
 - [ ] Custimizable styles
 - [ ] Multiple UI languages support (Ready: `en`, `zh-cn`)
 
@@ -226,7 +227,7 @@ declare interface LayoutPreset extends Preset {
 
 
 ## Project setup
-```ini
+```sh
 # Install dependencies
 yarn install
 

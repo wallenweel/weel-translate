@@ -1,7 +1,8 @@
 import Vue from 'vue';
 import Vuex, { MutationTree, ActionTree, ModuleTree } from 'vuex';
-import translation from './modules/translation';
 import storage from './modules/storage';
+import preference from './modules/preference';
+import translation from './modules/translation';
 import debug from '@/functions/debug';
 
 Vue.use(Vuex);
@@ -13,6 +14,7 @@ const mutations: MutationTree<State> = {};
 const actions: ActionTree<State, State> = {
   init: ({ state, dispatch }) => {
     dispatch('storage/init')
+      .then(() => dispatch('preference/init'))
       .then(() => dispatch('translation/init'))
       .then(() => {
         // debug.log(state.storage);
@@ -21,7 +23,7 @@ const actions: ActionTree<State, State> = {
 };
 
 const modules: ModuleTree<State> = {
-  translation, storage,
+  storage, preference, translation,
 };
 
 export default new Vuex.Store<State>({

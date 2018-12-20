@@ -8,8 +8,11 @@
         <mdc-toolbar-menu-icon event="toggle-drawer"></mdc-toolbar-menu-icon>
         <mdc-toolbar-title>{{ $t(title) }}</mdc-toolbar-title>
 
-        <mdc-chip-set class="-source">
+        <mdc-chip-set class="-source" v-if="title.toLowerCase() === 'translate'">
           <mdc-chip>{{ sourceName }}</mdc-chip>
+        </mdc-chip-set>
+        <mdc-chip-set class="-source" v-if="title.toLowerCase() === 'preference'">
+          <mdc-chip>Save</mdc-chip>
         </mdc-chip-set>
       </mdc-toolbar-section>
     </mdc-toolbar-row>
@@ -58,8 +61,6 @@ export default class PopupToolbar extends Vue {
 </script>
 
 <style lang="scss">
-@import '~vue-mdc-adapter/dist/toolbar/toolbar.min.css';
-
 .popup-toolbar {
   .mdc-toolbar {
     width: 100%;

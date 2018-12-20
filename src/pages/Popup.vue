@@ -38,6 +38,7 @@ $mdc-typography-font-family: "Roboto Mono", "Microsoft Yahei", "sans-serif", mon
 @import 'vue-mdc-adapter/dist/ripple/styles';
 @import 'vue-mdc-adapter/dist/icon/styles';
 
+@import '~vue-mdc-adapter/dist/toolbar/toolbar.min.css';
 @import '~vue-mdc-adapter/dist/layout-app/layout-app.min.css';
 @import '~vue-mdc-adapter/dist/list/list.min.css';
 @import '~vue-mdc-adapter/dist/icon-toggle/icon-toggle.min.css';
@@ -49,6 +50,9 @@ $mdc-typography-font-family: "Roboto Mono", "Microsoft Yahei", "sans-serif", mon
 @import '~vue-mdc-adapter/dist/snackbar/snackbar.min.css';
 @import '~vue-mdc-adapter/dist/linear-progress/linear-progress.min.css';
 @import '~vue-mdc-adapter/dist/textfield/textfield.min.css';
+@import '~vue-mdc-adapter/dist/radio/radio.min.css';
+@import '~vue-mdc-adapter/dist/checkbox/checkbox.min.css';
+@import '~vue-mdc-adapter/dist/select/select.min.css';
 
 :root {
   --app-height: 420px;

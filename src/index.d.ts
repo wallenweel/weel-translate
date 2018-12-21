@@ -114,7 +114,7 @@ declare interface BrowserRuntime {
   Port: RuntimePort;
 
   getManifest(): { version: version; };
-  connect(extensionId?: string, connectInfo?: { [k: string]: any }): RuntimePort;
+  connect(extensionId?: string | connectInfo, connectInfo?: connectInfo): RuntimePort;
 
   onConnect: {
     addListener(listener: (port: RuntimePort) => void): void;
@@ -123,7 +123,7 @@ declare interface BrowserRuntime {
   },
   onMessage: {
     // send a response asynchronously, `return true;` in the listener
-    addListener(listener: listenerHandler): void;
+    addListener(listener: listenerHandler): void | boolean;
   };
 }
 
@@ -142,6 +142,15 @@ declare interface StorageAreaMethods {
   set(keys: object): Promise<object | Error>;
 }
 
+declare interface IpcAction {
+  name?: RuntimePort['name'];
+  // action name that receive the message
+  receiver?: string;
+  // const type
+  type?: string;
+  payload?: any;
+}
+
 declare interface connectInfo {
   name?: RuntimePort['name'];
   includeTlsChannelID?: boolean,
@@ -155,12 +164,14 @@ declare interface RuntimePort {
   onDisconnect: {
     addListener(listener: (port: RuntimePort) => void): void;
   };
-  onMessage: BrowserRuntime['onMessage'];
+  onMessage: {
+    addListener(listener: (message: any) => void): void;
+  };
   postMessage(message: { [k: string]: any }): void;
   sender?: MessageSender;
 }
 
-declare type listenerHandler = (message: { [k: string]: any }, sender: MessageSender, sendResponse: () => {}) => boolean | Promise<any>;
+declare type listenerHandler = (message: { [k: string]: any }, sender: MessageSender, sendResponse: (data: any) => {}) => boolean | Promise<any>;
 
 declare interface MessageSender {
   tab?: any;

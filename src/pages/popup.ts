@@ -19,7 +19,12 @@ import App from './Popup.vue';
 
 import 'material-design-icons-iconfont/dist/material-design-icons.css';
 
-store.dispatch('init');
+import browser from '@/apis/browser';
+const port: RuntimePort = browser.runtime.connect({
+  name: 'port-from-popup',
+});
+
+store.dispatch('init', { port });
 
 new Vue({
   router,

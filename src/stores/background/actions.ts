@@ -1,7 +1,7 @@
 import { ActionTree } from 'vuex';
-import * as types from '@/types';
 import { State } from './';
 import { versionCheck } from '@/functions';
+import { QUERY_CONFIG, VERSION_FRESH, VERSION_UPDATED, VERSION_OUTDATED, VERSION_SAME } from '@/types';
 
 export const actions: ActionTree<State, State> = {
   startup: async ({ dispatch, state }): Promise<std> => {
@@ -19,20 +19,20 @@ export const actions: ActionTree<State, State> = {
     const [, status] = versionCheck(version, last_version);
 
     switch (status) {
-      case types.VERSION_FRESH: // first install
+      case VERSION_FRESH: // first install
         const [error] = await dispatch('storage/reset');
         if (error !== null) {
           return [error];
         }
         return [null];
 
-      case types.VERSION_UPDATED:
+      case VERSION_UPDATED:
         return [null];
 
-      case types.VERSION_OUTDATED:
+      case VERSION_OUTDATED:
         return [null];
 
-      case types.VERSION_SAME: // nothing change
+      case VERSION_SAME: // nothing change
         return [null];
       default:
         return [null];
@@ -41,7 +41,7 @@ export const actions: ActionTree<State, State> = {
 };
 
 export const ipcActions: ActionTree<State, State> = {
-  [types.QUERY_CONFIG]: async ({ dispatch }): Promise<std> => {
+  [QUERY_CONFIG]: async ({ dispatch }): Promise<std> => {
     const [err, config] = await dispatch('storage/query');
 
     if (err !== null) {
@@ -53,5 +53,6 @@ export const ipcActions: ActionTree<State, State> = {
 };
 
 export default {
-  ...actions, ...ipcActions,
+  ...actions,
+  ...ipcActions,
 };

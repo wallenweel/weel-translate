@@ -6,6 +6,8 @@ import { ipcActions } from '@/stores/background/actions';
 const { runtime } = browser;
 const { dispatch } = store;
 
+let Port: RuntimePort;
+
 (async () => {
   const [error] = await dispatch('startup');
 
@@ -16,22 +18,33 @@ const { dispatch } = store;
   debug.log(store.state.storage);
 })();
 
-runtime.onMessage.addListener((message = {}, sender, sendResponse) => {
-  const action = message as { type: '' };
+let ipcListener: RuntimePort['onMessage']['addListener'];
+ipcListener = (message) => {
+  const { name, receiver, type, payload = {} }: IpcAction = message as any;
+  debug.log(name, type, payload);
 
-  if (!action.type) {
-    debug.log('warn', `IPC message's type is ${action.type}.`);
+  if (!type) {
+    debug.log('warn', `IPC message's type is ${type}.`);
     return false;
   }
 
-  if (!Object.keys(ipcActions).includes(action.type)) {
-    debug.log('warn', `type "${action.type}" is not existed in actions.`);
+  if (!Object.keys(ipcActions).includes(type)) {
+    debug.log('warn', `type "${type}" is not existed in actions.`);
     return false;
   }
 
   // redirect to store's action
-  dispatch({ ...action, sender, sendResponse });
+  dispatch(type, Object.assign(payload, { Port }))
+    .then((payload: any) => {
+      Port.postMessage({ name, receiver, type, payload });
+    });
 
   // accept send a response asynchronously
   return true;
+};
+
+runtime.onConnect.addListener((port: RuntimePort) => {
+  Port = port;
+
+  Port.onMessage.addListener(ipcListener);
 });

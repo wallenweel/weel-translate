@@ -5,11 +5,14 @@ import { update, clear } from '@/stores/mutations';
 
 import { configKeysReducer } from '@/functions';
 import defaultConfig from '@/defaults/config';
+import { QUERY_CONFIG } from '@/types';
 import debug from '@/functions/debug';
 
 const namespaced: boolean = true;
 
-const state: State = {};
+const state: State = {
+  ...defaultConfig,
+};
 
 const mutations: MutationTree<State> = Object.assign({
 }, { update, clear });
@@ -17,34 +20,44 @@ const mutations: MutationTree<State> = Object.assign({
 const webActions: ActionTree<State, RootState> = {
   reset: () => localStorage.setItem('config', JSON.stringify(defaultConfig)),
 
-  query: async ({ dispatch }, keys?: storageKeys): Promise<std> => {
+  query: async ({ dispatch, commit }, keys?: storageKeys) => {
     // patch, set storage
     if (!localStorage.getItem('config')) { await dispatch('reset'); }
 
-    const config = JSON.parse(localStorage.getItem('config')!);
-
-    let out: DefaultConfig | any;
+    let config: DefaultConfig = JSON.parse(localStorage.getItem('config')!);
 
     if (!keys) {
-      out = config;
+      config = config;
     } else {
-      out = configKeysReducer(keys, config);
+      config = configKeysReducer(keys, config) as any;
     }
 
-    return [null, out];
+    commit('update', config);
   },
 };
 
-const ipcActions: ActionTree<State, RootState> = {};
+const ipcActions: ActionTree<State, RootState> = {
+  query: ({ dispatch }, keys?: storageKeys) => {
+    const action: IpcAction = {
+      type: QUERY_CONFIG,
+      receiver: 'storage/receive',
+    };
+
+    dispatch('ipc', action, { root: true });
+  },
+
+  receive: ({ commit }, [error, config]) => {
+    if (error !== null) {
+      return debug.warn(error);
+    }
+    debug.log(config);
+    commit('update', config);
+  },
+};
 
 const actions = Object.assign({
-  init: async ({ dispatch, commit }): Promise<std> => {
-    const [error, config] = await dispatch('query');
-    if (error !== null) { return [error]; }
-
-    commit('update', config);
-
-    return [null, config];
+  init: async ({ dispatch, commit }) => {
+    await dispatch('query');
   },
 } as ActionTree<State, RootState>, TARGET_BROWSER === 'web' ? webActions : ipcActions);
 

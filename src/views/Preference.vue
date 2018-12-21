@@ -51,7 +51,7 @@ const __ = namespace('preference');
   },
 })
 export default class PreferenceView extends Vue {
-  // TODO: add these two into action 
+  // TODO: add these two into action
   private locale: string = 'en';
   private timeoutValue: number = 20;
 

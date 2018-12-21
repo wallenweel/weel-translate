@@ -4,11 +4,11 @@
 
 import { browserShim } from './browser-shims';
 import firefox from './firefox';
-import chrome from './chrome';
+// import chrome from './chrome';
 
 const browser = ({
   firefox,
-  chrome,
+  // chrome,
   web: browserShim, // useless
 } as TargetBrowsers)[TARGET_BROWSER] as Browser;
 export default browser;

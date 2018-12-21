@@ -3,12 +3,31 @@ const storageAreaMethods: StorageAreaMethods = {
   set: (keys) => new Promise(() => ({})),
 };
 
+const port: RuntimePort = {
+  name: 'mock_port',
+  disconnect: () => void(0),
+  error: null,
+  onDisconnect: {
+    addListener: () => void(0),
+  },
+  onMessage: {
+    addListener: () => void(0),
+  },
+  postMessage: () => void(0),
+};
+
 export const browserShim: Browser = {
   origin: window,
   runtime: {
-    getManifest: () => ({
-      version: '0.0.0',
-    }),
+    lastError: null,
+    Port: port,
+    getManifest: () => ({ version: '0.0.0' }),
+    connect: () => port,
+    onConnect: {
+      addListener: () => void(0),
+      removeListener: () => void(0),
+      hasListener: () => true,
+    },
     onMessage: {
       addListener: () => void(0),
     },

@@ -110,12 +110,20 @@ declare interface Browser {
 declare type version = string; // like 0.0.0
 
 declare interface BrowserRuntime {
+  lastError: null | Error;
+  Port: RuntimePort;
+
+  getManifest(): { version: version; };
+  connect(extensionId?: string, connectInfo?: { [k: string]: any }): RuntimePort;
+
+  onConnect: {
+    addListener(listener: (port: RuntimePort) => void): void;
+    removeListener(listener: (port: RuntimePort) => void): void;
+    hasListener(listener: (port: RuntimePort) => void): boolean;
+  },
   onMessage: {
     // send a response asynchronously, `return true;` in the listener
     addListener(listener: listenerHandler): void;
-  };
-  getManifest(): {
-    version: version;
   };
 }
 
@@ -134,7 +142,25 @@ declare interface StorageAreaMethods {
   set(keys: object): Promise<object | Error>;
 }
 
-declare type listenerHandler = (message: object, sender: MessageSender, sendResponse: () => {}) => boolean | Promise<any>;
+declare interface connectInfo {
+  name?: RuntimePort['name'];
+  includeTlsChannelID?: boolean,
+  [k: string]: any;
+}
+
+declare interface RuntimePort {
+  name: string;
+  disconnect(): void;
+  error: any;
+  onDisconnect: {
+    addListener(listener: (port: RuntimePort) => void): void;
+  };
+  onMessage: BrowserRuntime['onMessage'];
+  postMessage(message: { [k: string]: any }): void;
+  sender?: MessageSender;
+}
+
+declare type listenerHandler = (message: { [k: string]: any }, sender: MessageSender, sendResponse: () => {}) => boolean | Promise<any>;
 
 declare interface MessageSender {
   tab?: any;

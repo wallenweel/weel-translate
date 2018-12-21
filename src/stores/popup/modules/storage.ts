@@ -46,11 +46,7 @@ const ipcActions: ActionTree<State, RootState> = {
     dispatch('ipc', action, { root: true });
   },
 
-  receive: ({ commit }, [error, config]) => {
-    if (error !== null) {
-      return debug.warn(error);
-    }
-    debug.log(config);
+  receive: ({ commit }, config) => {
     commit('update', config);
   },
 };

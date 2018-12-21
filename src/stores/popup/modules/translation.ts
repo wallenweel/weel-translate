@@ -14,8 +14,9 @@ import {
 } from '@/functions';
 
 import debug from '@/functions/debug';
+import { QUERY_TRANSLATION } from '@/types';
 
-let cancelTranslate: Canceler;
+let cancelTranslate: Canceler | null;
 
 const namespaced: boolean = true;
 
@@ -40,6 +41,11 @@ const mutations = Object.assign({
 
 const webActions: ActionTree<State, RootState> = {
   query: ({ state, dispatch }, params) => {
+    if (istype(cancelTranslate, 'function')) {
+      (cancelTranslate as Canceler)();
+      return dispatch('notify', `Don't repeat request.`);
+    }
+
     const { timeout, sources, source: { id } } = state;
     const preset = presetInvoker(id, sources)[1] as SourcePreset;
     const translationRequest = request(preset);
@@ -50,16 +56,33 @@ const webActions: ActionTree<State, RootState> = {
         cancelTranslate = cancel;
       }),
     }).then(([_, { data }]) => {
-      dispatch('done', resultParser(data, preset.parser));
+      const [error, result] = resultParser(data, preset.parser);
+      dispatch('done', result);
       dispatch('notify', null);
     }).catch(([error]) => {
       debug.log(error);
       dispatch('notify', error.message);
+    }).finally(() => {
+      cancelTranslate = null;
     });
   },
 };
 
-const ipcActions: ActionTree<State, RootState> = {};
+const ipcActions: ActionTree<State, RootState> = {
+  query: ({ dispatch }, params) => {
+    const action: IpcAction = {
+      type: QUERY_TRANSLATION,
+      receiver: 'translation/receive',
+      payload: { ...params },
+    };
+
+    dispatch('ipc', action, { root: true });
+  },
+
+  receive: ({ dispatch }, result) => {
+    dispatch('done', result);
+  },
+};
 
 const actions = Object.assign({
   init: ({ commit, dispatch, rootState }) => {
@@ -82,7 +105,7 @@ const actions = Object.assign({
     if (!q.trim().length) {
       return dispatch('notify', i18n.t('blank_input_msg'));
     }
-    if (istype(cancelTranslate, 'function')) { cancelTranslate(); }
+
     return dispatch('query', { q, from, to });
   },
 
@@ -107,7 +130,7 @@ const actions = Object.assign({
   notify: ({ commit }, message: string) => {
     commit('update', { notify: message || null });
   },
-  done: ({ commit }, [_, result]) => {
+  done: ({ commit }, result) => {
     commit('update', { result });
   },
 } as ActionTree<State, RootState>, TARGET_BROWSER === 'web' ? webActions : ipcActions);

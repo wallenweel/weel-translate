@@ -3,22 +3,30 @@ import Vuex, { MutationTree, ActionTree, ModuleTree } from 'vuex';
 import storage from './modules/storage';
 import preference from './modules/preference';
 import translation from './modules/translation';
+import { update, clear } from '@/stores/mutations';
 import debug from '@/functions/debug';
 
 Vue.use(Vuex);
 
 let Port: RuntimePort;
 
-const state: State = {};
+const state: State = {
+  notify: null,
+};
 
-const mutations: MutationTree<State> = {};
+const mutations = Object.assign({
+} as MutationTree<State>, { update, clear });
 
 const actions: ActionTree<State, State> = {
   init: ({ state, dispatch }, { port }) => {
     // initial a port for connecting other end
     // useless in "web" mode
     Port = port;
-    Port.onMessage.addListener(({ name, receiver, type, payload }: IpcAction) => {
+    Port.onMessage.addListener(({ name, receiver, type, error, payload }: IpcAction) => {
+      if (error !== null) {
+        dispatch('notify', error);
+      }
+
       if (!receiver) {
         return debug.warn(`receiving action ${receiver} is not exist`);
       }
@@ -35,13 +43,16 @@ const actions: ActionTree<State, State> = {
   },
 
   ipc: (_, { type, receiver, payload }) => {
-    debug.log(Port);
     Port.postMessage({
       name: Port.name,
       type,
       receiver,
       payload,
     } as IpcAction);
+  },
+
+  notify: ({ commit }, message: string) => {
+    commit('update', { notify: message || null });
   },
 };
 
@@ -54,5 +65,7 @@ export default new Vuex.Store<State>({
 });
 
 export interface State {
+  notify: null | string;
+
   [name: string]: any;
 }

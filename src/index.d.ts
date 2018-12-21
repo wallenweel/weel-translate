@@ -149,6 +149,7 @@ declare interface IpcAction {
   // const type
   type?: string;
   payload?: any;
+  error?: null | any;
 }
 
 declare interface connectInfo {

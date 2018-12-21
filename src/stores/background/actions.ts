@@ -1,7 +1,12 @@
+import axios, { Canceler } from 'axios';
 import { ActionTree } from 'vuex';
 import { State } from './';
-import { versionCheck } from '@/functions';
-import { QUERY_CONFIG, VERSION_FRESH, VERSION_UPDATED, VERSION_OUTDATED, VERSION_SAME } from '@/types';
+import { versionCheck, presetInvoker, translationResultParser, istype } from '@/functions';
+import * as types from '@/types';
+import request from '@/apis/request';
+import debug from '@/functions/debug';
+
+let cancelRequest: Canceler | null;
 
 export const actions: ActionTree<State, State> = {
   startup: async ({ dispatch, state }): Promise<std> => {
@@ -19,20 +24,20 @@ export const actions: ActionTree<State, State> = {
     const [, status] = versionCheck(version, last_version);
 
     switch (status) {
-      case VERSION_FRESH: // first install
+      case types.VERSION_FRESH: // first install
         const [error] = await dispatch('storage/reset');
         if (error !== null) {
           return [error];
         }
         return [null];
 
-      case VERSION_UPDATED:
+      case types.VERSION_UPDATED:
         return [null];
 
-      case VERSION_OUTDATED:
+      case types.VERSION_OUTDATED:
         return [null];
 
-      case VERSION_SAME: // nothing change
+      case types.VERSION_SAME: // nothing change
         return [null];
       default:
         return [null];
@@ -41,7 +46,7 @@ export const actions: ActionTree<State, State> = {
 };
 
 export const ipcActions: ActionTree<State, State> = {
-  [QUERY_CONFIG]: async ({ dispatch }): Promise<std> => {
+  [types.QUERY_CONFIG]: async ({ dispatch }): Promise<std> => {
     const [err, config] = await dispatch('storage/query');
 
     if (err !== null) {
@@ -49,6 +54,35 @@ export const ipcActions: ActionTree<State, State> = {
     }
 
     return [null, config];
+  },
+
+  [types.QUERY_TRANSLATION]: ({ rootState }, { payload }) => {
+    if (istype(cancelRequest, 'function')) {
+      (cancelRequest as Canceler)();
+      return [`Don't repeat request.`];
+    }
+
+    const {
+      request_timeout: timeout,
+      translation_sources: sources,
+      translation_current_source: source,
+    } = rootState.storage;
+
+    const preset = presetInvoker(source.id, sources)[1] as SourcePreset;
+    const translationRequest = request(preset);
+    return translationRequest(payload, {
+      timeout,
+      cancelToken: new axios.CancelToken((cancel: Canceler) => {
+        cancelRequest = cancel;
+      }),
+    }).then(([_, { data }]) => {
+      const [error, result] = translationResultParser(data, preset.parser);
+      return [error, result];
+    }).catch(([error]) => {
+      return [error];
+    }).finally(() => {
+      cancelRequest = null;
+    });
   },
 };
 

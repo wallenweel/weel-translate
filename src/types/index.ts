@@ -1,6 +1,7 @@
 export const TEST = 'TEST';
 
 export const QUERY_CONFIG = 'QUERY_CONFIG';
+export const QUERY_TRANSLATION = 'QUERY_TRANSLATION';
 
 export const VERSION_FRESH: versionFresh = 'VERSION_FRESH';
 export const VERSION_UPDATED: versionUpdate = 'VERSION_UPDATED';

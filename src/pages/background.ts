@@ -21,7 +21,6 @@ let Port: RuntimePort;
 let ipcListener: RuntimePort['onMessage']['addListener'];
 ipcListener = (message) => {
   const { name, receiver, type, payload = {} }: IpcAction = message as any;
-  debug.log(name, type, payload);
 
   if (!type) {
     debug.log('warn', `IPC message's type is ${type}.`);
@@ -34,9 +33,11 @@ ipcListener = (message) => {
   }
 
   // redirect to store's action
-  dispatch(type, Object.assign(payload, { Port }))
-    .then((payload: any) => {
-      Port.postMessage({ name, receiver, type, payload });
+  dispatch(type, { Port, ...message })
+    .then(([error, payload]) => {
+      if (error !== null) { debug.warn(error); }
+
+      Port.postMessage({ name, receiver, type, error, payload });
     });
 
   // accept send a response asynchronously

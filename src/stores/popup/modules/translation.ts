@@ -100,6 +100,22 @@ const actions = Object.assign({
     dispatch('languages');
   },
 
+  save: ({ dispatch }, changes) => {
+    const {
+      // tslint:disable:variable-name
+      source: translation_current_source,
+      recent: translation_recent,
+      picked: translation_picked,
+      // tslint:enable:variable-name
+    } = changes;
+
+    dispatch('storage/save', {
+      translation_current_source,
+      translation_recent,
+      translation_picked,
+    }, { root: true });
+  },
+
   translate: ({ state, dispatch }) => {
     const { text: q, source: { fromto: [from, to] } } = state;
     if (!q.trim().length) {
@@ -125,7 +141,11 @@ const actions = Object.assign({
   },
 
   text: ({ commit }, text) => { commit('update', { text }); },
-  fromto: ({ state, commit }, fromto) => { commit('update', { source: { ...state.source, fromto } }); },
+  fromto: ({ state, dispatch, commit }, fromto) => {
+    const source = { source: { ...state.source, fromto } };
+    dispatch('save', source);
+    commit('update', source);
+  },
 
   notify: ({ commit }, message: string) => {
     commit('update', { notify: message || null });

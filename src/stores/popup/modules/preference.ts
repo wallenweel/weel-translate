@@ -9,6 +9,7 @@ import { presetLanguagesFilter } from '@/functions';
 const namespaced: boolean = true;
 
 const state: State = {
+  locale: 'en',
   locales: [],
 
   theme: 'light',
@@ -27,6 +28,7 @@ const ipcActions: ActionTree<State, RootState> = {};
 const actions = Object.assign({
   init: ({ rootState, commit, dispatch }) => {
     const {
+      ui_language: locale,
       preference_theme: theme,
       preference_fab_enable: fabEnable,
       preference_fab_position: fabPosition,
@@ -36,7 +38,8 @@ const actions = Object.assign({
       preference_context_menu_enable: contextMenuEnable,
     } = rootState.storage;
 
-    commit('update', { theme, fabEnable, fabPosition, fapEnable, fapPosition, fapPositionEdge, contextMenuEnable });
+    // tslint:disable-next-line:max-line-length
+    commit('update', { locale, theme, fabEnable, fabPosition, fapEnable, fapPosition, fapPositionEdge, contextMenuEnable });
 
     dispatch('locales');
   },
@@ -49,9 +52,31 @@ const actions = Object.assign({
     commit('update', { locales: languages });
   },
 
-  save: ({ commit }, [key, value]) => {
-    debug.log({ [key]: value });
-    commit('update', { [key]: value });
+  save: async ({ commit, dispatch }, changes) => {
+    debug.log('changes');
+    const {
+      // tslint:disable:variable-name
+      locale: ui_language,
+      theme: preference_theme,
+      fabEnable: preference_fab_enable,
+      fabPosition: preference_fab_position,
+      fapEnable: preference_fap_enable,
+      fapPosition: preference_fap_position,
+      fapPositionEdge: preference_fap_position_edge,
+      contextMenuEnable: preference_context_menu_enable,
+      // tslint:enable:variable-name
+    } = changes;
+    await dispatch('storage/save', {
+      ui_language,
+      preference_theme,
+      preference_fab_enable,
+      preference_fab_position,
+      preference_fap_enable,
+      preference_fap_position,
+      preference_fap_position_edge,
+      preference_context_menu_enable,
+    }, { root: true });
+    commit('update', changes);
   },
 } as ActionTree<State, RootState>, TARGET_BROWSER === 'web' ? webActions : ipcActions);
 
@@ -71,6 +96,7 @@ const getters: GetterTree<State, RootState> = {
     if (Object.keys(state).includes(c)) { p[c] = state[c]; }
     return p;
   }, {}),
+  language: (state) => state.locale,
 };
 
 export const preference: Module<State, RootState> = {
@@ -80,6 +106,7 @@ export const preference: Module<State, RootState> = {
 export default preference;
 
 interface State {
+  locale: Language['code'];
   locales?: Language[];
 
   theme: 'dark' | 'light';

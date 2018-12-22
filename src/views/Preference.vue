@@ -132,7 +132,7 @@ export default class PreferenceView extends Vue {
 
     for (const k of Object.keys(this.values)) {
       this.$watch(`values.${k}`, (val, old) =>
-        this.saveOption([k, val]));
+        this.saveOption({ [k]: val }));
     }
   }
 

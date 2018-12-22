@@ -3,7 +3,7 @@ import { State as RootState } from '../index';
 
 import { update, clear } from '@/stores/mutations';
 
-import { configKeysReducer } from '@/functions';
+import { configKeysReducer, istype } from '@/functions';
 import defaultConfig from '@/defaults/config';
 import { QUERY_CONFIG } from '@/types';
 import debug from '@/functions/debug';
@@ -33,6 +33,17 @@ const webActions: ActionTree<State, RootState> = {
     }
 
     commit('update', config);
+  },
+
+  save: ({ state, commit }, changes) => {
+    debug.log(changes);
+    const config: { [k: string]: any } = {};
+    for (const [k, v] of Object.entries(changes)) {
+      if (istype(v, 'undefined')) { continue; }
+      config[k] = v;
+    }
+    commit('update', config);
+    localStorage.setItem('config', JSON.stringify(state));
   },
 };
 

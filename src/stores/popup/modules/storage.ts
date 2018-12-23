@@ -64,7 +64,7 @@ const ipcActions: ActionTree<State, RootState> = {
 
 const actions = Object.assign({
   init: async ({ dispatch, commit }) => {
-    await dispatch('query');
+    return await dispatch('query');
   },
 } as ActionTree<State, RootState>, TARGET_BROWSER === 'web' ? webActions : ipcActions);
 

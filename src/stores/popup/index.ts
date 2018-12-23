@@ -12,13 +12,16 @@ let Port: RuntimePort;
 
 const state: State = {
   notify: null,
+  flags: {
+    storage: null,
+  },
 };
 
 const mutations = Object.assign({
 } as MutationTree<State>, { update, clear });
 
 const actions: ActionTree<State, State> = {
-  init: ({ state, dispatch }, { port }) => {
+  init: ({ state, dispatch, rootState }, { port }) => {
     // initial a port for connecting other end
     // useless in "web" mode
     Port = port;
@@ -60,9 +63,17 @@ const modules: ModuleTree<State> = {
   storage, preference, translation,
 };
 
-export default new Vuex.Store<State>({
+const store = new Vuex.Store<State>({
   state, actions, mutations, modules,
 });
+
+store.subscribe((mutation, state) => {
+  if (mutation.type === 'storage/update') {
+    store.dispatch('preference/config');
+  }
+});
+
+export default store;
 
 export interface State {
   notify: null | string;

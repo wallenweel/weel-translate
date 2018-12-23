@@ -27,6 +27,10 @@ const ipcActions: ActionTree<State, RootState> = {};
 
 const actions = Object.assign({
   init: ({ rootState, commit, dispatch }) => {
+    dispatch('locales');
+  },
+
+  config: ({ commit, rootState }) => {
     const {
       ui_language: locale,
       preference_theme: theme,
@@ -40,8 +44,6 @@ const actions = Object.assign({
 
     // tslint:disable-next-line:max-line-length
     commit('update', { locale, theme, fabEnable, fabPosition, fapEnable, fapPosition, fapPositionEdge, contextMenuEnable });
-
-    dispatch('locales');
   },
 
   locales: async ({ commit }) => {

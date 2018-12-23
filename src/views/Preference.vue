@@ -11,7 +11,8 @@
       <mdc-layout-cell class="-row">
         <mdc-headline>Interface</mdc-headline>
         <mdc-subheading>UI Languages</mdc-subheading>
-        <mdc-radio v-model="locale"
+        <!-- v-model="locale" -->
+        <mdc-radio :picked="locale" @change="handleLocale"
           v-for="(lang, n) in locales" :key="n"
           name="ui-language" :value="lang.code" :label="$t(lang.locale)"
         />
@@ -52,7 +53,7 @@ const __ = namespace('preference');
 })
 export default class PreferenceView extends Vue {
   // TODO: add these two into action
-  private locale: string = 'en';
+  // private locale: string = 'en';
   private timeoutValue: number = 20;
 
   private values: any = {
@@ -65,6 +66,7 @@ export default class PreferenceView extends Vue {
     contextMenuEnable: null,
   };
 
+  @__.State private locale!: Language['code'];
   @__.State private locales!: Language[];
 
   @__.Getter private options!: any;
@@ -128,18 +130,23 @@ export default class PreferenceView extends Vue {
   ];
 
   private created() {
+    debug.log(JSON.stringify(this.options));
     Object.assign(this.values, this.options);
 
     for (const k of Object.keys(this.values)) {
-      this.$watch(`values.${k}`, (val, old) =>
-        this.saveOption({ [k]: val }));
+      this.$watch(`values.${k}`, (val, old) => {
+        this.saveOption({ [k]: val });
+      });
     }
   }
 
-  @Watch('locale')
-  private onLocale(val: string) {
-    this.$i18n.locale = val;
+  private handleLocale(v: any) {
+    debug.log('cc', this);
   }
+  // @Watch('locale')
+  // private onLocale(val: string) {
+  //   this.$i18n.locale = val;
+  // }
 }
 </script>
 

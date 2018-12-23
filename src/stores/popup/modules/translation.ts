@@ -85,7 +85,11 @@ const ipcActions: ActionTree<State, RootState> = {
 };
 
 const actions = Object.assign({
-  init: ({ commit, dispatch, rootState }) => {
+  init: ({ dispatch }) => {
+    dispatch('languages');
+  },
+
+  fetch: ({ commit, rootState }) => {
     const {
       request_timeout: timeout,
       translation_sources: sources,
@@ -96,11 +100,9 @@ const actions = Object.assign({
     } = rootState.storage;
 
     commit('update', { timeout, source, sources, enabledSources, recent, picked });
-
-    dispatch('languages');
   },
 
-  save: ({ dispatch }, changes) => {
+  merge: ({ dispatch }, changes) => {
     const {
       // tslint:disable:variable-name
       source: translation_current_source,
@@ -109,11 +111,9 @@ const actions = Object.assign({
       // tslint:enable:variable-name
     } = changes;
 
-    dispatch('storage/save', {
-      translation_current_source,
-      translation_recent,
-      translation_picked,
-    }, { root: true });
+    const config = { translation_current_source, translation_recent, translation_picked };
+
+    dispatch('storage/merge', config, { root: true });
   },
 
   translate: ({ state, dispatch }) => {
@@ -142,9 +142,9 @@ const actions = Object.assign({
 
   text: ({ commit }, text) => { commit('update', { text }); },
   fromto: ({ state, dispatch, commit }, fromto) => {
-    const source = { source: { ...state.source, fromto } };
-    dispatch('save', source);
-    commit('update', source);
+    const changes = { source: { ...state.source, fromto } };
+    dispatch('merge', changes);
+    commit('update', changes);
   },
 
   notify: ({ commit }, message: string) => {

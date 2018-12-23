@@ -71,6 +71,7 @@ const store = new Vuex.Store<State>({
 store.subscribe((mutation, state) => {
   if (mutation.type === 'storage/update') {
     store.dispatch('preference/fetch');
+    store.dispatch('translation/fetch');
   }
 });
 

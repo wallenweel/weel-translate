@@ -24,7 +24,12 @@ const port: RuntimePort = browser.runtime.connect({
   name: 'port-from-popup',
 });
 
-store.dispatch('init', { port });
+store.dispatch('init', { port }).then(() => {
+  i18n.locale = store.getters.locale;
+  store.watch(() => store.getters.locale, () => {
+    i18n.locale = store.getters.locale;
+  });
+});
 
 new Vue({
   router,

@@ -9,6 +9,7 @@ import { presetLanguagesFilter } from '@/functions';
 const namespaced: boolean = true;
 
 const state: State = {
+  timeout: 15000,
   locale: 'en',
   locales: [],
 
@@ -30,8 +31,17 @@ const actions = Object.assign({
     dispatch('locales');
   },
 
-  config: ({ commit, rootState }) => {
+  locales: async ({ commit }) => {
+    let languages: Language[] = await import(/** webpackChunkName "languages" */ '@/assets/languages.json');
+    languages = (languages as any).default;
+    const locales = Object.keys(i18n.messages);
+    languages = presetLanguagesFilter(languages, locales)[1] as Language[];
+    commit('update', { locales: languages });
+  },
+
+  fetch: ({ commit, rootState }) => {
     const {
+      request_timeout: timeout,
       ui_language: locale,
       preference_theme: theme,
       preference_fab_enable: fabEnable,
@@ -43,21 +53,13 @@ const actions = Object.assign({
     } = rootState.storage;
 
     // tslint:disable-next-line:max-line-length
-    commit('update', { locale, theme, fabEnable, fabPosition, fapEnable, fapPosition, fapPositionEdge, contextMenuEnable });
+    commit('update', { timeout, locale, theme, fabEnable, fabPosition, fapEnable, fapPosition, fapPositionEdge, contextMenuEnable });
   },
 
-  locales: async ({ commit }) => {
-    let languages: Language[] = await import(/** webpackChunkName "languages" */ '@/assets/languages.json');
-    languages = (languages as any).default;
-    const locales = Object.keys(i18n.messages);
-    languages = presetLanguagesFilter(languages, locales)[1] as Language[];
-    commit('update', { locales: languages });
-  },
-
-  save: async ({ commit, dispatch }, changes) => {
-    debug.log('changes');
+  merge: async ({ commit, dispatch }, changes) => {
     const {
       // tslint:disable:variable-name
+      timeout: request_timeout,
       locale: ui_language,
       theme: preference_theme,
       fabEnable: preference_fab_enable,
@@ -68,17 +70,11 @@ const actions = Object.assign({
       contextMenuEnable: preference_context_menu_enable,
       // tslint:enable:variable-name
     } = changes;
-    await dispatch('storage/save', {
-      ui_language,
-      preference_theme,
-      preference_fab_enable,
-      preference_fab_position,
-      preference_fap_enable,
-      preference_fap_position,
-      preference_fap_position_edge,
-      preference_context_menu_enable,
-    }, { root: true });
-    commit('update', changes);
+
+    // tslint:disable-next-line:max-line-length
+    const config = { request_timeout, ui_language, preference_theme, preference_fab_enable, preference_fab_position, preference_fap_enable, preference_fap_position, preference_fap_position_edge, preference_context_menu_enable };
+
+    await dispatch('storage/merge', config, { root: true });
   },
 } as ActionTree<State, RootState>, TARGET_BROWSER === 'web' ? webActions : ipcActions);
 
@@ -98,7 +94,6 @@ const getters: GetterTree<State, RootState> = {
     if (Object.keys(state).includes(c)) { p[c] = state[c]; }
     return p;
   }, {}),
-  language: (state) => state.locale,
 };
 
 export const preference: Module<State, RootState> = {
@@ -108,6 +103,7 @@ export const preference: Module<State, RootState> = {
 export default preference;
 
 interface State {
+  timeout: number;
   locale: Language['code'];
   locales?: Language[];
 

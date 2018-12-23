@@ -35,14 +35,7 @@ const webActions: ActionTree<State, RootState> = {
     commit('update', config);
   },
 
-  save: ({ state, commit }, changes) => {
-    debug.log(changes);
-    const config: { [k: string]: any } = {};
-    for (const [k, v] of Object.entries(changes)) {
-      if (istype(v, 'undefined')) { continue; }
-      config[k] = v;
-    }
-    commit('update', config);
+  save: ({ state, commit }) => {
     localStorage.setItem('config', JSON.stringify(state));
   },
 };
@@ -64,7 +57,26 @@ const ipcActions: ActionTree<State, RootState> = {
 
 const actions = Object.assign({
   init: async ({ dispatch, commit }) => {
-    return await dispatch('query');
+    await dispatch('fetch');
+  },
+
+  fetch: async ({ dispatch }, keys) => {
+    await dispatch('query', keys);
+  },
+
+  merge: async ({ dispatch, commit }, changes) => {
+    const config: { [k: string]: any } = {};
+
+    // debug.log(changes);
+    for (const [k, v] of Object.entries(changes)) {
+      if (istype(v, 'undefined')) { continue; }
+      config[k] = v;
+    }
+
+    commit('update', config);
+
+    // push
+    dispatch('save', changes);
   },
 } as ActionTree<State, RootState>, TARGET_BROWSER === 'web' ? webActions : ipcActions);
 

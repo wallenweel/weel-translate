@@ -11,7 +11,6 @@
       <mdc-layout-cell class="-row">
         <mdc-headline>Interface</mdc-headline>
         <mdc-subheading>UI Languages</mdc-subheading>
-        <!-- v-model="locale" -->
         <mdc-radio :picked="locale" @change="handleLocale"
           v-for="(lang, n) in locales" :key="n"
           name="ui-language" :value="lang.code" :label="$t(lang.locale)"
@@ -20,18 +19,19 @@
 
       <mdc-layout-cell class="-row" v-for="(item, i) in items" :key="`item_${i}`">
         <preference-option class="-option" :wl-value="item.value"
-          :values="values" :item="item" :key="`opt_${i}`" />
+          :values="options" :item="item" @change="handleChange" :key="`opt_${i}`" />
 
         <template v-if="!!item.appends" v-for="(append, n) in item.appends">
           <preference-option class="-option" :wl-value="append.value"
-            :values="values" :item="append" :key="`opt_${n}`" />
+            :values="options" :item="append" @change="handleChange" :key="`opt_${n}`" />
         </template>
       </mdc-layout-cell>
 
       <mdc-layout-cell class="-row">
         <mdc-headline>Network</mdc-headline>
-        <mdc-subheading>Request Timeout (in seconds)</mdc-subheading>
-        <mdc-slider min=0 max=120 step=10 display-markers v-model="timeoutValue" />
+        <mdc-subheading>Request Timeout: {{ timeout / 1000 }} seconds</mdc-subheading>
+        <mdc-slider min=0 max=120 step=10 display-markers
+          :value="timeout / 1000" @change="handleTimeout" />
       </mdc-layout-cell>
     </mdc-layout-grid>
   </div>
@@ -52,26 +52,13 @@ const __ = namespace('preference');
   },
 })
 export default class PreferenceView extends Vue {
-  // TODO: add these two into action
-  // private locale: string = 'en';
-  private timeoutValue: number = 20;
-
-  private values: any = {
-    theme: null,
-    fabEnable: null,
-    fabPosition: null,
-    fapEnable: null,
-    fapPosition: null,
-    fapPositionEdge: null,
-    contextMenuEnable: null,
-  };
-
+  @__.State private timeout!: number;
   @__.State private locale!: Language['code'];
   @__.State private locales!: Language[];
 
   @__.Getter private options!: any;
 
-  @__.Action('save') private saveOption!: any;
+  @__.Action('merge') private mergeConfig!: any;
 
   private items: any = [
     {
@@ -129,24 +116,19 @@ export default class PreferenceView extends Vue {
     },
   ];
 
-  private created() {
-    debug.log(JSON.stringify(this.options));
-    Object.assign(this.values, this.options);
-
-    for (const k of Object.keys(this.values)) {
-      this.$watch(`values.${k}`, (val, old) => {
-        this.saveOption({ [k]: val });
-      });
-    }
+  private handleChange(change: { [k: string]: any }) {
+    this.mergeConfig(change);
   }
 
-  private handleLocale(v: any) {
-    debug.log('cc', this);
+  private handleLocale(locale: Language['code']) {
+    this.mergeConfig({ locale });
+    this.$i18n.locale = locale;
   }
-  // @Watch('locale')
-  // private onLocale(val: string) {
-  //   this.$i18n.locale = val;
-  // }
+
+  private handleTimeout(time: number) {
+    if (time === this.timeout / 1000) { return; }
+    this.mergeConfig({ timeout: time * 1000 });
+  }
 }
 </script>
 

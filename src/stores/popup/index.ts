@@ -1,5 +1,5 @@
 import Vue from 'vue';
-import Vuex, { MutationTree, ActionTree, ModuleTree } from 'vuex';
+import Vuex, { MutationTree, ActionTree, ModuleTree, GetterTree } from 'vuex';
 import storage from './modules/storage';
 import preference from './modules/preference';
 import translation from './modules/translation';
@@ -12,9 +12,6 @@ let Port: RuntimePort;
 
 const state: State = {
   notify: null,
-  flags: {
-    storage: null,
-  },
 };
 
 const mutations = Object.assign({
@@ -59,17 +56,21 @@ const actions: ActionTree<State, State> = {
   },
 };
 
+const getters: GetterTree<State, State> = {
+  locale: (state) => state.storage.ui_language,
+};
+
 const modules: ModuleTree<State> = {
   storage, preference, translation,
 };
 
 const store = new Vuex.Store<State>({
-  state, actions, mutations, modules,
+  state, actions, mutations, getters, modules,
 });
 
 store.subscribe((mutation, state) => {
   if (mutation.type === 'storage/update') {
-    store.dispatch('preference/config');
+    store.dispatch('preference/fetch');
   }
 });
 

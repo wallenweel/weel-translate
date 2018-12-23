@@ -2,8 +2,14 @@
 > Material Design Style Web Extension for Languages Translating.
 
 ## Screenshots
-![waiting an input](docs/images/screenshot_popup_translate_a.jpg)
-![get translating result](docs/images/screenshot_popup_translate_b.jpg)
+> captured in development (web) mode.
+
+[![](docs/screenshots/_01.png)](docs/screenshots/01.png)
+[![](docs/screenshots/_02.png)](docs/screenshots/02.png)
+[![](docs/screenshots/_03.png)](docs/screenshots/03.png)
+[![](docs/screenshots/_04.png)](docs/screenshots/04.png)
+[![](docs/screenshots/_05.png)](docs/screenshots/05.png)
+[![](docs/screenshots/_06.png)](docs/screenshots/06.png)
 
 ## ~~Get Started~~
 > developing, no release now.

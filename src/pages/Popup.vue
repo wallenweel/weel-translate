@@ -3,14 +3,19 @@
     <popup-toolbar :raised="!isReachStart"></popup-toolbar>
     <popup-drawer></popup-drawer>
     <popup-content v-model="isReachStart"></popup-content>
+
+    <mdc-snackbar v-model="snack" @hide="resetNotify" ref="snack" />
   </mdc-layout-app>
 </template>
 
 <script lang="ts">
-import { Component, Vue } from 'vue-property-decorator';
+import Vue from 'vue';
+import { State, Action } from 'vuex-class';
+import { Component, Watch } from 'vue-property-decorator';
 import PopupToolbar from '@/components/PopupToolbar.vue';
 import PopupDrawer from '@/components/PopupDrawer.vue';
 import PopupContent from '@/components/PopupContent.vue';
+import { TranslateResult } from 'vue-i18n';
 import debug from '@/functions/debug';
 
 @Component({
@@ -22,6 +27,23 @@ import debug from '@/functions/debug';
 })
 export default class Popup extends Vue {
   private isReachStart: boolean = true;
+  private snack: any = { message: `` };
+
+  @State private notify!: null | string;
+
+  @Action('notify') private resetNotify: any;
+
+  @Watch('notify')
+  private onNotify(val: null | string) {
+    if (!val) { return; }
+
+    let message: string | TranslateResult = val || 'something wrong';
+
+    if (/cancel/i.test(val)) { message = this.$t('request_cancel_msg'); }
+    if (/timeout/i.test(val)) { message = this.$t('request_timeout_msg'); }
+
+    (this.$refs.snack as any).show({ message });
+  }
 }
 </script>
 

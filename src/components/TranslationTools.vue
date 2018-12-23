@@ -52,8 +52,6 @@
         </mdc-list-item>
       </mdc-list>
     </mdc-dialog>
-
-    <mdc-snackbar v-model="snack" @hide="$emit('hide')" ref="snack" />
   </div>
 </template>
 
@@ -69,10 +67,6 @@ export default class TranslationTools extends Vue {
   @Prop(Boolean) private disabled?: boolean;
   @Prop(Boolean) private flag?: boolean;
 
-  @Prop(String || null)
-  private notify?: null | string = null;
-
-  private snack: any = { message: `` };
   private progress: number = 1;
   private interval: any;
   private toggle: boolean = false;
@@ -129,15 +123,6 @@ export default class TranslationTools extends Vue {
   private onDone(val: boolean) {
     clearInterval(this.interval);
     this.progress = 1;
-  }
-  @Watch('notify')
-  private onNotify(val: null | string) {
-    if (!val) { return; }
-
-    let message: string = val || 'something wrong';
-    if (/cancel/i.test(val)) { message = this.$t('request_cancel_msg'); }
-    if (/timeout/i.test(val)) { message = this.$t('request_timeout_msg'); }
-    this.$refs.snack.show({ message });
   }
 }
 </script>

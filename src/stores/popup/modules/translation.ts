@@ -26,7 +26,6 @@ const state: State = {
   text: '', // query text {q}
   languages: [],
   result: {},
-  notify: null,
   timeout: 1000,
 
   sources: [],
@@ -141,17 +140,19 @@ const actions = Object.assign({
   },
 
   text: ({ commit }, text) => { commit('update', { text }); },
+
   fromto: ({ state, dispatch, commit }, fromto) => {
     const changes = { source: { ...state.source, fromto } };
     dispatch('merge', changes);
     commit('update', changes);
   },
 
-  notify: ({ commit }, message: string) => {
-    commit('update', { notify: message || null });
-  },
   done: ({ commit }, result) => {
     commit('update', { result });
+  },
+
+  notify: ({ dispatch }, message: string) => {
+    dispatch('notify', message, { root: true });
   },
 } as ActionTree<State, RootState>, TARGET_BROWSER === 'web' ? webActions : ipcActions);
 
@@ -172,7 +173,6 @@ interface State {
   text: string;
   languages: Language[];
   result: { [name: string]: any };
-  notify: null | string;
   timeout?: number;
 
   sources: presetStringJson[];

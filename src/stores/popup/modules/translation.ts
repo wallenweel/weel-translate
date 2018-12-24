@@ -125,12 +125,18 @@ const actions = Object.assign({
   },
 
   languages: async ({ state, commit }) => {
-    let languages: Language[] = await import(/** webpackChunkName "languages" */ '@/assets/languages.json');
-
     const { source, sources } = state;
     const [_, preset] = presetInvoker(source.id, sources) as [null, SourcePreset];
 
-    languages = (languages as any).default;
+    let languages: Language[];
+
+    if (!!preset.languages) {
+      languages = preset.languages;
+    } else {
+      languages = await import(/** webpackChunkName "languages" */ '@/assets/languages.json');
+      languages = (languages as any).default;
+    }
+
     languages = presetLanguagesFilter(languages, preset.include, preset.exclude)[1] as Language[];
     languages = presetLanguagesModifier(languages, preset.modify)[1] as Language[];
 

@@ -22,7 +22,7 @@
     <div class="support-languages">
       <mdc-button dense
         @click="selectLanguages(toggle ? 'to' : 'from')"
-      >{{ toggle ? $t(to.locale) : $t(from.locale) }}</mdc-button>
+      >{{ toggle ? toName : fromName }}</mdc-button>
 
       <mdc-icon-toggle class="-switch" v-model="toggle"
         dense primary
@@ -34,7 +34,7 @@
 
       <mdc-button dense
         @click="selectLanguages(toggle ? 'from' : 'to')"
-      >{{ toggle ? $t(from.locale) : $t(to.locale) }}</mdc-button>
+      >{{ toggle ? fromName : toName }}</mdc-button>
     </div>
 
     <mdc-dialog v-model="open" scrollable
@@ -48,7 +48,7 @@
           :selected="lang.code === selected"
           @click="select(lang.code)"
         >
-          <span>{{ $t(lang.locale) }}</span><span>({{ lang.code }})</span>
+          <span>{{ lang.locale ? $t(lang.locale) : lang.name }}</span><span>({{ lang.code }})</span>
         </mdc-list-item>
       </mdc-list>
     </mdc-dialog>
@@ -80,6 +80,12 @@ export default class TranslationTools extends Vue {
   }
   private get to() {
     return this.languages.filter(({ code }) => this.fromto[1] === code)[0] || '';
+  }
+  private get fromName() {
+    return this.from.locale ? this.$t(this.from.locale) : this.from.name;
+  }
+  private get toName() {
+    return this.to.locale ? this.$t(this.to.locale) : this.to.name;
   }
 
   private handleQuery() {

@@ -4,6 +4,7 @@
 import browser from '@/apis/browser';
 import preferenceConfig from './preference';
 import translationConfig from './translation';
+import webConfig from './web';
 import templateConfig from './template';
 
 const manifest = browser.runtime.getManifest();
@@ -20,6 +21,7 @@ const defaultConfig: DefaultConfig = {
   ...baseConfig,
   ...preferenceConfig,
   ...translationConfig,
+  ...webConfig,
   ...templateConfig,
 };
 

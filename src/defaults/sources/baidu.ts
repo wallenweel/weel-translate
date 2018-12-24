@@ -27,4 +27,4 @@ export default {
   },
   fromto: ['en', 'zh'],
   languages,
-} as CrawlerPreset;
+} as SourcePreset;

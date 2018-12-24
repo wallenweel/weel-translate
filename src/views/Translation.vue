@@ -2,25 +2,19 @@
   <div class="view-translation">
     <translation-input class="-input"
       :value="value" @change="handleText"
-      :hotkey="hotkey"
+      :hotkey="hotkey" @enter="handleEnter"
       :has="hasResult"
-      @enter="handleEnter"
-    >
-    </translation-input>
+    />
 
     <translation-tools class="-tools"
-      :fromto="fromto"
-      @change="handleFromto"
+      @query="handleQuery" :flag="flag"
+      @clear="handleClear" @paste="handlePaste"
+      :fromto="fromto" @change="handleFromto"
       :languages="languages"
       :disabled="!value || !value.length"
-      @clear="handleClear"
-      @query="handleQuery" :flag="flag"
-      @paste="handlePaste"
-    ></translation-tools>
+    />
 
-    <translation-result class="-result"
-      :result="result"
-    ></translation-result>
+    <translation-result class="-result" :result="result" />
   </div>
 </template>
 

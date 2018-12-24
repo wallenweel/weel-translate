@@ -194,6 +194,7 @@ declare interface BrowserI18n {
 
 /** /defaults */
 declare interface DefaultConfig extends
+WebConfig,
 TemplateConfig,
 TranslationConfig,
 PreferenceConfig,
@@ -339,9 +340,26 @@ declare type selector = string | string[] | undefined;
 
 declare type crawlerId = string;
 
-declare interface CrawlerPreset extends SourcePreset {
+declare interface CrawlerPresetItem {
+  id: CrawlerPreset['id'];
+  name: CrawlerPreset['name'];
+}
+
+declare interface CrawlerPreset extends Preset {
   id: crawlerId;
   extends?: crawlerId;
+  name: string;
+  url: string;
+  method?: 'get' | string;
+  parser: {
+    [key: string]: selector;
+  };
+  template?: LayoutPreset['rows'],
+}
+
+declare interface WebConfig {
+  web_enabled_crawlers: CrawlerPresetItem[];
+  web_crawlers: presetStringJson[];
 }
 
 // config/template part
@@ -378,5 +396,5 @@ declare interface TemplateConfig {
     [sourceId: string]: [LayoutPresetItem, LayoutPresetItem];
   };
   template_enabled_layouts: LayoutPresetItem[];
-  template_layouts: jsonString[];
+  template_layouts: presetStringJson[];
 }

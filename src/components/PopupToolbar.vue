@@ -20,13 +20,20 @@
 </template>
 
 <script lang="ts">
-import { Component, Prop, Watch, Vue } from 'vue-property-decorator';
+import Vue from 'vue';
+import { Component, Prop, Watch } from 'vue-property-decorator';
+import { State, namespace } from 'vuex-class';
 import debug from '@/functions/debug';
+
+const translationM = namespace('translation');
 
 @Component
 export default class PopupToolbar extends Vue {
+  @translationM.State('source') private source!: SourcePresetItem;
+
   private title = '';
-  private sourceName = 'Google';
+
+  private get sourceName() { return this.source.name; }
 
   @Prop(Boolean)
   private raised?: boolean;
@@ -42,7 +49,7 @@ export default class PopupToolbar extends Vue {
     const [max, min, cls] = [
       'mdc-toolbar--flexible-space-maximized',
       'mdc-toolbar--flexible-space-minimized',
-      this.$refs.wrap.$el.firstChild.classList,
+      (this.$refs.wrap as any).$el.firstChild.classList,
     ];
     if (val) {
       cls.remove(max);

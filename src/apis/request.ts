@@ -14,7 +14,9 @@ export const request: ApiRequest = (preset, type = 'text') => {
     if (!!querier && !!querier.url) {
       // { url: '{url}/a/b' } + { ..., url: 'https://test' } => { url: 'https://test/a/b' }
       querier.url = querier.url
-        .replace(/{(url)}/, (_, $: 'url') => preset[$] || _);
+      .replace(/{(url)}/, (_, $: 'url') => preset[$] || _);
+    }
+    if (!!querier && !!querier.method) {
       // { method: '{method}' } + { ..., method: 'get' } => { method: 'get}
       querier.method = querier.method
         .replace(/{(method)}/, (_, $: 'method') => preset[$] || _);
@@ -37,15 +39,17 @@ export const request: ApiRequest = (preset, type = 'text') => {
 
       config = { ...config, method, url };
 
-      if (!/\?/.test(url)) {
+      if (!/\?/.test(url) && !!querier.params) {
         if (['post', 'put'].includes(method)) {
-          const data = presetParamsParser(querier.params!, requestParams)[1];
+          const data = presetParamsParser(querier.params, requestParams)[1];
           config = { data, ...config };
         }
         if (['get'].includes(method)) {
-          const params = presetParamsParser(querier.params!, requestParams)[1];
+          const params = presetParamsParser(querier.params, requestParams)[1];
           config = { params, ...config };
         }
+      } else {
+        config.url = paramsParaser(config.url, requestParams)[1];
       }
     } else { // for web crawl
       // TODO: not complete

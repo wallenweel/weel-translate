@@ -1,4 +1,4 @@
-import languages from './baidu_languages.json';
+import languages from '@/assets/baidu_languages.json';
 
 export default {
   id: 'baidu_fanyi',
@@ -7,8 +7,16 @@ export default {
   method: 'get',
   query: {
     text: {
-      method: '{method}',
-      url: '{url}/#{from}/{to}/{q}',
+      method: 'post',
+      url: '{url}/v2transapi',
+      params: [
+        ['from',	'{from}'],
+        ['to',	'{to}'],
+        ['query',	'{q}'],
+        ['simple_means_flag',	'3'],
+        ['sign',	'501406.214447'],
+        ['token',	'6900cfce4beddf9a613d39cf338f034f'],
+      ],
     },
   },
   parser: {

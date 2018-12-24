@@ -55,6 +55,7 @@ const webActions: ActionTree<State, RootState> = {
         cancelTranslate = cancel;
       }),
     }).then(([_, { data }]) => {
+      debug.log(data);
       const [error, result] = resultParser(data, preset.parser);
       dispatch('done', result);
       dispatch('notify', null);

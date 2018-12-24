@@ -69,6 +69,10 @@ declare interface PresetsStringifyFn {
   (presets: Preset[]): std<jsonString[]>;
 }
 
+declare interface ParamsParseFn<T> {
+  (target: T, params: { [k: string]: string }, parse?: boolean): std<T>;
+}
+
 declare interface PresetParamsParseFn {
   (target: queryParams, requestParams: { [key: string]: string; }, stringify?: boolean): std<URLSearchParams | string>;
 }
@@ -308,6 +312,9 @@ declare interface SourcePreset extends Preset {
   // invalid when "include" is set
   // if exist, exclude from all languages
   exclude?: Array<Language['code']>;
+
+  // custom all languages that your preset needs
+  languages?: Array<Language>;
 }
 
 declare interface Language {
@@ -320,7 +327,7 @@ declare type queryParams = string | { [param: string]: string | string[]; } | st
 declare interface TextQuery {
   method: 'get' | 'post' | string;
   url: string;
-  params: queryParams;
+  params?: queryParams;
 }
 
 declare interface AudioQuery extends TextQuery {
@@ -329,6 +336,13 @@ declare interface AudioQuery extends TextQuery {
 
 // object index such as "a.b.c" or Dom selecotr
 declare type selector = string | string[] | undefined;
+
+declare type crawlerId = string;
+
+declare interface CrawlerPreset extends SourcePreset {
+  id: crawlerId;
+  extends?: crawlerId;
+}
 
 // config/template part
 declare type templatePreset = LayoutPreset;

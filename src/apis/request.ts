@@ -1,5 +1,5 @@
 import axios, { AxiosRequestConfig, CancelTokenSource } from 'axios';
-import { presetParamsParser } from '@/functions';
+import { presetParamsParser, paramsParaser } from '@/functions';
 import debug from '@/functions/debug';
 
 export const source = axios.CancelToken.source();
@@ -32,26 +32,31 @@ export const request: ApiRequest = (preset, type = 'text') => {
       },
     } as AxiosRequestConfig, userConfig);
 
-    if (!!querier) { // for translation
+    if (!!querier) { // for translation api
       const { method, url } = querier;
 
       config = { ...config, method, url };
 
       if (!/\?/.test(url)) {
         if (['post', 'put'].includes(method)) {
-          const data = presetParamsParser(querier.params, requestParams)[1];
+          const data = presetParamsParser(querier.params!, requestParams)[1];
           config = { data, ...config };
         }
         if (['get'].includes(method)) {
-          const params = presetParamsParser(querier.params, requestParams)[1];
+          const params = presetParamsParser(querier.params!, requestParams)[1];
           config = { params, ...config };
         }
       }
     } else { // for web crawl
+      // TODO: not complete
       config = { ...config, url, method };
+
       if (/\?/.test(url)) {
         const [host, params] = url.split('?');
-        config.url = `${host}?${presetParamsParser(params, requestParams)[1]}`;
+        config.url = `${host}?${presetParamsParser(params, requestParams, true)[1]}`;
+      }
+      if (!querier!.params) {
+        config.url = paramsParaser(config.url, requestParams)[1];
       }
     }
 

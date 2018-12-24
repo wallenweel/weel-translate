@@ -15,6 +15,7 @@ import {
   presetLanguagesModifier,
   presetLanguagesFilter,
   presetInvoker,
+  paramsParaser,
 } from '@/functions';
 import stringifySourcePresets, { sourcePresets } from '@/defaults/sources';
 import stringifyLayoutPresets, { layoutPresets } from '@/defaults/layouts';
@@ -231,4 +232,14 @@ describe('functions/presetInvoker', () => {
     expect(demo!.name).toBe('谷歌');
     expect(demo).toHaveProperty('parser');
   });
+});
+
+describe('functions/paramsParaser', () => {
+  const fn = paramsParaser;
+  const p = { url: 'test', a: 'hello', b: 'world' };
+
+  it(`value string in params object`, () =>
+    expect(fn('{url}/{a}/{b}', p)[1]).toBe('test/hello/world'));
+  it(`value object in params object`, () =>
+    expect(fn({ url: '{url}', a: '{a}', b: '{b}' }, p)[1]!.url).toBe('test'));
 });

@@ -149,6 +149,25 @@ presetsStringifier = (presets) => {
   }
 };
 
+export let paramsParaser: ParamsParseFn<any>;
+paramsParaser = (target, params, parse = true) => {
+  let out: string | queryParams;
+
+  out = JSON.stringify(target)
+  .replace(/{\b(.+?)\b}/g, (_, $) => params[$] || _)
+  .replace(/(\r\n|\r|\n)/g, '\\n') as string;
+
+  if (parse) {
+    try {
+      out = JSON.parse(out) as queryParams;
+    } catch (error) {
+      return [new Error(error), out];
+    }
+  }
+
+  return [null, out];
+};
+
 export let presetParamsParser: PresetParamsParseFn;
 presetParamsParser = (target, requestParams, stringify = false) => {
   if (!istype(target, ['object', 'array', 'string'])) {
@@ -158,17 +177,7 @@ presetParamsParser = (target, requestParams, stringify = false) => {
   // object: {q: 'test'} -> {"q": "{q}"} => {"q": "test"}
   // array: {q: 'test'} -> [["q": "{q}"]] => [["q": "test"]]
   // string: {q: 'test'} -> 'q={q}&...' => "q=test&...""
-  let params: queryParams;
-
-  params = JSON.stringify(target)
-    .replace(/{\b(.+?)\b}/g, (_, $) => requestParams[$] || _)
-    .replace(/(\r\n|\r|\n)/g, '\\n') as string;
-
-  try {
-    params = JSON.parse(params) as queryParams;
-  } catch (error) {
-    return [new Error(error), params];
-  }
+  const params: queryParams = paramsParaser(target, requestParams)[1]!;
 
   let out: URLSearchParams;
 

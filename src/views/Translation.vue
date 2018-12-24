@@ -33,6 +33,7 @@ import TranslationInput from '@/components/TranslationInput.vue';
 import TranslationTools from '@/components/TranslationTools.vue';
 import TranslationResult from '@/components/TranslationResult.vue';
 import debug from '@/functions/debug';
+import baidu from '@/defaults/crawlers/baidu';
 
 const __ = namespace('translation');
 
@@ -62,6 +63,7 @@ export default class TranslationView extends Vue {
 
   private created() {
     this.value = this.text;
+    // debug.log(baidu);
   }
 
   private handleFromto(fromto: Array<Language['code']>) {

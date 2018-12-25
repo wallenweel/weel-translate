@@ -19,7 +19,6 @@
     "axios": "^0.18.0",
     "material-components-web": "^0.42.0",
     "material-design-icons-iconfont": "^4.0.3",
-    "normalize.css": "^8.0.1",
     "vue": "^2.5.21",
     "vue-class-component": "^6.0.0",
     "vue-i18n": "^8.4.0",
@@ -27,7 +26,6 @@
     "vue-perfect-scrollbar": "^0.1.0",
     "vue-property-decorator": "^7.0.0",
     "vue-router": "^3.0.1",
-    "vue-scroller": "^2.2.4",
     "vuex": "^3.0.1",
     "vuex-class": "^0.3.1"
   },
@@ -44,6 +42,7 @@
     "generate-json-webpack-plugin": "^0.3.1",
     "node-sass": "^4.9.0",
     "sass-loader": "^7.0.1",
+    "style-loader": "^0.23.1",
     "ts-jest": "^23.0.0",
     "typescript": "^3.2.2",
     "vue-cli-plugin-i18n": "^0.5.1",

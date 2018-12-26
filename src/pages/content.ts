@@ -34,5 +34,12 @@ const app = new Vue({
   const shadow = wrap.attachShadow({ mode: 'open' });
   shadow.appendChild(document.createElement('div'));
 
+  ((flag: boolean) => {
+    if (!flag && isDevelopment) { return; }
+    for (const style of document.head.querySelectorAll('style')) {
+      shadow.appendChild(style);
+    }
+  })(true);
+
   app.$mount(shadow.firstElementChild!);
 })(RUNTIME_ENV === 'development');

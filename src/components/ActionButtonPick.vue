@@ -1,6 +1,5 @@
 <template>
   <mdc-button class="translation-action-pick"
-    :accent=accent
     @click="toggle = !toggle"
   >
     <icon-favorite :type="toggle ? 'sharp' : 'two-tone'" />
@@ -18,7 +17,6 @@ import IconFavorite from '@/components/icons/Favorite.vue';
 })
 export default class PickActionButton extends Vue {
   private toggle = false;
-  private accent = true;
 }
 </script>
 

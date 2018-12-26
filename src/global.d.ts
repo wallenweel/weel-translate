@@ -9,6 +9,9 @@ declare module '*.json'
 
 // fixing "cannot found module" error for icon components
 declare module '@/components/icons/Favorite.vue'
+declare module '@/components/icons/VolumeOff.vue'
+declare module '@/components/icons/VolumeDown.vue'
+declare module '@/components/icons/VolumeUp.vue'
 
 //~ target browser flag for building extension
 //~ defined in "/vue.config.js"

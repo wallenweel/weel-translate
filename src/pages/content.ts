@@ -5,6 +5,9 @@ Vue.config.productionTip = false;
 import VueMDCAdapter from 'vue-mdc-adapter';
 Vue.use(VueMDCAdapter);
 
+import GlobalComponents from '@/plugins/global-components';
+Vue.use(GlobalComponents);
+
 import i18n from '@/i18n';
 
 import App from './Content.vue';

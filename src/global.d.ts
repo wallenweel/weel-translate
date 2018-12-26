@@ -3,8 +3,12 @@ declare module 'vue-mdc-adapter'
 declare module 'vue-mdc-adapter/*'
 declare module 'vue-perfect-scrollbar'
 
-declare module '*.png';
-declare module '*.json';
+declare module '*.png'
+declare module '*.svg'
+declare module '*.json'
+
+// fixing "cannot found module" error for icon components
+declare module '@/components/icons/Favorite.vue'
 
 //~ target browser flag for building extension
 //~ defined in "/vue.config.js"

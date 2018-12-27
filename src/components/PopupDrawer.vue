@@ -6,8 +6,16 @@
     <mdc-card-media :src="logo"></mdc-card-media>
     <mdc-drawer-list class="-list">
       <mdc-drawer-item v-for="(item, i) in items" :key="i"
-        :start-icon="item.icon" :to="item.to" :href="item.href"
-      >{{ $t(item.locale) }}
+        :to="item.to" :href="item.href"
+      >
+        <mdc-icon style="margin-right: 16px;">
+          <icon-translate v-if="item.icon === 'translate'" />
+          <icon-favorite v-if="item.icon === 'favorite'" />
+          <icon-history v-if="item.icon === 'history'" />
+          <icon-settings v-if="item.icon === 'settings'" />
+          <icon-style v-if="item.icon === 'style'" />
+        </mdc-icon>
+        {{ $t(item.locale) }}
       </mdc-drawer-item>
     </mdc-drawer-list>
   </mdc-drawer>
@@ -16,6 +24,11 @@
 <script lang="ts">
 import { Component, Vue } from 'vue-property-decorator';
 import logo from '@/assets/logo.png';
+import IconTranslate from '@/components/icons/Translate.vue';
+import IconFavorite from '@/components/icons/Favorite.vue';
+import IconHistory from '@/components/icons/History.vue';
+import IconSettings from '@/components/icons/Settings.vue';
+import IconStyle from '@/components/icons/Style.vue';
 import debug from '@/functions/debug';
 
 interface ListItems {
@@ -29,7 +42,15 @@ interface ListItems {
   };
 }
 
-@Component
+@Component({
+  components: {
+    IconTranslate,
+    IconFavorite,
+    IconHistory,
+    IconSettings,
+    IconStyle,
+  },
+})
 export default class PopupDrawer extends Vue {
   private logo = logo;
   private items: ListItems = [

@@ -12,6 +12,14 @@ declare module '@/components/icons/Favorite.vue'
 declare module '@/components/icons/VolumeOff.vue'
 declare module '@/components/icons/VolumeDown.vue'
 declare module '@/components/icons/VolumeUp.vue'
+declare module '@/components/icons/Menu.vue'
+declare module '@/components/icons/Done.vue'
+declare module '@/components/icons/KeyboardArrowLeft.vue'
+declare module '@/components/icons/KeyboardArrowRight.vue'
+declare module '@/components/icons/Translate.vue'
+declare module '@/components/icons/History.vue'
+declare module '@/components/icons/Settings.vue'
+declare module '@/components/icons/Style.vue'
 
 //~ target browser flag for building extension
 //~ defined in "/vue.config.js"

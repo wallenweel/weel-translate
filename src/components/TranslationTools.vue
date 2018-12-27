@@ -6,7 +6,12 @@
 
       <mdc-fab class="-done"
         icon="done" mini absolute
-        @click="handleQuery"></mdc-fab>
+        @click="handleQuery"
+      >
+        <mdc-icon>
+          <icon-done />
+        </mdc-icon>
+      </mdc-fab>
 
       <mdc-button class="_button"
         @click="handlePaste">{{ $t('paste') }}</mdc-button>
@@ -24,13 +29,20 @@
         @click="selectLanguages(toggle ? 'to' : 'from')"
       >{{ toggle ? toName : fromName }}</mdc-button>
 
-      <mdc-icon-toggle class="-switch" v-model="toggle"
+      <mdc-button class="translation-action-switch"
+        :disabled="toggleDisabled"
+        @click="toggle = !toggle"
+      >
+        <icon-keyboard-arrow-right v-if="!toggle" />
+        <icon-keyboard-arrow-left v-if="toggle" />
+      </mdc-button>
+      <!-- <mdc-icon-toggle class="-switch" v-model="toggle"
         dense primary
         toggle-off="keyboard_arrow_right"
         toggle-on="keyboard_arrow_left"
         :disabled="toggleDisabled"
       >
-      </mdc-icon-toggle>
+      </mdc-icon-toggle> -->
 
       <mdc-button dense
         @click="selectLanguages(toggle ? 'from' : 'to')"
@@ -57,9 +69,18 @@
 
 <script lang="ts">
 import { Component, Prop, Watch, Model, Vue } from 'vue-property-decorator';
+import IconDone from '@/components/icons/Done.vue';
+import IconKeyboardArrowLeft from '@/components/icons/KeyboardArrowLeft.vue';
+import IconKeyboardArrowRight from '@/components/icons/KeyboardArrowRight.vue';
 import debug from '@/functions/debug';
 
-@Component
+@Component({
+  components: {
+    IconDone,
+    IconKeyboardArrowLeft,
+    IconKeyboardArrowRight,
+  },
+})
 export default class TranslationTools extends Vue {
   @Model('change', { type: Array }) private fromto!: Array<Language['code']>;
 
@@ -70,21 +91,24 @@ export default class TranslationTools extends Vue {
   private progress: number = 1;
   private interval: any;
   private toggle: boolean = false;
-  private toggleDisabled: boolean = false;
   private open: boolean = false;
   private selected: Language['code'] = '';
   private type: 'from' | 'to' | null = null;
 
-  private get from() {
-    return this.languages.filter(({ code }) => this.fromto[0] === code)[0] || '';
+  private get toggleDisabled(): boolean {
+    return !(this.languages.length >= 2);
   }
-  private get to() {
-    return this.languages.filter(({ code }) => this.fromto[1] === code)[0] || '';
+
+  private get from(): Language {
+    return this.languages.filter(({ code }) => this.fromto[0] === code)[0] || {};
   }
-  private get fromName() {
+  private get to(): Language {
+    return this.languages.filter(({ code }) => this.fromto[1] === code)[0] || {};
+  }
+  private get fromName(): string {
     return this.from.locale ? this.$t(this.from.locale) : this.from.name;
   }
-  private get toName() {
+  private get toName(): string {
     return this.to.locale ? this.$t(this.to.locale) : this.to.name;
   }
 
@@ -175,6 +199,12 @@ export default class TranslationTools extends Vue {
 
     font-size: .625em;
     color: var(--mdc-theme-text-hint-on-dark, #ffffff);
+
+    &.translation-action-switch {
+      border-radius: 36px;
+      width: 36px;
+      min-width: 36px;
+    }
   }
   .-switch {
     height: 32px;

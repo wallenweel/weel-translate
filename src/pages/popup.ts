@@ -8,6 +8,9 @@ Vue.use(VueMDCAdapter);
 import MdcAdapterPatch from '@/plugins/mdc-adapter-patch';
 Vue.use(MdcAdapterPatch);
 
+import GlobalComponents from '@/plugins/global-components';
+Vue.use(GlobalComponents);
+
 import Scrollbar from '@/plugins/scrollbar';
 Vue.use(Scrollbar);
 
@@ -16,8 +19,6 @@ import store from '@/stores/popup';
 import i18n from '@/i18n';
 
 import App from './Popup.vue';
-
-import 'material-design-icons-iconfont/dist/material-design-icons.css';
 
 import browser from '@/apis/browser';
 const port: RuntimePort = browser.runtime.connect({

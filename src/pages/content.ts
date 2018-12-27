@@ -12,8 +12,6 @@ import i18n from '@/i18n';
 
 import App from './Content.vue';
 
-import 'material-design-icons-iconfont/dist/material-design-icons.css';
-
 import browser from '@/apis/browser';
 const port: RuntimePort = browser.runtime.connect({
   name: 'port-from-popup',

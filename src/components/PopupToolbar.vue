@@ -1,11 +1,12 @@
 <template>
-  <mdc-toolbar class="popup-toolbar"
-    waterfall
-    slot="toolbar"
-    ref="wrap">
+  <mdc-toolbar class="popup-toolbar" waterfall slot="toolbar" ref="wrap">
     <mdc-toolbar-row>
       <mdc-toolbar-section align-start>
-        <mdc-toolbar-menu-icon event="toggle-drawer"></mdc-toolbar-menu-icon>
+        <mdc-toolbar-menu-icon event="toggle-drawer" style="padding: 0;">
+          <mdc-icon>
+            <icon-menu />
+          </mdc-icon>
+        </mdc-toolbar-menu-icon>
         <mdc-toolbar-title>{{ $t(title) }}</mdc-toolbar-title>
 
         <mdc-chip-set class="-source" v-if="title.toLowerCase() === 'translate'">
@@ -23,11 +24,16 @@
 import Vue from 'vue';
 import { Component, Prop, Watch } from 'vue-property-decorator';
 import { State, namespace } from 'vuex-class';
+import IconMenu from '@/components/icons/Menu.vue';
 import debug from '@/functions/debug';
 
 const translationM = namespace('translation');
 
-@Component
+@Component({
+  components: {
+    IconMenu,
+  },
+})
 export default class PopupToolbar extends Vue {
   @translationM.State('source') private source!: SourcePresetItem;
 

@@ -28,6 +28,7 @@ const state: State = {
   languages: [],
   result: {},
   timeout: 1000,
+  flag: false,
 
   sources: [],
   source: { id: 'nil', name: 'Nil', fromto: ['nil', 'nil'] },
@@ -80,7 +81,7 @@ const ipcActions: ActionTree<State, RootState> = {
     dispatch('ipc', action, { root: true });
   },
 
-  receive: ({ dispatch }, result) => {
+  receive: ({ dispatch }, result = {}) => {
     dispatch('done', result);
   },
 };
@@ -121,6 +122,7 @@ const actions = Object.assign({
 
   translate: ({ state, dispatch }) => {
     const { text: q, source: { fromto: [from, to] } } = state;
+
     if (!q.trim().length) {
       return dispatch('notify', i18n.t('blank_input_msg'));
     }
@@ -157,12 +159,8 @@ const actions = Object.assign({
     commit('update', changes);
   },
 
-  done: ({ commit, dispatch }, result) => {
-    if (!result) {
-      return dispatch('notify', `request failed`);
-    }
-
-    commit('update', { result });
+  done: ({ state, commit }, result) => {
+    commit('update', { result, flag: !state.flag });
   },
 
   notify: ({ dispatch }, message: string) => {
@@ -188,6 +186,7 @@ interface State {
   languages: Language[];
   result: { [name: string]: any };
   timeout?: number;
+  flag: boolean;
 
   sources: presetStringJson[];
   source: SourcePresetItem;

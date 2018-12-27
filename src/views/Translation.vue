@@ -7,6 +7,7 @@
     />
 
     <translation-tools class="-tools"
+      :value="value"
       @query="handleQuery" :flag="flag"
       @clear="handleClear" @paste="handlePaste"
       :fromto="fromto" @change="handleFromto"
@@ -39,8 +40,9 @@ const __ = namespace('translation');
 })
 export default class TranslationView extends Vue {
   private value?: string = '';
-  private flag?: boolean = false;
+  // private flag?: boolean = false;
 
+  @__.State private flag!: boolean;
   @__.State private text!: string;
   @__.State private languages!: Language[];
   @__.State private result!: translationResult;
@@ -84,11 +86,7 @@ export default class TranslationView extends Vue {
   }
 
   private handleClear() { this.value = ''; }
-  private handleQuery() {
-    this.doTranslate().then(() => {
-      this.flag = !this.flag;
-    });
-  }
+  private handleQuery() { this.doTranslate(); }
   private handlePaste() {/** */}
 }
 </script>

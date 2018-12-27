@@ -79,7 +79,8 @@ export default class TranslationTools extends Vue {
 
   @Prop(Array) private languages!: Language[];
   @Prop(Boolean) private disabled?: boolean;
-  @Prop(Boolean) private flag?: boolean;
+  @Prop(String) private value!: string;
+  @Prop(Boolean) private flag!: boolean;
 
   private progress: number = 1;
   private interval: any;
@@ -106,16 +107,15 @@ export default class TranslationTools extends Vue {
   }
 
   private handleQuery() {
-    this.progress = .05;
-      debug.log(this.progress)
-    const interval: any = setInterval(() => {
-      debug.log(this.progress)
-      if (this.progress >= .8) {
-        return clearInterval(interval);
-      }
-      this.progress += parseFloat('0.0' + new Date().getTime().toString().slice(-1));
-    }, 200);
     this.$emit('query');
+
+    if (!this.value.trim()) { return; }
+
+    this.progress = .05;
+    this.interval = setInterval(() => {
+      if (this.progress >= .8) { return clearInterval(this.interval); }
+      this.progress += parseFloat('0.0' + new Date().getTime().toString().slice(-1));
+    }, 300);
   }
 
   private handlePaste(ev: Event) {

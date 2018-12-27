@@ -24,7 +24,7 @@ const actions: ActionTree<State, State> = {
     Port = port;
     Port.onMessage.addListener(({ name, receiver, type, error, payload }: IpcAction) => {
       if (error !== null) {
-        return dispatch('notify', error);
+        dispatch('notify', error);
       }
 
       if (!receiver) {

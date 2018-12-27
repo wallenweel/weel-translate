@@ -89,6 +89,7 @@ const ipcActions: ActionTree<State, RootState> = {
 const actions = Object.assign({
   init: ({ state, dispatch }) => {
     store.watch(() => state.source.id, () => {
+      debug.log(state.source.id);
       dispatch('languages');
     });
   },

@@ -34,12 +34,9 @@ const actions: ActionTree<State, State> = {
       dispatch(receiver as string, payload);
     });
 
-    dispatch('storage/init')
-      .then(() => dispatch('preference/init'))
-      .then(() => dispatch('translation/init'))
-      .then(() => {
-        // debug.log(state.storage);
-      });
+    dispatch('preference/init');
+    dispatch('translation/init');
+    dispatch('storage/init');
   },
 
   ipc: (_, { type, receiver, payload }) => {

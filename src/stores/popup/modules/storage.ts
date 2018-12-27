@@ -20,9 +20,9 @@ const mutations: MutationTree<State> = Object.assign({
 const webActions: ActionTree<State, RootState> = {
   reset: () => localStorage.setItem('config', JSON.stringify(defaultConfig)),
 
-  query: async ({ dispatch, commit }, keys?: storageKeys) => {
+  query: ({ dispatch, commit }, keys?: storageKeys) => {
     // patch, set storage
-    if (!localStorage.getItem('config')) { await dispatch('reset'); }
+    if (!localStorage.getItem('config')) { dispatch('reset'); }
 
     let config: DefaultConfig = JSON.parse(localStorage.getItem('config')!);
 

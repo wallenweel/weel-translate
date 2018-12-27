@@ -2,6 +2,7 @@ import store from '@/stores/background';
 import browser from '@/apis/browser';
 import debug from '@/functions/debug';
 import { ipcActions } from '@/stores/background/actions';
+import { istype } from '@/functions';
 
 const { runtime } = browser;
 const { dispatch } = store;
@@ -34,8 +35,10 @@ ipcListener = (message) => {
 
   // redirect to store's action
   dispatch(type, { Port, ...message })
-    .then(([error, payload]) => {
-      if (error !== null) { debug.warn(error); }
+    .then(([err, payload]) => {
+      if (err !== null) { debug.warn(err); }
+
+      const error: string | null = istype(err, 'error') ? err.message : err;
 
       Port.postMessage({ name, receiver, type, error, payload });
     });

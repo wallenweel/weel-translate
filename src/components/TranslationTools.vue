@@ -36,13 +36,6 @@
         <icon-keyboard-arrow-right v-if="!toggle" />
         <icon-keyboard-arrow-left v-if="toggle" />
       </mdc-button>
-      <!-- <mdc-icon-toggle class="-switch" v-model="toggle"
-        dense primary
-        toggle-off="keyboard_arrow_right"
-        toggle-on="keyboard_arrow_left"
-        :disabled="toggleDisabled"
-      >
-      </mdc-icon-toggle> -->
 
       <mdc-button dense
         @click="selectLanguages(toggle ? 'from' : 'to')"
@@ -114,10 +107,14 @@ export default class TranslationTools extends Vue {
 
   private handleQuery() {
     this.progress = .05;
-    this.interval = setInterval(() => {
-      if (this.progress >= .8) { return clearInterval(this.interval); }
-      this.progress += parseFloat('0.0' + new Date().getTime().toString().slice(-1)) * 2;
-    }, 800);
+      debug.log(this.progress)
+    const interval: any = setInterval(() => {
+      debug.log(this.progress)
+      if (this.progress >= .8) {
+        return clearInterval(interval);
+      }
+      this.progress += parseFloat('0.0' + new Date().getTime().toString().slice(-1));
+    }, 200);
     this.$emit('query');
   }
 

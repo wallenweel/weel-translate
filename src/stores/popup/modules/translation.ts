@@ -157,7 +157,11 @@ const actions = Object.assign({
     commit('update', changes);
   },
 
-  done: ({ commit }, result) => {
+  done: ({ commit, dispatch }, result) => {
+    if (!result) {
+      return dispatch('notify', `request failed`);
+    }
+
     commit('update', { result });
   },
 

@@ -2,6 +2,7 @@ import axios, { Canceler } from 'axios';
 import { MutationTree, ActionTree, Module, GetterTree } from 'vuex';
 import { State as RootState } from '../index';
 import i18n from '@/i18n';
+import store from '../';
 
 import { update, clear } from '@/stores/mutations';
 import request from '@/apis/request';
@@ -85,8 +86,10 @@ const ipcActions: ActionTree<State, RootState> = {
 };
 
 const actions = Object.assign({
-  init: ({ dispatch }) => {
-    dispatch('languages');
+  init: ({ state, dispatch }) => {
+    store.watch(() => state.source.id, () => {
+      dispatch('languages');
+    });
   },
 
   fetch: ({ commit, rootState }) => {

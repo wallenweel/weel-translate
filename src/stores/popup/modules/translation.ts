@@ -89,7 +89,6 @@ const ipcActions: ActionTree<State, RootState> = {
 const actions = Object.assign({
   init: ({ state, dispatch }) => {
     store.watch(() => state.source.id, () => {
-      debug.log(state.source.id);
       dispatch('languages');
     });
   },
@@ -119,6 +118,12 @@ const actions = Object.assign({
     const config = { translation_current_source, translation_recent, translation_picked };
 
     dispatch('storage/merge', config, { root: true });
+  },
+
+  source: ({ state, dispatch }, id) => {
+    const source: SourcePresetItem = state.enabledSources
+      .filter((item: SourcePresetItem) => item.id === id)[0];
+    dispatch('merge', { source });
   },
 
   translate: ({ state, dispatch }) => {
@@ -154,10 +159,9 @@ const actions = Object.assign({
 
   text: ({ commit }, text) => { commit('update', { text }); },
 
-  fromto: ({ state, dispatch, commit }, fromto) => {
+  fromto: ({ state, dispatch }, fromto) => {
     const changes = { source: { ...state.source, fromto } };
     dispatch('merge', changes);
-    commit('update', changes);
   },
 
   done: ({ state, commit }, result) => {

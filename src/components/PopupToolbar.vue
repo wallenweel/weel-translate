@@ -9,12 +9,27 @@
         </mdc-toolbar-menu-icon>
         <mdc-toolbar-title>{{ $t(title) }}</mdc-toolbar-title>
 
-        <mdc-chip-set class="-source" v-if="title.toLowerCase() === 'translate'">
-          <mdc-chip>{{ sourceName }}</mdc-chip>
-        </mdc-chip-set>
-        <mdc-chip-set class="-source" v-if="title.toLowerCase() === 'preference'">
-          <mdc-chip>Reset</mdc-chip>
-        </mdc-chip-set>
+        <!-- Source -->
+        <mdc-button class="-spec -source" dense
+          v-if="title.toLowerCase() === 'translate'"
+          @click="sourceMenu=true"
+        >{{ source.name }}</mdc-button>
+        <mdc-menu-anchor v-if="title.toLowerCase() === 'translate'">
+          <mdc-menu v-model="sourceMenu" @select="handleSourceSelect">
+            <mdc-menu-item disabled>{{ source.name }}</mdc-menu-item>
+            <mdc-menu-divider />
+            <mdc-menu-item
+              v-for="(item, i) in enabledSources" :key="i"
+              v-if="item.id !== source.id"
+              :data-id="item.id"
+            >{{ item.name }}</mdc-menu-item>
+          </mdc-menu>
+        </mdc-menu-anchor>
+
+        <!-- Reset -->
+        <mdc-button class="-spec -reset"
+          dense v-if="title.toLowerCase() === 'preference'"
+        >Reset</mdc-button>
       </mdc-toolbar-section>
     </mdc-toolbar-row>
   </mdc-toolbar>
@@ -35,11 +50,12 @@ const translationM = namespace('translation');
   },
 })
 export default class PopupToolbar extends Vue {
-  @translationM.State('source') private source!: SourcePresetItem;
+  @translationM.State private source!: SourcePresetItem;
+  @translationM.State private enabledSources!: SourcePresetItem[];
+  @translationM.Action('source') private changeSource!: any;
 
-  private title = '';
-
-  private get sourceName() { return this.source.name; }
+  private title: string = '';
+  private sourceMenu: boolean = false;
 
   @Prop(Boolean)
   private raised?: boolean;
@@ -48,6 +64,11 @@ export default class PopupToolbar extends Vue {
     const { title, locale } = this.$route.meta;
 
     this.title = title || locale;
+  }
+
+  private handleSourceSelect(target: any) {
+    const id = target.item.getAttribute('data-id');
+    this.changeSource(id);
   }
 
   @Watch('raised')
@@ -81,11 +102,16 @@ export default class PopupToolbar extends Vue {
     position: relative;
   }
 
-  .-source {
-    margin-left: auto;
-    .mdc-chip {
-      background-color: #5800d5;
-      color: white;
+  button.-spec {
+    background-color: #5800d5;
+    border-radius: 24px;
+    max-width: 96px;
+    color: white;
+    margin: auto;
+    margin-right: 8px;
+
+    &.-source + .mdc-menu-anchor > .mdc-menu {
+      margin: 8px;
     }
   }
 }

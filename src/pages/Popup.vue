@@ -76,6 +76,7 @@ $mdc-typography-font-family: "Roboto Mono", "Microsoft Yahei", "sans-serif", mon
 @import '~vue-mdc-adapter/dist/checkbox/checkbox.min.css';
 @import '~vue-mdc-adapter/dist/select/select.min.css';
 @import '~vue-mdc-adapter/dist/slider/slider.min.css';
+@import '~vue-mdc-adapter/dist/menu/menu.min.css';
 @import '~vue-mdc-adapter/dist/grid-list/grid-list.min.css';
 
 :root {

@@ -16,6 +16,12 @@
     />
 
     <translation-result class="-result" :result="result" />
+
+    <mdc-dialog v-model="open" scrollable
+      title="Select Source"
+      ref="select"
+    >
+    </mdc-dialog>
   </div>
 </template>
 
@@ -40,7 +46,7 @@ const __ = namespace('translation');
 })
 export default class TranslationView extends Vue {
   private value?: string = '';
-  // private flag?: boolean = false;
+  private open?: boolean = false;
 
   @__.State private flag!: boolean;
   @__.State private text!: string;
@@ -57,7 +63,12 @@ export default class TranslationView extends Vue {
   @__.Action('translate') private doTranslate: any;
 
   private created() {
+    this.$root.$on('select-source', this.selectSource);
     this.value = this.text;
+  }
+
+  private selectSource(ev: any) {
+    debug.log(ev);
   }
 
   private handleFromto(fromto: Array<Language['code']>) {

@@ -26,7 +26,7 @@
 
     <div class="support-languages">
       <mdc-button dense
-        @click="selectLanguages(toggle ? 'to' : 'from')"
+        @click="selectLanguage(toggle ? 'to' : 'from')"
       >{{ toggle ? toName : fromName }}</mdc-button>
 
       <mdc-button class="translation-action-switch"
@@ -38,7 +38,7 @@
       </mdc-button>
 
       <mdc-button dense
-        @click="selectLanguages(toggle ? 'from' : 'to')"
+        @click="selectLanguage(toggle ? 'from' : 'to')"
       >{{ toggle ? fromName : toName }}</mdc-button>
     </div>
 
@@ -129,7 +129,7 @@ export default class TranslationTools extends Vue {
     this.open = false;
   }
 
-  private selectLanguages(type: 'from' | 'to') {
+  private selectLanguage(type: 'from' | 'to') {
     if (type === 'from') { this.selected = this.from.code; }
     if (type === 'to') { this.selected = this.to.code; }
     this.$nextTick(() => {

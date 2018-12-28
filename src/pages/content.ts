@@ -38,7 +38,7 @@ document.addEventListener('selectionchange', ({ currentTarget }) => {
 
   if (!selection) { return; }
 
-  store.dispatch('selection', selection.toString().trim());
+  store.dispatch('selection', selection);
 });
 
 ((isDevelopment) => {

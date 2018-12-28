@@ -1,6 +1,6 @@
 <template>
   <div class="content">
-    <mdc-fab class="float-action-button"
+    <mdc-fab class="float-action-button" :style="fabStyle" ref="fab"
       mini absolute
       @click="handleQuery"
     >
@@ -9,7 +9,9 @@
       </mdc-icon>
     </mdc-fab>
     
-    <translation-result class="float-action-panel -result" :result="result" />
+    <section class="float-action-panel" :style="fapStyle" ref="fap">
+      <translation-result class="-result" :result="result" />
+    </section>
 
     <div class="lorem">Lorem ipsum, dolor sit amet consectetur adipisicing elit. Aut, est cumque saepe sint sed vero ipsa repellat quidem quae eius quod quaerat tenetur asperiores vel autem voluptatibus ullam. Tempore, dolorem.</div>
   </div>
@@ -17,10 +19,12 @@
 
 <script lang="ts">
 import Vue from 'vue';
-import { Component } from 'vue-property-decorator';
+import { Component, Watch } from 'vue-property-decorator';
+import { State, Action } from 'vuex-class';
 import TranslationResult from '@/components/TranslationResult.vue';
 import IconTranslate from '@/components/icons/Translate.vue';
 import debug from '@/functions/debug';
+import { State as S } from '@/stores/content';
 
 @Component({
   components: {
@@ -29,25 +33,65 @@ import debug from '@/functions/debug';
   },
 })
 export default class Content extends Vue {
+  @State private rect!: S['rect'];
+
   private result: SourcePreset['parser'] = {
     phonetic_src: 'transˈlāSHən',
     phonetic_dest: 'Fan Yi',
     translation: '翻译',
     explain: `Lorem ipsum dolor sit amet consectetur, adipisicing elit.`,
   };
+  private fabStyle: string | null = null;
+  private fapStyle: string | null = null;
+
+  private get rectCenter(): [number, number] {
+    let [x, y] = [0, 0];
+
+    const { offset, size } = this.rect;
+
+    x = offset.x + size.width / 2;
+    y = offset.y + size.height / 2;
+
+    return [x, y];
+  }
+
+  private fabPostion(): string {
+    let [x, y] = this.rectCenter;
+
+    const target = this.$refs.fab as Vue;
+    const { offsetHeight: height, offsetWidth: width } = target.$el as HTMLElement;
+
+    x = x - width / 2;
+    y = y + height / 2;
+
+    return `transform: translate3d(${x}px, ${y}px, 0);`;
+  }
+  private fapPostion(): string {
+    let [x, y] = this.rectCenter;
+
+    const target = this.$refs.fap as HTMLElement;
+    const { offsetHeight: height, offsetWidth: width } = target;
+
+    x = x - width / 2;
+    y = y + 16;
+
+    return `transform: translate3d(${x}px, ${y}px, 0);`;
+  }
 
   private handleQuery() {
     debug.log('query in content');
+  }
+
+  @Watch('rect')
+  private onOffset() {
+    this.fabStyle = this.fabPostion();
+    this.fapStyle = this.fapPostion();
   }
 }
 </script>
 
 <style lang="scss">
 // @import '~vue-mdc-adapter/dist/vue-mdc-adapter.min.css';
-
-$mdc-theme-primary: #6200ee;
-$mdc-theme-secondary: #6200ee;
-$mdc-typography-font-family: "Roboto Mono", "Microsoft Yahei", "sans-serif", monospace;
 
 @import 'vue-mdc-adapter/dist/theme/styles';
 @import 'vue-mdc-adapter/dist/typography/styles';
@@ -87,7 +131,20 @@ $mdc-typography-font-family: "Roboto Mono", "Microsoft Yahei", "sans-serif", mon
   --mdc-theme-text-icon-on-dark: rgba(255, 255, 255, 0.5);
 }
 
+@mixin pos($z: 0) {
+  transform: translate3d(0, 0, 0);
+  z-index: $z;
+  // margin: auto;
+  top: 0;
+  // right: 0;
+  // bottom: 0;
+  left: 0;
+  position: fixed;
+}
+
 .float-action-button {
+  @include pos(2020);
+  
   $sz: 32px;
   height: $sz;
   width: $sz;
@@ -98,10 +155,12 @@ $mdc-typography-font-family: "Roboto Mono", "Microsoft Yahei", "sans-serif", mon
 }
 
 .float-action-panel {
+  @include pos(2019);
+
   width: 240px;
 
-  &.-result {
-    position: absolute;
+  .-result {
+    padding: 0;
   }
 }
 </style>

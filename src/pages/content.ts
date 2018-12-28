@@ -23,7 +23,7 @@ const app = new Vue({
 });
 
 ((isDevelopment) => {
-  if (isDevelopment) { app.$mount('#app'); return; }
+  if (!isDevelopment) { app.$mount('#app'); return; }
 
   /** content shadow dom */
   const wrap = document.createElement('weel-translate-x');

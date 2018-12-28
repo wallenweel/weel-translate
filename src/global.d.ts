@@ -20,6 +20,7 @@ declare module '@/components/icons/Translate.vue'
 declare module '@/components/icons/History.vue'
 declare module '@/components/icons/Settings.vue'
 declare module '@/components/icons/Style.vue'
+declare module '@/components/icons/GTranslate.vue'
 
 //~ target browser flag for building extension
 //~ defined in "/vue.config.js"

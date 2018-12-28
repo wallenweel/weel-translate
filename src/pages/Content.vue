@@ -1,6 +1,17 @@
 <template>
   <div class="content">
-    <translation-result :result="result" />
+    <mdc-fab class="float-action-button"
+      mini absolute
+      @click="handleQuery"
+    >
+      <mdc-icon>
+        <icon-g-translate />
+      </mdc-icon>
+    </mdc-fab>
+    
+    <translation-result class="float-action-panel -result" :result="result" />
+
+    <div class="lorem">Lorem ipsum, dolor sit amet consectetur adipisicing elit. Aut, est cumque saepe sint sed vero ipsa repellat quidem quae eius quod quaerat tenetur asperiores vel autem voluptatibus ullam. Tempore, dolorem.</div>
   </div>
 </template>
 
@@ -8,9 +19,11 @@
 import Vue from 'vue';
 import { Component } from 'vue-property-decorator';
 import TranslationResult from '@/components/TranslationResult.vue';
+import IconGTranslate from '@/components/icons/GTranslate.vue';
 
 @Component({
   components: {
+    IconGTranslate,
     TranslationResult,
   },
 })
@@ -42,4 +55,43 @@ $mdc-typography-font-family: "Roboto Mono", "Microsoft Yahei", "sans-serif", mon
 @import '~vue-mdc-adapter/dist/fab/fab.min.css';
 @import '~vue-mdc-adapter/dist/card/card.min.css';
 @import '~vue-mdc-adapter/dist/linear-progress/linear-progress.min.css';
+
+.content {
+  --mdc-typography-font-family: "Roboto Mono", "Microsoft Yahei", "sans-serif", monospace;
+  --mdc-theme-primary: #6200ee;
+  --mdc-theme-secondary: #6200ee;
+  --mdc-theme-background: #fff;
+  --mdc-theme-surface: #fff;
+  --mdc-theme-on-primary: #fff;
+  --mdc-theme-on-secondary: #fff;
+  --mdc-theme-on-surface: #000;
+  --mdc-theme-text-primary-on-background: rgba(0, 0, 0, 0.87);
+  --mdc-theme-text-secondary-on-background: rgba(0, 0, 0, 0.54);
+  --mdc-theme-text-hint-on-background: rgba(0, 0, 0, 0.38);
+  --mdc-theme-text-disabled-on-background: rgba(0, 0, 0, 0.38);
+  --mdc-theme-text-icon-on-background: rgba(0, 0, 0, 0.38);
+  --mdc-theme-text-primary-on-light: rgba(0, 0, 0, 0.87);
+  --mdc-theme-text-secondary-on-light: rgba(0, 0, 0, 0.54);
+  --mdc-theme-text-hint-on-light: rgba(0, 0, 0, 0.38);
+  --mdc-theme-text-disabled-on-light: rgba(0, 0, 0, 0.38);
+  --mdc-theme-text-icon-on-light: rgba(0, 0, 0, 0.38);
+  --mdc-theme-text-primary-on-dark: white;
+  --mdc-theme-text-secondary-on-dark: rgba(255, 255, 255, 0.7);
+  --mdc-theme-text-hint-on-dark: rgba(255, 255, 255, 0.5);
+  --mdc-theme-text-disabled-on-dark: rgba(255, 255, 255, 0.5);
+  --mdc-theme-text-icon-on-dark: rgba(255, 255, 255, 0.5);
+}
+
+.float-action-button {
+  border-radius: 8px;
+  transform: scale(.65);
+}
+
+.float-action-panel {
+  width: 240px;
+
+  &.-result {
+    position: absolute;
+  }
+}
 </style>

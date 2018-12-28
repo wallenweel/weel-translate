@@ -13,6 +13,7 @@ import i18n from '@/i18n';
 import App from './Content.vue';
 
 import browser from '@/apis/browser';
+import debug from '@/functions/debug';
 const port: RuntimePort = browser.runtime.connect({
   name: 'port-from-popup',
 });
@@ -22,8 +23,18 @@ const app = new Vue({
   render: (h) => h(App as VueConstructor),
 });
 
+document.addEventListener('selectionchange', ({ currentTarget }) => {
+  const selection: Selection | null = (currentTarget as Document).getSelection();
+  if (!selection) { return; }
+
+  const selectionText: string = selection.toString().trim();
+  if (!selectionText.length) { return; }
+
+  debug.log(selectionText);
+});
+
 ((isDevelopment) => {
-  if (!isDevelopment) { app.$mount('#app'); return; }
+  if (isDevelopment) { app.$mount('#app'); return; }
 
   /** content shadow dom */
   const wrap = document.createElement('weel-translate-x');

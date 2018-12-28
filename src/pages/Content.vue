@@ -5,7 +5,7 @@
       @click="handleQuery"
     >
       <mdc-icon>
-        <icon-g-translate />
+        <icon-translate />
       </mdc-icon>
     </mdc-fab>
     
@@ -19,11 +19,12 @@
 import Vue from 'vue';
 import { Component } from 'vue-property-decorator';
 import TranslationResult from '@/components/TranslationResult.vue';
-import IconGTranslate from '@/components/icons/GTranslate.vue';
+import IconTranslate from '@/components/icons/Translate.vue';
+import debug from '@/functions/debug';
 
 @Component({
   components: {
-    IconGTranslate,
+    IconTranslate,
     TranslationResult,
   },
 })
@@ -34,6 +35,10 @@ export default class Content extends Vue {
     translation: '翻译',
     explain: `Lorem ipsum dolor sit amet consectetur, adipisicing elit.`,
   };
+
+  private handleQuery() {
+    debug.log('query in content');
+  }
 }
 </script>
 
@@ -83,8 +88,13 @@ $mdc-typography-font-family: "Roboto Mono", "Microsoft Yahei", "sans-serif", mon
 }
 
 .float-action-button {
+  $sz: 28px;
+  height: $sz;
+  width: $sz;
   border-radius: 8px;
-  transform: scale(.65);
+  .mdc-icon svg {
+    transform: scale(.8);
+  }
 }
 
 .float-action-panel {

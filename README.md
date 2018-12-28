@@ -1,17 +1,20 @@
 # Weel Translate MD
+
 > Material Design Style Web Extension for Languages Translating.
 
 ## Screenshots
+
 > captured in development (web) mode.
 
-[![](docs/screenshots/_01.png)](docs/screenshots/01.png)
-[![](docs/screenshots/_02.png)](docs/screenshots/02.png)
-[![](docs/screenshots/_03.png)](docs/screenshots/03.png)
-[![](docs/screenshots/_04.png)](docs/screenshots/04.png)
-[![](docs/screenshots/_05.png)](docs/screenshots/05.png)
-[![](docs/screenshots/_06.png)](docs/screenshots/06.png)
+[![translation view in popup](docs/screenshots/_01.png)](docs/screenshots/01.png)
+[![test translating](docs/screenshots/_02.png)](docs/screenshots/02.png)
+[![translation view in chinese](docs/screenshots/_03.png)](docs/screenshots/03.png)
+[![select languages](docs/screenshots/_04.png)](docs/screenshots/04.png)
+[![preferences view in popup](docs/screenshots/_05.png)](docs/screenshots/05.png)
+[![popup drawer](docs/screenshots/_06.png)](docs/screenshots/06.png)
 
 ## ~~Get Started~~
+
 > developing, no release now.
 
 support debug in normal web mode:
@@ -23,6 +26,7 @@ support debug in normal web mode:
 5. done, but install "cors" ignore extension for avoiding CORS Error from translation source
 
 ## Main Features
+
 - [x] Support base translation (out of the box)
 - [x] Main translation in popup page (Browser Action)
 - [ ] Float translation panel in web page (Content Script)
@@ -35,12 +39,15 @@ support debug in normal web mode:
 - [ ] Multiple UI languages support (Ready: `en`, `zh-cn`)
 
 ## Advance Features
+
 > contine using without updating.
 
 ### Add Translation Source Presets
+
 > For modifing more translation sources.
 
-#### Interface:
+#### Source Interface
+
 ```typescript
 declare type presetId = string;
 
@@ -129,7 +136,8 @@ declare interface AudioQuery extends TextQuery {
 declare type selector = string | string[] | undefined;
 ```
 
-#### Example:
+#### Source Example
+
 ```json
 {
   "id": "google_com",
@@ -174,15 +182,19 @@ declare type selector = string | string[] | undefined;
 ```
 
 ### Add Web Crawler (*not yet implement*)
+
 > For fast getting more other infomation or using some translation source without standard api service.
 
-#### Interface:
-#### Example:
+#### Crawler Interface
+
+#### Crawler Example
 
 ### Add Template Layout
+
 > For customizing how response results are showed.
 
-#### Interface:
+#### Layout Interface
+
 ```typescript
 declare type templateId = presetId;
 
@@ -201,7 +213,9 @@ declare interface LayoutPreset extends Preset {
   description?: string;
 }
 ```
-#### Example:
+
+#### Layout Example
+
 ```json
  {
   "id": "default_popup",
@@ -217,6 +231,7 @@ declare interface LayoutPreset extends Preset {
   ]
 }
 ```
+
 ```json
 {
   "id": "default_float",
@@ -231,8 +246,8 @@ declare interface LayoutPreset extends Preset {
 }
 ```
 
-
 ## Project setup
+
 ```sh
 # Install dependencies
 yarn install

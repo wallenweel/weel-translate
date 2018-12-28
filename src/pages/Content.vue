@@ -88,10 +88,10 @@ $mdc-typography-font-family: "Roboto Mono", "Microsoft Yahei", "sans-serif", mon
 }
 
 .float-action-button {
-  $sz: 28px;
+  $sz: 32px;
   height: $sz;
   width: $sz;
-  border-radius: 8px;
+  // border-radius: 8px;
   .mdc-icon svg {
     transform: scale(.8);
   }

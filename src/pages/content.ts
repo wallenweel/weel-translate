@@ -8,29 +8,37 @@ Vue.use(VueMDCAdapter);
 import GlobalComponents from '@/plugins/global-components';
 Vue.use(GlobalComponents);
 
+import store from '@/stores/content';
 import i18n from '@/i18n';
 
 import App from './Content.vue';
 
 import browser from '@/apis/browser';
-import debug from '@/functions/debug';
 const port: RuntimePort = browser.runtime.connect({
-  name: 'port-from-popup',
+  name: 'port-from-content',
+});
+
+store.dispatch('init', { port }).then(() => {
+  i18n.locale = store.getters.locale;
+  store.watch(() => store.getters.locale, () => {
+    i18n.locale = store.getters.locale;
+  });
 });
 
 const app = new Vue({
+  store,
   i18n,
   render: (h) => h(App as VueConstructor),
 });
 
+import debug from '@/functions/debug';
+
 document.addEventListener('selectionchange', ({ currentTarget }) => {
   const selection: Selection | null = (currentTarget as Document).getSelection();
+
   if (!selection) { return; }
 
-  const selectionText: string = selection.toString().trim();
-  if (!selectionText.length) { return; }
-
-  debug.log(selectionText);
+  store.dispatch('selection', selection.toString().trim());
 });
 
 ((isDevelopment) => {

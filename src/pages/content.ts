@@ -42,7 +42,18 @@ document.addEventListener('selectionchange', ({ currentTarget }) => {
 });
 
 ((isDevelopment) => {
-  if (isDevelopment) { app.$mount('#app'); return; }
+  if (isDevelopment) {
+    const p = document.createElement('p');
+    // tslint:disable-next-line:max-line-length
+    p.textContent = `Lorem ipsum, dolor sit amet consectetur adipisicing elit. Aut, est cumque saepe sint sed vero ipsa repellat quidem quae eius quod quaerat tenetur asperiores vel autem voluptatibus ullam. Tempore, dolorem.`;
+    const frag = document.createDocumentFragment();
+    for (let i = 0; i < 20; i++) { frag.appendChild(p.cloneNode(true)); }
+    document.body.appendChild(frag);
+
+    app.$mount('#app');
+
+    return;
+  }
 
   /** content shadow dom */
   const wrap = document.createElement('weel-translate-x');

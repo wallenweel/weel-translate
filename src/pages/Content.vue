@@ -24,8 +24,6 @@
       </div>
       <translation-result class="-result" :result="result" />
     </section>
-
-    <div class="lorem">Lorem ipsum, dolor sit amet consectetur adipisicing elit. Aut, est cumque saepe sint sed vero ipsa repellat quidem quae eius quod quaerat tenetur asperiores vel autem voluptatibus ullam. Tempore, dolorem.</div>
   </div>
 </template>
 
@@ -77,8 +75,8 @@ export default class Content extends Vue {
     const target = this.$refs.fab as Vue;
     const { offsetHeight: height, offsetWidth: width } = target.$el as HTMLElement;
 
-    x = x - width / 2;
-    y = y + height / 2;
+    [x, y] = [x - width / 2, y + height / 2];
+    [x, y] = overflow([x, y], { height, width });
 
     return `transform: translate3d(${x}px, ${y}px, 0);`;
   }
@@ -88,8 +86,8 @@ export default class Content extends Vue {
     const target = this.$refs.fap as HTMLElement;
     const { offsetHeight: height, offsetWidth: width } = target;
 
-    x = x - width / 2;
-    y = y + 16;
+    [x, y] = [x - width / 2, y + 16];
+    [x, y] = overflow([x, y], { height, width }, { right: 48, left: 16 });
 
     return `transform: translate3d(${x}px, ${y}px, 0);`;
   }
@@ -103,6 +101,28 @@ export default class Content extends Vue {
     this.fabStyle = this.fabPostion();
     this.fapStyle = this.fapPostion();
   }
+}
+
+function overflow(
+  offset: [number, number],
+  target: { height: number, width: number },
+  patch?: {
+    top?: number, right?: number,
+    bottom?: number, left?: number,
+  }): [number, number] {
+  let [x, y] = offset;
+  const { height: th, width: tw } = target;
+  const { top: t = 0, right: r = 0, bottom: b = 0, left: l = 0 } = patch || {};
+  const { innerHeight: wh, innerWidth: ww } = window;
+
+  // overflow bottom
+  if ((y + th + b) > wh) { y = wh - th - b; }
+  // overflow right
+  if ((x + tw + r) > ww) { x = ww - tw - r; }
+  // overflow left
+  if (x < 0) { x = 0 + l; }
+
+  return [x, y];
 }
 </script>
 
@@ -173,6 +193,7 @@ export default class Content extends Vue {
 .float-action-panel {
   @include pos(2019);
 
+  // user-select: none;
   width: 240px;
 
   .-actions {

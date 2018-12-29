@@ -10,6 +10,18 @@
     </mdc-fab>
     
     <section class="float-action-panel" :style="fapStyle" ref="fap">
+      <div class="-actions">
+        <mdc-card class="-action">
+          <mdc-card-action-icon class="-button">
+            <icon-swap-horiz name="swap languages" />
+          </mdc-card-action-icon>
+        </mdc-card>
+        <mdc-card class="-action">
+          <mdc-card-action-icon class="-button">
+            <icon-pageview name="web infomation" />
+          </mdc-card-action-icon>
+        </mdc-card>
+      </div>
       <translation-result class="-result" :result="result" />
     </section>
 
@@ -21,14 +33,18 @@
 import Vue from 'vue';
 import { Component, Watch } from 'vue-property-decorator';
 import { State, Action } from 'vuex-class';
+import { State as S } from '@/stores/content';
 import TranslationResult from '@/components/TranslationResult.vue';
 import IconTranslate from '@/components/icons/Translate.vue';
+import IconSwapHoriz from '@/components/icons/SwapHoriz.vue';
+import IconPageview from '@/components/icons/Pageview.vue';
 import debug from '@/functions/debug';
-import { State as S } from '@/stores/content';
 
 @Component({
   components: {
     IconTranslate,
+    IconSwapHoriz,
+    IconPageview,
     TranslationResult,
   },
 })
@@ -158,6 +174,32 @@ export default class Content extends Vue {
   @include pos(2019);
 
   width: 240px;
+
+  .-actions {
+    $sz: 24px;
+
+    width: $sz;
+    right: -28px;
+    top: 16px;
+    position: absolute;
+    flex-wrap: wrap;
+    display: inline-flex;
+
+    .-action {
+      border-radius: $sz / 2;
+      margin-bottom: 6px;
+    }
+    .-button {
+      height: $sz;
+      width: $sz;
+      padding: 4px;
+      margin: 0;
+      color: var(--mdc-theme-primary);
+      &::before, &::after {
+        background-color: var(--mdc-theme-primary);
+      }
+    }
+  }
 
   .-result {
     padding: 0;

@@ -1,5 +1,6 @@
 import axios, { Canceler } from 'axios';
 import { MutationTree, ActionTree, Module, GetterTree } from 'vuex';
+import { QUERY_TRANSLATION } from '@/types';
 import { State as RootState } from '../index';
 import i18n from '@/i18n';
 import store from '../';
@@ -15,7 +16,6 @@ import {
 } from '@/functions';
 
 import debug from '@/functions/debug';
-import { QUERY_TRANSLATION } from '@/types';
 
 let cancelTranslate: Canceler | null;
 

@@ -5,7 +5,7 @@
       @click="handleQuery"
     >
       <mdc-icon>
-        <icon-translate />
+        <icon-translate style="display: block;" />
       </mdc-icon>
     </mdc-fab>
     

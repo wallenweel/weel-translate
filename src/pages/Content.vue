@@ -1,16 +1,19 @@
 <template>
   <div class="content">
-    <mdc-fab class="float-action-button" :style="fabStyle" ref="fab"
-      mini absolute
-      @click="handleQuery"
-    >
-      <mdc-icon>
-        <icon-translate style="display: block;" />
-      </mdc-icon>
-    </mdc-fab>
-    
+    <transition name="fade">
+      <mdc-fab class="float-action-button" :style="fabStyle" ref="fab"
+        mini absolute
+        @click="handleQuery"
+        v-show="hasSelection"
+      >
+        <mdc-icon>
+          <icon-translate style="display: block;" />
+        </mdc-icon>
+      </mdc-fab>
+    </transition>
+
     <section class="float-action-panel" :style="fapStyle" ref="fap">
-      <div class="-actions">
+      <div class="-actions" v-show="hasResult">
         <mdc-card class="-action">
           <mdc-card-action-icon class="-button">
             <icon-swap-horiz name="swap languages" />
@@ -22,7 +25,12 @@
           </mdc-card-action-icon>
         </mdc-card>
       </div>
-      <translation-result class="-result" :result="result" />
+      <transition-group name="fade">
+        <translation-result class="-result" :result="result"
+          v-for="item in 1" :key="item"
+          v-show="hasResult"
+        />
+      </transition-group>
     </section>
   </div>
 </template>
@@ -30,7 +38,7 @@
 <script lang="ts">
 import Vue from 'vue';
 import { Component, Watch } from 'vue-property-decorator';
-import { State, Action } from 'vuex-class';
+import { State, Getter } from 'vuex-class';
 import { State as S } from '@/stores/content';
 import TranslationResult from '@/components/TranslationResult.vue';
 import IconTranslate from '@/components/icons/Translate.vue';
@@ -48,6 +56,7 @@ import debug from '@/functions/debug';
 })
 export default class Content extends Vue {
   @State private rect!: S['rect'];
+  @Getter private hasSelection!: boolean;
 
   private result: SourcePreset['parser'] = {
     phonetic_src: 'transˈlāSHən',
@@ -55,6 +64,7 @@ export default class Content extends Vue {
     translation: '翻译',
     explain: `Lorem ipsum dolor sit amet consectetur, adipisicing elit.`,
   };
+  private hasResult: boolean = false;
   private fabStyle: string | null = null;
   private fapStyle: string | null = null;
 
@@ -72,8 +82,9 @@ export default class Content extends Vue {
   private fabPostion(): string {
     let [x, y] = this.rectCenter;
 
-    const target = this.$refs.fab as Vue;
-    const { offsetHeight: height, offsetWidth: width } = target.$el as HTMLElement;
+    const [width, height] = [32, 32];
+    // const target = this.$refs.fab as Vue;
+    // const { offsetHeight: height, offsetWidth: width } = target.$el as HTMLElement;
 
     [x, y] = [x - width / 2, y + height / 2];
     [x, y] = overflow([x, y], { height, width });
@@ -94,12 +105,13 @@ export default class Content extends Vue {
 
   private handleQuery() {
     debug.log('query in content');
+    this.fapStyle = this.fapPostion();
+    this.hasResult = !this.hasResult;
   }
 
   @Watch('rect')
   private onOffset() {
     this.fabStyle = this.fabPostion();
-    this.fapStyle = this.fapPostion();
   }
 }
 
@@ -165,6 +177,13 @@ function overflow(
   --mdc-theme-text-hint-on-dark: rgba(255, 255, 255, 0.5);
   --mdc-theme-text-disabled-on-dark: rgba(255, 255, 255, 0.5);
   --mdc-theme-text-icon-on-dark: rgba(255, 255, 255, 0.5);
+}
+
+.fade-enter-active, .fade-leave-active {
+  transition: opacity .5s;
+}
+.fade-enter, .fade-leave-to {
+  opacity: 0;
 }
 
 @mixin pos($z: 0) {

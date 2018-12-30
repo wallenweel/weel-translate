@@ -87,6 +87,7 @@ const actions: ActionTree<State, State> = {
 
 const getters: GetterTree<State, State> = {
   locale: (state) => state.storage.ui_language,
+  hasSelection: (state) => !!state.text,
 };
 
 const modules: ModuleTree<State> = {

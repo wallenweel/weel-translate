@@ -63,12 +63,7 @@ export default class TranslationView extends Vue {
   @__.Action('translate') private doTranslate: any;
 
   private created() {
-    this.$root.$on('select-source', this.selectSource);
     this.value = this.text;
-  }
-
-  private selectSource(ev: any) {
-    debug.log(ev);
   }
 
   private handleFromto(fromto: Array<Language['code']>) {

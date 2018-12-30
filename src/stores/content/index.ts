@@ -36,6 +36,7 @@ const actions: ActionTree<State, State> = {
       dispatch(receiver as string, payload);
     });
 
+    dispatch('translation/init');
     dispatch('storage/init');
   },
 

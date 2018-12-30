@@ -2,9 +2,11 @@ import { MutationTree, ActionTree, Action, Module, GetterTree } from 'vuex';
 import { QUERY_TRANSLATION } from '@/types';
 import { State as RootState } from '../index';
 import i18n from '@/i18n';
+import store from '../';
 
 import { update, clear } from '@/stores/mutations';
 import debug from '@/functions/debug';
+
 import {
   webTranslationQuery as translationQuery,
 } from '@/stores/actions';
@@ -51,6 +53,14 @@ const ipcActions: ActionTree<State, RootState> = {
 };
 
 const actions = Object.assign({
+  init: ({ dispatch }) => {
+    store.watch((state) => state.text, (val) => {
+      dispatch('text', val);
+
+      if (!val) { dispatch('result', {}); }
+    });
+  },
+
   fetch: ({ commit, rootState }) => {
     const {
       request_timeout: timeout,
@@ -91,7 +101,7 @@ const actions = Object.assign({
       return dispatch('notify', i18n.t('blank_input_msg'));
     }
 
-    return dispatch('query', { q, from, to });
+    dispatch('query', { q, from, to });
   },
 
   text: ({ commit }, text) => { commit('update', { text }); },
@@ -101,8 +111,14 @@ const actions = Object.assign({
     dispatch('merge', changes);
   },
 
-  done: ({ state, commit }, result) => {
-    commit('update', { result, flag: !state.flag });
+  result: ({ commit }, result) => {
+    commit('update', { result });
+  },
+
+  done: ({ state, commit, dispatch }, result) => {
+    dispatch('result', result);
+
+    commit('update', { flag: !state.flag });
   },
 
   notify: ({ dispatch }, message: string) => {

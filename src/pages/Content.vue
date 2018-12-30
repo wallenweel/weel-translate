@@ -4,7 +4,7 @@
       <mdc-fab class="float-action-button" :style="fabStyle" ref="fab"
         mini absolute
         @click="handleQuery"
-        v-show="hasSelection"
+        v-show="hasSelection && !hasResult"
       >
         <mdc-icon>
           <icon-translate style="display: block;" />
@@ -13,7 +13,7 @@
     </transition>
 
     <section class="float-action-panel" :style="fapStyle" ref="fap">
-      <div class="-actions" v-show="hasResult">
+      <div class="-actions" v-show="hasResult && hasSelection">
         <mdc-card class="-action">
           <mdc-card-action-icon class="-button">
             <icon-swap-horiz name="swap languages" />
@@ -28,7 +28,7 @@
       <transition-group name="fade">
         <translation-result class="-result" :result="result"
           v-for="item in 1" :key="item"
-          v-show="hasResult"
+          v-show="hasResult && hasSelection"
         />
       </transition-group>
     </section>
@@ -47,7 +47,7 @@ import IconSwapHoriz from '@/components/icons/SwapHoriz.vue';
 import IconPageview from '@/components/icons/Pageview.vue';
 import debug from '@/functions/debug';
 
-const _t_ = namespace('translation');
+const __ = namespace('translation');
 
 @Component({
   components: {
@@ -61,15 +61,15 @@ export default class Content extends Vue {
   @State private rect!: S['rect'];
   @Getter private hasSelection!: boolean;
 
-  @_t_.Action('query') private translationQuery!: ActionMethod;
+  @__.State private flag!: boolean;
+  @__.State private result!: translationResult;
 
-  private result: SourcePreset['parser'] = {
-    phonetic_src: 'transˈlāSHən',
-    phonetic_dest: 'Fan Yi',
-    translation: '翻译',
-    explain: `Lorem ipsum dolor sit amet consectetur, adipisicing elit.`,
-  };
-  private hasResult: boolean = false;
+  @__.Getter private fromto!: Array<Language['code']>;
+  @__.Getter private hasResult!: boolean;
+
+  @__.Action('translate') private doTranslate: any;
+  @__.Action('fromto') private updateFromto: any;
+
   private fabStyle: string | null = null;
   private fapStyle: string | null = null;
 
@@ -110,14 +110,18 @@ export default class Content extends Vue {
 
   private handleQuery() {
     debug.log('query in content');
-    this.translationQuery({ q: 'text', from: 'en', to: 'zh-cn' });
+    this.doTranslate();
     // this.fapStyle = this.fapPostion();
     // this.hasResult = !this.hasResult;
   }
 
-  @Watch('rect')
-  private onOffset() {
+  @Watch('hasSelection')
+  private onHasSelection() {
     this.fabStyle = this.fabPostion();
+  }
+  @Watch('hasResult')
+  private onHasResult() {
+    this.fapStyle = this.fapPostion();
   }
 }
 

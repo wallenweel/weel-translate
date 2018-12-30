@@ -5,8 +5,6 @@ import request from '@/apis/request';
 import {
   translationResultParser as resultParser,
   presetInvoker,
-  presetLanguagesFilter,
-  presetLanguagesModifier,
   istype,
 } from '@/functions';
 import debug from '@/functions/debug';

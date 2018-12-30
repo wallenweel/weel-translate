@@ -2,15 +2,17 @@ import Vue from 'vue';
 import Vuex, { MutationTree, ActionTree, ModuleTree, GetterTree } from 'vuex';
 import storage from '../modules/storage';
 import preference from './modules/preference';
+import translation from './modules/translation';
 import { update, clear } from '@/stores/mutations';
 import debug from '@/functions/debug';
-import { plainCopy } from '@/functions';
 
 Vue.use(Vuex);
 
 let Port: RuntimePort;
 
 const state: State = {
+  notify: null,
+
   text: null,
   lastText: null,
   rect: {
@@ -33,6 +35,8 @@ const actions: ActionTree<State, State> = {
 
       dispatch(receiver as string, payload);
     });
+
+    dispatch('storage/init');
   },
 
   ipc: (_, { type, receiver, payload }) => {
@@ -83,6 +87,10 @@ const actions: ActionTree<State, State> = {
   unselect: ({ commit }) => {
     commit('update', { text: null });
   },
+
+  notify: ({ commit }, message: string) => {
+    commit('update', { notify: message || null });
+  },
 };
 
 const getters: GetterTree<State, State> = {
@@ -91,7 +99,7 @@ const getters: GetterTree<State, State> = {
 };
 
 const modules: ModuleTree<State> = {
-  storage, preference,
+  storage, preference, translation,
 };
 
 const store = new Vuex.Store<State>({
@@ -101,12 +109,15 @@ const store = new Vuex.Store<State>({
 store.subscribe((mutation) => {
   if (mutation.type === 'storage/update') {
     store.dispatch('preference/fetch');
+    store.dispatch('translation/fetch');
   }
 });
 
 export default store;
 
 export interface State {
+  notify: null | string;
+
   text: string | null;
   lastText: string | null;
   rect: {

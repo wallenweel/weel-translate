@@ -37,14 +37,17 @@
 
 <script lang="ts">
 import Vue from 'vue';
+import { ActionMethod } from 'vuex';
 import { Component, Watch } from 'vue-property-decorator';
-import { State, Getter } from 'vuex-class';
+import { State, Getter, Action, namespace } from 'vuex-class';
 import { State as S } from '@/stores/content';
 import TranslationResult from '@/components/TranslationResult.vue';
 import IconTranslate from '@/components/icons/Translate.vue';
 import IconSwapHoriz from '@/components/icons/SwapHoriz.vue';
 import IconPageview from '@/components/icons/Pageview.vue';
 import debug from '@/functions/debug';
+
+const _t_ = namespace('translation');
 
 @Component({
   components: {
@@ -57,6 +60,8 @@ import debug from '@/functions/debug';
 export default class Content extends Vue {
   @State private rect!: S['rect'];
   @Getter private hasSelection!: boolean;
+
+  @_t_.Action('query') private translationQuery!: ActionMethod;
 
   private result: SourcePreset['parser'] = {
     phonetic_src: 'transˈlāSHən',
@@ -105,8 +110,9 @@ export default class Content extends Vue {
 
   private handleQuery() {
     debug.log('query in content');
-    this.fapStyle = this.fapPostion();
-    this.hasResult = !this.hasResult;
+    this.translationQuery({ q: 'text', from: 'en', to: 'zh-cn' });
+    // this.fapStyle = this.fapPostion();
+    // this.hasResult = !this.hasResult;
   }
 
   @Watch('rect')

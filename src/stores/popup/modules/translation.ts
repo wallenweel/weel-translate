@@ -1,23 +1,19 @@
-import axios, { Canceler } from 'axios';
-import { MutationTree, ActionTree, Module, GetterTree } from 'vuex';
+import { MutationTree, ActionTree, Action, Module, GetterTree } from 'vuex';
 import { QUERY_TRANSLATION } from '@/types';
 import { State as RootState } from '../index';
 import i18n from '@/i18n';
 import store from '../';
 
 import { update, clear } from '@/stores/mutations';
-import request from '@/apis/request';
 import {
-  translationResultParser as resultParser,
   presetInvoker,
   presetLanguagesFilter,
   presetLanguagesModifier,
-  istype,
 } from '@/functions';
-
 import debug from '@/functions/debug';
-
-let cancelTranslate: Canceler | null;
+import {
+  webTranslationQuery as queryTranslation,
+} from '@/stores/actions';
 
 const namespaced: boolean = true;
 
@@ -41,33 +37,7 @@ const mutations = Object.assign({
 } as MutationTree<State>, { update, clear });
 
 const webActions: ActionTree<State, RootState> = {
-  query: ({ state, dispatch }, params) => {
-    if (istype(cancelTranslate, 'function')) {
-      (cancelTranslate as Canceler)();
-      return dispatch('notify', `Don't repeat request.`);
-    }
-
-    const { timeout, sources, source: { id } } = state;
-    const preset = presetInvoker(id, sources)[1] as SourcePreset;
-    const translationRequest = request(preset);
-
-    return translationRequest(params, {
-      timeout,
-      cancelToken: new axios.CancelToken((cancel: Canceler) => {
-        cancelTranslate = cancel;
-      }),
-    }).then(([_, { data }]) => {
-      debug.log(data);
-      const [error, result] = resultParser(data, preset.parser);
-      dispatch('done', result);
-      dispatch('notify', null);
-    }).catch(([error]) => {
-      debug.log(error);
-      dispatch('notify', error.message);
-    }).finally(() => {
-      cancelTranslate = null;
-    });
-  },
+  query: queryTranslation as Action<State, RootState>,
 };
 
 const ipcActions: ActionTree<State, RootState> = {

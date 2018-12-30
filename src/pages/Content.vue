@@ -15,12 +15,12 @@
     <section class="float-action-panel" :style="fapStyle" ref="fap">
       <div class="-actions" v-show="hasResult && hasSelection">
         <mdc-card class="-action">
-          <mdc-card-action-icon class="-button">
+          <mdc-card-action-icon class="-button" @click="handleSwapFromto">
             <icon-swap-horiz name="swap languages" />
           </mdc-card-action-icon>
         </mdc-card>
         <mdc-card class="-action">
-          <mdc-card-action-icon class="-button">
+          <mdc-card-action-icon class="-button" @click="handleWebQuery">
             <icon-pageview name="web infomation" />
           </mdc-card-action-icon>
         </mdc-card>
@@ -108,11 +108,14 @@ export default class Content extends Vue {
     return `transform: translate3d(${x}px, ${y}px, 0);`;
   }
 
-  private handleQuery() {
-    debug.log('query in content');
+  private handleQuery() { this.doTranslate(); }
+  private async handleSwapFromto() {
+    const [from, to] = this.fromto;
+    await this.updateFromto([to, from]);
     this.doTranslate();
-    // this.fapStyle = this.fapPostion();
-    // this.hasResult = !this.hasResult;
+  }
+  private handleWebQuery() {
+    debug.log('not implement yet');
   }
 
   @Watch('hasSelection')

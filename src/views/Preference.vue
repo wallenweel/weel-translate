@@ -75,6 +75,7 @@ export default class PreferenceView extends Vue {
       value: 'fabEnable',
       appends: [
         {
+          test: ['fabEnable', true],
           subheading: 'Appearance Position',
           type: 'radio',
           name: 'fab-position',
@@ -90,6 +91,7 @@ export default class PreferenceView extends Vue {
       value: 'fapEnable',
       appends: [
         {
+          test: ['fapEnable', true],
           subheading: 'Appearance Position',
           type: 'radio',
           name: 'fap-position',
@@ -97,6 +99,7 @@ export default class PreferenceView extends Vue {
           value: 'fapPosition',
         },
         {
+          test: ['fapPosition', 'edge'],
           subheading: 'Edge Appearance Position',
           type: 'radio',
           name: 'fap-position-edge',

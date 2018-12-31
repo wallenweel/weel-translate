@@ -1,5 +1,5 @@
 <template>
-  <div>
+  <div v-if="item.test ? testItem(item.test) : true">
     <mdc-headline v-if="!!item.headline">{{ item.headline }}</mdc-headline>
     <mdc-subheading v-if="!!item.subheading">{{ item.subheading }}</mdc-subheading>
 
@@ -29,6 +29,10 @@ export default class PreferenceOption extends Vue {
   @Emit('change')
   private handleChange(key: string, value: any) {
     return { [key]: value };
+  }
+
+  private testItem([key, value]: [string, any]): boolean {
+    return this.values[key] === value;
   }
 }
 </script>

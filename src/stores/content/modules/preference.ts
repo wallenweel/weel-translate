@@ -18,10 +18,6 @@ const state: State = {
 };
 
 const actions = {
-  init: ({ rootState, commit, dispatch }) => {
-    //
-  },
-
   fetch: ({ commit, rootState }) => {
     const {
       request_timeout: timeout,
@@ -64,8 +60,11 @@ const actions = {
 const mutations = Object.assign({
 } as MutationTree<State>, { update, clear });
 
+const getters: GetterTree<State, RootState> = {
+};
+
 export const preference: Module<State, RootState> = {
-  namespaced, state, actions, mutations,
+  namespaced, state, actions, mutations, getters,
 };
 
 export default preference;

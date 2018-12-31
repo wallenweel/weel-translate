@@ -72,6 +72,7 @@ export default class Content extends Vue {
   @_.State private fabPosition!: string;
   @_.State private fapEnable!: boolean;
   @_.State private fapPosition!: string;
+  @_.State private fapPositionEdge!: string;
 
   @__.State private flag!: boolean;
   @__.State private result!: translationResult;
@@ -84,7 +85,7 @@ export default class Content extends Vue {
   private fapStyle: string | null = null;
   private mouseOffset: [number, number] = [0, 0];
 
-  private get fabOffset() {
+  private get fabOffset(): [number, number] {
     switch (this.fabPosition) {
       case 'auto-center':
         return this.isRectUp ? this.rectOffsetTC : this.rectOffsetBC;
@@ -98,8 +99,23 @@ export default class Content extends Vue {
         return [0, 0];
     }
   }
-  private get fapOffset() {
-    return this.isRectUp ? this.rectOffsetTC : this.rectOffsetBC;
+  private get fapOffset(): [number, number] {
+    switch (this.fapPosition) {
+      case 'center':
+        return this.rectOffsetCC;
+      case 'follow':
+        return this.fabOffset;
+      case 'edge':
+        const { innerHeight: height, innerWidth: width } = window;
+        type p = PreferenceConfig['preference_fap_position_edge'];
+        const offset = {
+          tl: [0, 0], tc: [width / 2, 0], tr: [width, 0],
+          bl: [0, height], bc: [width / 2, height], br: [width, height],
+        }[this.fapPositionEdge as p] as [number, number];
+        return offset;
+      default:
+        return [0, 0];
+    }
   }
 
   private mounted() {
@@ -128,7 +144,7 @@ export default class Content extends Vue {
     const target = this.$refs.fap as HTMLElement;
     const { offsetHeight: height, offsetWidth: width } = target;
 
-    [x, y] = overflow([x - width / 2, y + 16], { height, width }, { right: 48, left: 16 });
+    [x, y] = overflow([x - width / 2, y], { height, width }, { right: 48, left: 16 });
 
     return `transform: translate3d(${x}px, ${y}px, 0);`;
   }

@@ -60,6 +60,10 @@ const __ = namespace('translation');
 export default class Content extends Vue {
   @State private rect!: S['rect'];
   @Getter private hasSelection!: boolean;
+  @Getter private rectOffsetCC!: [number, number];
+  @Getter private rectOffsetTC!: [number, number];
+  @Getter private rectOffsetBC!: [number, number];
+  @Getter private isRectUp!: boolean;
 
   @__.State private flag!: boolean;
   @__.State private result!: translationResult;
@@ -73,31 +77,19 @@ export default class Content extends Vue {
   private fabStyle: string | null = null;
   private fapStyle: string | null = null;
 
-  private get rectCenter(): [number, number] {
-    let [x, y] = [0, 0];
+  private fabPostion(offset?: [number, number]): string {
+    let [x, y] = offset || this.rectOffsetBC;
 
-    const { offset, size } = this.rect;
-
-    x = offset.x + size.width / 2;
-    y = offset.y + size.height / 2;
-
-    return [x, y];
-  }
-
-  private fabPostion(): string {
-    let [x, y] = this.rectCenter;
-
-    const [width, height] = [32, 32];
-    // const target = this.$refs.fab as Vue;
-    // const { offsetHeight: height, offsetWidth: width } = target.$el as HTMLElement;
+    const target = this.$refs.fab as Vue;
+    const { offsetHeight: height, offsetWidth: width } = target.$el as HTMLElement;
 
     [x, y] = [x - width / 2, y + height / 2];
     [x, y] = overflow([x, y], { height, width });
 
     return `transform: translate3d(${x}px, ${y}px, 0);`;
   }
-  private fapPostion(): string {
-    let [x, y] = this.rectCenter;
+  private fapPostion(offset?: [number, number]): string {
+    let [x, y] = offset || this.rectOffsetBC;
 
     const target = this.$refs.fap as HTMLElement;
     const { offsetHeight: height, offsetWidth: width } = target;
@@ -118,13 +110,17 @@ export default class Content extends Vue {
     debug.log('not implement yet');
   }
 
-  @Watch('hasSelection')
-  private onHasSelection() {
-    this.fabStyle = this.fabPostion();
+  @Watch('rect')
+  private onRect(val: S['rect'], old: S['rect']) {
+    this.$nextTick(() => {
+      this.fabStyle = this.fabPostion(this.isRectUp ? this.rectOffsetTC : this.rectOffsetBC);
+    });
   }
   @Watch('hasResult')
   private onHasResult() {
-    this.fapStyle = this.fapPostion();
+    this.$nextTick(() => {
+      this.fapStyle = this.fapPostion(this.isRectUp ? this.rectOffsetTC : this.rectOffsetBC);
+    });
   }
 }
 

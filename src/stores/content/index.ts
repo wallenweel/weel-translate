@@ -20,6 +20,7 @@ const state: State = {
     size: { height: 0, width: 0 },
     position: { top: 0, right: 0, bottom: 0, left: 0 },
   },
+  initOffset: null,
 };
 
 const mutations = Object.assign({
@@ -79,6 +80,8 @@ const actions: ActionTree<State, State> = {
       text, lastText: text,
       rect: { offset, size, position },
     });
+
+    if (!state.initOffset) { commit('update', { initOffset: [x, y] }); }
   },
 
   selected: ({ commit, state }) => {
@@ -86,7 +89,7 @@ const actions: ActionTree<State, State> = {
   },
 
   unselect: ({ commit }) => {
-    commit('update', { text: null });
+    commit('update', { text: null, initOffset: null });
   },
 
   notify: ({ commit }, message: string) => {
@@ -95,8 +98,25 @@ const actions: ActionTree<State, State> = {
 };
 
 const getters: GetterTree<State, State> = {
-  locale: (state) => state.storage.ui_language,
-  hasSelection: (state) => !!state.text,
+  locale: (state): Language['code'] => state.storage.ui_language,
+  hasSelection: (state): boolean => !!state.text,
+  rectOffsetCC: (state): [number, number] => {
+    const { offset: { x, y }, size: { width, height } } = state.rect;
+    return [x + width / 2, y + height / 2];
+  },
+  rectOffsetTC: (state): [number, number] => {
+    const { offset: { x, y }, size: { width, height } } = state.rect;
+    return [x + width / 2, y];
+  },
+  rectOffsetBC: (state): [number, number] => {
+    const { offset: { x, y }, size: { width, height } } = state.rect;
+    return [x + width / 2, y + height];
+  },
+  isRectUp: (state): boolean => {
+    const { initOffset, rect: { offset } } = state;
+    const [x, y]: [number, number] = initOffset || [0, 0];
+    return offset.y < y;
+  },
 };
 
 const modules: ModuleTree<State> = {
@@ -126,6 +146,7 @@ export interface State {
     size: { height: number; width: number; };
     position: { top: number; right: number; bottom: number; left: number; };
   };
+  initOffset: null | [number, number];
 
   [name: string]: any;
 }

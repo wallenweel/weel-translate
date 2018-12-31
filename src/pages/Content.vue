@@ -78,24 +78,22 @@ export default class Content extends Vue {
   private fapStyle: string | null = null;
 
   private fabPostion(offset?: [number, number]): string {
-    let [x, y] = offset || this.rectOffsetBC;
+    let [x, y] = offset || this.rectOffsetCC;
 
     const target = this.$refs.fab as Vue;
     const { offsetHeight: height, offsetWidth: width } = target.$el as HTMLElement;
 
-    [x, y] = [x - width / 2, y + height / 2];
-    [x, y] = overflow([x, y], { height, width });
+    [x, y] = overflow([x - width / 2, y + height / 8], { height, width });
 
     return `transform: translate3d(${x}px, ${y}px, 0);`;
   }
   private fapPostion(offset?: [number, number]): string {
-    let [x, y] = offset || this.rectOffsetBC;
+    let [x, y] = offset || this.rectOffsetCC;
 
     const target = this.$refs.fap as HTMLElement;
     const { offsetHeight: height, offsetWidth: width } = target;
 
-    [x, y] = [x - width / 2, y + 16];
-    [x, y] = overflow([x, y], { height, width }, { right: 48, left: 16 });
+    [x, y] = overflow([x - width / 2, y + 16], { height, width }, { right: 48, left: 16 });
 
     return `transform: translate3d(${x}px, ${y}px, 0);`;
   }
@@ -124,6 +122,7 @@ export default class Content extends Vue {
   }
 }
 
+// calculate situations that overflow viewport
 function overflow(
   offset: [number, number],
   target: { height: number, width: number },

@@ -78,7 +78,7 @@ export default class PreferenceView extends Vue {
           subheading: 'Appearance Position',
           type: 'radio',
           name: 'fab-position',
-          values: [['After', 'after'], ['Center', 'center'], ['Follow', 'follow']],
+          values: [['After', 'after'], ['Center', 'center'], ['Follow', 'follow'], ['Auto Center', 'auto-center']],
           value: 'fabPosition',
         },
       ],

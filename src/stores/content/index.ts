@@ -105,16 +105,20 @@ const getters: GetterTree<State, State> = {
     return [x + width / 2, y + height / 2];
   },
   rectOffsetTC: (state): [number, number] => {
-    const { offset: { x, y }, size: { width, height } } = state.rect;
+    const { offset: { x, y }, size: { width } } = state.rect;
     return [x + width / 2, y];
   },
   rectOffsetBC: (state): [number, number] => {
     const { offset: { x, y }, size: { width, height } } = state.rect;
     return [x + width / 2, y + height];
   },
+  rectOffsetBR: (state): [number, number] => {
+    const { offset: { x, y }, size: { width, height } } = state.rect;
+    return [x + width, y + height];
+  },
   isRectUp: (state): boolean => {
     const { initOffset, rect: { offset } } = state;
-    const [x, y]: [number, number] = initOffset || [0, 0];
+    const [, y]: [number, number] = initOffset || [0, 0];
     return offset.y < y;
   },
 };

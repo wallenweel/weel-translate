@@ -4,6 +4,7 @@
       <mdc-fab class="float-action-button" :style="fabStyle" ref="fab"
         mini absolute
         @click="handleQuery"
+        v-if="fabEnable"
         v-show="hasSelection && !hasResult"
       >
         <mdc-icon>
@@ -12,7 +13,7 @@
       </mdc-fab>
     </transition>
 
-    <section class="float-action-panel" :style="fapStyle" ref="fap">
+    <section class="float-action-panel" :style="fapStyle" ref="fap" v-if="fapEnable">
       <div class="-actions" v-show="hasResult && hasSelection">
         <mdc-card class="-action">
           <mdc-card-action-icon class="-button" @click="handleSwapFromto">
@@ -47,6 +48,7 @@ import IconSwapHoriz from '@/components/icons/SwapHoriz.vue';
 import IconPageview from '@/components/icons/Pageview.vue';
 import debug from '@/functions/debug';
 
+const _ = namespace('preference');
 const __ = namespace('translation');
 
 @Component({
@@ -63,32 +65,65 @@ export default class Content extends Vue {
   @Getter private rectOffsetCC!: [number, number];
   @Getter private rectOffsetTC!: [number, number];
   @Getter private rectOffsetBC!: [number, number];
+  @Getter private rectOffsetBR!: [number, number];
   @Getter private isRectUp!: boolean;
+
+  @_.State private fabEnable!: boolean;
+  @_.State private fabPosition!: string;
+  @_.State private fapEnable!: boolean;
+  @_.State private fapPosition!: string;
 
   @__.State private flag!: boolean;
   @__.State private result!: translationResult;
-
   @__.Getter private fromto!: Array<Language['code']>;
   @__.Getter private hasResult!: boolean;
-
   @__.Action('translate') private doTranslate: any;
   @__.Action('fromto') private updateFromto: any;
 
   private fabStyle: string | null = null;
   private fapStyle: string | null = null;
+  private mouseOffset: [number, number] = [0, 0];
 
-  private fabPostion(offset?: [number, number]): string {
-    let [x, y] = offset || this.rectOffsetCC;
+  private get fabOffset() {
+    switch (this.fabPosition) {
+      case 'auto-center':
+        return this.isRectUp ? this.rectOffsetTC : this.rectOffsetBC;
+      case 'center':
+        return this.rectOffsetCC;
+      case 'after':
+        return this.rectOffsetBR;
+      case 'follow':
+        return this.mouseOffset;
+      default:
+        return [0, 0];
+    }
+  }
+  private get fapOffset() {
+    return this.isRectUp ? this.rectOffsetTC : this.rectOffsetBC;
+  }
+
+  private mounted() {
+    if (this.fabPosition === 'follow') {
+      document.addEventListener('mousemove', this.handleMousemove, false);
+    }
+  }
+
+  private handleMousemove({ x, y }: MouseEvent): void {
+    this.mouseOffset = [x, y];
+  }
+
+  private fabLocating(): string {
+    let [x, y] = this.fabOffset;
 
     const target = this.$refs.fab as Vue;
     const { offsetHeight: height, offsetWidth: width } = target.$el as HTMLElement;
 
-    [x, y] = overflow([x - width / 2, y + height / 8], { height, width });
+    [x, y] = overflow([x - width / 2, y + height / 8], { height, width }, { right: 16 });
 
     return `transform: translate3d(${x}px, ${y}px, 0);`;
   }
-  private fapPostion(offset?: [number, number]): string {
-    let [x, y] = offset || this.rectOffsetCC;
+  private fapLocating(): string {
+    let [x, y] = this.fapOffset;
 
     const target = this.$refs.fap as HTMLElement;
     const { offsetHeight: height, offsetWidth: width } = target;
@@ -108,17 +143,28 @@ export default class Content extends Vue {
     debug.log('not implement yet');
   }
 
-  @Watch('rect')
-  private onRect(val: S['rect'], old: S['rect']) {
-    this.$nextTick(() => {
-      this.fabStyle = this.fabPostion(this.isRectUp ? this.rectOffsetTC : this.rectOffsetBC);
-    });
+  @Watch('rect') private onRect(val: S['rect'], old: S['rect']) {
+    ((flag) => {
+      if (!flag) { return; }
+      this.$nextTick(() => {
+        this.fabStyle = this.fabLocating();
+      });
+    })(this.fabEnable);
   }
-  @Watch('hasResult')
-  private onHasResult() {
-    this.$nextTick(() => {
-      this.fapStyle = this.fapPostion(this.isRectUp ? this.rectOffsetTC : this.rectOffsetBC);
-    });
+  @Watch('hasResult') private onHasResult() {
+    ((flag) => {
+      if (!flag) { return; }
+      this.$nextTick(() => {
+        this.fapStyle = this.fapLocating();
+      });
+    })(this.fapEnable);
+  }
+  @Watch('fabPosition') private onFabPosition(val: string) {
+    if (val === 'follow') {
+      document.addEventListener('mousemove', this.handleMousemove, false);
+    } else {
+      document.removeEventListener('mousemove', this.handleMousemove, false);
+    }
   }
 }
 
@@ -139,6 +185,7 @@ function overflow(
   if ((y + th + b) > wh) { y = wh - th - b; }
   // overflow right
   if ((x + tw + r) > ww) { x = ww - tw - r; }
+
   // overflow left
   if (x < 0) { x = 0 + l; }
 

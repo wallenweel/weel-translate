@@ -10,9 +10,9 @@ const state: State = {
 
   theme: 'light',
   fabEnable: true,
-  fabPosition: 'center',
+  fabPosition: 'auto-center',
   fapEnable: true,
-  fapPosition: 'center',
+  fapPosition: 'follow',
   fapPositionEdge: 'tc',
   contextMenuEnable: true,
 };
@@ -70,18 +70,17 @@ export const preference: Module<State, RootState> = {
 
 export default preference;
 
+type C = PreferenceConfig;
 interface State {
   timeout: number;
   locale: Language['code'];
   locales?: Language[];
 
-  theme: 'dark' | 'light';
-  fabEnable: boolean;
-  fabPosition: 'after' | 'center' | 'follow';
-  fapEnable: boolean;
-  fapPosition: 'center' | 'follow' | 'edge';
-  fapPositionEdge: 'tl' | 'tc' | 'tr' | 'bl' | 'bc' | 'br';
-  contextMenuEnable: boolean;
-
-  [name: string]: any;
+  theme: C['preference_theme'];
+  fabEnable: C['preference_fab_enable'];
+  fabPosition: C['preference_fab_position'];
+  fapEnable: C['preference_fap_enable'];
+  fapPosition: C['preference_fap_position'];
+  fapPositionEdge: C['preference_fap_position_edge'];
+  contextMenuEnable: C['preference_context_menu_enable'];
 }

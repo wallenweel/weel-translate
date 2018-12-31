@@ -219,7 +219,7 @@ declare interface PreferenceConfig {
   preference_fab_enable: boolean;
 
   // after selection | center of selection | follow mouse
-  preference_fab_position: 'after' | 'center' | 'follow';
+  preference_fab_position: 'after' | 'center' | 'follow' | 'auto-center';
 
   // enable float action (result) panel
   preference_fap_enable: boolean;

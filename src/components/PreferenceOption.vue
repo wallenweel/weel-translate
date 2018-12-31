@@ -1,18 +1,18 @@
 <template>
   <div v-if="item.test ? testItem(item.test) : true">
-    <mdc-headline v-if="!!item.headline">{{ item.headline }}</mdc-headline>
-    <mdc-subheading v-if="!!item.subheading">{{ item.subheading }}</mdc-subheading>
+    <mdc-headline v-if="!!item.headline">{{ $t(item.headline) }}</mdc-headline>
+    <mdc-subheading v-if="!!item.subheading">{{ $t(item.subheading) }}</mdc-subheading>
 
     <mdc-radio
       :picked="values[item.value]" @change="(value) => handleChange(item.value, value)"
       v-if="item.type === 'radio'" v-for="(m, n) in item.values" :key="`${m[0]}_${n}`"
-      :name="item.name" :value="m[1]" :label="m[0]"
+      :name="item.name" :value="m[1]" :label="$t(m[0])"
     />
     
     <mdc-checkbox
       :checked="values[item.value]" @change="(value) => handleChange(item.value, value)"
       v-if="item.type === 'checkbox'"
-      :label="item.label"
+      :label="$t(item.label)"
     />
   </div>
 </template>

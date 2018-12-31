@@ -9,8 +9,8 @@
 
     <mdc-layout-grid class="-options">
       <mdc-layout-cell class="-row">
-        <mdc-headline>Interface</mdc-headline>
-        <mdc-subheading>UI Languages</mdc-subheading>
+        <mdc-headline>{{ $t('interface') }}</mdc-headline>
+        <mdc-subheading>{{ $t('ui_languages') }}</mdc-subheading>
         <mdc-radio :picked="locale" @change="handleLocale"
           v-for="(lang, n) in locales" :key="n"
           name="ui-language" :value="lang.code" :label="$t(lang.locale)"
@@ -28,8 +28,8 @@
       </mdc-layout-cell>
 
       <mdc-layout-cell class="-row">
-        <mdc-headline>Network</mdc-headline>
-        <mdc-subheading>Request Timeout: {{ timeout / 1000 }} seconds</mdc-subheading>
+        <mdc-headline>{{ $t('network') }}</mdc-headline>
+        <mdc-subheading>{{ $t('set_timeout_seconds', { time: timeout / 1000 }) }}</mdc-subheading>
         <mdc-slider min=0 max=120 step=10 display-markers
           :value="timeout / 1000" @change="handleTimeout" />
       </mdc-layout-cell>
@@ -62,59 +62,59 @@ export default class PreferenceView extends Vue {
 
   private items: any = [
     {
-      headline: 'Theme Color',
+      headline: 'theme_color',
       type: 'radio',
       name: 'theme-color',
-      values: [['Light', 'light'], ['Dark', 'dark']],
+      values: [['light', 'light'], ['dark', 'dark']],
       value: 'theme',
     },
     {
-      headline: 'Float Action Button',
+      headline: 'float_action_button',
       type: 'checkbox',
-      label: 'Enable FAB',
+      label: 'enable_fab',
       value: 'fabEnable',
       appends: [
         {
           test: ['fabEnable', true],
-          subheading: 'Appearance Position',
+          subheading: 'appearance_position',
           type: 'radio',
           name: 'fab-position',
-          values: [['After', 'after'], ['Center', 'center'], ['Follow', 'follow'], ['Auto Center', 'auto-center']],
+          values: [['after', 'after'], ['center', 'center'], ['follow', 'follow'], ['auto_center', 'auto-center']],
           value: 'fabPosition',
         },
       ],
     },
     {
-      headline: 'Float Action Panel',
+      headline: 'float_action_panel',
       type: 'checkbox',
-      label: 'Enable FAP',
+      label: 'enable_fap',
       value: 'fapEnable',
       appends: [
         {
           test: ['fapEnable', true],
-          subheading: 'Appearance Position',
+          subheading: 'appearance_position',
           type: 'radio',
           name: 'fap-position',
-          values: [['Center', 'center'], ['Follow', 'follow'], ['Edge', 'edge']],
+          values: [['center', 'center'], ['follow', 'follow'], ['edge', 'edge']],
           value: 'fapPosition',
         },
         {
           test: ['fapPosition', 'edge'],
-          subheading: 'Edge Appearance Position',
+          subheading: 'edge_position',
           type: 'radio',
           name: 'fap-position-edge',
           values: [
-            ['Top Left', 'tl'], ['Top Center', 'tc'], ['Top Right', 'tr'],
-            ['Bottom Left', 'bl'], ['Bottom Center', 'bc'], ['Bottom Right', 'br'],
+            ['top_left', 'tl'], ['top_center', 'tc'], ['top_right', 'tr'],
+            ['bottom_left', 'bl'], ['bottom_center', 'bc'], ['bottom_right', 'br'],
           ],
           value: 'fapPositionEdge',
         },
       ],
     },
     {
-      headline: 'Context Menu Trigger',
+      headline: 'context_menu_trigger',
       type: 'checkbox',
-      label: 'Enable Context Menu',
+      label: 'enable_context_menu',
       value: 'contextMenuEnable',
     },
   ];
@@ -187,7 +187,8 @@ export default class PreferenceView extends Vue {
 
       &[wl-value="fapPositionEdge"] {
         .mdc-form-field {
-          width: 50%;
+          width: 33.333333%;
+          line-height: 1;
         }
       }
     }

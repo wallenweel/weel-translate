@@ -14,7 +14,7 @@ Vue.use(GlobalComponents);
 import Scrollbar from '@/plugins/scrollbar';
 Vue.use(Scrollbar);
 
-// import router from '@/routers/options';
+import router from '@/routers/options';
 // import store from '@/stores/options';
 import i18n from '@/i18n';
 
@@ -33,7 +33,7 @@ const port: RuntimePort = browser.runtime.connect({
 // });
 
 new Vue({
-  // router,
+  router,
   // store,
   i18n,
   render: (h) => h(App as VueConstructor),

@@ -1,10 +1,7 @@
 <template>
   <div class="view-preference">
     <mdc-layout-grid class="-banner">
-      <mdc-text typo='overline' tag="span">
-        If changes got anything wrong, please click "reset" button.
-        <!-- Changes are not saved automaticly, click "Save" button to validate. -->
-      </mdc-text>
+      <mdc-text typo='overline' tag="span">{{ $t('preference_top_tip', [$t('reset')]) }}</mdc-text>
     </mdc-layout-grid>
 
     <mdc-layout-grid class="-options">

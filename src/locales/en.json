@@ -5,6 +5,8 @@
   "history": "History",
 
   "preference": "Preference",
+  "preference_top_tip": "If changes got anything wrong, please click \"{0}\" button to restore.",
+  "reset": "Reset",
   "interface": "Interface",
   "ui_languages": "UI Languages",
   "theme_color": "Theme Color",

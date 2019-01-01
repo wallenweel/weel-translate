@@ -5,6 +5,8 @@
   "history": "历史",
   
   "preference": "设置偏好",
+  "preference_top_tip": "如果更改设置产生异常的话，请点击\"{0}\"按钮恢复。",
+  "reset": "重置",
   "interface": "界面",
   "ui_languages": "UI 语言",
   "theme_color": "主题颜色",

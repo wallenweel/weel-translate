@@ -29,7 +29,7 @@
         <!-- Reset -->
         <mdc-button class="-spec -reset"
           dense v-if="title.toLowerCase() === 'preference'"
-        >Reset</mdc-button>
+        >{{ $t('reset') }}</mdc-button>
       </mdc-toolbar-section>
     </mdc-toolbar-row>
   </mdc-toolbar>

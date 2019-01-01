@@ -12,7 +12,7 @@
         <!-- Source -->
         <mdc-button class="-spec -source" dense
           v-if="title.toLowerCase() === 'translate'"
-          @click="sourceMenu=true"
+          @click="sourceMenu = true"
         >{{ source.name }}</mdc-button>
         <mdc-menu-anchor v-if="title.toLowerCase() === 'translate'">
           <mdc-menu v-model="sourceMenu" @select="handleSourceSelect">
@@ -27,7 +27,7 @@
         </mdc-menu-anchor>
 
         <!-- Reset -->
-        <mdc-button class="-spec -reset"
+        <mdc-button class="-spec -reset" @click="handlePreferenceReset"
           dense v-if="title.toLowerCase() === 'preference'"
         >{{ $t('reset') }}</mdc-button>
       </mdc-toolbar-section>
@@ -41,8 +41,10 @@ import { Component, Prop, Watch } from 'vue-property-decorator';
 import { State, namespace } from 'vuex-class';
 import IconMenu from '@/components/icons/Menu.vue';
 import debug from '@/functions/debug';
+import { ActionMethod } from 'vuex';
 
-const translationM = namespace('translation');
+const _ = namespace('preference');
+const __ = namespace('translation');
 
 @Component({
   components: {
@@ -50,9 +52,11 @@ const translationM = namespace('translation');
   },
 })
 export default class PopupToolbar extends Vue {
-  @translationM.State private source!: SourcePresetItem;
-  @translationM.State private enabledSources!: SourcePresetItem[];
-  @translationM.Action('source') private changeSource!: any;
+  @_.Action('reset') private resetPreference!: ActionMethod;
+
+  @__.State private source!: SourcePresetItem;
+  @__.State private enabledSources!: SourcePresetItem[];
+  @__.Action('source') private changeSource!: ActionMethod;
 
   private title: string = '';
   private sourceMenu: boolean = false;
@@ -69,6 +73,10 @@ export default class PopupToolbar extends Vue {
   private handleSourceSelect(target: any) {
     const id = target.item.getAttribute('data-id');
     this.changeSource(id);
+  }
+
+  private handlePreferenceReset() {
+    this.resetPreference();
   }
 
   @Watch('raised')

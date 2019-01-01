@@ -193,6 +193,7 @@ declare interface BrowserI18n {
 }
 
 /** /defaults */
+declare type configCat = 'config' | 'translation' | 'preference' | 'template' | 'web';
 declare interface DefaultConfig extends
 WebConfig,
 TemplateConfig,

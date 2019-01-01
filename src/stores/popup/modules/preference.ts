@@ -22,7 +22,48 @@ const state: State = {
   contextMenuEnable: true,
 };
 
-const webActions: ActionTree<State, RootState> = {};
+const serialize = (values: DefaultConfig) => {
+  const {
+    request_timeout: timeout,
+    ui_language: locale,
+    preference_theme: theme,
+    preference_fab_enable: fabEnable,
+    preference_fab_position: fabPosition,
+    preference_fap_enable: fapEnable,
+    preference_fap_position: fapPosition,
+    preference_fap_position_edge: fapPositionEdge,
+    preference_context_menu_enable: contextMenuEnable,
+  } = values;
+
+  // tslint:disable-next-line:max-line-length
+  return { timeout, locale, theme, fabEnable, fabPosition, fapEnable, fapPosition, fapPositionEdge, contextMenuEnable };
+};
+
+const unserialize = (values: State) => {
+  const {
+    // tslint:disable:variable-name
+    timeout: request_timeout,
+    locale: ui_language,
+    theme: preference_theme,
+    fabEnable: preference_fab_enable,
+    fabPosition: preference_fab_position,
+    fapEnable: preference_fap_enable,
+    fapPosition: preference_fap_position,
+    fapPositionEdge: preference_fap_position_edge,
+    contextMenuEnable: preference_context_menu_enable,
+    // tslint:enable:variable-name
+  } = values;
+
+  // tslint:disable-next-line:max-line-length
+  return { request_timeout, ui_language, preference_theme, preference_fab_enable, preference_fab_position, preference_fap_enable, preference_fap_position, preference_fap_position_edge, preference_context_menu_enable };
+};
+
+const webActions: ActionTree<State, RootState> = {
+  reset: ({ dispatch }) => {
+    debug.log(Object.keys(unserialize({} as State)));
+    dispatch('storage/reset', Object.keys(unserialize({} as State)), { root: true });
+  },
+};
 
 const ipcActions: ActionTree<State, RootState> = {};
 
@@ -40,41 +81,12 @@ const actions = Object.assign({
   },
 
   fetch: ({ commit, rootState }) => {
-    const {
-      request_timeout: timeout,
-      ui_language: locale,
-      preference_theme: theme,
-      preference_fab_enable: fabEnable,
-      preference_fab_position: fabPosition,
-      preference_fap_enable: fapEnable,
-      preference_fap_position: fapPosition,
-      preference_fap_position_edge: fapPositionEdge,
-      preference_context_menu_enable: contextMenuEnable,
-    } = rootState.storage;
-
-    // tslint:disable-next-line:max-line-length
-    commit('update', { timeout, locale, theme, fabEnable, fabPosition, fapEnable, fapPosition, fapPositionEdge, contextMenuEnable });
+    debug.log(serialize(rootState.storage));
+    commit('update', serialize(rootState.storage));
   },
 
   merge: async ({ commit, dispatch }, changes) => {
-    const {
-      // tslint:disable:variable-name
-      timeout: request_timeout,
-      locale: ui_language,
-      theme: preference_theme,
-      fabEnable: preference_fab_enable,
-      fabPosition: preference_fab_position,
-      fapEnable: preference_fap_enable,
-      fapPosition: preference_fap_position,
-      fapPositionEdge: preference_fap_position_edge,
-      contextMenuEnable: preference_context_menu_enable,
-      // tslint:enable:variable-name
-    } = changes;
-
-    // tslint:disable-next-line:max-line-length
-    const config = { request_timeout, ui_language, preference_theme, preference_fab_enable, preference_fab_position, preference_fap_enable, preference_fap_position, preference_fap_position_edge, preference_context_menu_enable };
-
-    await dispatch('storage/merge', config, { root: true });
+    await dispatch('storage/merge', unserialize(changes), { root: true });
   },
 } as ActionTree<State, RootState>, TARGET_BROWSER === 'web' ? webActions : ipcActions);
 

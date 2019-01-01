@@ -2,14 +2,14 @@
  * defaults storage config struct
  */
 import browser from '@/apis/browser';
-import preferenceConfig from './preference';
-import translationConfig from './translation';
-import webConfig from './web';
-import templateConfig from './template';
+import preference from './preference';
+import translation from './translation';
+import web from './web';
+import template from './template';
 
 const manifest = browser.runtime.getManifest();
 
-export const baseConfig: BaseConfig = {
+const base: BaseConfig = {
   runtime_env: RUNTIME_ENV,
   version: manifest.version,
   last_version: '',
@@ -18,11 +18,13 @@ export const baseConfig: BaseConfig = {
 };
 
 const defaultConfig: DefaultConfig = {
-  ...baseConfig,
-  ...preferenceConfig,
-  ...translationConfig,
-  ...webConfig,
-  ...templateConfig,
+  ...base,
+  ...preference,
+  ...translation,
+  ...web,
+  ...template,
 };
 
 export default defaultConfig;
+
+export { base, preference, translation, web, template };

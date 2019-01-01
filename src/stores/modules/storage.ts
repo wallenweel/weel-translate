@@ -4,7 +4,7 @@ import { State as RootState } from '../index';
 import { update, clear } from '@/stores/mutations';
 
 import { configKeysReducer, istype } from '@/functions';
-import defaultConfig from '@/defaults/config';
+import defaultConfig, { base, preference, translation, web, template } from '@/defaults/config';
 import { QUERY_CONFIG } from '@/types';
 import debug from '@/functions/debug';
 
@@ -17,8 +17,22 @@ const state: State = {
 const mutations: MutationTree<State> = Object.assign({
 }, { update, clear });
 
+type configKey = keyof DefaultConfig;
 const webActions: ActionTree<State, RootState> = {
-  reset: () => localStorage.setItem('config', JSON.stringify(defaultConfig)),
+  reset: ({ dispatch }, keys: configCat | configKey[]) => {
+    let config: DefaultConfig;
+    const configs: any = { base, preference, translation, web, template };
+
+    if (!!keys && istype(keys, 'string')) {
+      config = configs[keys as configCat];
+    } else if (istype(keys, ['array', 'object'])) {
+      config = configKeysReducer(keys, defaultConfig)[1] as DefaultConfig;
+    } else {
+      config = { ...defaultConfig };
+    }
+
+    dispatch('merge', config);
+  },
 
   query: ({ dispatch, commit }, keys?: storageKeys) => {
     // patch, set storage
@@ -29,7 +43,7 @@ const webActions: ActionTree<State, RootState> = {
     if (!keys) {
       config = config;
     } else {
-      config = configKeysReducer(keys, config) as any;
+      config = configKeysReducer(keys, config)[1] as DefaultConfig;
     }
 
     commit('update', config);

@@ -129,6 +129,11 @@ export default class PreferenceView extends Vue {
     if (time === this.timeout / 1000) { return; }
     this.mergeConfig({ timeout: time * 1000 });
   }
+
+  @Watch('options')
+  private onOptions(val: any) {
+    debug.log(val);
+  }
 }
 </script>
 

@@ -60,7 +60,6 @@ const unserialize = (values: State) => {
 
 const webActions: ActionTree<State, RootState> = {
   reset: ({ dispatch }) => {
-    debug.log(Object.keys(unserialize({} as State)));
     dispatch('storage/reset', Object.keys(unserialize({} as State)), { root: true });
   },
 };
@@ -81,7 +80,6 @@ const actions = Object.assign({
   },
 
   fetch: ({ commit, rootState }) => {
-    debug.log(serialize(rootState.storage));
     commit('update', serialize(rootState.storage));
   },
 

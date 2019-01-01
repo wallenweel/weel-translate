@@ -10,6 +10,7 @@
         <mdc-subheading>{{ $t('ui_languages') }}</mdc-subheading>
         <mdc-radio :picked="locale" @change="handleLocale"
           v-for="(lang, n) in locales" :key="n"
+          :checked="lang.code === locale"
           name="ui-language" :value="lang.code" :label="$t(lang.locale)"
         />
       </mdc-layout-cell>
@@ -57,64 +58,66 @@ export default class PreferenceView extends Vue {
 
   @__.Action('merge') private mergeConfig!: any;
 
-  private items: any = [
-    {
-      headline: 'theme_color',
-      type: 'radio',
-      name: 'theme-color',
-      values: [['light', 'light'], ['dark', 'dark']],
-      value: 'theme',
-    },
-    {
-      headline: 'float_action_button',
-      type: 'checkbox',
-      label: 'enable_fab',
-      value: 'fabEnable',
-      appends: [
-        {
-          test: ['fabEnable', true],
-          subheading: 'appearance_position',
-          type: 'radio',
-          name: 'fab-position',
-          values: [['after', 'after'], ['center', 'center'], ['follow', 'follow'], ['auto_center', 'auto-center']],
-          value: 'fabPosition',
-        },
-      ],
-    },
-    {
-      headline: 'float_action_panel',
-      type: 'checkbox',
-      label: 'enable_fap',
-      value: 'fapEnable',
-      appends: [
-        {
-          test: ['fapEnable', true],
-          subheading: 'appearance_position',
-          type: 'radio',
-          name: 'fap-position',
-          values: [['center', 'center'], ['follow', 'follow'], ['edge', 'edge']],
-          value: 'fapPosition',
-        },
-        {
-          test: ['fapPosition', 'edge'],
-          subheading: 'edge_position',
-          type: 'radio',
-          name: 'fap-position-edge',
-          values: [
-            ['top_left', 'tl'], ['top_center', 'tc'], ['top_right', 'tr'],
-            ['bottom_left', 'bl'], ['bottom_center', 'bc'], ['bottom_right', 'br'],
-          ],
-          value: 'fapPositionEdge',
-        },
-      ],
-    },
-    {
-      headline: 'context_menu_trigger',
-      type: 'checkbox',
-      label: 'enable_context_menu',
-      value: 'contextMenuEnable',
-    },
-  ];
+  private get items(): any {
+    return [
+      {
+        headline: 'theme_color',
+        type: 'radio',
+        name: 'theme-color',
+        values: [['light', 'light'], ['dark', 'dark']],
+        value: 'theme',
+      },
+      {
+        headline: 'float_action_button',
+        type: 'checkbox',
+        label: 'enable_fab',
+        value: 'fabEnable',
+        appends: [
+          {
+            test: ['fabEnable', true],
+            subheading: 'appearance_position',
+            type: 'radio',
+            name: 'fab-position',
+            values: [['after', 'after'], ['center', 'center'], ['follow', 'follow'], ['auto_center', 'auto-center']],
+            value: 'fabPosition',
+          },
+        ],
+      },
+      {
+        headline: 'float_action_panel',
+        type: 'checkbox',
+        label: 'enable_fap',
+        value: 'fapEnable',
+        appends: [
+          {
+            test: ['fapEnable', true],
+            subheading: 'appearance_position',
+            type: 'radio',
+            name: 'fap-position',
+            values: [['center', 'center'], ['follow', 'follow'], ['edge', 'edge']],
+            value: 'fapPosition',
+          },
+          {
+            test: ['fapPosition', 'edge'],
+            subheading: 'edge_position',
+            type: 'radio',
+            name: 'fap-position-edge',
+            values: [
+              ['top_left', 'tl'], ['top_center', 'tc'], ['top_right', 'tr'],
+              ['bottom_left', 'bl'], ['bottom_center', 'bc'], ['bottom_right', 'br'],
+            ],
+            value: 'fapPositionEdge',
+          },
+        ],
+      },
+      {
+        headline: 'context_menu_trigger',
+        type: 'checkbox',
+        label: 'enable_context_menu',
+        value: 'contextMenuEnable',
+      },
+    ];
+  };
 
   private handleChange(change: { [k: string]: any }) {
     this.mergeConfig(change);
@@ -128,11 +131,6 @@ export default class PreferenceView extends Vue {
   private handleTimeout(time: number) {
     if (time === this.timeout / 1000) { return; }
     this.mergeConfig({ timeout: time * 1000 });
-  }
-
-  @Watch('options')
-  private onOptions(val: any) {
-    debug.log(val);
   }
 }
 </script>

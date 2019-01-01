@@ -117,7 +117,7 @@ export default class PreferenceView extends Vue {
         value: 'contextMenuEnable',
       },
     ];
-  };
+  }
 
   private handleChange(change: { [k: string]: any }) {
     this.mergeConfig(change);

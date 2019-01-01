@@ -4,8 +4,6 @@ import Router, { RouterOptions, RouteConfig } from 'vue-router';
 Vue.use(Router);
 
 import TranslationView from '@/views/Translation.vue';
-import PreferenceView from '@/views/Preference.vue';
-import PickedView from '@/views/Picked.vue';
 
 const routes: RouteConfig[] = [
   {
@@ -15,20 +13,33 @@ const routes: RouteConfig[] = [
   {
     path: '/translation',
     name: 'translation',
+    // component: () => import(/** webpackChunkName "translation-view" */ '@/views/Translation.vue'),
     component: TranslationView as VueConstructor,
     meta: { locale: 'translate' },
   },
   {
     path: '/picked',
     name: 'picked',
-    component: PickedView as VueConstructor,
+    component: () => import(/** webpackChunkName "picked-view" */ '@/views/Picked.vue'),
     meta: { locale: 'picked' },
+  },
+  {
+    path: '/history',
+    name: 'history',
+    component: () => import(/** webpackChunkName "history-view" */ '@/views/History.vue'),
+    meta: { locale: 'history' },
   },
   {
     path: '/preference',
     name: 'preference',
-    component: PreferenceView as VueConstructor,
+    component: () => import(/** webpackChunkName "preference-view" */ '@/views/Preference.vue'),
     meta: { locale: 'preference' },
+  },
+  {
+    path: '/presets',
+    name: 'presets',
+    component: () => import(/** webpackChunkName "presets-view" */ '@/views/Presets.vue'),
+    meta: { locale: 'presets' },
   },
 ];
 

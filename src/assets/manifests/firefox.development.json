@@ -18,5 +18,11 @@
       "content/main.js"
     ],
     "run_at": "document_end"
-  }]
+  }],
+
+  "options_ui": {
+    "page": "options/main.html",
+    "open_in_tab": true,
+    "browser_style": false
+  }
 }

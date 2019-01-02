@@ -51,12 +51,12 @@ function plugins() {
   ]
 
   if (TARGET_BROWSER !== 'web') {
-    r.push(
-      new GenerateJsonPlugin('manifest.json', Object.assign(
-        require(`./src/assets/manifests/${TARGET_BROWSER}.base.json`),
-        require(`./src/assets/manifests/${TARGET_BROWSER}.${process.env.NODE_ENV}.json`)
-      ))
-    )
+    const { version } = require(`./package.json`)
+
+    const base = require(`./src/assets/manifests/${TARGET_BROWSER}.base.json`)
+    const target = require(`./src/assets/manifests/${TARGET_BROWSER}.${process.env.NODE_ENV}.json`)
+
+    r.push(new GenerateJsonPlugin('manifest.json', Object.assign(base, { version }, target)))
   }
 
   return r

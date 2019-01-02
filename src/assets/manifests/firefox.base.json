@@ -6,11 +6,11 @@
   "description": "__MSG_EXTENSION_DESCRIPTION__",
   "version": "3.0.1",
 
-  "homepage_url": "https://github.com/wallenweel/weel-translation",
+  "homepage_url": "https://github.com/wallenweel/weel-translate",
 
   "developer": {
     "name": "Wallen Weel",
-    "url": "https://github.com/wallenweel/weel-translation"
+    "url": "https://github.com/wallenweel/weel-translate"
   },
 
   "applications": {
@@ -29,7 +29,7 @@
   "commands": {
     "_execute_browser_action": {
       "suggested_key": {
-        "default": "Alt+Shift+W"
+        "default": "Alt+W"
       }
     }
   },
@@ -41,11 +41,5 @@
     },
     "default_title": "Weel Translate X",
     "default_popup": "popup/main.html"
-  },
-
-  "options_ui": {
-    "page": "options/main.html",
-    "open_in_tab": true,
-    "browser_style": false
   }
 }

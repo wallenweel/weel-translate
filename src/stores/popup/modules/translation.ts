@@ -24,6 +24,7 @@ const state: State = {
   result: {},
   timeout: 1000,
   flag: false,
+  voiceflag: false,
   preset: null,
 
   sources: [],
@@ -34,7 +35,10 @@ const state: State = {
 };
 
 const mutations = Object.assign({
-  flag: (state) => { state.flag = !state.flag; },
+  flag: (state, type?: 'voice') => {
+    const item = `${type}flag`;
+    state[item] = !state[item];
+  },
   text: (state, text) => { state.text = text; },
 } as MutationTree<State>, { update, clear });
 
@@ -108,22 +112,22 @@ const actions = Object.assign({
       return dispatch('notify', i18n.t('blank_input_msg'));
     }
 
-    commit('flag');
-
     dispatch('text', { q, from, to });
   },
 
   text: ({ commit, dispatch }, { q, from, to }) => {
+    commit('flag');
     dispatch('query', ['text', { q, from, to }]);
   },
 
-  voice: ({ state, dispatch }, [src, dest]) => {
+  voice: ({ state, dispatch, commit }, [src, dest]) => {
     const { text, source: { fromto: [f, t] }, result } = state;
     let [q, from]: [string, Language['code']] = ['', ''];
 
     if (!!src) { [q, from] = [text, f]; }
     if (!!dest) { [q, from] = [dest || result.translation, t]; }
 
+    commit('flag', 'voice');
     dispatch('query', ['audio', { q, from }]);
   },
 
@@ -165,6 +169,7 @@ const actions = Object.assign({
     }
 
     if (type === 'audio') {
+      commit('flag', 'voice');
       return dispatch('notify', null);
     }
 
@@ -195,6 +200,7 @@ interface State {
   result: { [name: string]: any };
   timeout?: number;
   flag: boolean;
+  voiceflag: boolean;
   preset: null | SourcePreset;
 
   sources: presetStringJson[];

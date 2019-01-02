@@ -15,7 +15,10 @@
       :disabled="!value || !value.length"
     />
 
-    <translation-result class="-result" :result="result" :layout="resultLayout" />
+    <translation-result class="-result"
+      :result="result" :layout="resultLayout"
+      :flags="{ voice: voiceflag }"
+    />
 
     <mdc-dialog v-model="open" scrollable
       title="Select Source"
@@ -51,6 +54,7 @@ export default class TranslationView extends Vue {
   @Getter private resultLayout!: LayoutPreset;
 
   @__.State private flag!: boolean;
+  @__.State private voiceflag!: boolean;
   @__.State private text!: string;
   @__.State private languages!: Language[];
   @__.State private result!: translationResult;

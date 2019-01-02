@@ -1,13 +1,13 @@
 <template>
   <mdc-button class="translation-action-pick"
-    @click="toggle = !toggle"
+    @click="handlePick"
   >
-    <icon-favorite :type="toggle ? 'sharp' : 'two-tone'" />
+    <icon-favorite :type="hasPicked ? 'sharp' : 'two-tone'" />
   </mdc-button>
 </template>
 
 <script lang="ts">
-import { Component, Vue } from 'vue-property-decorator';
+import { Component, Prop, Vue } from 'vue-property-decorator';
 import IconFavorite from '@/components/icons/Favorite.vue';
 
 @Component({
@@ -16,7 +16,29 @@ import IconFavorite from '@/components/icons/Favorite.vue';
   },
 })
 export default class PickActionButton extends Vue {
-  private toggle = false;
+  @Prop(Object) private params?: null | { [k: string]: any };
+
+  private get pickedItems(): translationListItem[] {
+    return this.$store.state.translation.picked;
+  }
+  private get picked(): [translationListItem, number] {
+    let [p, n] = [, NaN];
+    this.pickedItems.filter((item, index) => {
+      if (item.title === (this.params || {}).title) {
+        [p, n] = [item as any, index];
+      }
+    });
+    return [p!, n];
+  }
+  private get hasPicked(): boolean { return !!this.picked[0]; }
+
+  private handlePick() {
+    if (!this.hasPicked) {
+      this.$store.dispatch('translation/pick', this.params);
+    } else {
+      this.$store.dispatch('translation/unpick', this.picked[1]);
+    }
+  }
 }
 </script>
 

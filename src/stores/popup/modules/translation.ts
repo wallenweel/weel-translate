@@ -35,7 +35,7 @@ const state: State = {
 };
 
 const mutations = Object.assign({
-  flag: (state, type?: 'voice') => {
+  flag: (state, type: 'voice' | '' = '') => {
     const item = `${type}flag`;
     state[item] = !state[item];
   },
@@ -129,6 +129,23 @@ const actions = Object.assign({
 
     commit('flag', 'voice');
     dispatch('query', ['audio', { q, from }]);
+  },
+
+  pick: ({ state, dispatch }, params) => {
+    const { source: { id }, result, picked } = state;
+
+    let { title = '', excerpt = '' } = params || {};
+    title = title || result.translation;
+    excerpt = excerpt || result.explain;
+
+    const item: translationListItem[] = [{ id, title, excerpt }];
+
+    dispatch('merge', { picked: item.concat(picked) });
+  },
+  unpick: ({ state, dispatch }, id) => {
+    const { picked } = state;
+    delete picked[id];
+    dispatch('merge', { picked: picked.filter((p) => !!p) });
   },
 
   languages: async ({ state, commit }) => {

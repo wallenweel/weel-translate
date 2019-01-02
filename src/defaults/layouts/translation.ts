@@ -5,7 +5,7 @@ export const standard: LayoutPreset = {
   id: 'standard',
   expect: ['phonetic_src', 'phonetic_dest', 'translation', 'explain'],
   rows: [
-    ['<pick>'],
+    ['<pick?title={translation}&excerpt={explain}>'],
     ['<voice?src>', '[', '{phonetic_src}', ']'],
     ['<voice?dest={translation}>', '[', '{phonetic_dest}', ']'],
     ['{translation}'],

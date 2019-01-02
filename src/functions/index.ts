@@ -351,7 +351,7 @@ templateLayoutParser = (result, { rows }) => {
 
   for (let i = 0; i < rows.length; i++) {
     out[i] = rows[i].map((e: string) =>
-      e.replace(/{(.+)}/, (_, $1) => result![$1] as string || ''));
+      e.replace(/{(.+?)}/gmi, (_, $1) => result![$1] as string || ''));
   }
 
   return [null, out];

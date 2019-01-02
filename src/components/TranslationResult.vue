@@ -2,7 +2,7 @@
   <div class="translation-result">
     <transition name="fade">
       <mdc-card class="_section" :wlt-id="layout.id" v-if="hasResult">
-        <div v-for="(row, n) in this.parseRows" :key="n"
+        <div v-for="(row, n) in this.parseResultRows" :key="n"
           class="_row" :wlt-id="n">
           <template v-for="(value, i) in row">
             <voice-action-button class="_button" :key="`a_${i}`"
@@ -26,7 +26,7 @@ import { Component, Prop, Vue } from 'vue-property-decorator';
 import VoiceActionButton from '@/components/ActionButtonVoice.vue';
 import PickActionButton from '@/components/ActionButtonPick.vue';
 import { templateLayoutParser, stringParamsParaser, istype } from '@/functions';
-import { popup as popupLayout } from '@/defaults/layouts/translation';
+// import { popup as popupLayout } from '@/defaults/layouts/translation';
 import debug from '@/functions/debug';
 
 @Component({
@@ -36,7 +36,7 @@ import debug from '@/functions/debug';
   },
 })
 export default class TranslationResult extends Vue {
-  private layout: templatePreset = popupLayout;
+  // private layout: templatePreset = popupLayout;
   // private result: SourcePreset['parser'] = {
   //   phonetic_src: 'transˈlāSHən',
   //   phonetic_dest: 'Fan Yi',
@@ -45,9 +45,10 @@ export default class TranslationResult extends Vue {
   // };
 
   @Prop(Object) private result!: translationResult;
+  @Prop(Object) private layout!: templatePreset;
 
   private get hasResult(): boolean { return !!Object.values(this.result).length; }
-  private get parseRows(): templatePreset['rows'] {
+  private get parseResultRows(): templatePreset['rows'] {
     const [, rows] = templateLayoutParser(this.result, this.layout.rows);
     debug.log(rows);
     return rows!;

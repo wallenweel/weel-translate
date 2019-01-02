@@ -328,17 +328,17 @@ translationResultParser = (response, parserPreset, stringify = true) => {
 };
 
 export let templateLayoutParser: TemplateLayoutParseFn;
-templateLayoutParser = (result, preset, copy = true) => {
-  const rows = copy ? [...preset] : preset;
+templateLayoutParser = (result, preset) => {
+  const rows = [...preset];
 
   for (let i = 0; i < rows.length; i++) {
     const row = rows[i];
 
     rows[i] = row.map((e: string) =>
-      e.replace(/{(.+)}/, (_, $1) => result![$1] as string || _));
+      e.replace(/{(.+)}/, (_, $1) => result![$1] as string || ''));
   }
 
-  return [null, rows, rows];
+  return [null, rows];
 };
 
 export let configKeysReducer: ConfigKeysReduceFn;

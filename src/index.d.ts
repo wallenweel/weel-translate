@@ -95,8 +95,7 @@ declare interface TranslationResultParseFn {
 }
 
 declare interface TemplateLayoutParseFn {
-  (result: SourcePreset['parser'], rowsPreset: LayoutPreset['rows'],
-    copy?: boolean): std<LayoutPreset['rows']>;
+  (result: SourcePreset['parser'], rowsPreset: LayoutPreset['rows']): std<LayoutPreset['rows']>;
 }
 
 /** /apis/browser */
@@ -368,7 +367,7 @@ declare type templatePreset = LayoutPreset;
 
 declare interface LayoutPresetItem {
   id: LayoutPreset['id'];
-  test: LayoutPreset['test'],
+  expect: LayoutPreset['expect'],
   title?: LayoutPreset['title'];
 }
 
@@ -379,8 +378,8 @@ declare interface LayoutPreset extends Preset {
   extends?: templateId;
 
   // check has or not existed "keys" in result. such as
-  // test ['phonetic', 'translation'] in result { phonetic: '...', translation: '...' } is true
-  test: string[],
+  // expect ['phonetic', 'translation'] in result { phonetic: '...', translation: '...' } is true
+  expect: string[],
 
   // layout
   rows: string[][];

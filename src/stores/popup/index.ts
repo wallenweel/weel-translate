@@ -5,6 +5,7 @@ import preference from './modules/preference';
 import translation from './modules/translation';
 import { update, clear } from '@/stores/mutations';
 import debug from '@/functions/debug';
+import { presetInvoker } from '@/functions';
 
 Vue.use(Vuex);
 
@@ -50,7 +51,15 @@ const actions: ActionTree<State, State> = {
 };
 
 const getters: GetterTree<State, State> = {
-  locale: (state) => state.storage.ui_language,
+  locale: (state): Language['code'] => state.storage.ui_language,
+  resultLayout: (state): LayoutPreset => {
+    const {
+      template_layouts: presets,
+      template_enabled_sources: sources,
+    } = state.storage;
+    const id = sources[state.translation.source.id][0];
+    return presetInvoker(id, presets)[1] as LayoutPreset;
+  },
 };
 
 const modules: ModuleTree<State> = {
@@ -63,7 +72,6 @@ const store = new Vuex.Store<State>({
 
 store.subscribe((mutation) => {
   if (mutation.type === 'storage/update') {
-    debug.log(state.storage)
     store.dispatch('preference/fetch');
     store.dispatch('translation/fetch');
   }

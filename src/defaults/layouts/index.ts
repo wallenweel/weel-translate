@@ -1,8 +1,8 @@
-import { popup, float } from './translation';
+import { standard, simple } from './translation';
 
 export const layoutPresets = [
-  popup,
-  float,
+  standard,
+  simple,
 ];
 
 export const stringifyLayoutPresets: presetStringJson[] = layoutPresets

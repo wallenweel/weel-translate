@@ -15,7 +15,7 @@
       :disabled="!value || !value.length"
     />
 
-    <translation-result class="-result" :result="result" :layout="layout" />
+    <translation-result class="-result" :result="result" :layout="resultLayout" />
 
     <mdc-dialog v-model="open" scrollable
       title="Select Source"
@@ -28,12 +28,11 @@
 <script lang="ts">
 import Vue from 'vue';
 import { Component, Watch } from 'vue-property-decorator';
-import { namespace } from 'vuex-class';
+import { namespace, Getter } from 'vuex-class';
 
 import TranslationInput from '@/components/TranslationInput.vue';
 import TranslationTools from '@/components/TranslationTools.vue';
 import TranslationResult from '@/components/TranslationResult.vue';
-import { popup as popupLayout } from '@/defaults/layouts/translation';
 import debug from '@/functions/debug';
 
 const __ = namespace('translation');
@@ -46,9 +45,10 @@ const __ = namespace('translation');
   },
 })
 export default class TranslationView extends Vue {
-  private layout: templatePreset = popupLayout;
   private value?: string = '';
   private open?: boolean = false;
+
+  @Getter private resultLayout!: LayoutPreset;
 
   @__.State private flag!: boolean;
   @__.State private text!: string;

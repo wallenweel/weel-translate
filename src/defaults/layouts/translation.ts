@@ -1,8 +1,9 @@
-export const popup: LayoutPreset = {
-  id: 'default_popup',
+export const standard: LayoutPreset = {
+  title: 'Standard Translation Result',
+  description: 'Default enabled in popup and web page.',
+
+  id: 'standard',
   expect: ['phonetic_src', 'phonetic_dest', 'translation', 'explain'],
-  title: 'Default For Popup',
-  description: 'default translation result template in popup page.',
   rows: [
     ['<pick>'],
     ['<voice?src>', '[', '{phonetic_src}', ']'],
@@ -12,11 +13,12 @@ export const popup: LayoutPreset = {
   ],
 };
 
-export const float: LayoutPreset = {
-  id: 'default_float',
+export const simple: LayoutPreset = {
+  title: 'Simple Translation Result',
+  description: 'Shows a few base stuffs as result.',
+
+  id: 'simple',
   expect: ['phonetic_dest', 'translation', 'explain'],
-  title: 'Default For Float',
-  description: 'default translation result template in content page as float panel.',
   rows: [
     ['<voice?dest>', '[', '{phonetic_dest}', ']'],
     ['{translation}'],

@@ -36,5 +36,11 @@ export default {
     translation: '$.sentences[0,-1]{trans}<\n>',
     explain: 'dict.0.pos/: /dict.0.terms<, >',
   },
+  test: {
+    phonetic_src: '.+',
+    phonetic_dest: '.+',
+    translation: '.+',
+    explain: '\\w+\\:\\s.+',
+  },
   fromto: ['auto', 'auto'],
 } as SourcePreset;

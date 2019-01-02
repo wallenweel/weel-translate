@@ -90,12 +90,15 @@ declare interface ConfigKeysReduceFn {
 }
 
 declare interface TranslationResultParseFn {
-  (response: any, parserPreset: SourcePreset['parser'],
-    stringify?: boolean): std<SourcePreset['parser']>;
+  (response: any, preset: SourcePreset, stringify?: boolean): std<translationResult>;
+}
+
+declare interface TemplateExpectCheckFn {
+  (rules: LayoutPreset['expect'], items: { [k: string]: any }): std<boolean>;
 }
 
 declare interface TemplateLayoutParseFn {
-  (result: SourcePreset['parser'], rowsPreset: LayoutPreset['rows']): std<LayoutPreset['rows']>;
+  (result: SourcePreset['parser'], preset: LayoutPreset): std<LayoutPreset['rows']>;
 }
 
 /** /apis/browser */
@@ -281,7 +284,7 @@ declare interface SourcePreset extends Preset {
   // translation request
   // if false, use xhr or fetch by "url" and
   // parser's selectors as Dom selector
-  query?: {
+  query: {
     text: TextQuery;
     audio?: AudioQuery;
   } | false;
@@ -289,9 +292,12 @@ declare interface SourcePreset extends Preset {
   // parse response result
   // must be set in parent preset, optional in children
   // preset which has extends
-  parser?: {
-    [name: string]: selector;
-  };
+  parser: { [name: string]: selector; };
+
+  // test parser's item whether got vaild result or not
+  // use string as RegExp param: '\\w\\W+' 
+  // use custom placeholder repeat default: ['.+', 'Not Existed']
+  test?: { [name: string]: string | [string, string]; };
 
   // support ['auto:>AUTO', 'zh-cn:>zh-CHS', ...]
   // or [['auto', 'AUTO'], ['zh-cn', 'zh-CHS'], ...]
@@ -377,12 +383,18 @@ declare interface LayoutPreset extends Preset {
   id: templateId;
   extends?: templateId;
 
-  // check has or not existed "keys" in result. such as
-  // expect ['phonetic', 'translation'] in result { phonetic: '...', translation: '...' } is true
-  expect: string[],
-
   // layout
   rows: string[][];
+
+  // check has or not existed "keys" in result. such as
+  // expect ['phonetic', 'translation'] in result { phonetic: '...', translation: '...' } is true
+  expect?: string[],
+
+  // replace string while result's item got unexpect things
+  // string: as placeholder if no content
+  // string[]: [regexp string for test, regexp string as replace rule, replaceing string]
+  // undefined: ignore this one
+  replace?: (string | string[] | undefined)[];
 
   title?: string;
   description?: string;

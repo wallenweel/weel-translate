@@ -49,7 +49,7 @@ export default class TranslationResult extends Vue {
 
   private get hasResult(): boolean { return !!Object.values(this.result).length; }
   private get parseResultRows(): templatePreset['rows'] {
-    const [, rows] = templateLayoutParser(this.result, this.layout.rows);
+    const [, rows] = templateLayoutParser(this.result, this.layout);
     debug.log(rows);
     return rows!;
   }

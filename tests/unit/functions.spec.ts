@@ -88,16 +88,19 @@ describe('functions/presetsStringifier', () => {
 describe('function/templateLayoutParser', () => {
   const fn = templateLayoutParser;
   const result = { a: 'r_a', b: 'r_b', c: 'r_c' };
-  const rows = [
-    ['<action>', '{a}', '{b}', '{c}'],
-    ['{b}', '<action>'],
-    ['[ ', '{c}', ' ]'],
-  ];
+  const preset = {
+    expect: ['a', 'c'],
+    rows: [
+      ['<action>', '{a}', '{b}', '{c}'],
+      ['{b}', '<action>'],
+      ['[ ', '{c}', ' ]'],
+    ],
+  } as LayoutPreset;
 
   it(`parse layout's preset in result`, () =>
-    expect(fn(result, rows)[1]![0][1]).toBe(result.a));
+    expect(fn(result, preset)[1]![0][1]).toBe(result.a));
   it(`return original content if does not parse`, () =>
-    expect(fn(result, rows)[1]![0][0]).toBe('<action>'));
+    expect(fn(result, preset)[1]![0][0]).toBe('<action>'));
 });
 
 describe('functions/stringParamsParaser', () => {
@@ -162,10 +165,20 @@ describe('functions/parserPathReducer', () => {
 describe('functions/translationResultParser', () => {
   const fn = translationResultParser;
   const p = {
-    title: 'a.b.c',
-    message: '$.c<>',
-    content: 'a.b.c /: "/ $.c<> /" (/ b.1<_> /) "/ b.-0.g/"~/',
-  };
+    parser: {
+      title: 'a.b.c',
+      message: '$.c<>',
+      content: 'a.b.c /: "/ $.c<> /" (/ b.1<_> /) "/ b.-0.g/"~/',
+      holder: '$.a.d',
+      extra: '$.a.d',
+    },
+    test: {
+      message: '\\w+',
+      content: ['.+\\:\\s.+', 'correct'],
+      holder: '\\w+',
+      extra: ['\\w+', 'incorrect'],
+    },
+  } as any;
   const r = {
     a: { b: { c: 'Test' } },
     b: [{}, { d: 't', e: 'h', f: 'e' }, { g: 'world' }],
@@ -179,6 +192,8 @@ describe('functions/translationResultParser', () => {
   });
   it(`could use pettern format string`, () =>
     expect(result.content).toBe('Test: "hello" (t_h_e) "world"~'));
+  it(`default playceholder`, () => expect(result.holder).toBe('__unfound__'));
+  it(`custom playceholder`, () => expect(result.extra).toBe('incorrect'));
 });
 
 describe('functions/presetLanguagesModifier', () => {

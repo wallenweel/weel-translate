@@ -314,31 +314,47 @@ parserPathReducer = (path, response, stringify = false) => {
 };
 
 export let translationResultParser: TranslationResultParseFn;
-translationResultParser = (response, parserPreset, stringify = true) => {
-  const entries = Object.entries(parserPreset!);
+translationResultParser = (response, { parser, test = {} }, stringify = true) => {
+  const result: translationResult = {};
 
-  const result: { [n: string]: any } = {};
+  for (const [name, selector] of Object.entries(parser)) {
+    const [error, r = ''] = parserPathReducer((selector as string), response, stringify);
 
-  for (const [name, selector] of entries) {
-    const reducer = parserPathReducer((selector as string), response, stringify);
-    result[name] = reducer[1];
+    if (error !== null) { return [error]; }
+
+    result[name] = r;
+
+    const rule = test[name];
+
+    try {
+      if (istype(rule, 'string')) {
+        if (!new RegExp(rule as string).test(r as string)) {
+          result[name] = '__unfound__';
+        }
+      } else if (istype(rule, 'array')) {
+        const [reg, placeholder] = rule;
+        if (!new RegExp(reg as string).test(r as string)) {
+          result[name] = placeholder || '__unfound__';
+        }
+      }
+    } catch (error) {
+      return [error.message, result];
+    }
   }
 
   return [null, result];
 };
 
 export let templateLayoutParser: TemplateLayoutParseFn;
-templateLayoutParser = (result, preset) => {
-  const rows = [...preset];
+templateLayoutParser = (result, { rows }) => {
+  const out: LayoutPreset['rows'] = [];
 
   for (let i = 0; i < rows.length; i++) {
-    const row = rows[i];
-
-    rows[i] = row.map((e: string) =>
+    out[i] = rows[i].map((e: string) =>
       e.replace(/{(.+)}/, (_, $1) => result![$1] as string || ''));
   }
 
-  return [null, rows];
+  return [null, out];
 };
 
 export let configKeysReducer: ConfigKeysReduceFn;

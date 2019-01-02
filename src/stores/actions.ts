@@ -30,7 +30,7 @@ export const webTranslationQuery: A = ({ state, dispatch }, params) => {
     }),
   }).then(([_, { data }]) => {
     debug.log(data);
-    const [error, result] = resultParser(data, preset.parser);
+    const [error, result] = resultParser(data, preset);
     dispatch('done', result);
     dispatch('notify', null);
   }).catch(([error]) => {

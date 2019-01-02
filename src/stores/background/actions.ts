@@ -76,7 +76,7 @@ export const ipcActions: ActionTree<State, State> = {
         cancelRequest = cancel;
       }),
     }).then(([_, { data }]) => {
-      const [error, result] = translationResultParser(data, preset.parser);
+      const [error, result] = translationResultParser(data, preset);
       return [error, result];
     }).catch(([error]) => {
       return [error];

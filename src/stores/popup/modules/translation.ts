@@ -34,6 +34,7 @@ const state: State = {
 };
 
 const mutations = Object.assign({
+  flag: (state) => { state.flag = !state.flag; },
 } as MutationTree<State>, { update, clear });
 
 const webActions: ActionTree<State, RootState> = {
@@ -96,12 +97,14 @@ const actions = Object.assign({
     dispatch('merge', { source });
   },
 
-  translate: ({ state, dispatch }) => {
+  translate: ({ state, commit, dispatch }) => {
     const { text: q, source: { fromto: [from, to] } } = state;
 
     if (!q.trim().length) {
       return dispatch('notify', i18n.t('blank_input_msg'));
     }
+
+    commit('flag');
 
     return dispatch('query', { q, from, to });
   },
@@ -134,8 +137,9 @@ const actions = Object.assign({
     dispatch('merge', changes);
   },
 
-  done: ({ state, commit }, result) => {
-    commit('update', { result, flag: !state.flag });
+  done: ({ commit }, result) => {
+    commit('flag');
+    commit('update', { result });
   },
 
   notify: ({ dispatch }, message: string) => {

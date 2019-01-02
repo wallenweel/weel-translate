@@ -13,7 +13,7 @@
             </pick-action-button>
 
             <span class="_span" :key="`s_${i}`" v-else
-              :wlt-tag="layout.rows[n][i]">{{ value }}</span>
+              :wlt-tag="layout.rows[n][i]">{{ value === '__unfound__' ? $t(value) : value }}</span>
           </template>
         </div>
       </mdc-card>

@@ -56,10 +56,10 @@ export default class TranslationTools extends Vue {
 
   private handleQuery() {
     this.$emit('query');
+  }
 
-    if (!this.value.trim()) { return; }
-
-    this.progress = .05;
+  private startProgress(start?: number) {
+    this.progress = start || .05;
     this.interval = setInterval(() => {
       if (this.progress >= .8) { return clearInterval(this.interval); }
       this.progress += parseFloat('0.0' + new Date().getTime().toString().slice(-1));
@@ -72,6 +72,9 @@ export default class TranslationTools extends Vue {
 
   @Watch('flag')
   private onDone(val: boolean) {
+    if (this.progress === 1) {
+      return this.startProgress();
+    }
     clearInterval(this.interval);
     this.progress = 1;
   }

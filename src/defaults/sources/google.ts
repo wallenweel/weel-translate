@@ -40,7 +40,7 @@ export default {
     phonetic_src: '.+',
     phonetic_dest: '.+',
     translation: '.+',
-    explain: '\\w+\\:\\s.+',
+    explain: '.+\\:\\s.+',
   },
   fromto: ['auto', 'auto'],
 } as SourcePreset;

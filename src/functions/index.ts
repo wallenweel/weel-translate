@@ -331,6 +331,7 @@ translationResultParser = (response, { parser, test = {} }, stringify = true) =>
         if (!new RegExp(rule as string).test(r as string)) {
           result[name] = '__unfound__';
         }
+        debug.log(name, r, rule)
       } else if (istype(rule, 'array')) {
         const [reg, placeholder] = rule;
         if (!new RegExp(reg as string).test(r as string)) {

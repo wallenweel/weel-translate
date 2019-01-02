@@ -6,14 +6,13 @@ import store from '../';
 
 import { update, clear } from '@/stores/mutations';
 import {
+  translationResultParser as resultParser,
   presetInvoker,
   presetLanguagesFilter,
   presetLanguagesModifier,
 } from '@/functions';
+import { webQuery as query } from '@/stores/actions';
 import debug from '@/functions/debug';
-import {
-  webTranslationQuery as queryTranslation,
-} from '@/stores/actions';
 
 const namespaced: boolean = true;
 
@@ -25,6 +24,7 @@ const state: State = {
   result: {},
   timeout: 1000,
   flag: false,
+  preset: null,
 
   sources: [],
   source: { id: 'nil', name: 'Nil', fromto: ['nil', 'nil'] },
@@ -38,7 +38,7 @@ const mutations = Object.assign({
 } as MutationTree<State>, { update, clear });
 
 const webActions: ActionTree<State, RootState> = {
-  query: queryTranslation as Action<State, RootState>,
+  query,
 };
 
 const ipcActions: ActionTree<State, RootState> = {
@@ -58,8 +58,11 @@ const ipcActions: ActionTree<State, RootState> = {
 };
 
 const actions = Object.assign({
-  init: ({ state, dispatch }) => {
+  init: ({ state, commit, dispatch }) => {
     store.watch(() => state.source.id, () => {
+      const preset = presetInvoker(state.source.id, state.sources)[1] as SourcePreset;
+      commit('update', { preset });
+
       dispatch('languages');
     });
   },
@@ -106,7 +109,19 @@ const actions = Object.assign({
 
     commit('flag');
 
-    return dispatch('query', { q, from, to });
+    return dispatch('query', ['text', { q, from, to }]);
+  },
+
+  text: ({ commit }, text) => { commit('update', { text }); },
+
+  voice: ({ state, dispatch }, [src, dest]) => {
+    const { text, source: { fromto: [f, t] }, result } = state;
+    let [q, from]: [string, Language['code']] = ['', ''];
+
+    if (!!src) { [q, from] = [text, f]; }
+    if (!!dest) { [q, from] = [dest || result.translation, t]; }
+
+    dispatch('query', ['audio', { q, from }]);
   },
 
   languages: async ({ state, commit }) => {
@@ -130,16 +145,25 @@ const actions = Object.assign({
     return languages;
   },
 
-  text: ({ commit }, text) => { commit('update', { text }); },
-
   fromto: ({ state, dispatch }, fromto) => {
     const changes = { source: { ...state.source, fromto } };
     dispatch('merge', changes);
   },
 
-  done: ({ commit }, result) => {
+  done: ({ state, commit, dispatch }, { type, data, error }) => {
     commit('flag');
-    commit('update', { result });
+
+    if (type === 'text') {
+      const [error, result] = resultParser(data, state.preset!);
+      if (error !== null) { return dispatch('notify', error); }
+
+      commit('update', { result });
+      return dispatch('notify', null);
+    }
+    if (type === 'audio') {
+      return dispatch('notify', null);
+    }
+    dispatch('notify', error);
   },
 
   notify: ({ dispatch }, message: string) => {
@@ -166,6 +190,7 @@ interface State {
   result: { [name: string]: any };
   timeout?: number;
   flag: boolean;
+  preset: null | SourcePreset;
 
   sources: presetStringJson[];
   source: SourcePresetItem;

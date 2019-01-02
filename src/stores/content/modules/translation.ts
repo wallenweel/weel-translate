@@ -7,9 +7,7 @@ import store from '../';
 import { update, clear } from '@/stores/mutations';
 import debug from '@/functions/debug';
 
-import {
-  webTranslationQuery as translationQuery,
-} from '@/stores/actions';
+import { webQuery as query } from '@/stores/actions';
 
 const namespaced: boolean = true;
 
@@ -33,7 +31,7 @@ const mutations = Object.assign({
 } as MutationTree<State>, { update, clear });
 
 const webActions: ActionTree<State, RootState> = {
-  query: translationQuery as Action<State, RootState>,
+  query,
 };
 
 const ipcActions: ActionTree<State, RootState> = {

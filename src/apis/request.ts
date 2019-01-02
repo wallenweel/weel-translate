@@ -2,6 +2,8 @@ import axios, { AxiosRequestConfig, CancelTokenSource } from 'axios';
 import { presetParamsParser, paramsParaser } from '@/functions';
 import debug from '@/functions/debug';
 
+export const audio: HTMLAudioElement = new Audio();
+
 export const source = axios.CancelToken.source();
 
 export const request: ApiRequest = (preset, type = 'text') => {
@@ -50,6 +52,22 @@ export const request: ApiRequest = (preset, type = 'text') => {
         }
       } else {
         config.url = paramsParaser(config.url, requestParams)[1];
+      }
+
+      if (type === 'audio') {
+        const src: string = `${config.url!}?${config.params.toString()}`;
+
+        return new Promise((resolve, reject) => {
+          if (audio.played.length) { audio.pause(); }
+          // TODO: may add a few tune preferences
+          // audio.addEventListener('play', () => {
+            //   // audio.volume = .2;
+            // }, false);
+          audio.src = src;
+          return audio.play()
+            .then((response) => resolve([null, response]))
+            .catch((error) => reject([new Error(error)]));
+        });
       }
     } else { // for web crawl
       // TODO: not complete

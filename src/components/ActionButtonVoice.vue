@@ -1,7 +1,7 @@
 <template>
   <mdc-button class="translation-action-voice"
     :disabled="isDisabled"
-    @click="toggle = !toggle"
+    @click="handleVoice"
   >
     <icon-volume-off v-if="isDisabled"/>
     <icon-volume-down v-if="!isDisabled && !toggle" />
@@ -14,6 +14,7 @@ import { Component, Prop, Vue } from 'vue-property-decorator';
 import IconVolumeOff from '@/components/icons/VolumeOff.vue';
 import IconVolumeDown from '@/components/icons/VolumeDown.vue';
 import IconVolumeUp from '@/components/icons/VolumeUp.vue';
+import debug from '@/functions/debug';
 
 @Component({
   components: {
@@ -24,9 +25,15 @@ import IconVolumeUp from '@/components/icons/VolumeUp.vue';
 })
 export default class VoiceActionButton extends Vue {
   @Prop(Boolean) private disabled?: boolean;
+  @Prop(Object) private params?: null | { [k: string]: any };
 
   private toggle = false;
   private get isDisabled() { return this.disabled || false; }
+
+  private handleVoice() {
+    const { src, dest } = this.params || {} as any;
+    this.$store.dispatch('translation/voice', [src, dest]);
+  }
 }
 </script>
 

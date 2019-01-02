@@ -21,7 +21,7 @@ export default {
     },
     audio: {
       method: 'get',
-      url: '{url}/translate_a/translate_tts',
+      url: '{url}/translate_tts',
       params: {
         q: '{q}',
         tl: '{from}',

@@ -7,7 +7,7 @@ export const standard: LayoutPreset = {
   rows: [
     ['<pick>'],
     ['<voice?src>', '[', '{phonetic_src}', ']'],
-    ['<voice?dest>', '[', '{phonetic_dest}', ']'],
+    ['<voice?dest={translation}>', '[', '{phonetic_dest}', ']'],
     ['{translation}'],
     ['{explain}'],
   ],

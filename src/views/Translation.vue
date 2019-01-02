@@ -60,7 +60,7 @@ export default class TranslationView extends Vue {
   @__.Getter private fromto!: Array<Language['code']>;
   @__.Getter private hasResult!: boolean;
 
-  @__.Action('text') private updateText: any;
+  @__.Mutation('text') private updateText: any;
   @__.Action('fromto') private updateFromto: any;
   @__.Action('translate') private doTranslate: any;
 

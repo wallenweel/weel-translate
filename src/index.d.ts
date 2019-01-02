@@ -335,10 +335,14 @@ declare interface TextQuery {
   method: 'get' | 'post' | string;
   url: string;
   params?: queryParams;
+  unsupport?: Language['code'][];
 }
 
 declare interface AudioQuery extends TextQuery {
-  tune?: any;
+  // Feature: not implement
+  tune?: {
+    volume: number; // float number, minimum: 0 ~ maximum: 1
+  };
 }
 
 // object index such as "a.b.c" or Dom selecotr

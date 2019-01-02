@@ -20,6 +20,7 @@ export default {
       },
     },
     audio: {
+      unsupport: ['auto'],
       method: 'get',
       url: '{url}/translate_tts',
       params: {

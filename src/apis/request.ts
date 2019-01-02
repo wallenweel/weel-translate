@@ -57,16 +57,18 @@ export const request: ApiRequest = (preset, type = 'text') => {
       if (type === 'audio') {
         const src: string = `${config.url!}?${config.params.toString()}`;
 
-        return new Promise((resolve, reject) => {
-          if (audio.played.length) { audio.pause(); }
+        return new Promise(async (resolve, reject) => {
           // TODO: may add a few tune preferences
           // audio.addEventListener('play', () => {
-            //   // audio.volume = .2;
-            // }, false);
+          //   // audio.volume = .2;
+          // }, false);
           audio.src = src;
-          return audio.play()
-            .then((response) => resolve([null, response]))
-            .catch((error) => reject([new Error(error)]));
+          try {
+            const response = await audio.play();
+            return resolve([null, response]);
+          } catch (error) {
+            return reject([new Error(error)]);
+          }
         });
       }
     } else { // for web crawl
@@ -82,9 +84,14 @@ export const request: ApiRequest = (preset, type = 'text') => {
       }
     }
 
-    return new Promise((resolve, reject) => axios(config)
-      .then((response: any) => resolve([null, response]))
-      .catch((error: any) => reject([new Error(error)])));
+    return new Promise(async (resolve, reject) => {
+      try {
+        const response = await axios(config);
+        return resolve([null, response]);
+      } catch (error) {
+        return reject([new Error(error)]);
+      }
+    });
   };
 };
 

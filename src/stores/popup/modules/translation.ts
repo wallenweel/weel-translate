@@ -35,6 +35,7 @@ const state: State = {
 
 const mutations = Object.assign({
   flag: (state) => { state.flag = !state.flag; },
+  text: (state, text) => { state.text = text; },
 } as MutationTree<State>, { update, clear });
 
 const webActions: ActionTree<State, RootState> = {
@@ -109,10 +110,12 @@ const actions = Object.assign({
 
     commit('flag');
 
-    return dispatch('query', ['text', { q, from, to }]);
+    dispatch('text', { q, from, to });
   },
 
-  text: ({ commit }, text) => { commit('update', { text }); },
+  text: ({ commit, dispatch }, { q, from, to }) => {
+    dispatch('query', ['text', { q, from, to }]);
+  },
 
   voice: ({ state, dispatch }, [src, dest]) => {
     const { text, source: { fromto: [f, t] }, result } = state;
@@ -151,18 +154,20 @@ const actions = Object.assign({
   },
 
   done: ({ state, commit, dispatch }, { type, data, error }) => {
-    commit('flag');
-
     if (type === 'text') {
+      commit('flag');
+
       const [error, result] = resultParser(data, state.preset!);
       if (error !== null) { return dispatch('notify', error); }
 
       commit('update', { result });
       return dispatch('notify', null);
     }
+
     if (type === 'audio') {
       return dispatch('notify', null);
     }
+
     dispatch('notify', error);
   },
 

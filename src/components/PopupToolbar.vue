@@ -32,7 +32,7 @@
         >{{ $t('reset') }}</mdc-button>
         <!-- Clear -->
         <mdc-button class="-spec -reset" @click="handleListClear(name)"
-          dense v-if="name === 'picked' || name === 'history'"
+          dense v-if="name === 'picked' || name === 'recent'"
         >{{ $t('clear') }}</mdc-button>
       </mdc-toolbar-section>
     </mdc-toolbar-row>
@@ -86,7 +86,7 @@ export default class PopupToolbar extends Vue {
     this.resetPreference();
   }
 
-  private handleListClear(type: 'picked' | 'history') {
+  private handleListClear(type: 'picked' | 'recent') {
     this.clearList(type);
   }
 

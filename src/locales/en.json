@@ -6,13 +6,14 @@
   },
   "__tip": {
     "preference_top": "If changes got anything wrong, please click \"{0}\" button to restore.",
-    "picked_top": "Picked items may occupy more storage space, increase reasonably."
+    "picked_top": "Picked items may occupy more storage space, increase reasonably.",
+    "recent_top": "Max saved histories: {0}. could change the number in \"Preference\"."
   },
 
   "translate": "Translate",
   "settings": "Settings",
   "picked": "Picked",
-  "history": "History",
+  "recent": "Recent",
 
   "preference": "Preference",
   "reset": "Reset",

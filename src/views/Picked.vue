@@ -6,14 +6,14 @@
 
     <mdc-drawer-list class="-list">
       <transition-group name="list">
-      <mdc-drawer-item class="-item" v-for="(item, i) in items" :key="`${item.id}`"
+      <mdc-drawer-item class="-item" v-for="item in items" :key="`${item.id}`"
         :to="{ name: 'translate', params: { text: item.text, source: item.source } }"
       >
         <div>
           <span class="-title">{{ item.title }}</span>
           <span class="-text">({{ item.text }})</span>
           <span class="-source">
-            <span>{{ item.source.fromto[0] }}</span>><span>{{ item.source.fromto[1] }}</span>
+            <span>{{ item.source.fromto.join(' > ') }}</span>
             <span> ({{ item.source.name }})</span>
           </span>
           <span class="-excerpt">{{ item.excerpt }}</span><br />

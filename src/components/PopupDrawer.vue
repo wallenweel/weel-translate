@@ -56,7 +56,7 @@ export default class PopupDrawer extends Vue {
   private items: ListItems = [
     { icon: 'translate', locale: 'translate', to: '/translate' },
     { icon: 'favorite', locale: 'picked', to: '/picked' },
-    { icon: 'history', locale: 'history', to: '/history' },
+    { icon: 'history', locale: 'recent', to: '/recent' },
     { icon: 'settings', locale: 'preference', to: '/preference' },
     { icon: 'style', locale: 'presets', to: '/presets' },
   ];

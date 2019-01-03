@@ -2,7 +2,7 @@
   "translate": "翻訳",
   "settings": "設定",
   "picked": "Picked",
-  "history": "History",
+  "recent": "Recent",
 
   "preference": "Preference",
   "preference_top_tip": "If changes got anything wrong, please click \"{0}\" button to restore.",

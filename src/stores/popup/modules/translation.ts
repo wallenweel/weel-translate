@@ -33,7 +33,34 @@ const state: State = {
   source: { id: 'nil', name: 'Nil', fromto: ['nil', 'nil'] },
   enabledSources: [],
   recent: [],
+  recentNumbers: 0,
   picked: [],
+};
+
+const serialize = (values: DefaultConfig) => {
+  const {
+    request_timeout: timeout,
+    translation_sources: sources,
+    translation_current_source: source,
+    translation_enabled_sources: enabledSources,
+    translation_recent: recent,
+    translation_recent_numbers: recentNumbers,
+    translation_picked: picked,
+  } = values;
+
+  return { timeout, source, sources, enabledSources, recent, recentNumbers, picked };
+};
+const unserialize = (values: State) => {
+  const {
+    // tslint:disable:variable-name
+    source: translation_current_source,
+    recentNumbers: translation_recent_numbers,
+    recent: translation_recent,
+    picked: translation_picked,
+    // tslint:enable:variable-name
+  } = values;
+
+  return { translation_current_source, translation_recent, translation_recent_numbers, translation_picked };
 };
 
 const mutations = Object.assign({
@@ -75,30 +102,11 @@ const actions = Object.assign({
   },
 
   fetch: ({ commit, rootState }) => {
-    const {
-      request_timeout: timeout,
-      translation_sources: sources,
-      translation_current_source: source,
-      translation_enabled_sources: enabledSources,
-      translation_recent: recent,
-      translation_picked: picked,
-    } = rootState.storage;
-
-    commit('update', { timeout, source, sources, enabledSources, recent, picked });
+    commit('update', serialize(rootState.storage));
   },
 
-  merge: ({ dispatch }, changes) => {
-    const {
-      // tslint:disable:variable-name
-      source: translation_current_source,
-      recent: translation_recent,
-      picked: translation_picked,
-      // tslint:enable:variable-name
-    } = changes;
-
-    const config = { translation_current_source, translation_recent, translation_picked };
-
-    dispatch('storage/merge', config, { root: true });
+  merge: async ({ dispatch }, changes) => {
+    await dispatch('storage/merge', unserialize(changes), { root: true });
   },
 
   source: ({ state, dispatch }, id) => {
@@ -169,9 +177,32 @@ const actions = Object.assign({
     dispatch('merge', { picked });
   },
 
+  record: ({ state, dispatch }) => {
+    const { text, source, recent, recentNumbers } = state;
+    const id = md5(`${text + source.fromto.join('')}`);
+    const item: translationListItem[] = [{ id, text, source }];
+    let items: translationListItem[] = [...recent];
+    if (!!recent.filter((r) => r.id === id)[0]) {
+      items = items.reduce((p: any[], c) => {
+        if (!!c) {
+          if ((istype(id, 'string') && id === c.id) ||
+            (istype(id, 'array') && id.includes(c.id))) { return p; }
+        }
+        p.push(c);
+        return p;
+      }, []);
+    }
+    if (items.length >= recentNumbers) {
+      items = items.slice(0, recentNumbers);
+    }
+
+    dispatch('merge', { recent: item.concat(items) });
+  },
+
   languages: async ({ state, commit }) => {
-    const { source, sources } = state;
-    const [_, preset] = presetInvoker(source.id, sources) as [null, SourcePreset];
+    const { preset } = state;
+
+    if (!preset) { return; }
 
     let languages: Language[];
 
@@ -186,8 +217,6 @@ const actions = Object.assign({
     languages = presetLanguagesModifier(languages, preset.modify)[1] as Language[];
 
     commit('update', { languages });
-
-    return languages;
   },
 
   fromto: ({ state, dispatch }, fromto) => {
@@ -201,6 +230,10 @@ const actions = Object.assign({
       const ids = (state.picked as translationListItem[]).map((p) => p.id);
       dispatch('unpick', ids);
     }
+    if (type === 'recent') {
+      // const ids = (state.recent as translationListItem[]).map((p) => p.id);
+      dispatch('merge', { recent: [] });
+    }
   },
 
   done: ({ state, commit, dispatch }, { type, data, error }) => {
@@ -210,6 +243,8 @@ const actions = Object.assign({
       const [, result] = resultParser(data, state.preset!);
 
       commit('update', { result });
+
+      dispatch('record');
       dispatch('notify', null);
 
       if (!!error) {
@@ -261,6 +296,7 @@ interface State {
   source: SourcePresetItem;
   enabledSources: SourcePresetItem[];
   recent: translationListItem[] | [];
+  recentNumbers: number;
   picked: translationListItem[] | [];
 
   [key: string]: any;

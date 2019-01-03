@@ -24,10 +24,10 @@ const routes: RouteConfig[] = [
     meta: { locale: 'picked' },
   },
   {
-    path: '/history',
-    name: 'history',
-    component: () => import(/** webpackChunkName "history-view" */ '@/views/History.vue'),
-    meta: { locale: 'history' },
+    path: '/recent',
+    name: 'recent',
+    component: () => import(/** webpackChunkName "recent-view" */ '@/views/Recent.vue'),
+    meta: { locale: 'recent' },
   },
   {
     path: '/preference',

@@ -247,6 +247,7 @@ declare type translationListItem = {
 
 declare interface TranslationConfig {
   translation_recent: translationListItem[] | [];
+  translation_recent_numbers: number;
   translation_picked: translationListItem[] | [];
   translation_current_source: SourcePresetItem;
   translation_enabled_sources: SourcePresetItem[] | [];
@@ -264,7 +265,6 @@ declare type SourcePresetItem = {
   id: SourcePreset['id'];
   name: SourcePreset['name'];
   fromto: SourcePreset['fromto'];
-  modify?: SourcePreset['modify'];
 };
 
 declare type sourceId = presetId;

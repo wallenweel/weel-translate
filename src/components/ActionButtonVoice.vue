@@ -1,6 +1,6 @@
 <template>
   <mdc-button class="translation-action-voice"
-    :disabled="toggle"
+    :disabled="isDisabled"
     @click="handleVoice"
   >
     <icon-volume-off v-if="isDisabled"/>
@@ -29,7 +29,23 @@ export default class VoiceActionButton extends Vue {
   @Prop(Object) private params?: null | { [k: string]: any };
 
   private toggle: boolean = false;
-  private get isDisabled() { return this.disabled || false; }
+
+  private get unsupport(): Language['code'][] {
+    const { audio } = this.$store.state.translation.preset.query || {} as SourcePreset['query'];
+    if (!audio) { return []; }
+    return audio.unsupport || [];
+  };
+  private get fromto(): Language['code'][] {
+    return this.$store.state.translation.source.fromto || [];
+  }
+  private get isDisabled() {
+    let disabled: boolean = false;
+    const { src, dest } = this.params || {} as any;
+    const [from, to] = this.fromto;
+    if (!!src) { disabled = this.unsupport.includes(from); }
+    if (!!dest) { disabled = this.unsupport.includes(to); }
+    return this.disabled || disabled;
+  }
 
   private handleVoice() {
     const { src, dest } = this.params || {} as any;

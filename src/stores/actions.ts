@@ -15,7 +15,7 @@ let cancelTranslate: Canceler | null;
 export const webQuery: A = ({ state, dispatch }, [type = 'text', params]) => {
   if (istype(cancelTranslate, 'function')) {
     (cancelTranslate as Canceler)();
-    return dispatch('notify', `Don't repeat request.`);
+    dispatch('notify', `Please wait a moment.`);
   }
 
   const { timeout, preset } = state;

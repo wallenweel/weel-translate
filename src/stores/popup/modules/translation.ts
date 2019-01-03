@@ -184,7 +184,14 @@ const actions = Object.assign({
       commit('update', { result });
       dispatch('notify', null);
 
-      if (!!error) { dispatch('notify', i18n.t('__failed__.translation')); }
+      if (!!error) {
+        let message: string = error;
+
+        if (/cancel/i.test(message)) { message = i18n.t('request_cancel_msg') as string; }
+        if (/timeout/i.test(message)) { message = i18n.t('request_timeout_msg') as string; }
+
+        dispatch('notify', message || i18n.t('__failed__.translation'));
+      }
     }
 
     if (type === 'audio') {

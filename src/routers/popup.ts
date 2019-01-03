@@ -8,11 +8,11 @@ import TranslationView from '@/views/Translation.vue';
 const routes: RouteConfig[] = [
   {
     path: '/',
-    redirect: '/translation',
+    redirect: '/translate',
   },
   {
-    path: '/translation',
-    name: 'translation',
+    path: '/translate',
+    name: 'translate',
     // component: () => import(/** webpackChunkName "translation-view" */ '@/views/Translation.vue'),
     component: TranslationView as VueConstructor,
     meta: { locale: 'translate' },

@@ -62,12 +62,16 @@ export const request: ApiRequest = (preset, type = 'text') => {
           // audio.addEventListener('play', () => {
           //   // audio.volume = .2;
           // }, false);
-          audio.src = src;
           try {
+            audio.src = src;
+            const ended = () => {
+              resolve([null, response]);
+              audio.removeEventListener('ended', ended, false);
+            };
+            audio.addEventListener('ended', ended, false);
             const response = await audio.play();
-            return resolve([null, response]);
           } catch (error) {
-            return reject([new Error(error)]);
+            reject([new Error(error)]);
           }
         });
       }

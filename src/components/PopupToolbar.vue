@@ -11,10 +11,10 @@
 
         <!-- Source -->
         <mdc-button class="-spec -source" dense
-          v-if="title.toLowerCase() === 'translate'"
+          v-if="name === 'translate'"
           @click="sourceMenu = true"
         >{{ source.name }}</mdc-button>
-        <mdc-menu-anchor v-if="title.toLowerCase() === 'translate'">
+        <mdc-menu-anchor v-if="name === 'translate'">
           <mdc-menu v-model="sourceMenu" @select="handleSourceSelect">
             <mdc-menu-item disabled>{{ source.name }}</mdc-menu-item>
             <mdc-menu-divider />
@@ -28,7 +28,7 @@
 
         <!-- Reset -->
         <mdc-button class="-spec -reset" @click="handlePreferenceReset"
-          dense v-if="title.toLowerCase() === 'preference'"
+          dense v-if="name === 'preference'"
         >{{ $t('reset') }}</mdc-button>
       </mdc-toolbar-section>
     </mdc-toolbar-row>
@@ -59,15 +59,17 @@ export default class PopupToolbar extends Vue {
   @__.Action('source') private changeSource!: ActionMethod;
 
   private title: string = '';
+  private name?: string;
   private sourceMenu: boolean = false;
 
   @Prop(Boolean)
   private raised?: boolean;
 
   private created() {
-    const { title, locale } = this.$route.meta;
+    const { name, meta: { title, locale } } = this.$route;
 
-    this.title = title || locale;
+    this.name = name;
+    this.title = locale || title;
   }
 
   private handleSourceSelect(target: any) {
@@ -95,9 +97,10 @@ export default class PopupToolbar extends Vue {
     }
   }
 
-  @Watch('$route.meta')
-  private onViewChanged({ title, locale }: any) {
-    this.title = title || locale;
+  @Watch('$route')
+  private onViewChanged({ name, meta: { title, locale } }: any) {
+    this.name = name;
+    this.title = locale || title;
   }
 }
 </script>

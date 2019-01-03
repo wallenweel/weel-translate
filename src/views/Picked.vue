@@ -19,7 +19,7 @@
           <span class="-excerpt">{{ item.excerpt }}</span><br />
         </div>
 
-        <mdc-button class="-remove" @click.stop.prevent="handleRemove(i, items)">
+        <mdc-button class="-remove" @click.stop.prevent="handleRemove(item.id)">
           <icon-delete/>
         </mdc-button>
       </mdc-drawer-item>
@@ -53,9 +53,9 @@ export default class PickedView extends Vue {
   @__.Action('unpick') private remove!: ActionMethod;
   @__.Action('translate') private restoreTranslation!: ActionMethod;
 
-  private handleRemove(index: number) {
+  private handleRemove(id: string) {
     this.$nextTick(() => {
-      this.remove(index);
+      this.remove(id);
     });
   }
 

@@ -46,7 +46,7 @@
   "presets": "模板预设",
 
   "input_hint_text": "热键 {hotkey} 开始翻译",
-  "clear": "清除",
+  "clear": "清空",
   "paste": "粘贴",
 
   "request_cancel_msg": "请求已取消",

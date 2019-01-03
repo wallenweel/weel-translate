@@ -19,6 +19,8 @@ import IconFavorite from '@/components/icons/Favorite.vue';
 export default class PickActionButton extends Vue {
   @Prop(Object) private params?: null | { [k: string]: any };
 
+  private id?: string;
+
   private get text(): string {
     return this.$store.state.translation.text;
   }
@@ -28,14 +30,14 @@ export default class PickActionButton extends Vue {
   private get pickedItems(): translationListItem[] {
     return this.$store.state.translation.picked;
   }
-  private get picked(): [translationListItem, number] {
-    let [p, n] = [, NaN];
-    this.pickedItems.filter((item, index) => {
+  private get picked(): [string, number] {
+    let [id, index] = ['', NaN];
+    this.pickedItems.filter((item, i) => {
       if (!!this.params && item.id === md5(`${this.text + this.params.title + this.fromto.join('')}`)) {
-        [p, n] = [item as any, index];
+        [id, index] = [item.id, i];
       }
     });
-    return [p!, n];
+    return [id, index];
   }
   private get hasPicked(): boolean { return !!this.picked[0]; }
 
@@ -43,7 +45,7 @@ export default class PickActionButton extends Vue {
     if (!this.hasPicked) {
       this.$store.dispatch('translation/pick', this.params);
     } else {
-      this.$store.dispatch('translation/unpick', this.picked[1]);
+      this.$store.dispatch('translation/unpick', this.picked[0]);
     }
   }
 }

@@ -154,10 +154,19 @@ const actions = Object.assign({
 
     dispatch('merge', { picked: item.concat(picked) });
   },
-  unpick: ({ state, dispatch }, id) => {
-    const { picked } = state;
-    delete picked[id];
-    dispatch('merge', { picked: picked.filter((p) => !!p) });
+  unpick: ({ state, dispatch }, id: string | string[]) => {
+    const picked = (state.picked as translationListItem[]).reduce((p: any[], c) => {
+      if (!!c) {
+        if ((istype(id, 'string') && id === c.id) ||
+          (istype(id, 'array') && id.includes(c.id))) { return p; }
+      }
+      p.push(c);
+      return p;
+    }, []);
+
+    if (picked.length === state.picked.length) { return; }
+
+    dispatch('merge', { picked });
   },
 
   languages: async ({ state, commit }) => {
@@ -184,6 +193,14 @@ const actions = Object.assign({
   fromto: ({ state, dispatch }, fromto) => {
     const changes = { source: { ...state.source, fromto } };
     dispatch('merge', changes);
+  },
+
+  clear: ({ state, dispatch }, type) => {
+    if (!type) { return; }
+    if (type === 'picked') {
+      const ids = (state.picked as translationListItem[]).map((p) => p.id);
+      dispatch('unpick', ids);
+    }
   },
 
   done: ({ state, commit, dispatch }, { type, data, error }) => {

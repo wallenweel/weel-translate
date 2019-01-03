@@ -18,13 +18,16 @@ import IconFavorite from '@/components/icons/Favorite.vue';
 export default class PickActionButton extends Vue {
   @Prop(Object) private params?: null | { [k: string]: any };
 
+  private get text(): string {
+    return this.$store.state.translation.text;
+  }
   private get pickedItems(): translationListItem[] {
     return this.$store.state.translation.picked;
   }
   private get picked(): [translationListItem, number] {
     let [p, n] = [, NaN];
     this.pickedItems.filter((item, index) => {
-      if (item.title === (this.params || {}).title) {
+      if (item.text === this.text) {
         [p, n] = [item as any, index];
       }
     });

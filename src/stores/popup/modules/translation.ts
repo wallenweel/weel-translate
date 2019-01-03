@@ -106,7 +106,7 @@ const actions = Object.assign({
     dispatch('merge', { source });
   },
 
-  translate: ({ state, commit, dispatch }, custom?: { text: string, source: SourcePresetItem }) => {
+  translate: ({ state, dispatch }, custom?: { text: string, source: SourcePresetItem }) => {
     const { text: q, source: { fromto: [from, to] } } = custom || state;
 
     if (!q.trim().length) {

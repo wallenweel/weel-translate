@@ -1,14 +1,13 @@
 <template>
   <div class="view-picked">
-    <mdc-list class="-list" two-line dense>
-      <mdc-list-item class="-item" v-for="(item, i) in items" :key="i">
-        <router-link :to="{ name: 'translate', params: { text: item.text, source: item.source } }">
+    <mdc-drawer-list class="-list">
+      <transition-group name="list">
+      <mdc-drawer-item class="-item" v-for="(item, i) in items" :key="`${item.text}`"
+        :to="{ name: 'translate', params: { text: item.text, source: item.source } }"
+      >
+        <div>
           <span class="-title">{{ item.title }}</span>
-          <!-- <span class="-source">{{ item.source.name }}</span> -->
-          <span>({{ item.text }})</span>
-        </router-link>
-
-        <div slot="secondary" class="-detail">
+          <span class="-text">({{ item.text }})</span>
           <div class="-source">
             <span>{{ item.source.fromto[0] }}</span>><span>{{ item.source.fromto[1] }}</span>
             <span> ({{ item.source.name }})</span>
@@ -16,27 +15,26 @@
           <span class="-excerpt">{{ item.excerpt }}</span><br />
         </div>
 
-        <mdc-button class="-remove" slot="end-detail" @click="handleRemove(i, items)">
+        <mdc-button class="-remove" @click.stop.prevent="handleRemove(i, items)">
           <icon-delete/>
         </mdc-button>
-      </mdc-list-item>
-    </mdc-list>
+      </mdc-drawer-item>
+      </transition-group>
+    </mdc-drawer-list>
   </div>
 </template>
 
 <script lang="ts">
 import Vue from 'vue';
-import { Component, Watch } from 'vue-property-decorator';
+import { Component, Watch, Provide } from 'vue-property-decorator';
 import { namespace, Getter } from 'vuex-class';
-import { ActionMethod } from 'vuex';
+import { ActionMethod, MutationMethod } from 'vuex';
 import IconDelete from '@/components/icons/Delete.vue';
 import debug from '@/functions/debug';
 
 const __ = namespace('translation');
 
-Component.registerHooks([
-  'beforeRouteLeave',
-]);
+Component.registerHooks(['beforeRouteLeave']);
 
 @Component({
   components: {
@@ -44,23 +42,27 @@ Component.registerHooks([
   },
 })
 export default class PickedView extends Vue {
+  @Provide() private mdcDrawer: any = {};
+
   @__.State('picked') private items!: TranslationConfig['translation_picked'];
+  @__.Mutation('text') private updateText!: MutationMethod;
   @__.Action('unpick') private remove!: ActionMethod;
   @__.Action('translate') private restoreTranslation!: ActionMethod;
 
-  private created() {
-    debug.log(this.items);
-  }
-
   private handleRemove(index: number) {
-    debug.log(index);
-    this.remove(index);
+    this.$nextTick(() => {
+      this.remove(index);
+    });
   }
 
   private beforeRouteLeave(to: any, from: any, next: () => {}) {
     next();
-    const { params: { text, source } } = to;
-    this.restoreTranslation({ text, source });
+    this.$nextTick(() => {
+      const { params: { text, source } } = to;
+      if (!text) { return; }
+      this.updateText(text);
+      this.restoreTranslation({ text, source });
+    });
   }
 }
 </script>
@@ -74,27 +76,36 @@ export default class PickedView extends Vue {
     width: $sz;
     min-width: $sz;
     padding: 0;
+    margin-left: auto;
   }
 
   .-list {
     .-item {
+      height: auto;
       margin-bottom: 8px;
-      
-      .mdc-list-item__secondary-text {
-        &::before { display: none; }
-      }
-      .mdc-list-item__meta {
-        margin-right: -8px;
-      }
-      .-title {
+      line-height: 1.35;
+      color: var(--mdc-theme-text-secondary-on-light);
+      .-title, .-text {
+        color: var(--mdc-theme-text-primary-on-light);
+        font-size: 14px;
         font-weight: bold;
       }
       .-source {
+        font-size: 10px;
+      }
+      .-excerpt {
         font-size: 12px;
-        font-style: italic;
-        opacity: .8;
       }
     }
   }
+}
+
+.list-enter-active, .list-leave-active {
+  transition: all 1s;
+}
+.list-enter, .list-leave-to
+/* .list-leave-active for below version 2.1.8 */ {
+  opacity: 0;
+  transform: translateX(-30px);
 }
 </style>

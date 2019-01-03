@@ -1,7 +1,7 @@
 <template>
   <div class="view-translation">
     <translation-input class="-input"
-      :value="value" @change="handleText"
+      v-model="value"
       :hotkey="hotkey" @enter="handleEnter"
       :has="hasResult"
     />
@@ -32,6 +32,7 @@
 import Vue from 'vue';
 import { Component, Watch } from 'vue-property-decorator';
 import { namespace, Getter } from 'vuex-class';
+import { MutationMethod, ActionMethod } from 'vuex';
 
 import TranslationInput from '@/components/TranslationInput.vue';
 import TranslationTools from '@/components/TranslationTools.vue';
@@ -39,8 +40,6 @@ import TranslationResult from '@/components/TranslationResult.vue';
 import debug from '@/functions/debug';
 
 const __ = namespace('translation');
-
-// Component.registerHooks(['beforeRouteEnter']);
 
 @Component({
   components: {
@@ -66,13 +65,9 @@ export default class TranslationView extends Vue {
   @__.Getter private fromto!: Array<Language['code']>;
   @__.Getter private hasResult!: boolean;
 
-  @__.Mutation('text') private updateText: any;
-  @__.Action('fromto') private updateFromto: any;
-  @__.Action('translate') private doTranslate: any;
-
-  private created() {
-    this.value = this.text;
-  }
+  @__.Mutation('text') private updateText!: MutationMethod;
+  @__.Action('fromto') private updateFromto!: ActionMethod;
+  @__.Action('translate') private doTranslate!: ActionMethod;
 
   private handleFromto(fromto: Array<Language['code']>) {
     this.updateFromto(fromto);
@@ -103,13 +98,13 @@ export default class TranslationView extends Vue {
   private handleQuery() { this.doTranslate(); }
   private handlePaste() {/** */}
 
-  // private beforeRouteEnter(to: any, from: any, next: () => {}) {
-  //   next();
-  //   const { params: { text, source } } = to;
-  //   if (!!text && !!source) {
-  //     this.doTranslate({ text, source });
-  //   }
-  // }
+  @Watch('value') private onValue(val: string) {
+    this.updateText(val);
+  }
+  @Watch('text') private onText(val: string) {
+    if (val === this.value) { return; }
+    this.value = val;
+  }
 }
 </script>
 

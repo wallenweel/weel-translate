@@ -30,12 +30,12 @@ export default class VoiceActionButton extends Vue {
 
   private toggle: boolean = false;
 
-  private get unsupport(): Language['code'][] {
+  private get unsupport(): Array<Language['code']> {
     const { audio } = this.$store.state.translation.preset.query || {} as SourcePreset['query'];
     if (!audio) { return []; }
     return audio.unsupport || [];
-  };
-  private get fromto(): Language['code'][] {
+  }
+  private get fromto(): Array<Language['code']> {
     return this.$store.state.translation.source.fromto || [];
   }
   private get isDisabled() {

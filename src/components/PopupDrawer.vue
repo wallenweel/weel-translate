@@ -54,7 +54,7 @@ interface ListItems {
 export default class PopupDrawer extends Vue {
   private logo = logo;
   private items: ListItems = [
-    { icon: 'translate', locale: 'translate', to: '/translation' },
+    { icon: 'translate', locale: 'translate', to: '/translate' },
     { icon: 'favorite', locale: 'picked', to: '/picked' },
     { icon: 'history', locale: 'history', to: '/history' },
     { icon: 'settings', locale: 'preference', to: '/preference' },

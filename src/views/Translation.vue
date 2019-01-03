@@ -40,6 +40,8 @@ import debug from '@/functions/debug';
 
 const __ = namespace('translation');
 
+// Component.registerHooks(['beforeRouteEnter']);
+
 @Component({
   components: {
     TranslationInput,
@@ -100,6 +102,14 @@ export default class TranslationView extends Vue {
   private handleClear() { this.value = ''; }
   private handleQuery() { this.doTranslate(); }
   private handlePaste() {/** */}
+
+  // private beforeRouteEnter(to: any, from: any, next: () => {}) {
+  //   next();
+  //   const { params: { text, source } } = to;
+  //   if (!!text && !!source) {
+  //     this.doTranslate({ text, source });
+  //   }
+  // }
 }
 </script>
 

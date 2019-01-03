@@ -106,8 +106,8 @@ const actions = Object.assign({
     dispatch('merge', { source });
   },
 
-  translate: ({ state, commit, dispatch }) => {
-    const { text: q, source: { fromto: [from, to] } } = state;
+  translate: ({ state, commit, dispatch }, custom?: { text: string, source: SourcePresetItem }) => {
+    const { text: q, source: { fromto: [from, to] } } = custom || state;
 
     if (!q.trim().length) {
       return dispatch('notify', i18n.t('blank_input_msg'));
@@ -133,13 +133,16 @@ const actions = Object.assign({
   },
 
   pick: ({ state, dispatch }, params) => {
-    const { source: { id }, result, picked } = state;
+    const { source, result, text, picked } = state;
 
     let { title = '', excerpt = '' } = params || {};
     title = title || result.translation;
-    excerpt = excerpt || result.explain;
+    title = title === '__unfound__' ? i18n.t(title) : title;
+    excerpt = (excerpt || result.explain);
+    excerpt = excerpt === '__unfound__' ? i18n.t(excerpt) : excerpt;
+    excerpt = excerpt.length >= 21 ? excerpt.slice(0, 21) + '...' : excerpt;
 
-    const item: translationListItem[] = [{ id, title, excerpt }];
+    const item: translationListItem[] = [{ source, text, title, excerpt }];
 
     dispatch('merge', { picked: item.concat(picked) });
   },

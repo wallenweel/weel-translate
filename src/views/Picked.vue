@@ -4,27 +4,28 @@
       <mdc-text typo='overline' tag="span">{{ $t('__tip.picked_top') }}</mdc-text>
     </mdc-layout-grid>
 
-    <mdc-drawer-list class="-list">
+    <mdc-list class="-list" interactive dense>
       <transition-group name="list">
-      <mdc-drawer-item class="-item" v-for="item in items" :key="`${item.id}`"
-        :to="{ name: 'translate', params: { text: item.text, source: item.source } }"
+      <mdc-list-item class="-item"
+        v-for="item in items" :key="`${item.id}`"
+        @click="$router.push({ name: 'translate', params: { text: item.text, source: item.source } })"
       >
         <div>
-          <span class="-title">{{ item.title }}</span>
-          <span class="-text">({{ item.text }})</span>
+          <span class="-text">{{ item.text }}</span>
           <span class="-source">
             <span>{{ item.source.fromto.join(' > ') }}</span>
             <span> ({{ item.source.name }})</span>
           </span>
-          <span class="-excerpt">{{ item.excerpt }}</span><br />
+          <span class="-title">{{ item.title }}</span>
+          <!-- <span class="-excerpt">{{ item.excerpt }}</span><br /> -->
         </div>
 
         <mdc-button class="-remove" @click.stop.prevent="handleRemove(item.id)">
           <icon-delete/>
         </mdc-button>
-      </mdc-drawer-item>
+      </mdc-list-item>
       </transition-group>
-    </mdc-drawer-list>
+    </mdc-list>
   </div>
 </template>
 
@@ -38,16 +39,12 @@ import debug from '@/functions/debug';
 
 const __ = namespace('translation');
 
-Component.registerHooks(['beforeRouteLeave']);
-
 @Component({
   components: {
     IconDelete,
   },
 })
 export default class PickedView extends Vue {
-  @Provide() private mdcDrawer: any = {};
-
   @__.State('picked') private items!: TranslationConfig['translation_picked'];
   @__.Mutation('text') private updateText!: MutationMethod;
   @__.Action('unpick') private remove!: ActionMethod;
@@ -56,16 +53,6 @@ export default class PickedView extends Vue {
   private handleRemove(id: string) {
     this.$nextTick(() => {
       this.remove(id);
-    });
-  }
-
-  private beforeRouteLeave(to: any, from: any, next: () => {}) {
-    next();
-    this.$nextTick(() => {
-      const { params: { text, source } } = to;
-      if (!text) { return; }
-      this.updateText(text);
-      this.restoreTranslation({ text, source });
     });
   }
 }
@@ -92,13 +79,16 @@ export default class PickedView extends Vue {
   .-list {
     .-item {
       height: auto;
-      margin-bottom: 8px;
       line-height: 1.35;
+      padding: 8px 16px;
       color: var(--mdc-theme-text-secondary-on-light);
-      .-title, .-text {
+      .-text {
         color: var(--mdc-theme-text-primary-on-light);
         font-size: 14px;
         font-weight: bold;
+      }
+      .-title {
+        font-size: 12px;
       }
       .-source {
         font-size: 10px;

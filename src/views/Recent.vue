@@ -4,14 +4,18 @@
       <mdc-text typo='overline' tag="span">{{ $t('__tip.recent_top', [numbers]) }}</mdc-text>
     </mdc-layout-grid>
 
-    <mdc-list class="-list" dense two-line>
+    <mdc-list class="-list" dense two-line interactive>
       <transition-group name="list">
-      <mdc-list-item class="-item" v-for="item in items" :key="item.id">
+      <mdc-list-item class="-item"
+        v-for="(item, i) in items" :key="item.id"
+        @click="$router.push({ name: 'translate', params: { text: item.text, source: item.source } })"
+      >
         <span class="-text">{{ item.text }}</span>
         <span class="-source" slot="secondary">
           <i>{{ item.source.fromto.join(' > ') }}</i>
           <i>({{ item.source.name }})</i>
         </span>
+        <b slot="end-detail">{{ items.length - i }}</b>
       </mdc-list-item>
       </transition-group>
     </mdc-list>

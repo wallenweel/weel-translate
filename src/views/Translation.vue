@@ -33,6 +33,7 @@ import Vue from 'vue';
 import { Component, Watch } from 'vue-property-decorator';
 import { namespace, Getter } from 'vuex-class';
 import { MutationMethod, ActionMethod } from 'vuex';
+import store from '@/stores/popup';
 
 import TranslationInput from '@/components/TranslationInput.vue';
 import TranslationTools from '@/components/TranslationTools.vue';
@@ -40,6 +41,8 @@ import TranslationResult from '@/components/TranslationResult.vue';
 import debug from '@/functions/debug';
 
 const __ = namespace('translation');
+
+Component.registerHooks(['beforeRouteEnter']);
 
 @Component({
   components: {
@@ -104,6 +107,16 @@ export default class TranslationView extends Vue {
   @Watch('text') private onText(val: string) {
     if (val === this.value) { return; }
     this.value = val;
+  }
+
+  private beforeRouteEnter(to: any, from: any, next: () => {}) {
+    next();
+    Vue.nextTick(() => {
+      const { params: { text, source } } = to;
+      if (!text) { return; }
+      store.commit('translation/text', text);
+      store.dispatch('translation/translate', { text, source });
+    });
   }
 }
 </script>

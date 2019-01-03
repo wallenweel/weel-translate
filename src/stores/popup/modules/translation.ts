@@ -144,7 +144,10 @@ const actions = Object.assign({
   pick: ({ state, dispatch }, params) => {
     const { source, result, text, picked } = state;
 
-    let { title = '', excerpt = '' } = params || {};
+    let {
+      title = '',
+      // excerpt = '',
+    } = params || {};
     title = title || result.translation;
 
     const id: string = md5(`${text + title + source.fromto.join('')}`);
@@ -154,11 +157,11 @@ const actions = Object.assign({
     }
 
     title = title === '__unfound__' ? i18n.t(title) : title;
-    excerpt = (excerpt || result.explain);
-    excerpt = excerpt === '__unfound__' ? i18n.t(excerpt) : excerpt;
-    excerpt = excerpt.length >= 21 ? excerpt.slice(0, 21) + '...' : excerpt;
+    // excerpt = (excerpt || result.explain);
+    // excerpt = excerpt === '__unfound__' ? i18n.t(excerpt) : excerpt;
+    // excerpt = excerpt.length >= 21 ? excerpt.slice(0, 21) + '...' : excerpt;
 
-    const item: translationListItem[] = [{ id, source, text, title, excerpt }];
+    const item: translationListItem[] = [{ id, source, text, title }];
 
     dispatch('merge', { picked: item.concat(picked) });
   },

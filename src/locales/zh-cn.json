@@ -42,7 +42,8 @@
   "context_menu_trigger": "右键菜单触发",
   "enable_context_menu": "启用右键菜单",
   "network": "网络",
-  "set_timeout_seconds": "当前设置超时：{time} 秒",
+  "set_timeout_seconds": "当前设置超时：{0} 秒",
+  "set_recent_numbers": "当前设置的数目: {0}",
 
   "presets": "模板预设",
 

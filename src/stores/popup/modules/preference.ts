@@ -13,6 +13,8 @@ const state: State = {
   locale: 'en',
   locales: [],
 
+  recentNumbers: 0,
+
   theme: 'light',
   fabEnable: true,
   fabPosition: 'center',
@@ -26,6 +28,7 @@ const serialize = (values: DefaultConfig) => {
   const {
     request_timeout: timeout,
     ui_language: locale,
+    translation_recent_numbers: recentNumbers,
     preference_theme: theme,
     preference_fab_enable: fabEnable,
     preference_fab_position: fabPosition,
@@ -36,7 +39,7 @@ const serialize = (values: DefaultConfig) => {
   } = values;
 
   // tslint:disable-next-line:max-line-length
-  return { timeout, locale, theme, fabEnable, fabPosition, fapEnable, fapPosition, fapPositionEdge, contextMenuEnable };
+  return { timeout, locale, recentNumbers, theme, fabEnable, fabPosition, fapEnable, fapPosition, fapPositionEdge, contextMenuEnable };
 };
 
 const unserialize = (values: State) => {
@@ -44,6 +47,7 @@ const unserialize = (values: State) => {
     // tslint:disable:variable-name
     timeout: request_timeout,
     locale: ui_language,
+    recentNumbers: translation_recent_numbers,
     theme: preference_theme,
     fabEnable: preference_fab_enable,
     fabPosition: preference_fab_position,
@@ -55,7 +59,7 @@ const unserialize = (values: State) => {
   } = values;
 
   // tslint:disable-next-line:max-line-length
-  return { request_timeout, ui_language, preference_theme, preference_fab_enable, preference_fab_position, preference_fap_enable, preference_fap_position, preference_fap_position_edge, preference_context_menu_enable };
+  return { request_timeout, ui_language, translation_recent_numbers, preference_theme, preference_fab_enable, preference_fab_position, preference_fap_enable, preference_fap_position, preference_fap_position_edge, preference_context_menu_enable };
 };
 
 const webActions: ActionTree<State, RootState> = {
@@ -93,7 +97,7 @@ const mutations = Object.assign({
 
 const getters: GetterTree<State, RootState> = {
   options: (state) => [
-    'theme',
+    // 'theme',
     'fabEnable',
     'fabPosition',
     'fapEnable',
@@ -116,6 +120,8 @@ interface State {
   timeout: number;
   locale: Language['code'];
   locales?: Language[];
+
+  recentNumbers: number;
 
   theme: 'dark' | 'light';
   fabEnable: boolean;

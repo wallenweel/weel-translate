@@ -42,7 +42,8 @@
   "context_menu_trigger": "Context Menu Trigger",
   "enable_context_menu": "Enable Context Menu",
   "network": "Network",
-  "set_timeout_seconds": "Current Set Timeout: {time} seconds",
+  "set_timeout_seconds": "Current Set Timeout: {0} seconds",
+  "set_recent_numbers": "Current Set Number: {0}",
 
   "presets": "Presets",
 

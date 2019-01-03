@@ -5,7 +5,7 @@
 
     <mdc-radio
       :picked="values[item.value]" @change="(value) => handleChange(item.value, value)"
-      v-if="item.type === 'radio'" v-for="(m, n) in item.values" :key="`${m[0]}_${n}`"
+      v-if="item.type === 'radio'" v-for="(m, n) in item.values" :key="`${item.name}_${m[0]}_${n}`"
       :checked="m[1] === values[item.value]"
       :name="item.name" :value="m[1]" :label="$t(m[0])"
     />

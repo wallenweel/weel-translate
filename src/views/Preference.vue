@@ -21,13 +21,20 @@
 
         <template v-if="!!item.appends" v-for="(append, n) in item.appends">
           <preference-option class="-option" :wl-value="append.value"
-            :values="options" :item="append" @change="handleChange" :key="`opt_${n}`" />
+            :values="options" :item="append" @change="handleChange" :key="`opt_append_${n}`" />
         </template>
       </mdc-layout-cell>
 
       <mdc-layout-cell class="-row">
+        <mdc-headline>{{ $t('recent') }}</mdc-headline>
+        <mdc-subheading>{{ $t('set_recent_numbers', [recentNumbers]) }}</mdc-subheading>
+        <mdc-slider min=0 max=48 step=2 display-markers
+          :value="recentNumbers" @change="handleRecentNumbers" />
+      </mdc-layout-cell>
+
+      <mdc-layout-cell class="-row">
         <mdc-headline>{{ $t('network') }}</mdc-headline>
-        <mdc-subheading>{{ $t('set_timeout_seconds', { time: timeout / 1000 }) }}</mdc-subheading>
+        <mdc-subheading>{{ $t('set_timeout_seconds', [timeout / 1000]) }}</mdc-subheading>
         <mdc-slider min=0 max=120 step=10 display-markers
           :value="timeout / 1000" @change="handleTimeout" />
       </mdc-layout-cell>
@@ -42,7 +49,7 @@ import { namespace } from 'vuex-class';
 import PreferenceOption from '@/components/PreferenceOption.vue';
 import debug from '@/functions/debug';
 
-const __ = namespace('preference');
+const _ = namespace('preference');
 
 @Component({
   components: {
@@ -50,23 +57,25 @@ const __ = namespace('preference');
   },
 })
 export default class PreferenceView extends Vue {
-  @__.State private timeout!: number;
-  @__.State private locale!: Language['code'];
-  @__.State private locales!: Language[];
+  @_.State private timeout!: number;
+  @_.State private locale!: Language['code'];
+  @_.State private locales!: Language[];
 
-  @__.Getter private options!: any;
+  @_.Getter private options!: any;
 
-  @__.Action('merge') private mergeConfig!: any;
+  @_.Action('merge') private mergeConfig!: any;
+
+  @_.State private recentNumbers!: number;
 
   private get items(): any {
     return [
-      {
-        headline: 'theme_color',
-        type: 'radio',
-        name: 'theme-color',
-        values: [['light', 'light'], ['dark', 'dark']],
-        value: 'theme',
-      },
+      // {
+      //   headline: 'theme_color',
+      //   type: 'radio',
+      //   name: 'theme-color',
+      //   values: [['light', 'light'], ['dark', 'dark']],
+      //   value: 'theme',
+      // },
       {
         headline: 'float_action_button',
         type: 'checkbox',
@@ -131,6 +140,11 @@ export default class PreferenceView extends Vue {
   private handleTimeout(time: number) {
     if (time === this.timeout / 1000) { return; }
     this.mergeConfig({ timeout: time * 1000 });
+  }
+
+  private handleRecentNumbers(count: number) {
+    if (count === this.recentNumbers) { return; }
+    this.mergeConfig({ recentNumbers: count });
   }
 }
 </script>

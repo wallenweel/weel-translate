@@ -1,17 +1,21 @@
 <template>
   <div class="view-picked">
+    <mdc-layout-grid class="-banner">
+      <mdc-text typo='overline' tag="span">{{ $t('__tip.picked_top') }}</mdc-text>
+    </mdc-layout-grid>
+
     <mdc-drawer-list class="-list">
       <transition-group name="list">
-      <mdc-drawer-item class="-item" v-for="(item, i) in items" :key="`${item.text}`"
+      <mdc-drawer-item class="-item" v-for="(item, i) in items" :key="`${item.id}`"
         :to="{ name: 'translate', params: { text: item.text, source: item.source } }"
       >
         <div>
           <span class="-title">{{ item.title }}</span>
           <span class="-text">({{ item.text }})</span>
-          <div class="-source">
+          <span class="-source">
             <span>{{ item.source.fromto[0] }}</span>><span>{{ item.source.fromto[1] }}</span>
             <span> ({{ item.source.name }})</span>
-          </div>
+          </span>
           <span class="-excerpt">{{ item.excerpt }}</span><br />
         </div>
 
@@ -69,6 +73,12 @@ export default class PickedView extends Vue {
 
 <style lang="scss">
 .view-picked {
+  .-banner {
+    background-color: var(--mdc-theme-primary, #6200ee);
+    color: var(--mdc-theme-text-primary-on-dark, #ffffff);
+    padding: 0 16px 16px;
+  }
+
   button.-remove {
     $sz: 32px;
     border-radius: $sz;
@@ -92,6 +102,7 @@ export default class PickedView extends Vue {
       }
       .-source {
         font-size: 10px;
+        display: block;
       }
       .-excerpt {
         font-size: 12px;

@@ -8,6 +8,7 @@
 
 <script lang="ts">
 import { Component, Prop, Vue } from 'vue-property-decorator';
+import md5 from 'js-md5';
 import IconFavorite from '@/components/icons/Favorite.vue';
 
 @Component({
@@ -21,13 +22,16 @@ export default class PickActionButton extends Vue {
   private get text(): string {
     return this.$store.state.translation.text;
   }
+  private get fromto(): SourcePresetItem['fromto'] {
+    return this.$store.state.translation.source.fromto;
+  }
   private get pickedItems(): translationListItem[] {
     return this.$store.state.translation.picked;
   }
   private get picked(): [translationListItem, number] {
     let [p, n] = [, NaN];
     this.pickedItems.filter((item, index) => {
-      if (item.text === this.text) {
+      if (!!this.params && item.id === md5(`${this.text + this.params.title + this.fromto.join('')}`)) {
         [p, n] = [item as any, index];
       }
     });

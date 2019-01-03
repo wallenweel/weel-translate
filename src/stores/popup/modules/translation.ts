@@ -2,6 +2,7 @@ import { MutationTree, ActionTree, Action, Module, GetterTree } from 'vuex';
 import { QUERY_TRANSLATION } from '@/types';
 import { State as RootState } from '../index';
 import i18n from '@/i18n';
+import md5 from 'js-md5';
 import store from '../';
 
 import { update, clear } from '@/stores/mutations';
@@ -137,12 +138,19 @@ const actions = Object.assign({
 
     let { title = '', excerpt = '' } = params || {};
     title = title || result.translation;
+
+    const id: string = md5(`${text + title + source.fromto.join('')}`);
+
+    if (!!picked.filter((p) => p.id === id)[0]) {
+      return dispatch('notify', 'item has picked');
+    }
+
     title = title === '__unfound__' ? i18n.t(title) : title;
     excerpt = (excerpt || result.explain);
     excerpt = excerpt === '__unfound__' ? i18n.t(excerpt) : excerpt;
     excerpt = excerpt.length >= 21 ? excerpt.slice(0, 21) + '...' : excerpt;
 
-    const item: translationListItem[] = [{ source, text, title, excerpt }];
+    const item: translationListItem[] = [{ id, source, text, title, excerpt }];
 
     dispatch('merge', { picked: item.concat(picked) });
   },

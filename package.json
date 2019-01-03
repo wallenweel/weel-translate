@@ -17,6 +17,7 @@
   },
   "dependencies": {
     "axios": "^0.18.0",
+    "js-md5": "^0.7.3",
     "material-components-web": "^0.42.0",
     "material-design-icons-iconfont": "^4.0.3",
     "vue": "^2.5.21",

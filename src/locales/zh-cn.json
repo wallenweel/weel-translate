@@ -4,6 +4,10 @@
     "translation": "失败。可能是网络问题。",
     "voice": "失败。可能是不支持选择的语言。"
   },
+  "__tip": {
+    "preference_top": "如果更改设置产生异常的话，请点击\"{0}\"按钮恢复。",
+    "picked_top": "保存的条目会占用比较多的本地存储空间，请合理使用。"
+  },
 
   "translate": "翻译",
   "settings": "设置",
@@ -11,7 +15,6 @@
   "history": "历史",
   
   "preference": "设置偏好",
-  "preference_top_tip": "如果更改设置产生异常的话，请点击\"{0}\"按钮恢复。",
   "reset": "重置",
   "interface": "界面",
   "ui_languages": "UI 语言",

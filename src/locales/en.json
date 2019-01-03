@@ -4,6 +4,10 @@
     "translation": "Failed. Maybe network has problem.",
     "voice": "Failed. Maybe does not support current language."
   },
+  "__tip": {
+    "preference_top": "If changes got anything wrong, please click \"{0}\" button to restore.",
+    "picked_top": "Picked items may occupy more storage space, increase reasonably."
+  },
 
   "translate": "Translate",
   "settings": "Settings",
@@ -11,7 +15,6 @@
   "history": "History",
 
   "preference": "Preference",
-  "preference_top_tip": "If changes got anything wrong, please click \"{0}\" button to restore.",
   "reset": "Reset",
   "interface": "Interface",
   "ui_languages": "UI Languages",

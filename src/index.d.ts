@@ -238,6 +238,7 @@ declare interface PreferenceConfig {
 }
 
 declare type translationListItem = {
+  id: string;
   source: SourcePresetItem;
   text: string;
   title?: string;

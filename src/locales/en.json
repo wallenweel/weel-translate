@@ -1,5 +1,9 @@
 {
   "__unfound__": "Unfound",
+  "__failed__": {
+    "translation": "Failed. Maybe network has problem.",
+    "voice": "Failed. Maybe does not support current language."
+  },
 
   "translate": "Translate",
   "settings": "Settings",

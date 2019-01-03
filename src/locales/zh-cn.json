@@ -1,5 +1,9 @@
 {
   "__unfound__": "~未找到~",
+  "__failed__": {
+    "translation": "失败。可能是网络问题。",
+    "voice": "失败。可能是不支持选择的语言。"
+  },
 
   "translate": "翻译",
   "settings": "设置",

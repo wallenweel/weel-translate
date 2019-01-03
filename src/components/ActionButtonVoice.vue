@@ -47,8 +47,9 @@ export default class VoiceActionButton extends Vue {
 
 <style lang="scss">
 button.translation-action-voice {
-  border-radius: 36px;
-  width: 36px;
-  min-width: 36px;
+  border-radius: 32px;
+  width: 32px;
+  min-width: 32px;
+  padding: 0;
 }
 </style>

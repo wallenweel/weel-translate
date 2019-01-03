@@ -10,6 +10,7 @@ import {
   presetInvoker,
   presetLanguagesFilter,
   presetLanguagesModifier,
+  istype,
 } from '@/functions';
 import { webQuery as query } from '@/stores/actions';
 import debug from '@/functions/debug';
@@ -178,19 +179,20 @@ const actions = Object.assign({
     if (type === 'text') {
       commit('flag');
 
-      const [error, result] = resultParser(data, state.preset!);
-      if (error !== null) { return dispatch('notify', error); }
+      const [, result] = resultParser(data, state.preset!);
 
       commit('update', { result });
-      return dispatch('notify', null);
+      dispatch('notify', null);
+
+      if (!!error) { dispatch('notify', i18n.t('__failed__.translation')); }
     }
 
     if (type === 'audio') {
       commit('flag', 'voice');
-      return dispatch('notify', null);
-    }
+      dispatch('notify', null);
 
-    dispatch('notify', error);
+      if (!!error) { dispatch('notify', i18n.t('__failed__.voice')); }
+    }
   },
 
   notify: ({ dispatch }, message: string) => {

@@ -97,7 +97,7 @@ const mutations = Object.assign({
 
 const getters: GetterTree<State, RootState> = {
   options: (state) => [
-    // 'theme',
+    'theme',
     'fabEnable',
     'fabPosition',
     'fapEnable',

@@ -7,7 +7,7 @@
     <mdc-layout-grid class="-options">
       <mdc-layout-cell class="-row">
         <mdc-headline>{{ $t('interface') }}</mdc-headline>
-        <mdc-subheading>{{ $t('ui_languages') }}</mdc-subheading>
+        <mdc-subheading>{{ `${$t('ui_languages')}${$t('__unready.locales')}` }}</mdc-subheading>
         <mdc-radio :picked="locale" @change="handleLocale"
           v-for="(lang, n) in locales" :key="n"
           :checked="lang.code === locale"
@@ -16,12 +16,18 @@
       </mdc-layout-cell>
 
       <mdc-layout-cell class="-row" v-for="(item, i) in items" :key="`item_${i}`">
-        <preference-option class="-option" :wl-value="item.value"
-          :values="options" :item="item" @change="handleChange" :key="`opt_${i}`" />
+        <preference-option class="-option"
+          :key="`opt_${i}`"
+          :wl-value="item.value" :values="options" :item="item"
+          @change="handleChange"
+        />
 
-        <template v-if="!!item.appends" v-for="(append, n) in item.appends">
-          <preference-option class="-option" :wl-value="append.value"
-            :values="options" :item="append" @change="handleChange" :key="`opt_append_${n}`" />
+        <template v-if="!!item.appends">
+          <preference-option class="-option"
+            v-for="(append, n) in item.appends" :key="`opt_append_${n}`"
+            :wl-value="append.value" :values="options" :item="append"
+            @change="handleChange"
+          />
         </template>
       </mdc-layout-cell>
 
@@ -46,6 +52,8 @@
 import Vue from 'vue';
 import { Component, Watch } from 'vue-property-decorator';
 import { namespace } from 'vuex-class';
+import i18n from '@/i18n';
+
 import PreferenceOption from '@/components/PreferenceOption.vue';
 import debug from '@/functions/debug';
 
@@ -69,60 +77,66 @@ export default class PreferenceView extends Vue {
 
   private get items(): any {
     return [
-      // {
-      //   headline: 'theme_color',
-      //   type: 'radio',
-      //   name: 'theme-color',
-      //   values: [['light', 'light'], ['dark', 'dark']],
-      //   value: 'theme',
-      // },
       {
-        headline: 'float_action_button',
+        headline: this.$t('theme_color'),
+        subheading: this.$t('__unready.theme'),
+        type: 'radio',
+        name: 'theme-color',
+        values: [[this.$t('light'), 'light'], [this.$t('dark'), 'dark']],
+        value: 'theme',
+      },
+      {
+        headline: this.$t('float_action_button'),
         type: 'checkbox',
-        label: 'enable_fab',
+        label: this.$t('enable_fab'),
         value: 'fabEnable',
         appends: [
           {
             test: ['fabEnable', true],
-            subheading: 'appearance_position',
+            subheading: this.$t('appearance_position'),
             type: 'radio',
             name: 'fab-position',
-            values: [['after', 'after'], ['center', 'center'], ['follow', 'follow'], ['auto_center', 'auto-center']],
+            values: [
+              [this.$t('after'), 'after'],
+              [this.$t('center'), 'center'],
+              [this.$t('follow'), 'follow'],
+              [this.$t('auto_center'), 'auto-center'],
+            ],
             value: 'fabPosition',
           },
         ],
       },
       {
-        headline: 'float_action_panel',
+        headline: this.$t('float_action_panel'),
         type: 'checkbox',
-        label: 'enable_fap',
+        label: this.$t('enable_fap'),
         value: 'fapEnable',
         appends: [
           {
             test: ['fapEnable', true],
-            subheading: 'appearance_position',
+            subheading: this.$t('appearance_position'),
             type: 'radio',
             name: 'fap-position',
-            values: [['center', 'center'], ['follow', 'follow'], ['edge', 'edge']],
+            values: [[this.$t('center'), 'center'], [this.$t('follow'), 'follow'], [this.$t('edge'), 'edge']],
             value: 'fapPosition',
           },
           {
             test: ['fapPosition', 'edge'],
-            subheading: 'edge_position',
+            subheading: this.$t('edge_position'),
             type: 'radio',
             name: 'fap-position-edge',
             values: [
-              ['top_left', 'tl'], ['top_center', 'tc'], ['top_right', 'tr'],
-              ['bottom_left', 'bl'], ['bottom_center', 'bc'], ['bottom_right', 'br'],
+              [this.$t('top_left'), 'tl'], [this.$t('top_center'), 'tc'], [this.$t('top_right'), 'tr'],
+              [this.$t('bottom_left'), 'bl'], [this.$t('bottom_center'), 'bc'], [this.$t('bottom_right'), 'br'],
             ],
             value: 'fapPositionEdge',
           },
         ],
       },
       {
-        headline: 'context_menu_trigger',
+        headline: this.$t('context_menu_trigger'),
         type: 'checkbox',
-        label: 'enable_context_menu',
+        label: this.$t('enable_context_menu'),
         value: 'contextMenuEnable',
       },
     ];

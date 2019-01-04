@@ -1,19 +1,21 @@
 <template>
   <div v-if="item.test ? testItem(item.test) : true">
-    <mdc-headline v-if="!!item.headline">{{ $t(item.headline) }}</mdc-headline>
-    <mdc-subheading v-if="!!item.subheading">{{ $t(item.subheading) }}</mdc-subheading>
+    <mdc-headline v-if="!!item.headline">{{ item.headline }}</mdc-headline>
+    <mdc-subheading v-if="!!item.subheading">{{ item.subheading }}</mdc-subheading>
 
-    <mdc-radio
-      :picked="values[item.value]" @change="(value) => handleChange(item.value, value)"
-      v-if="item.type === 'radio'" v-for="(m, n) in item.values" :key="`${item.name}_${m[0]}_${n}`"
-      :checked="m[1] === values[item.value]"
-      :name="item.name" :value="m[1]" :label="$t(m[0])"
-    />
+    <template v-for="(m, n) in item.values">
+      <mdc-radio :key="`${item.name}_${m[0]}_${n}`"
+        v-if="item.type === 'radio'"
+        :name="item.name" :value="m[1]" :label="m[0]"
+        :checked="m[1] === values[item.value]"
+        :picked="values[item.value]" @change="(value) => handleChange(item.value, value)"
+      />
+    </template>
     
     <mdc-checkbox
-      :checked="values[item.value]" @change="(value) => handleChange(item.value, value)"
       v-if="item.type === 'checkbox'"
-      :label="$t(item.label)"
+      :checked="values[item.value]" @change="(value) => handleChange(item.value, value)"
+      :label="item.label"
     />
   </div>
 </template>

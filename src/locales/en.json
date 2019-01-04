@@ -1,5 +1,9 @@
 {
   "__unfound__": "Not Found",
+  "__unready": {
+    "locales": " (Need help)",
+    "theme": "(Only implement 'light' now)"
+  },
   "__failed__": {
     "translation": "Failed. Maybe network has problem.",
     "voice": "Failed. Maybe does not support current language."

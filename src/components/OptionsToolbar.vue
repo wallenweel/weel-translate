@@ -8,28 +8,6 @@
           </mdc-icon>
         </mdc-toolbar-menu-icon>
         <mdc-toolbar-title>{{ $t(title) }}</mdc-toolbar-title>
-
-        <!-- Source -->
-        <mdc-button class="-spec -source" dense
-          v-if="title.toLowerCase() === 'translate'"
-          @click="sourceMenu = true"
-        >{{ source.name }}</mdc-button>
-        <mdc-menu-anchor v-if="title.toLowerCase() === 'translate'">
-          <mdc-menu v-model="sourceMenu" @select="handleSourceSelect">
-            <mdc-menu-item disabled>{{ source.name }}</mdc-menu-item>
-            <mdc-menu-divider />
-            <mdc-menu-item
-              v-for="(item, i) in enabledSources" :key="i"
-              v-if="item.id !== source.id"
-              :data-id="item.id"
-            >{{ item.name }}</mdc-menu-item>
-          </mdc-menu>
-        </mdc-menu-anchor>
-
-        <!-- Reset -->
-        <mdc-button class="-spec -reset" @click="handlePreferenceReset"
-          dense v-if="title.toLowerCase() === 'preference'"
-        >{{ $t('reset') }}</mdc-button>
       </mdc-toolbar-section>
     </mdc-toolbar-row>
   </mdc-toolbar>

@@ -18,20 +18,21 @@
           <mdc-menu v-model="sourceMenu" @select="handleSourceSelect">
             <mdc-menu-item disabled>{{ source.name }}</mdc-menu-item>
             <mdc-menu-divider />
-            <mdc-menu-item
-              v-for="(item, i) in enabledSources" :key="i"
-              v-if="item.id !== source.id"
-              :data-id="item.id"
-            >{{ item.name }}</mdc-menu-item>
+            <template v-for="(item, i) in enabledSources">
+              <mdc-menu-item :key="i"
+                v-if="item.id !== source.id"
+                :data-id="item.id"
+              >{{ item.name }}</mdc-menu-item>
+            </template>
           </mdc-menu>
         </mdc-menu-anchor>
 
         <!-- Reset -->
-        <mdc-button class="-spec -reset" @click="handlePreferenceReset"
-          dense v-if="name === 'preference'"
+        <mdc-button class="-spec -reset" @click="handleReset(name)"
+          dense v-if="name === 'preference' || name === 'presets'"
         >{{ $t('reset') }}</mdc-button>
         <!-- Clear -->
-        <mdc-button class="-spec -reset" @click="handleListClear(name)"
+        <mdc-button class="-spec -reset" @click="handleClear(name)"
           dense v-if="name === 'picked' || name === 'recent'"
         >{{ $t('clear') }}</mdc-button>
       </mdc-toolbar-section>
@@ -82,11 +83,13 @@ export default class PopupToolbar extends Vue {
     this.changeSource(id);
   }
 
-  private handlePreferenceReset() {
-    this.resetPreference();
+  private handleReset(name: 'preference' | 'presets') {
+    if (name === 'preference') {
+      return this.resetPreference();
+    }
   }
 
-  private handleListClear(type: 'picked' | 'recent') {
+  private handleClear(type: 'picked' | 'recent') {
     this.clearList(type);
   }
 

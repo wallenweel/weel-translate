@@ -37,11 +37,11 @@ export default class RecentView extends Vue {
 </script>
 
 <style lang="scss">
+@import "../assets/styles";
+
 .view-recent {
   .-banner {
-    background-color: var(--mdc-theme-primary, #6200ee);
-    color: var(--mdc-theme-text-primary-on-dark, #ffffff);
-    padding: 0 16px 16px;
+    @include view-top-tip;
   }
 
   .-list {

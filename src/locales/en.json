@@ -11,7 +11,8 @@
   "__tip": {
     "preference_top": "If changes got anything wrong, please click \"{0}\" button to restore.",
     "picked_top": "Picked items may occupy more storage space, increase reasonably.",
-    "recent_top": "Max saved histories: {0}. could change the number in \"Preference\"."
+    "recent_top": "Max saved histories: {0}. could change the number in \"Preference\".",
+    "preset_top": "(Not Availble Now) If changes got anything wrong, please click \"{0}\" button to restore."
   },
 
   "translate": "Translate",

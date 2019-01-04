@@ -8,7 +8,11 @@ import debug from '@/functions/debug';
 
 const namespaced: boolean = true;
 
-const state: State = {} as any;
+const state: State | any = {
+  ui_language: 'en',
+  template_layouts: [],
+  template_enabled_sources: {},
+};
 
 const mutations = Object.assign({
   init: (state, { page, keys }) => {
@@ -56,13 +60,14 @@ const webActions: ActionTree<State, RootState> = {
 };
 
 const ipcActions: ActionTree<State, RootState> = {
-  query: ({ dispatch }, keys?: storageKeys) => {
+  query: async ({ commit, dispatch }, keys?: storageKeys) => {
     const action: IpcAction = {
       type: QUERY_CONFIG,
       receiver: 'storage/receive',
     };
 
-    dispatch('ipc', action, { root: true });
+    const config = await dispatch('ipc', action, { root: true });
+    commit('update', config);
   },
 
   receive: ({ commit }, config) => {

@@ -178,6 +178,7 @@ declare interface RuntimePort {
   };
   onMessage: {
     addListener(listener: (message: any) => void): void;
+    removeListener(listener: (message: any) => void): void;
   };
   postMessage(message: { [k: string]: any }): void;
   sender?: MessageSender;

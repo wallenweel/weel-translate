@@ -18,22 +18,38 @@ const state: State = {
 const mutations = Object.assign({
 } as MutationTree<State>, { update, clear });
 
+const ipcAction = async (port: RuntimePort, action: { type: string; payload?: any }) => {
+  debug.log(action);
+
+  const { name } = port;
+  port.postMessage({ name, ...action } as IpcAction);
+
+  return new Promise((resolve, reject) => {
+    const listener = ({ name, type, error, payload }: IpcAction) => {
+      if (error !== null) { reject(error); }
+      resolve({ name, type, payload });
+      port.onMessage.removeListener(listener);
+    };
+    port.onMessage.addListener(listener);
+  });
+};
+
 const actions: ActionTree<State, State> = {
   init: ({ state, dispatch, rootState }, { port }) => {
     // initial a port for connecting other end
     // useless in "web" mode
     Port = port;
-    Port.onMessage.addListener(({ name, receiver, type, error, payload }: IpcAction) => {
-      if (error !== null) {
-        dispatch('notify', error);
-      }
+    // Port.onMessage.addListener(({ name, receiver, type, error, payload }: IpcAction) => {
+    //   if (error !== null) {
+    //     dispatch('notify', error);
+    //   }
 
-      if (!receiver) {
-        return debug.warn(`receiving action ${receiver} is not exist`);
-      }
+    //   if (!receiver) {
+    //     return debug.warn(`receiving action ${receiver} is not exist`);
+    //   }
 
-      dispatch(receiver as string, payload);
-    });
+    //   dispatch(receiver as string, payload);
+    // });
 
     dispatch('preference/init');
     dispatch('translation/init');
@@ -46,8 +62,12 @@ const actions: ActionTree<State, State> = {
   },
 
   ipc: (_, { type, receiver, payload }) => {
-    const name: RuntimePort['name'] = Port.name;
-    Port.postMessage({ name, type, receiver, payload } as IpcAction);
+    // const name: RuntimePort['name'] = Port.name;
+    // Port.postMessage({ name, type, receiver, payload } as IpcAction);
+    return ipcAction(Port, { type, payload }).then((data: any) => {
+      debug.log(data);
+      return data.payload;
+    });
   },
 
   notify: ({ commit }, message: string) => {
@@ -62,7 +82,7 @@ const getters: GetterTree<State, State> = {
       template_layouts: layouts,
       template_enabled_sources: sourcesTemplate,
     } = state.storage;
-    const id = sourcesTemplate[state.translation.source.id][0];
+    const id = (sourcesTemplate[state.translation.source.id] || [])[0];
     return presetInvoker(id, layouts)[1] as LayoutPreset;
   },
 };

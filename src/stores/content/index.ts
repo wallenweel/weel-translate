@@ -4,6 +4,7 @@ import storage from '../modules/storage';
 import preference from './modules/preference';
 import translation from './modules/translation';
 import { update, clear } from '@/stores/mutations';
+import { presetInvoker } from '@/functions';
 import debug from '@/functions/debug';
 
 Vue.use(Vuex);
@@ -80,6 +81,7 @@ const actions: ActionTree<State, State> = {
       text, lastText: text,
       rect: { offset, size, position },
     });
+    commit('translation/text', text);
 
     if (!state.initOffset) { commit('update', { initOffset: [x, y] }); }
   },
@@ -99,6 +101,14 @@ const actions: ActionTree<State, State> = {
 
 const getters: GetterTree<State, State> = {
   locale: (state): Language['code'] => state.storage.ui_language,
+  resultLayout: (state): LayoutPreset => {
+    const {
+      template_layouts: presets,
+      template_enabled_sources: sources,
+    } = state.storage;
+    const id = sources[state.translation.source.id][0];
+    return presetInvoker(id, presets)[1] as LayoutPreset;
+  },
   hasSelection: (state): boolean => !!state.text,
   rectOffsetCC: (state): [number, number] => {
     const { offset: { x, y }, size: { width, height } } = state.rect;

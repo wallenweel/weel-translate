@@ -26,12 +26,13 @@
           </mdc-card-action-icon>
         </mdc-card>
       </div>
-      <transition-group name="fade">
-        <translation-result class="-result" :result="result"
-          v-for="item in 1" :key="item"
+      <transition name="fade">
+        <translation-result class="-result"
           v-show="hasResult && hasSelection"
+          :result="result" :layout="resultLayout"
+          :flags="{ voice: voiceflag }"
         />
-      </transition-group>
+      </transition>
     </section>
   </div>
 </template>
@@ -67,6 +68,7 @@ export default class Content extends Vue {
   @Getter private rectOffsetBC!: [number, number];
   @Getter private rectOffsetBR!: [number, number];
   @Getter private isRectUp!: boolean;
+  @Getter private resultLayout!: LayoutPreset;
 
   @_.State private fabEnable!: boolean;
   @_.State private fabPosition!: string;
@@ -75,6 +77,7 @@ export default class Content extends Vue {
   @_.State private fapPositionEdge!: string;
 
   @__.State private flag!: boolean;
+  @__.State private voiceflag!: boolean;
   @__.State private result!: translationResult;
   @__.Getter private fromto!: Array<Language['code']>;
   @__.Getter private hasResult!: boolean;

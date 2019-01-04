@@ -1,14 +1,13 @@
 import axios, { Canceler } from 'axios';
 import { Action } from 'vuex';
-import { State } from '.';
+import { State, State as RootState } from '.';
 import request from '@/apis/request';
 import {
-  presetInvoker,
   istype,
 } from '@/functions';
 import debug from '@/functions/debug';
 
-type A = Action<{ [k: string]: any }, State>;
+type A = Action<State, RootState>;
 
 let cancelTranslate: Canceler | null;
 

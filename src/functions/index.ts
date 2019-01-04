@@ -2,8 +2,7 @@ import * as types from '../types';
 import { presetIdJsonReg } from '@/variables';
 import debug from './debug';
 
-export let istype: IsTypeFn;
-istype = (target, type) => {
+export let istype: IsTypeFn = (target, type) => {
   let types: string[] = [];
 
   if (typeof type === 'string') {
@@ -32,8 +31,22 @@ export const plainCopy = (target: any): std<any> => {
   }
 };
 
-export let stringParamsParaser: StringParamsParseFn;
-stringParamsParaser = (target) => {
+export const configRegister: ConfigRegistFn<any, any> = (pairs, order) => {
+  const items = Object.entries(pairs);
+
+  return (states) => {
+    const s = { ...states };
+
+    return items.reduce((p, c) => {
+      const [k, v] = c as [string, string];
+      if (order === 'pull' && s.hasOwnProperty(k)) { p[v] = s[k]; }
+      if (order === 'push' && s.hasOwnProperty(v)) { p[k] = s[v]; }
+      return p;
+    }, {} as { [k: string]: any });
+  };
+};
+
+export let stringParamsParaser: StringParamsParseFn = (target) => {
   if (istype(target, 'string')) {
     const [host, paramsString] = (target as string).split('?');
 
@@ -71,8 +84,7 @@ stringParamsParaser = (target) => {
   return [null, s.replace(/&$/, '')];
 };
 
-export let versionCheck: VersionCheckFn;
-versionCheck = (current, last): std<versionStatus> => {
+export let versionCheck: VersionCheckFn = (current, last): std<versionStatus> => {
   if (!last) {
     return [`last version is not existed`, types.VERSION_FRESH, -1];
   }
@@ -112,8 +124,7 @@ versionCheck = (current, last): std<versionStatus> => {
   return [null, types.VERSION_SAME, -1];
 };
 
-export let presetsParser: PresetsParseFn;
-presetsParser = (presets) => {
+export let presetsParser: PresetsParseFn = (presets) => {
   try {
     const tmp: { [id: string]: SourcePreset } = {};
     const result = presets.map((preset) => {
@@ -139,8 +150,7 @@ presetsParser = (presets) => {
   }
 };
 
-export let presetsStringifier: PresetsStringifyFn;
-presetsStringifier = (presets) => {
+export let presetsStringifier: PresetsStringifyFn = (presets) => {
   try {
     const result = presets.map((preset) => JSON.stringify(preset));
     return [null, result];
@@ -149,8 +159,7 @@ presetsStringifier = (presets) => {
   }
 };
 
-export let paramsParaser: ParamsParseFn<any>;
-paramsParaser = (target, params, parse = true) => {
+export let paramsParaser: ParamsParseFn<any> = (target, params, parse = true) => {
   let out: string | queryParams;
 
   out = JSON.stringify(target)
@@ -168,8 +177,7 @@ paramsParaser = (target, params, parse = true) => {
   return [null, out];
 };
 
-export let presetParamsParser: PresetParamsParseFn;
-presetParamsParser = (target, requestParams, stringify = false) => {
+export let presetParamsParser: PresetParamsParseFn = (target, requestParams, stringify = false) => {
   if (!istype(target, ['object', 'array', 'string'])) {
     return [`check target params type: ${target}`];
   }
@@ -197,8 +205,7 @@ presetParamsParser = (target, requestParams, stringify = false) => {
   return [null, !stringify ? out! : out!.toString()];
 };
 
-export let parserPathSplitter: ParserPathSplitFn;
-parserPathSplitter = (path) => {
+export let parserPathSplitter: ParserPathSplitFn = (path) => {
   const sectionReg = /(\/.*?\/)/;
   const operatorReg = /(\[.*?\]|\{.*?\}|\<.*?\>)/;
 
@@ -215,8 +222,7 @@ parserPathSplitter = (path) => {
   return [null, out];
 };
 
-export let parserPathReducer: ParserPathReduceFn;
-parserPathReducer = (path, response, stringify = false) => {
+export let parserPathReducer: ParserPathReduceFn = (path, response, stringify = false) => {
   const sectionReg = /\/(.*?)\//;
   const identifierReg = /\./;
   const rangeReg = /\[([-]*\d*),*\s*([-]*\d*)\]/;
@@ -313,8 +319,7 @@ parserPathReducer = (path, response, stringify = false) => {
   return [null, !stringify ? out : out.join('')];
 };
 
-export let translationResultParser: TranslationResultParseFn;
-translationResultParser = (response, { parser, test = {} }, stringify = true) => {
+export let translationResultParser: TranslationResultParseFn = (response, { parser, test = {} }, stringify = true) => {
   const result: translationResult = {};
 
   for (const [name, selector] of Object.entries(parser)) {
@@ -345,8 +350,7 @@ translationResultParser = (response, { parser, test = {} }, stringify = true) =>
   return [null, result];
 };
 
-export let templateLayoutParser: TemplateLayoutParseFn;
-templateLayoutParser = (result, { rows }) => {
+export let templateLayoutParser: TemplateLayoutParseFn = (result, { rows }) => {
   const out: LayoutPreset['rows'] = [];
 
   for (let i = 0; i < rows.length; i++) {
@@ -357,8 +361,7 @@ templateLayoutParser = (result, { rows }) => {
   return [null, out];
 };
 
-export let configKeysReducer: ConfigKeysReduceFn;
-configKeysReducer = (keys, config) => {
+export let configKeysReducer: ConfigKeysReduceFn = (keys, config) => {
   const out: { [k: string]: any } = {};
 
   if (istype(keys, 'string')) {
@@ -379,8 +382,7 @@ configKeysReducer = (keys, config) => {
   return [null, out];
 };
 
-export let presetLanguagesModifier: PresetLanguagesModifyFn;
-presetLanguagesModifier = (languages, rules = []) => {
+export let presetLanguagesModifier: PresetLanguagesModifyFn = (languages, rules = []) => {
   if (!rules.length) { return ['no any rules', languages]; }
 
   const out: Language[] = [];
@@ -432,8 +434,7 @@ presetLanguagesModifier = (languages, rules = []) => {
   return [null, out];
 };
 
-export let presetLanguagesFilter: PresetLanguagesFilterFn;
-presetLanguagesFilter = (languages, include, exclude) => {
+export let presetLanguagesFilter: PresetLanguagesFilterFn = (languages, include, exclude) => {
   if (!include && !exclude) { return [null, languages]; }
 
   let out: Language[] = [...languages];
@@ -449,8 +450,7 @@ presetLanguagesFilter = (languages, include, exclude) => {
   return [null, out];
 };
 
-export let presetInvoker: PresetInvokeFn;
-presetInvoker = (presetId, presets) => {
+export let presetInvoker: PresetInvokeFn = (presetId, presets) => {
   let preset: presetStringJson | Preset | SourcePreset | LayoutPreset;
 
   const find = (id: string) => presets.filter((stringifyPreset) => {

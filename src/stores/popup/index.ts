@@ -1,11 +1,11 @@
 import Vue from 'vue';
 import Vuex, { MutationTree, ActionTree, ModuleTree, GetterTree } from 'vuex';
 import storage from '../modules/storage';
-import preference from './modules/preference';
-import translation from './modules/translation';
+import preference, { register as preferenceRegister } from './modules/preference';
+import translation, { register as translationRegister } from './modules/translation';
 import { update, clear } from '@/stores/mutations';
-import debug from '@/functions/debug';
 import { presetInvoker } from '@/functions';
+import debug from '@/functions/debug';
 
 Vue.use(Vuex);
 
@@ -37,7 +37,12 @@ const actions: ActionTree<State, State> = {
 
     dispatch('preference/init');
     dispatch('translation/init');
-    dispatch('storage/init');
+    dispatch('storage/init', { page: 'popup', keys: [
+      'template_layouts',
+      'template_enabled_sources',
+      ...Object.keys(preferenceRegister),
+      ...Object.keys(translationRegister),
+    ]});
   },
 
   ipc: (_, { type, receiver, payload }) => {
@@ -54,11 +59,11 @@ const getters: GetterTree<State, State> = {
   locale: (state): Language['code'] => state.storage.ui_language,
   resultLayout: (state): LayoutPreset => {
     const {
-      template_layouts: presets,
-      template_enabled_sources: sources,
+      template_layouts: layouts,
+      template_enabled_sources: sourcesTemplate,
     } = state.storage;
-    const id = sources[state.translation.source.id][0];
-    return presetInvoker(id, presets)[1] as LayoutPreset;
+    const id = sourcesTemplate[state.translation.source.id][0];
+    return presetInvoker(id, layouts)[1] as LayoutPreset;
   },
 };
 

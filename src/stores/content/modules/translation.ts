@@ -12,6 +12,7 @@ import {
   presetLanguagesFilter,
   presetLanguagesModifier,
   istype,
+  configRegister,
 } from '@/functions';
 import { webQuery as query } from '@/stores/actions';
 import debug from '@/functions/debug';
@@ -37,31 +38,18 @@ const state: State = {
   picked: [],
 };
 
-const serialize = (values: DefaultConfig) => {
-  const {
-    request_timeout: timeout,
-    translation_sources: sources,
-    translation_current_source: source,
-    translation_enabled_sources: enabledSources,
-    translation_recent: recent,
-    translation_recent_numbers: recentNumbers,
-    translation_picked: picked,
-  } = values;
-
-  return { timeout, source, sources, enabledSources, recent, recentNumbers, picked };
+export const register: configPairs<State> = {
+  request_timeout: 'timeout',
+  translation_sources: 'sources',
+  translation_current_source: 'source',
+  translation_enabled_sources: 'enabledSources',
+  translation_recent: 'recent',
+  translation_recent_numbers: 'recentNumbers',
+  translation_picked: 'picked',
 };
-const unserialize = (values: State) => {
-  const {
-    // tslint:disable:variable-name
-    source: translation_current_source,
-    recentNumbers: translation_recent_numbers,
-    recent: translation_recent,
-    picked: translation_picked,
-    // tslint:enable:variable-name
-  } = values;
 
-  return { translation_current_source, translation_recent, translation_recent_numbers, translation_picked };
-};
+const pullConfig = (configRegister as ConfigRegistFn<State, DefaultConfig>)(register, 'pull');
+const pushConfig = (configRegister as ConfigRegistFn<DefaultConfig, State>)(register, 'push');
 
 const mutations = Object.assign({
   flag: (state, type: 'voice' | '' = '') => {
@@ -102,11 +90,11 @@ const actions = Object.assign({
   },
 
   fetch: ({ commit, rootState }) => {
-    commit('update', serialize(rootState.storage));
+    commit('update', pullConfig(rootState.storage));
   },
 
   merge: async ({ dispatch }, changes) => {
-    await dispatch('storage/merge', unserialize(changes), { root: true });
+    await dispatch('storage/merge', pushConfig(changes), { root: true });
   },
 
   source: ({ state, dispatch }, id) => {

@@ -1,6 +1,7 @@
 import { MutationTree, ActionTree, Module, GetterTree } from 'vuex';
 import { State as RootState } from '../index';
 import { update, clear } from '@/stores/mutations';
+import { configRegister } from '@/functions';
 
 const namespaced: boolean = true;
 
@@ -17,43 +18,28 @@ const state: State = {
   contextMenuEnable: true,
 };
 
+export const register: configPairs<State> = {
+  request_timeout: 'timeout',
+  ui_language: 'locale',
+  preference_theme: 'theme',
+  preference_fab_enable: 'fabEnable',
+  preference_fab_position: 'fabPosition',
+  preference_fap_enable: 'fapEnable',
+  preference_fap_position: 'fapPosition',
+  preference_fap_position_edge: 'fapPositionEdge',
+  preference_context_menu_enable: 'contextMenuEnable',
+};
+
+const pullConfig = (configRegister as ConfigRegistFn<State, DefaultConfig>)(register, 'pull');
+const pushConfig = (configRegister as ConfigRegistFn<DefaultConfig, State>)(register, 'push');
+
 const actions = {
   fetch: ({ commit, rootState }) => {
-    const {
-      request_timeout: timeout,
-      ui_language: locale,
-      preference_theme: theme,
-      preference_fab_enable: fabEnable,
-      preference_fab_position: fabPosition,
-      preference_fap_enable: fapEnable,
-      preference_fap_position: fapPosition,
-      preference_fap_position_edge: fapPositionEdge,
-      preference_context_menu_enable: contextMenuEnable,
-    } = rootState.storage;
-
-    // tslint:disable-next-line:max-line-length
-    commit('update', { timeout, locale, theme, fabEnable, fabPosition, fapEnable, fapPosition, fapPositionEdge, contextMenuEnable });
+    commit('update', pullConfig(rootState.storage));
   },
 
   merge: async ({ commit, dispatch }, changes) => {
-    const {
-      // tslint:disable:variable-name
-      timeout: request_timeout,
-      locale: ui_language,
-      theme: preference_theme,
-      fabEnable: preference_fab_enable,
-      fabPosition: preference_fab_position,
-      fapEnable: preference_fap_enable,
-      fapPosition: preference_fap_position,
-      fapPositionEdge: preference_fap_position_edge,
-      contextMenuEnable: preference_context_menu_enable,
-      // tslint:enable:variable-name
-    } = changes;
-
-    // tslint:disable-next-line:max-line-length
-    const config = { request_timeout, ui_language, preference_theme, preference_fab_enable, preference_fab_position, preference_fap_enable, preference_fap_position, preference_fap_position_edge, preference_context_menu_enable };
-
-    await dispatch('storage/merge', config, { root: true });
+    await dispatch('storage/merge', pushConfig(changes), { root: true });
   },
 } as ActionTree<State, RootState>;
 

@@ -14,6 +14,11 @@ declare interface PathValueFn {
   (path: 'string', target: any): string | any;
 }
 
+type configPairs<S, C = DefaultConfig> = { [k in keyof C]?: keyof S };
+type ConfigRegistFn<A, B> =
+  (pairs: configPairs<A | B, B | A>, order: 'pull' | 'push') =>
+  (states: { [k in keyof A]?: any }) => { [k in keyof B]?: any };
+
 // parse params string to params object
 // such as: 'host?a&b=b&c=c' => { a: true, b: 'b', c: 'c' }
 declare interface StringParamsParseFn {
@@ -257,9 +262,7 @@ declare interface TranslationConfig {
 declare type translationResult = {
   [name: string]: string | string[];
 };
-declare type translationSources = {
-  [index: number]: jsonString;
-};
+declare type translationSources = jsonString[];
 
 declare type SourcePresetItem = {
   id: SourcePreset['id'];

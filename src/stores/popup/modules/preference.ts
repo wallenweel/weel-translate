@@ -4,7 +4,7 @@ import i18n from '@/i18n';
 
 import { update, clear } from '@/stores/mutations';
 import debug from '@/functions/debug';
-import { presetLanguagesFilter } from '@/functions';
+import { presetLanguagesFilter, configRegister } from '@/functions';
 
 const namespaced: boolean = true;
 
@@ -24,47 +24,25 @@ const state: State = {
   contextMenuEnable: true,
 };
 
-const serialize = (values: DefaultConfig) => {
-  const {
-    request_timeout: timeout,
-    ui_language: locale,
-    translation_recent_numbers: recentNumbers,
-    preference_theme: theme,
-    preference_fab_enable: fabEnable,
-    preference_fab_position: fabPosition,
-    preference_fap_enable: fapEnable,
-    preference_fap_position: fapPosition,
-    preference_fap_position_edge: fapPositionEdge,
-    preference_context_menu_enable: contextMenuEnable,
-  } = values;
-
-  // tslint:disable-next-line:max-line-length
-  return { timeout, locale, recentNumbers, theme, fabEnable, fabPosition, fapEnable, fapPosition, fapPositionEdge, contextMenuEnable };
+export const register: configPairs<State> = {
+  request_timeout: 'timeout',
+  ui_language: 'locale',
+  translation_recent_numbers: 'recentNumbers',
+  preference_theme: 'theme',
+  preference_fab_enable: 'fabEnable',
+  preference_fab_position: 'fabPosition',
+  preference_fap_enable: 'fapEnable',
+  preference_fap_position: 'fapPosition',
+  preference_fap_position_edge: 'fapPositionEdge',
+  preference_context_menu_enable: 'contextMenuEnable',
 };
 
-const unserialize = (values: State) => {
-  const {
-    // tslint:disable:variable-name
-    timeout: request_timeout,
-    locale: ui_language,
-    recentNumbers: translation_recent_numbers,
-    theme: preference_theme,
-    fabEnable: preference_fab_enable,
-    fabPosition: preference_fab_position,
-    fapEnable: preference_fap_enable,
-    fapPosition: preference_fap_position,
-    fapPositionEdge: preference_fap_position_edge,
-    contextMenuEnable: preference_context_menu_enable,
-    // tslint:enable:variable-name
-  } = values;
-
-  // tslint:disable-next-line:max-line-length
-  return { request_timeout, ui_language, translation_recent_numbers, preference_theme, preference_fab_enable, preference_fab_position, preference_fap_enable, preference_fap_position, preference_fap_position_edge, preference_context_menu_enable };
-};
+const pullConfig = (configRegister as ConfigRegistFn<State, DefaultConfig>)(register, 'pull');
+const pushConfig = (configRegister as ConfigRegistFn<DefaultConfig, State>)(register, 'push');
 
 const webActions: ActionTree<State, RootState> = {
   reset: ({ dispatch }) => {
-    dispatch('storage/reset', Object.keys(unserialize({} as State)), { root: true });
+    dispatch('storage/reset', Object.keys(pushConfig({} as State)), { root: true });
   },
 };
 
@@ -84,11 +62,11 @@ const actions = Object.assign({
   },
 
   fetch: ({ commit, rootState }) => {
-    commit('update', serialize(rootState.storage));
+    commit('update', pullConfig(rootState.storage));
   },
 
   merge: async ({ commit, dispatch }, changes) => {
-    await dispatch('storage/merge', unserialize(changes), { root: true });
+    await dispatch('storage/merge', pushConfig(changes), { root: true });
   },
 } as ActionTree<State, RootState>, TARGET_BROWSER === 'web' ? webActions : ipcActions);
 
@@ -105,7 +83,7 @@ const getters: GetterTree<State, RootState> = {
     'fapPositionEdge',
     'contextMenuEnable',
   ].reduce((p: any, c: string) => {
-    if (Object.keys(state).includes(c)) { p[c] = state[c]; }
+    if (Object.keys(state).includes(c)) { p[c] = state[c as keyof State]; }
     return p;
   }, {}),
 };
@@ -116,20 +94,20 @@ export const preference: Module<State, RootState> = {
 
 export default preference;
 
+type C = DefaultConfig;
 interface State {
-  timeout: number;
-  locale: Language['code'];
   locales?: Language[];
 
-  recentNumbers: number;
+  timeout: C['request_timeout'];
+  locale: C['ui_language'];
 
-  theme: 'dark' | 'light';
-  fabEnable: boolean;
-  fabPosition: 'after' | 'center' | 'follow';
-  fapEnable: boolean;
-  fapPosition: 'center' | 'follow' | 'edge';
-  fapPositionEdge: 'tl' | 'tc' | 'tr' | 'bl' | 'bc' | 'br';
-  contextMenuEnable: boolean;
+  recentNumbers: C['translation_recent_numbers'];
 
-  [name: string]: any;
+  theme: C['preference_theme'];
+  fabEnable: C['preference_fab_enable'];
+  fabPosition: C['preference_fab_position'];
+  fapEnable: C['preference_fap_enable'];
+  fapPosition: C['preference_fap_position'];
+  fapPositionEdge: C['preference_fap_position_edge'];
+  contextMenuEnable: C['preference_context_menu_enable'];
 }

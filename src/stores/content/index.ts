@@ -1,8 +1,8 @@
 import Vue from 'vue';
 import Vuex, { MutationTree, ActionTree, ModuleTree, GetterTree } from 'vuex';
 import storage from '../modules/storage';
-import preference from './modules/preference';
-import translation from './modules/translation';
+import preference, { register as preferenceRegister } from './modules/preference';
+import translation, { register as translationRegister } from './modules/translation';
 import { update, clear } from '@/stores/mutations';
 import { presetInvoker } from '@/functions';
 import debug from '@/functions/debug';
@@ -39,7 +39,12 @@ const actions: ActionTree<State, State> = {
     });
 
     dispatch('translation/init');
-    dispatch('storage/init');
+    dispatch('storage/init', { page: 'popup', keys: [
+      'template_layouts',
+      'template_enabled_sources',
+      ...Object.keys(preferenceRegister),
+      ...Object.keys(translationRegister),
+    ]});
   },
 
   ipc: (_, { type, receiver, payload }) => {

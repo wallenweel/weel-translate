@@ -1,21 +1,21 @@
 import { MutationTree, ActionTree, Module } from 'vuex';
-import { State as RootState } from '../index';
-
-import { update, clear } from '@/stores/mutations';
-
-import { configKeysReducer, istype } from '@/functions';
 import defaultConfig, { base, preference, translation, web, template } from '@/defaults/config';
+import { State as RootState } from '../index';
+import { update, clear } from '@/stores/mutations';
 import { QUERY_CONFIG } from '@/types';
+import { configKeysReducer, istype } from '@/functions';
 import debug from '@/functions/debug';
 
 const namespaced: boolean = true;
 
-const state: State = {
-  ...defaultConfig,
-};
+const state: State = {} as any;
 
-const mutations: MutationTree<State> = Object.assign({
-}, { update, clear });
+const mutations = Object.assign({
+  init: (state, { page, keys }) => {
+    state.page = page;
+    state.keys = keys;
+  },
+} as MutationTree<State>, { update, clear });
 
 type configKey = keyof DefaultConfig;
 const webActions: ActionTree<State, RootState> = {
@@ -38,11 +38,12 @@ const webActions: ActionTree<State, RootState> = {
     // patch, set storage
     if (!localStorage.getItem('config')) { dispatch('reset'); }
 
-    let config: DefaultConfig = JSON.parse(localStorage.getItem('config')!);
+    let config: DefaultConfig;
 
     if (!keys) {
-      config = config;
+      config = JSON.parse(localStorage.getItem('config')!);
     } else {
+      config = JSON.parse(localStorage.getItem('config')!);
       config = configKeysReducer(keys, config)[1] as DefaultConfig;
     }
 
@@ -70,20 +71,21 @@ const ipcActions: ActionTree<State, RootState> = {
 };
 
 const actions = Object.assign({
-  init: async ({ dispatch, commit }) => {
-    await dispatch('fetch');
+  init: async ({ dispatch, commit }, { page = '', keys = [] }) => {
+    commit('init', { page, keys });
+    await dispatch('fetch', keys);
   },
 
   fetch: async ({ dispatch }, keys) => {
     await dispatch('query', keys);
   },
 
-  merge: async ({ dispatch, commit }, changes) => {
+  merge: async ({ state, dispatch, commit }, changes) => {
     const config: { [k: string]: any } = {};
 
     // debug.log(changes);
     for (const [k, v] of Object.entries(changes)) {
-      if (istype(v, 'undefined')) { continue; }
+      if (istype(v, 'undefined') || !state.keys!.includes(k)) { continue; }
       config[k] = v;
     }
 
@@ -100,6 +102,7 @@ export const storage: Module<State, RootState> = {
 
 export default storage;
 
-interface State {
-  [key: string]: any;
+export interface State extends DefaultConfig {
+  page?: 'background' | 'pupop' | 'content' | 'options';
+  keys?: Array<keyof DefaultConfig>;
 }

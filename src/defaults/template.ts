@@ -5,7 +5,7 @@ const enabledLayouts: TemplateConfig['template_enabled_layouts'] = layoutPresets
   .map(({ id, expect, title }) => ({ id, expect, title }));
 
 const enabledSources: TemplateConfig['template_enabled_sources'] = sourcePresets
-  .reduce((p: object, { id }) => !!Object.assign(p, { [id]: [enabledLayouts[0].id] }) && p, {});
+  .reduce((p: object, { id }) => !!Object.assign(p, { [id]: [enabledLayouts[0].id, enabledLayouts[1].id] }) && p, {});
 
 const templateConfig: TemplateConfig = {
   template_enabled_sources: enabledSources,

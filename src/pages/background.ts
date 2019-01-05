@@ -1,8 +1,8 @@
 import store from '@/stores/background';
 import browser from '@/apis/browser';
-import debug from '@/functions/debug';
 import { ipcActions } from '@/stores/background/actions';
 import { istype } from '@/functions';
+import debug from '@/functions/debug';
 
 const { runtime } = browser;
 

@@ -19,9 +19,9 @@ export const translationQuery: A = ({ state, dispatch, getters }, { type = 'text
 
   const { timeout } = state;
   const { preset } = getters;
-  const webRequest = request(preset, type);
+  const query = request(preset, type);
 
-  return webRequest(params, {
+  return query(params, {
     timeout,
     cancelToken: new axios.CancelToken((cancel: Canceler) => {
       cancelTranslate = cancel;

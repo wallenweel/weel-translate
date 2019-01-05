@@ -60,13 +60,13 @@ export default class TranslationView extends Vue {
   @__.State private flag!: boolean;
   @__.State private voiceflag!: boolean;
   @__.State private text!: string;
-  @__.State private languages!: Language[];
   @__.State private result!: translationResult;
   @__.State private hotkey!: string;
   @__.State private source!: SourcePresetItem;
 
   @__.Getter private fromto!: Array<Language['code']>;
   @__.Getter private hasResult!: boolean;
+  @__.Getter private languages!: Language[];
 
   @__.Mutation('text') private updateText!: MutationMethod;
   @__.Action('fromto') private updateFromto!: ActionMethod;

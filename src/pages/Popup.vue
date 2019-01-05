@@ -1,5 +1,5 @@
 <template>
-  <mdc-layout-app>
+  <mdc-layout-app class="popup">
     <popup-toolbar :raised="!isReachStart"></popup-toolbar>
     <popup-drawer></popup-drawer>
     <popup-content v-model="isReachStart"></popup-content>
@@ -100,6 +100,10 @@ body {
 }
 
 body {
+  background-color: var(--mdc-theme-primary);
+}
+
+html, .popup {
   background-color: #f5f5f5;
 }
 

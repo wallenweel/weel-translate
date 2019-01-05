@@ -11,6 +11,7 @@
 
         <!-- Source -->
         <mdc-button class="-spec -source" dense
+          :disabled="flag"
           v-if="name === 'translate'"
           @click="sourceMenu = true"
         >{{ source.name }}</mdc-button>
@@ -61,6 +62,7 @@ export default class PopupToolbar extends Vue {
 
   @__.State private source!: SourcePresetItem;
   @__.State private enabledSources!: SourcePresetItem[];
+  @__.State private flag!: boolean;
   @__.Action('source') private changeSource!: ActionMethod;
   @__.Action('clear') private clearList!: ActionMethod;
 
@@ -133,6 +135,9 @@ export default class PopupToolbar extends Vue {
     margin: auto;
     margin-right: 8px;
 
+    &.-source[disabled] {
+      opacity: .6;
+    }
     &.-source + .mdc-menu-anchor > .mdc-menu {
       margin: 8px;
     }

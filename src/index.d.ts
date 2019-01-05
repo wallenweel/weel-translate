@@ -16,7 +16,7 @@ declare interface PathValueFn {
 
 type configPairs<S, C = DefaultConfig> = { [k in keyof C]?: keyof S };
 type ConfigRegistFn<A, B> =
-  (pairs: configPairs<A | B, B | A>, order: 'pull' | 'push') =>
+  (pairs: configPairs<A | B | any, B | A | DefaultConfig>, order: 'pull' | 'push') =>
   (states: { [k in keyof A]?: any }) => { [k in keyof B]?: any };
 
 // parse params string to params object
@@ -165,6 +165,7 @@ declare interface IpcAction {
   name?: RuntimePort['name'];
   // const type
   type: string;
+  from?: string;
   payload?: any;
   error?: null | any;
 }
@@ -221,7 +222,8 @@ TemplateConfig,
 TranslationConfig,
 PreferenceConfig,
 BaseConfig {
-  [name: string]: any;
+  // [name: string]: any;
+  test?: boolean;
 }
 
 interface BaseConfig {

@@ -47,16 +47,19 @@ export const actions: ActionTree<State, State> = {
 
 export const ipcActions: ActionTree<State, State> = {
   [types.QUERY_CONFIG]: async ({ dispatch }, { payload: keys }): Promise<std> => {
-    const [err, config] = await dispatch('storage/query', { keys });
-
-    if (err !== null) {
-      return [new Error('query storage config failed!')];
-    }
+    const [, config] = await dispatch('storage/query', { keys });
 
     return [null, config];
   },
 
-  [types.QUERY_TRANSLATION]: ({ rootState }, { payload }) => {
+  [types.SET_CONFIG]: async ({ dispatch }, { payload: config }) => {
+    const [error, result] = await dispatch('storage/update', config);
+    if (error !== null) { return [error]; }
+
+    return [null, result];
+  },
+
+  [types.QUERY_TRANSLATION]: ({ rootState }, { payload: { type, params } }) => {
     if (istype(cancelRequest, 'function')) {
       (cancelRequest as Canceler)();
       return [`Don't repeat request.`];
@@ -70,14 +73,14 @@ export const ipcActions: ActionTree<State, State> = {
 
     const preset = presetInvoker(source.id, sources)[1] as SourcePreset;
     const translationRequest = request(preset);
-    return translationRequest(payload, {
+    return translationRequest(params, {
       timeout,
       cancelToken: new axios.CancelToken((cancel: Canceler) => {
         cancelRequest = cancel;
       }),
     }).then(([_, { data }]) => {
       const [error, result] = translationResultParser(data, preset);
-      return [error, { type: 'text', data }];
+      return [error, { type, data }];
     }).catch(([error]) => {
       return [error];
     }).finally(() => {

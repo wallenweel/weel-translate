@@ -2,11 +2,14 @@ import { MutationTree, ActionTree, Module } from 'vuex';
 import defaultConfig, { base, preference, translation, web, template } from '@/defaults/config';
 import { State as RootState } from '../index';
 import { update, clear } from '@/stores/mutations';
-import { QUERY_CONFIG } from '@/types';
+import { QUERY_CONFIG, SET_CONFIG } from '@/types';
 import { configKeysReducer, istype } from '@/functions';
 import debug from '@/functions/debug';
 
 const namespaced: boolean = true;
+
+let PAGE: 'background' | 'pupop' | 'content' | 'options';
+let KEYS: Array<keyof DefaultConfig>;
 
 const state: State | any = {
   ui_language: 'en',
@@ -54,8 +57,9 @@ const webActions: ActionTree<State, RootState> = {
     commit('update', config);
   },
 
-  save: ({ state, commit }) => {
-    localStorage.setItem('config', JSON.stringify(state));
+  save: ({ state, commit }, config) => {
+    const getConfig = JSON.parse(localStorage.getItem('config')!);
+    localStorage.setItem('config', JSON.stringify(Object.assign({}, getConfig, config)));
   },
 };
 
@@ -64,20 +68,29 @@ const ipcActions: ActionTree<State, RootState> = {
     const action: IpcAction = {
       type: QUERY_CONFIG,
       payload: keys,
+      from: PAGE,
     };
 
     const config = await dispatch('ipc', action, { root: true });
     commit('update', config);
   },
 
-  receive: ({ commit }, config) => {
-    commit('update', config);
+  save: async ({ dispatch }, config) => {
+    const action: IpcAction = {
+      type: SET_CONFIG,
+      payload: config,
+      from: PAGE,
+    };
+
+    const result = await dispatch('ipc', action, { root: true });
+    debug.log(result)
   },
 };
 
 const actions = Object.assign({
   init: async ({ dispatch, commit }, { page = '', keys = [] }) => {
-    commit('init', { page, keys });
+    [PAGE, KEYS] = [page, keys];
+
     await dispatch('fetch', keys);
   },
 
@@ -90,14 +103,14 @@ const actions = Object.assign({
 
     // debug.log(changes);
     for (const [k, v] of Object.entries(changes)) {
-      if (istype(v, 'undefined') || !state.keys!.includes(k)) { continue; }
+      if (istype(v, 'undefined') || !KEYS!.includes(k as keyof DefaultConfig)) { continue; }
       config[k] = v;
     }
 
-    commit('update', config);
-
     // push
-    dispatch('save', changes);
+    await dispatch('save', config);
+
+    commit('update', config);
   },
 } as ActionTree<State, RootState>, TARGET_BROWSER === 'web' ? webActions : ipcActions);
 
@@ -107,7 +120,6 @@ export const storage: Module<State, RootState> = {
 
 export default storage;
 
-export interface State extends DefaultConfig {
-  page?: 'background' | 'pupop' | 'content' | 'options';
-  keys?: Array<keyof DefaultConfig>;
+export interface State {
+  [name: string]: any;
 }

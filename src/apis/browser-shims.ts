@@ -12,6 +12,7 @@ const port: RuntimePort = {
   },
   onMessage: {
     addListener: () => void(0),
+    removeListener: () => void(0),
   },
   postMessage: () => void(0),
 };
@@ -28,6 +29,7 @@ export const browserShim: Browser = {
       removeListener: () => void(0),
       hasListener: () => true,
     },
+    sendMessage: () => new Promise(() => void(0)),
     onMessage: {
       addListener: () => void(0),
     },

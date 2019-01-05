@@ -5,12 +5,9 @@ import { ipcActions } from '@/stores/background/actions';
 import { istype } from '@/functions';
 
 const { runtime } = browser;
-const { dispatch } = store;
-
-let Port: RuntimePort;
 
 (async () => {
-  const [error] = await dispatch('startup');
+  const [error] = await store.dispatch('startup');
 
   if (error !== null) {
     debug.error(`background script startup incomplete.\n`, error);
@@ -19,36 +16,34 @@ let Port: RuntimePort;
   debug.log(store.state.storage);
 })();
 
-let ipcListener: RuntimePort['onMessage']['addListener'];
-ipcListener = (message) => {
-  const { name, receiver, type, payload = {} }: IpcAction = message as any;
+runtime.onConnect.addListener((port: RuntimePort) => {
+  port.onMessage.addListener((message) => {
+    return !!ipcActionResponser(message).then((response) => {
+      port.postMessage(response);
+    });
+  });
+});
 
+runtime.onMessage.addListener((message, sender, sendResponse) => {
+  return !!ipcActionResponser(message as IpcAction).then((response) => {
+    sendResponse(response);
+  });
+});
+
+async function ipcActionResponser(action: IpcAction): Promise<any> {
+  const { type, name } = action;
   if (!type) {
-    debug.log('warn', `IPC message's type is ${type}.`);
-    return false;
+    debug.warn(`IPC message's type is ${type}.`);
   }
 
   if (!Object.keys(ipcActions).includes(type)) {
-    debug.log('warn', `type "${type}" is not existed in actions.`);
-    return false;
+    debug.warn(`type "${type}" is not existed in actions.`);
   }
 
   // redirect to store's action
-  dispatch(type, { Port, ...message })
-    .then(([err, payload]) => {
-      if (err !== null) { debug.warn(err); }
+  const [err, payload] = await store.dispatch(action);
 
-      const error: string | null = istype(err, 'error') ? err.message : err;
-
-      Port.postMessage({ name, receiver, type, error, payload });
-    });
-
-  // accept send a response asynchronously
-  return true;
-};
-
-runtime.onConnect.addListener((port: RuntimePort) => {
-  Port = port;
-
-  Port.onMessage.addListener(ipcListener);
-});
+  if (err !== null) { debug.warn(err); }
+  const error: string | null = istype(err, 'error') ? err.message : err;
+  return { type, name, error, payload };
+}

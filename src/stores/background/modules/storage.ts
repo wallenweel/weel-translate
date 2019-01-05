@@ -25,7 +25,7 @@ const actions: ActionTree<State, RootState> = {
     return [null, config];
   },
 
-  query: async (_, keys?: storageKeys, type?: storageType): Promise<std<any>> => {
+  query: async (_, { keys, type }: { keys?: storageKeys, type?: storageType} = {}): Promise<std<any>> => {
     const config = await apiStorage[type || 'local'].get(keys || null);
 
     return [null, config];

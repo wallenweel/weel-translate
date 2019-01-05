@@ -63,7 +63,7 @@ const ipcActions: ActionTree<State, RootState> = {
   query: async ({ commit, dispatch }, keys?: storageKeys) => {
     const action: IpcAction = {
       type: QUERY_CONFIG,
-      receiver: 'storage/receive',
+      payload: keys,
     };
 
     const config = await dispatch('ipc', action, { root: true });

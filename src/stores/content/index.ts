@@ -30,13 +30,6 @@ const mutations = Object.assign({
 const actions: ActionTree<State, State> = {
   init: ({ state, dispatch, rootState }, { port }) => {
     Port = port;
-    Port.onMessage.addListener(({ name, receiver, type, error, payload }: IpcAction) => {
-      if (!receiver) {
-        return debug.warn(`receiving action ${receiver} is not exist`);
-      }
-
-      dispatch(receiver as string, payload);
-    });
 
     dispatch('translation/init');
     dispatch('storage/init', { page: 'popup', keys: [
@@ -47,9 +40,34 @@ const actions: ActionTree<State, State> = {
     ]});
   },
 
-  ipc: (_, { type, receiver, payload }) => {
-    const name: RuntimePort['name'] = Port.name;
-    Port.postMessage({ name, type, receiver, payload } as IpcAction);
+  ipc: async ({ dispatch }, { type, payload, port = true }) => {
+    let response: IpcResponse;
+    if (port) {
+      // response = await ipcAction(Port, { type, payload }) as IpcResponse;
+      const { name } = Port;
+      Port.postMessage({ name, type, payload } as IpcAction);
+
+      let i: number = 0;
+      response = await new Promise((resolve, reject) => {
+        const listener = ({ name, type, error, payload }: IpcAction) => {
+          if (error !== null) { reject(error); }
+          resolve({ name, type, payload });
+          debug.log(i++);
+          // Port.onMessage.removeListener(listener);
+        };
+        Port.onMessage.addListener(listener);
+      });
+    } else {
+      response = await browser.runtime.sendMessage({ type, payload });
+    }
+
+    const { error, payload: data } = response;
+
+    if (error !== null) {
+      dispatch('notify', error);
+    }
+
+    return data;
   },
 
   selection: ({ state, dispatch }, selection: Selection) => {

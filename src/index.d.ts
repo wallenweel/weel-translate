@@ -132,11 +132,19 @@ declare interface BrowserRuntime {
     removeListener(listener: (port: RuntimePort) => void): void;
     hasListener(listener: (port: RuntimePort) => void): boolean;
   },
+  // @see: https://developer.mozilla.org/en-US/docs/Mozilla/Add-ons/WebExtensions/API/runtime/sendMessage
+  sendMessage(
+    extensionId?: sendMessageExtensionId | sendMessageMessage, message?: sendMessageMessage | sendMessageOptions,
+    options?: sendMessageOptions): Promise<any>;
   onMessage: {
     // send a response asynchronously, `return true;` in the listener
     addListener(listener: listenerHandler): void | boolean;
   };
 }
+
+declare type sendMessageExtensionId = string;
+declare type sendMessageMessage = any;
+declare type sendMessageOptions = { includeIlsChannelId?: boolean, toProxyScript?: boolean };
 
 declare type storageType = 'local' | 'sync' | 'managed';
 
@@ -155,8 +163,13 @@ declare interface StorageAreaMethods {
 
 declare interface IpcAction {
   name?: RuntimePort['name'];
-  // action name that receive the message
-  receiver?: string;
+  // const type
+  type: string;
+  payload?: any;
+  error?: null | any;
+}
+declare interface IpcResponse {
+  name?: RuntimePort['name'];
   // const type
   type?: string;
   payload?: any;

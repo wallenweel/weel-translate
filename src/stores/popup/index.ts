@@ -6,6 +6,7 @@ import translation, { register as translationRegister } from './modules/translat
 import { update, clear } from '@/stores/mutations';
 import { presetInvoker } from '@/functions';
 import debug from '@/functions/debug';
+import browser from '@/apis/browser';
 
 Vue.use(Vuex);
 
@@ -18,38 +19,11 @@ const state: State = {
 const mutations = Object.assign({
 } as MutationTree<State>, { update, clear });
 
-const ipcAction = async (port: RuntimePort, action: { type: string; payload?: any }) => {
-  debug.log(action);
-
-  const { name } = port;
-  port.postMessage({ name, ...action } as IpcAction);
-
-  return new Promise((resolve, reject) => {
-    const listener = ({ name, type, error, payload }: IpcAction) => {
-      if (error !== null) { reject(error); }
-      resolve({ name, type, payload });
-      port.onMessage.removeListener(listener);
-    };
-    port.onMessage.addListener(listener);
-  });
-};
-
 const actions: ActionTree<State, State> = {
   init: ({ state, dispatch, rootState }, { port }) => {
     // initial a port for connecting other end
     // useless in "web" mode
     Port = port;
-    // Port.onMessage.addListener(({ name, receiver, type, error, payload }: IpcAction) => {
-    //   if (error !== null) {
-    //     dispatch('notify', error);
-    //   }
-
-    //   if (!receiver) {
-    //     return debug.warn(`receiving action ${receiver} is not exist`);
-    //   }
-
-    //   dispatch(receiver as string, payload);
-    // });
 
     dispatch('preference/init');
     dispatch('translation/init');
@@ -61,13 +35,34 @@ const actions: ActionTree<State, State> = {
     ]});
   },
 
-  ipc: (_, { type, receiver, payload }) => {
-    // const name: RuntimePort['name'] = Port.name;
-    // Port.postMessage({ name, type, receiver, payload } as IpcAction);
-    return ipcAction(Port, { type, payload }).then((data: any) => {
-      debug.log(data);
-      return data.payload;
-    });
+  ipc: async ({ dispatch }, { type, payload, port = true }) => {
+    let response: IpcResponse;
+    if (port) {
+      // response = await ipcAction(Port, { type, payload }) as IpcResponse;
+      const { name } = Port;
+      Port.postMessage({ name, type, payload } as IpcAction);
+
+      let i: number = 0;
+      response = await new Promise((resolve, reject) => {
+        const listener = ({ name, type, error, payload }: IpcAction) => {
+          if (error !== null) { reject(error); }
+          resolve({ name, type, payload });
+          debug.log(i++);
+          // Port.onMessage.removeListener(listener);
+        };
+        Port.onMessage.addListener(listener);
+      });
+    } else {
+      response = await browser.runtime.sendMessage({ type, payload });
+    }
+
+    const { error, payload: data } = response;
+
+    if (error !== null) {
+      dispatch('notify', error);
+    }
+
+    return data;
   },
 
   notify: ({ commit }, message: string) => {

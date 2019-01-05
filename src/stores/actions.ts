@@ -11,7 +11,7 @@ type A = Action<State, RootState>;
 
 let cancelTranslate: Canceler | null;
 
-export const webQuery: A = ({ state, dispatch }, [type = 'text', params]) => {
+export const webQuery: A = ({ state, dispatch }, { type = 'text', params }) => {
   if (istype(cancelTranslate, 'function')) {
     (cancelTranslate as Canceler)();
     dispatch('notify', `Please wait a moment.`);

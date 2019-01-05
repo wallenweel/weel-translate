@@ -53,7 +53,7 @@ const pushConfig = (configRegister as ConfigRegistFn<DefaultConfig, State>)(regi
 
 const mutations = Object.assign({
   flag: (state, type: 'voice' | '' = '') => {
-    const item = `${type}flag`;
+    const item = `${type}flag` as 'flag' | 'voiceflag';
     state[item] = !state[item];
   },
   text: (state, text) => { state.text = text; },
@@ -64,18 +64,14 @@ const webActions: ActionTree<State, RootState> = {
 };
 
 const ipcActions: ActionTree<State, RootState> = {
-  query: ({ dispatch }, params) => {
+  query: ({ dispatch }, payload) => {
     const action: IpcAction = {
       type: QUERY_TRANSLATION,
-      receiver: 'translation/receive',
-      payload: { ...params },
+      payload,
     };
 
-    dispatch('ipc', action, { root: true });
-  },
-
-  receive: ({ dispatch }, result = {}) => {
-    dispatch('done', result);
+    dispatch('ipc', action, { root: true })
+      .then((result) => dispatch('done', result));
   },
 };
 
@@ -115,7 +111,7 @@ const actions = Object.assign({
 
   text: ({ commit, dispatch }, { q, from, to }) => {
     commit('flag');
-    dispatch('query', ['text', { q, from, to }]);
+    dispatch('query', { type: 'text', params: { q, from, to } });
   },
 
   voice: ({ state, dispatch, commit }, [src, dest]) => {
@@ -126,7 +122,7 @@ const actions = Object.assign({
     if (!!dest) { [q, from] = [dest || result.translation, t]; }
 
     commit('flag', 'voice');
-    dispatch('query', ['audio', { q, from }]);
+    dispatch('query', { type: 'audio', params: { q, from } });
   },
 
   pick: ({ state, dispatch }, params) => {
@@ -272,23 +268,23 @@ export const translation: Module<State, RootState> = {
 
 export default translation;
 
+type C = DefaultConfig;
 interface State {
   hotkey: 'enter' | 'ctrl+enter';
 
   text: string;
   languages: Language[];
-  result: { [name: string]: any };
-  timeout?: number;
+  result: translationResult;
   flag: boolean;
   voiceflag: boolean;
   preset: null | SourcePreset;
 
-  sources: presetStringJson[];
-  source: SourcePresetItem;
-  enabledSources: SourcePresetItem[];
-  recent: translationListItem[] | [];
-  recentNumbers: number;
-  picked: translationListItem[] | [];
+  timeout?: C['request_timeout'];
 
-  [key: string]: any;
+  sources: C['translation_sources'];
+  source: C['translation_current_source'];
+  enabledSources: C['translation_enabled_sources'];
+  recent: C['translation_recent'];
+  recentNumbers: C['translation_recent_numbers'];
+  picked: C['translation_picked'];
 }

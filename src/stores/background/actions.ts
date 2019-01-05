@@ -46,8 +46,8 @@ export const actions: ActionTree<State, State> = {
 };
 
 export const ipcActions: ActionTree<State, State> = {
-  [types.QUERY_CONFIG]: async ({ dispatch }): Promise<std> => {
-    const [err, config] = await dispatch('storage/query');
+  [types.QUERY_CONFIG]: async ({ dispatch }, { payload: keys }): Promise<std> => {
+    const [err, config] = await dispatch('storage/query', { keys });
 
     if (err !== null) {
       return [new Error('query storage config failed!')];
@@ -77,7 +77,7 @@ export const ipcActions: ActionTree<State, State> = {
       }),
     }).then(([_, { data }]) => {
       const [error, result] = translationResultParser(data, preset);
-      return [error, result];
+      return [error, { type: 'text', data }];
     }).catch(([error]) => {
       return [error];
     }).finally(() => {

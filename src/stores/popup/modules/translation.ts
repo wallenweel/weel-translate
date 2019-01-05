@@ -2,12 +2,12 @@ import { MutationTree, ActionTree, Module, GetterTree } from 'vuex';
 import { State as RootState } from '../index';
 import i18n from '@/i18n';
 
-import { update, clear } from '@/stores/mutations';
 import {
   State as CommonState,
   namespaced,
   state as commonState,
   register,
+  mutations as commonMutations,
   actions as commonActions,
   webActions,
   ipcActions,
@@ -26,13 +26,9 @@ const state: State = {
   ...commonState,
 };
 
-const mutations = Object.assign({
-  flag: (state, type: 'voice' | '' = '') => {
-    const item = `${type}flag` as 'flag' | 'voiceflag';
-    state[item] = !state[item];
-  },
-  text: (state, text) => { state.text = text; },
-} as MutationTree<State>, { update, clear });
+const mutations: MutationTree<State> = {
+  ...commonMutations,
+};
 
 const actions = Object.assign({
   ...commonActions,

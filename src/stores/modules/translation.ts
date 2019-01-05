@@ -1,5 +1,6 @@
-import { Action, ActionTree, GetterTree } from 'vuex';
+import { Action, ActionTree, GetterTree, MutationTree, Mutation } from 'vuex';
 import { State as RootState } from '@/stores/';
+import { update, clear } from '@/stores/mutations';
 import { translationQuery } from '@/stores/actions';
 import {
   istype,
@@ -10,8 +11,6 @@ import i18n from '@/i18n';
 import md5 from 'js-md5';
 import { QUERY_TRANSLATION } from '@/types';
 import debug from '@/functions/debug';
-
-type A = Action<State, RootState>;
 
 export const namespaced: boolean = true;
 
@@ -43,8 +42,18 @@ export const register: configPairs<State> = {
 const pullConfig = (configRegister as ConfigRegistFn<State, DefaultConfig>)(register, 'pull');
 const pushConfig = (configRegister as ConfigRegistFn<DefaultConfig, State>)(register, 'push');
 
+export const mutations: MutationTree<State> = {
+  flag: (state, type: 'voice' | '' = '') => {
+    const item = `${type}flag` as 'flag' | 'voiceflag';
+    state[item] = !state[item];
+  },
+  text: (state, text) => { state.text = text; },
+  update,
+  clear,
+};
+
 export const webActions: ActionTree<State, RootState> = {
-  query: translationQuery as A,
+  query: translationQuery,
 };
 
 export const ipcActions: ActionTree<State, RootState> = {

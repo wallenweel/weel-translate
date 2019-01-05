@@ -6,18 +6,18 @@ import { QUERY_CONFIG, SET_CONFIG } from '@/types';
 import { configKeysReducer, istype } from '@/functions';
 import debug from '@/functions/debug';
 
-const namespaced: boolean = true;
+export const namespaced: boolean = true;
 
-let PAGE: 'background' | 'pupop' | 'content' | 'options';
-let KEYS: Array<keyof DefaultConfig>;
+export let PAGE: 'background' | 'pupop' | 'content' | 'options';
+export let KEYS: Array<keyof DefaultConfig>;
 
-const state: State | any = {
+export const state: State | any = {
   ui_language: 'en',
   template_layouts: [],
   template_enabled_sources: {},
 };
 
-const mutations = Object.assign({
+export const mutations = Object.assign({
   init: (state, { page, keys }) => {
     state.page = page;
     state.keys = keys;
@@ -25,7 +25,7 @@ const mutations = Object.assign({
 } as MutationTree<State>, { update, clear });
 
 type configKey = keyof DefaultConfig;
-const webActions: ActionTree<State, RootState> = {
+export const webActions: ActionTree<State, RootState> = {
   reset: ({ dispatch }, keys: configCat | configKey[]) => {
     let config: DefaultConfig;
     const configs: any = { base, preference, translation, web, template };
@@ -64,7 +64,7 @@ const webActions: ActionTree<State, RootState> = {
   },
 };
 
-const ipcActions: ActionTree<State, RootState> = {
+export const ipcActions: ActionTree<State, RootState> = {
   query: async ({ commit, dispatch }, keys?: storageKeys) => {
     const action: IpcAction = {
       type: QUERY_CONFIG,
@@ -87,7 +87,7 @@ const ipcActions: ActionTree<State, RootState> = {
   },
 };
 
-const actions = Object.assign({
+export const actions = Object.assign({
   init: async ({ dispatch, commit }, { page = '', keys = [] }) => {
     [PAGE, KEYS] = [page, keys];
 

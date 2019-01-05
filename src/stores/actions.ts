@@ -11,13 +11,14 @@ type A = Action<State, RootState>;
 
 let cancelTranslate: Canceler | null;
 
-export const webQuery: A = ({ state, dispatch }, { type = 'text', params }) => {
+export const translationQuery: A = ({ state, dispatch, getters }, { type = 'text', params }) => {
   if (istype(cancelTranslate, 'function')) {
     (cancelTranslate as Canceler)();
     dispatch('notify', `Please wait a moment.`);
   }
 
-  const { timeout, preset } = state;
+  const { timeout } = state;
+  const { preset } = getters;
   const webRequest = request(preset, type);
 
   return webRequest(params, {
@@ -28,10 +29,10 @@ export const webQuery: A = ({ state, dispatch }, { type = 'text', params }) => {
   }).then(([_, response]) => {
     const { data } = response || {} as any;
     debug.log(type, data);
-    dispatch('done', { type, data });
+    return { type, data };
   }).catch(([error]) => {
     debug.log(type, error);
-    dispatch('done', { type, error: error.message });
+    return { type, error: error.message };
   }).finally(() => {
     cancelTranslate = null;
   });

@@ -48,7 +48,7 @@ const actions: ActionTree<State, State> = {
           if (error !== null) { reject(error); }
           resolve({ name, type, payload });
           debug.log(i++);
-          // Port.onMessage.removeListener(listener);
+          Port.onMessage.removeListener(listener);
         };
         Port.onMessage.addListener(listener);
       });

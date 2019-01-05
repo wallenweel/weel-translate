@@ -42,7 +42,7 @@ const pushConfig = (configRegister as ConfigRegistFn<DefaultConfig, State>)(regi
 
 const webActions: ActionTree<State, RootState> = {
   reset: ({ dispatch }) => {
-    dispatch('storage/reset', Object.keys(pushConfig({} as State)), { root: true });
+    dispatch('storage/reset', Object.keys(register), { root: true });
   },
 };
 

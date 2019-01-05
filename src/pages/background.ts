@@ -45,5 +45,6 @@ async function ipcActionResponser(action: IpcAction): Promise<any> {
 
   if (err !== null) { debug.warn(err); }
   const error: string | null = istype(err, 'error') ? err.message : err;
+
   return { type, name, error, payload };
 }

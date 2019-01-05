@@ -14,7 +14,7 @@ import {
   istype,
   configRegister,
 } from '@/functions';
-import { webQuery as query } from '@/stores/actions';
+import { translationQuery as query } from '@/stores/actions';
 import debug from '@/functions/debug';
 
 const namespaced: boolean = true;
@@ -64,14 +64,14 @@ const webActions: ActionTree<State, RootState> = {
 };
 
 const ipcActions: ActionTree<State, RootState> = {
-  query: ({ dispatch }, payload) => {
+  query: ({ dispatch }, { type, params }) => {
     const action: IpcAction = {
       type: QUERY_TRANSLATION,
-      payload,
+      payload: { type, params },
     };
 
-    dispatch('ipc', action, { root: true })
-      .then((result) => dispatch('done', result));
+    return dispatch('ipc', action, { root: true });
+      // .then((data) => dispatch('done', { type, data }));
   },
 };
 
@@ -106,12 +106,15 @@ const actions = Object.assign({
       return dispatch('notify', i18n.t('blank_input_msg'));
     }
 
-    dispatch('text', { q, from, to });
+    dispatch('text', { q, from, to })
+      .then(({ type, data }) => {
+        dispatch('done', { type, data });
+      });
   },
 
   text: ({ commit, dispatch }, { q, from, to }) => {
     commit('flag');
-    dispatch('query', { type: 'text', params: { q, from, to } });
+    return dispatch('query', { type: 'text', params: { q, from, to } });
   },
 
   voice: ({ state, dispatch, commit }, [src, dest]) => {
@@ -122,7 +125,7 @@ const actions = Object.assign({
     if (!!dest) { [q, from] = [dest || result.translation, t]; }
 
     commit('flag', 'voice');
-    dispatch('query', { type: 'audio', params: { q, from } });
+    return dispatch('query', { type: 'audio', params: { q, from } });
   },
 
   pick: ({ state, dispatch }, params) => {

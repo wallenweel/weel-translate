@@ -60,6 +60,7 @@ const webActions: ActionTree<State, RootState> = {
   save: ({ state, commit }, config) => {
     const getConfig = JSON.parse(localStorage.getItem('config')!);
     localStorage.setItem('config', JSON.stringify(Object.assign({}, getConfig, config)));
+    return true;
   },
 };
 
@@ -82,8 +83,7 @@ const ipcActions: ActionTree<State, RootState> = {
       from: PAGE,
     };
 
-    const result = await dispatch('ipc', action, { root: true });
-    debug.log(result)
+    return await dispatch('ipc', action, { root: true });
   },
 };
 
@@ -108,9 +108,17 @@ const actions = Object.assign({
     }
 
     // push
-    await dispatch('save', config);
+    const success = await dispatch('save', config);
+
+    if (!success) {
+      debug.error('Does not save config changes. Maybe background server occur problem.');
+      dispatch('notify', 'Config saved failed.', { root: true });
+      return false;
+    }
 
     commit('update', config);
+
+    return true;
   },
 } as ActionTree<State, RootState>, TARGET_BROWSER === 'web' ? webActions : ipcActions);
 

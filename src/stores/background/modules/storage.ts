@@ -60,6 +60,8 @@ export const storage: Module<State, RootState> = {
   namespaced, state, actions, mutations,
 };
 
+export default storage;
+
 interface State {
   [key: string]: any;
 }

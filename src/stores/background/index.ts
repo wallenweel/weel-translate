@@ -1,8 +1,9 @@
 import Vue from 'vue';
 import Vuex, { MutationTree, ModuleTree } from 'vuex';
-import debug from '@/functions/debug';
 import actions from './actions';
-import { storage } from './modules/storage';
+import translation from './modules/translation';
+import storage from './modules/storage';
+import debug from '@/functions/debug';
 
 Vue.use(Vuex);
 
@@ -23,12 +24,20 @@ const mutations: MutationTree<State> = {
 };
 
 const modules: ModuleTree<State> = {
-  storage,
+  storage, translation,
 };
 
-export default new Vuex.Store<State>({
+const store = new Vuex.Store<State>({
   state, actions, mutations, modules,
 });
+
+store.subscribe((mutation) => {
+  if (mutation.type === 'storage/update') {
+    store.dispatch('translation/fetch');
+  }
+});
+
+export default store;
 
 export interface State {
   [name: string]: any;

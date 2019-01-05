@@ -14,7 +14,7 @@ import {
   istype,
   configRegister,
 } from '@/functions';
-import { webQuery as query } from '@/stores/actions';
+import { translationQuery as query } from '@/stores/actions';
 import debug from '@/functions/debug';
 
 const namespaced: boolean = true;

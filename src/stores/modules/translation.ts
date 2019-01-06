@@ -1,7 +1,6 @@
-import { Action, ActionTree, GetterTree, MutationTree, Mutation } from 'vuex';
+import { ActionTree, GetterTree, MutationTree } from 'vuex';
 import { State as RootState } from '@/stores/';
 import { update, clear } from '@/stores/mutations';
-import { translationQuery } from '@/stores/actions';
 import {
   istype,
   configRegister,
@@ -10,6 +9,8 @@ import {
 import i18n from '@/i18n';
 import md5 from 'js-md5';
 import { QUERY_TRANSLATION } from '@/types';
+import { translation as translationQuery } from '@/apis/request';
+import { requestTimeout } from '@/variables';
 import debug from '@/functions/debug';
 
 export const namespaced: boolean = true;
@@ -22,7 +23,7 @@ export const state: State = {
   voiceflag: false,
 
   sources: [],
-  source: { id: 'nil', name: 'Nil', fromto: ['nil', 'nil'] },
+  source: { id: '', name: '', fromto: ['', ''] },
   enabledSources: [],
   recent: [],
   recentNumbers: 0,
@@ -53,17 +54,23 @@ export const mutations: MutationTree<State> = {
 };
 
 export const webActions: ActionTree<State, RootState> = {
-  query: translationQuery,
+  query: async ({ state, dispatch, getters }, { type = 'text', params }) => {
+    const { timeout = requestTimeout } = state;
+    const { preset } = getters;
+    const [error, response] = await translationQuery({ type, params, timeout, preset });
+
+    return response;
+  },
 };
 
 export const ipcActions: ActionTree<State, RootState> = {
-  query: ({ dispatch }, { type, params }) => {
+  query: async ({ dispatch }, { type, params }) => {
     const action: IpcAction = {
       type: QUERY_TRANSLATION,
       payload: { type, params },
     };
 
-    return dispatch('ipc', action, { root: true });
+    return await dispatch('ipc', action, { root: true });
   },
 };
 
@@ -82,25 +89,25 @@ export const actions: ActionTree<State, RootState> = {
     dispatch('merge', { source });
   },
 
-  translate: ({ state, dispatch }, custom?: { text: string, source: SourcePresetItem }) => {
+  translate: async ({ state, dispatch }, custom?: { text: string, source: SourcePresetItem }) => {
     const { text: q, source: { fromto: [from, to] } } = custom || state;
 
     if (!q.trim().length) {
       return dispatch('notify', i18n.t('blank_input_msg'));
     }
 
-    dispatch('text', { q, from, to })
-      .then(({ type, data }) => {
-        dispatch('done', { type, data });
-      });
+    const { error, payload } = await dispatch('text', { q, from, to });
+    if (await dispatch('cancel', { type: 'text', error })) { return; }
+
+    dispatch('done', payload);
   },
 
-  text: ({ commit, dispatch }, { q, from, to }) => {
+  text: async ({ commit, dispatch }, { q, from, to }) => {
     commit('flag');
-    return dispatch('query', { type: 'text', params: { q, from, to } });
+    return await dispatch('query', { type: 'text', params: { q, from, to } });
   },
 
-  voice: ({ state, dispatch, commit }, [src, dest]) => {
+  voice: async ({ state, dispatch, commit }, [src, dest]) => {
     const { text, source: { fromto: [f, t] }, result } = state;
     let [q, from]: [string, Language['code']] = ['', ''];
 
@@ -108,7 +115,11 @@ export const actions: ActionTree<State, RootState> = {
     if (!!dest) { [q, from] = [dest || result.translation, t]; }
 
     commit('flag', 'voice');
-    return dispatch('query', { type: 'audio', params: { q, from } });
+
+    const { error, payload } = await dispatch('query', { type: 'audio', params: { q, from } });
+    if (await dispatch('cancel', { type: 'text', error })) { return; }
+
+    dispatch('done', payload);
   },
 
   pick: ({ state, dispatch }, params) => {
@@ -188,6 +199,22 @@ export const actions: ActionTree<State, RootState> = {
       // const ids = (state.recent as translationListItem[]).map((p) => p.id);
       dispatch('merge', { recent: [] });
     }
+  },
+
+  cancel: ({ dispatch }, { type, error }) => {
+    if (error !== null) {
+      let message: string = error;
+
+      if (/cancel/i.test(message)) { message = i18n.t('request_cancel_msg') as string; }
+      if (/timeout/i.test(message)) { message = i18n.t('request_timeout_msg') as string; }
+
+      const m = { text: 'translation', audio: 'voice' }[type as 'text' | 'audio'];
+      dispatch('notify', message || i18n.t(`__failed__.${m}`));
+
+      return true;
+    }
+
+    return false;
   },
 
   notify: ({ dispatch }, message: string) => {

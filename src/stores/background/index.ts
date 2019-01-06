@@ -31,12 +31,6 @@ const store = new Vuex.Store<State>({
   state, actions, mutations, modules,
 });
 
-store.subscribe((mutation) => {
-  if (mutation.type === 'storage/update') {
-    store.dispatch('translation/fetch');
-  }
-});
-
 export default store;
 
 export interface State {

@@ -16,22 +16,19 @@ const { runtime } = browser;
   debug.log(store.state.storage);
 })();
 
-runtime.onConnect.addListener((port: RuntimePort) => {
-  port.onMessage.addListener((message) => {
-    return !!ipcActionResponser(message).then((response) => {
-      port.postMessage(response);
-    });
-  });
-});
+// connect
+runtime.onConnect.addListener((port: RuntimePort) =>
+  port.onMessage.addListener((message) => !!ipcActionResponser(message)
+    .then((response) => port.postMessage(response))));
 
-runtime.onMessage.addListener((message, sender, sendResponse) => {
-  return !!ipcActionResponser(message as IpcAction).then((response) => {
-    sendResponse(response);
-  });
-});
+// message
+runtime.onMessage.addListener((message, sender, sendResponse) =>
+  !!ipcActionResponser(message as IpcAction)
+    .then((response) => sendResponse(response)));
 
 async function ipcActionResponser(action: IpcAction): Promise<any> {
-  const { type, name } = action;
+  const { name, type, token } = action;
+
   if (!type) {
     debug.warn(`IPC message's type is ${type}.`);
   }
@@ -40,11 +37,10 @@ async function ipcActionResponser(action: IpcAction): Promise<any> {
     debug.warn(`type "${type}" is not existed in actions.`);
   }
 
-  // redirect to store's action
   const [err, payload] = await store.dispatch(action);
 
   if (err !== null) { debug.warn(err); }
   const error: string | null = istype(err, 'error') ? err.message : err;
 
-  return { type, name, error, payload };
+  return { name, type, token, error, payload };
 }

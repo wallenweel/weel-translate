@@ -35,19 +35,24 @@ const actions: ActionTree<State, State> = {
     ]});
   },
 
-  ipc: async ({ dispatch }, { type, payload, port = true }) => {
+  ipc: async ({ dispatch }, { type, token, payload, port = true }) => {
     let response: IpcResponse;
-    if (port) {
-      // response = await ipcAction(Port, { type, payload }) as IpcResponse;
-      const { name } = Port;
-      Port.postMessage({ name, type, payload } as IpcAction);
 
-      let i: number = 0;
+    const [theName, theType, theToken] = [name, type, token];
+
+    if (port) {
+      const { name } = Port;
+      Port.postMessage({ name, type, token, payload } as IpcAction);
+
       response = await new Promise((resolve, reject) => {
-        const listener = ({ name, type, error, payload }: IpcAction) => {
+        const listener = ({ name, type, token, error, payload }: IpcAction) => {
+          if (theName !== name && theType !== type) { return; }
+          if (token !== undefined && theToken !== token) { return; }
           if (error !== null) { reject(error); }
+
           resolve({ name, type, payload });
-          debug.log(i++);
+
+          // remove the listener
           Port.onMessage.removeListener(listener);
         };
         Port.onMessage.addListener(listener);
@@ -56,13 +61,13 @@ const actions: ActionTree<State, State> = {
       response = await browser.runtime.sendMessage({ type, payload });
     }
 
-    const { error, payload: data } = response;
+    const { error = null } = response;
 
     if (error !== null) {
-      dispatch('notify', error);
+      debug.error(`occur error in named "${theType}" ipc action.`, error);
     }
 
-    return data;
+    return Object.assign(response, { error });
   },
 
   notify: ({ commit }, message: string) => {

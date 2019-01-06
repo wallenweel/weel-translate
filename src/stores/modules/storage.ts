@@ -72,7 +72,8 @@ export const ipcActions: ActionTree<State, RootState> = {
       from: PAGE,
     };
 
-    const config = await dispatch('ipc', action, { root: true });
+    const { payload: config } = await dispatch('ipc', action, { root: true });
+
     commit('update', config);
   },
 
@@ -83,7 +84,10 @@ export const ipcActions: ActionTree<State, RootState> = {
       from: PAGE,
     };
 
-    return await dispatch('ipc', action, { root: true });
+    const { error, payload: success } = await dispatch('ipc', action, { root: true });
+    if (error !== null) { return dispatch('notify', error, { root: true }); }
+
+    return success;
   },
 };
 

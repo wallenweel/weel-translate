@@ -1,6 +1,6 @@
 import { ActionTree } from 'vuex';
 import { State } from './';
-import { versionCheck, presetInvoker, translationResultParser, istype } from '@/functions';
+import { versionCheck } from '@/functions';
 import * as types from '@/types';
 import debug from '@/functions/debug';
 
@@ -9,15 +9,13 @@ export const actions: ActionTree<State, State> = {
     const [err1, config]: std = await dispatch('storage/init');
     if (err1 !== null) { return [err1]; }
 
-    const [err2] = await dispatch('checkVersion', config);
+    const [err2] = await dispatch('version', config);
     if (err2 !== null) { return [err2]; }
-
-    await dispatch('translation/init');
 
     return [null];
   },
 
-  checkVersion: async ({ dispatch }, config): Promise<std> => {
+  version: async ({ dispatch }, config): Promise<std> => {
     const { version, last_version } = config;
     const [, status] = versionCheck(version, last_version);
 
@@ -45,21 +43,15 @@ export const actions: ActionTree<State, State> = {
 
 export const ipcActions: ActionTree<State, State> = {
   [types.QUERY_CONFIG]: async ({ dispatch }, { payload: keys }): Promise<std> => {
-    const [, config] = await dispatch('storage/query', { keys });
-
-    return [null, config];
+    return await dispatch('storage/query', { keys });
   },
 
   [types.SET_CONFIG]: async ({ dispatch }, { payload: config }) => {
-    const [error, result] = await dispatch('storage/update', config);
-    if (error !== null) { return [error]; }
-
-    return [null, result];
+    return await dispatch('storage/update', config);
   },
 
   [types.QUERY_TRANSLATION]: async ({ dispatch }, { payload: { type, params } }) => {
-    const response = await dispatch('translation/query', { type, params });
-    return [null, response];
+    return await dispatch('translation/query', { type, params });
   },
 };
 

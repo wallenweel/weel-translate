@@ -33,34 +33,22 @@ const mutations: MutationTree<State> = {
 const actions = Object.assign({
   ...commonActions,
 
-  init: ({ state, commit, dispatch }) => {/** */},
+  init: () => {/** */},
 
-  done: ({ state, getters, commit, dispatch }, { type, data, error }) => {
+  done: ({ getters, commit, dispatch }, { type, data }) => {
     if (type === 'text') {
       commit('flag');
 
-      const [, result] = resultParser(data, getters.preset!);
+      const [error, result] = resultParser(data, getters.preset!);
+      if (error !== null) { dispatch('notify', error); }
 
       commit('update', { result });
 
       dispatch('record');
-      dispatch('notify', null);
-
-      if (!!error) {
-        let message: string = error;
-
-        if (/cancel/i.test(message)) { message = i18n.t('request_cancel_msg') as string; }
-        if (/timeout/i.test(message)) { message = i18n.t('request_timeout_msg') as string; }
-
-        dispatch('notify', message || i18n.t('__failed__.translation'));
-      }
     }
 
     if (type === 'audio') {
       commit('flag', 'voice');
-      dispatch('notify', null);
-
-      if (!!error) { dispatch('notify', i18n.t('__failed__.voice')); }
     }
   },
 } as ActionTree<State, RootState>, TARGET_BROWSER === 'web' ? webActions : ipcActions);
@@ -77,8 +65,6 @@ const getters: GetterTree<State, RootState> = {
       out = preset.languages;
     } else {
       out = languages;
-      // out = await import(/** webpackChunkName "languages" */ '@/assets/languages.json');
-      // out = (languages as any).default;
     }
 
     out = presetLanguagesFilter(out, preset.include, preset.exclude)[1] as Language[];

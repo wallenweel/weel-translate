@@ -75,11 +75,11 @@ declare interface PresetsStringifyFn {
 }
 
 declare interface ParamsParseFn<T> {
-  (target: T, params: { [k: string]: string }, parse?: boolean): std<T>;
+  (target: T, params: { [k: string]: string | undefined }, parse?: boolean): std<T>;
 }
 
 declare interface PresetParamsParseFn {
-  (target: queryParams, requestParams: { [key: string]: string; }, stringify?: boolean): std<URLSearchParams | string>;
+  (target: queryParams, requestParams: { [key: string]: string | undefined; }, stringify?: boolean): std<URLSearchParams | string>;
 }
 
 declare interface ParserPathSplitFn {
@@ -162,17 +162,21 @@ declare interface StorageAreaMethods {
 }
 
 declare interface IpcAction {
-  name?: RuntimePort['name'];
-  // const type
-  type: string;
-  from?: string;
+  port?: boolean; // whether a prot message or not
+  name?: RuntimePort['name']; // connect port name, needed if is a port message
+
+  type: string; // reacting action's type
+  token?: string; // flag action which start a query
+  from?: string; // page name
   payload?: any;
   error?: null | any;
 }
+
 declare interface IpcResponse {
-  name?: RuntimePort['name'];
-  // const type
-  type?: string;
+  name?: RuntimePort['name']; // existed if sender is a port message
+
+  type: string; // reacted action's type
+  token?: string; // flag action which start a query
   payload?: any;
   error?: null | any;
 }

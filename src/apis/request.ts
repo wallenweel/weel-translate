@@ -1,12 +1,18 @@
-import axios, { AxiosRequestConfig, CancelTokenSource } from 'axios';
-import { presetParamsParser, paramsParaser } from '@/functions';
+import axios, { AxiosRequestConfig, CancelTokenSource, Canceler } from 'axios';
+import { presetParamsParser, paramsParaser, istype } from '@/functions';
+import { requestTimeout } from '@/variables';
 import debug from '@/functions/debug';
 
 export const audio: HTMLAudioElement = new Audio();
 
 export const source = axios.CancelToken.source();
 
-export const request: ApiRequest = (preset, type = 'text') => {
+/**
+ * Base request method
+ * @param preset (crawler|source) preset
+ * @param type request type
+ */
+export const request: ApiRequest = (preset, type = 'text'): (a: any, b: any) => Promise<std> => {
   const { query, url, method } = Object.assign({}, preset);
 
   let querier: TextQuery | AudioQuery | undefined;
@@ -25,7 +31,7 @@ export const request: ApiRequest = (preset, type = 'text') => {
     }
   }
 
-  return (requestParams, userConfig = {} as AxiosRequestConfig) => {
+  return (requestParams, userConfig = {} as AxiosRequestConfig): Promise<std> => {
     let config: AxiosRequestConfig = Object.assign({
       timeout: 5000,
       cancelToken: source.token,
@@ -91,9 +97,9 @@ export const request: ApiRequest = (preset, type = 'text') => {
     return new Promise(async (resolve, reject) => {
       try {
         const response = await axios(config);
-        return resolve([null, response]);
+        resolve([null, response]);
       } catch (error) {
-        return reject([new Error(error)]);
+        reject([new Error(error)]);
       }
     });
   };
@@ -103,13 +109,52 @@ request.source = source;
 
 export default request;
 
+// cancel translate
+let translatingCanceler: Canceler | null;
+
+/**
+ * Translation request method
+ * @param options type, params, source preset, ...
+ */
+export const translation = ({
+  type = 'text',
+  params,
+  preset,
+  timeout = requestTimeout,
+}: {
+  type: 'text' | 'audio';
+  params: { q: string; from: Language['code'], to?: Language['code'] }
+  preset: SourcePreset;
+  timeout: number,
+}): Promise<std> => {
+  if (istype(translatingCanceler, 'function')) { translatingCanceler!(); }
+
+  const query = request(preset, type);
+
+  return query(params, {
+    timeout,
+    cancelToken: new axios.CancelToken((cancel: Canceler) => {
+      translatingCanceler = cancel;
+    }),
+  }).then(([_, response]) => {
+    const { data } = response || {} as any;
+    debug.info(type, data);
+    return [null, { type, data }];
+  }).catch(([error]) => {
+    debug.info(type, error);
+    return [error.message, { type }];
+  }).finally(() => {
+    translatingCanceler = null;
+  }) as Promise<std>;
+};
+
 /** /apis/request */
 declare type apiResponse = any;
 declare type apiRequestType = 'text' | 'audio' | 'web';
 
 declare interface ApiRequest {
   (sourcePreset: Preset, type?: apiRequestType):
-    (requestParams: { [key: string]: string; }, userConfig?: AxiosRequestConfig) =>
+    (requestParams: { [key: string]: string | undefined; }, userConfig?: AxiosRequestConfig) =>
       Promise<std<apiResponse>>;
   source: CancelTokenSource;
 }

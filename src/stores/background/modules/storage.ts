@@ -9,7 +9,9 @@ import debug from '@/functions/debug';
 
 const namespaced: boolean = true;
 
-const state: State = {};
+const state: State = {
+  ...defaultConfig,
+};
 
 
 const mutations: MutationTree<State> = Object.assign({
@@ -62,8 +64,8 @@ export const storage: Module<State, RootState> = {
 
 export default storage;
 
-interface State {
-  [key: string]: any;
+interface State extends DefaultConfig {
+  [name: string]: any;
 }
 
 interface UpdatePayload {

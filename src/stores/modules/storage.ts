@@ -105,13 +105,12 @@ export const actions = Object.assign({
   merge: async ({ state, dispatch, commit }, changes) => {
     const config: { [k: string]: any } = {};
 
-    // debug.log(changes);
     for (const [k, v] of Object.entries(changes)) {
       if (istype(v, 'undefined') || !KEYS!.includes(k as keyof DefaultConfig)) { continue; }
       config[k] = v;
     }
 
-    // push
+    // push changes
     const success = await dispatch('save', config);
 
     if (!success) {

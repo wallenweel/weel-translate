@@ -128,7 +128,6 @@ export const translation = ({
   timeout: number,
 }): Promise<std> => {
   if (istype(translatingCanceler, 'function')) { translatingCanceler!(); }
-
   const query = request(preset, type);
 
   return query(params, {

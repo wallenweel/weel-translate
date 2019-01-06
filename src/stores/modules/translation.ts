@@ -175,7 +175,7 @@ export const actions: ActionTree<State, RootState> = {
       }, []);
     }
     if (items.length >= recentNumbers) {
-      items = items.slice(0, recentNumbers);
+      items = items.slice(0, recentNumbers - 1);
     }
 
     dispatch('merge', { recent: item.concat(items) });

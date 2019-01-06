@@ -30,28 +30,21 @@ const mutations: MutationTree<State> = {
   ...commonMutations,
 };
 
-const actions = Object.assign({
+const actions: ActionTree<State, RootState> = {
+  ...(TARGET_BROWSER === 'web' ? webActions : ipcActions),
   ...commonActions,
 
   init: () => {/** */},
 
-  done: ({ getters, commit, dispatch }, { type, data }) => {
-    if (type === 'text') {
-      commit('flag');
+  result: ({ getters, commit, dispatch }, { type, data }) => {
+    const [error, result] = resultParser(data, getters.preset!);
+    if (error !== null) { dispatch('notify', error); }
 
-      const [error, result] = resultParser(data, getters.preset!);
-      if (error !== null) { dispatch('notify', error); }
+    commit('update', { result });
 
-      commit('update', { result });
-
-      dispatch('record');
-    }
-
-    if (type === 'audio') {
-      commit('flag', 'voice');
-    }
+    dispatch('record');
   },
-} as ActionTree<State, RootState>, TARGET_BROWSER === 'web' ? webActions : ipcActions);
+};
 
 const getters: GetterTree<State, RootState> = {
   ...commonGetters,

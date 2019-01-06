@@ -44,19 +44,23 @@ const actions: ActionTree<State, State> = {
       const { name } = Port;
       Port.postMessage({ name, type, token, payload } as IpcAction);
 
-      response = await new Promise((resolve, reject) => {
-        const listener = ({ name, type, token, error, payload }: IpcAction) => {
-          if (theName !== name && theType !== type) { return; }
-          if (token !== undefined && theToken !== token) { return; }
-          if (error !== null) { reject(error); }
+      try {
+        response = await new Promise((resolve, reject) => {
+          const listener = ({ name, type, token, error, payload }: IpcAction) => {
+            if (theName !== name && theType !== type) { return; }
+            if (token !== undefined && theToken !== token) { return; }
+            if (error !== null) { reject(error); }
 
-          resolve({ name, type, payload });
+            resolve({ name, type, payload });
 
-          // remove the listener
-          Port.onMessage.removeListener(listener);
-        };
-        Port.onMessage.addListener(listener);
-      });
+            // remove the listener
+            Port.onMessage.removeListener(listener);
+          };
+          Port.onMessage.addListener(listener);
+        });
+      } catch (error) {
+        response = { type, error };
+      }
     } else {
       response = await browser.runtime.sendMessage({ type, payload });
     }

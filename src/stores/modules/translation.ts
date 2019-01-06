@@ -96,15 +96,23 @@ export const actions: ActionTree<State, RootState> = {
       return dispatch('notify', i18n.t('blank_input_msg'));
     }
 
-    const { error, payload } = await dispatch('text', { q, from, to });
-    if (await dispatch('cancel', { type: 'text', error })) { return; }
+    const result = await dispatch('text', { q, from, to });
+    if (!result) { return; }
 
-    dispatch('done', payload);
+    dispatch('result', result);
   },
 
   text: async ({ commit, dispatch }, { q, from, to }) => {
     commit('flag');
-    return await dispatch('query', { type: 'text', params: { q, from, to } });
+
+    const { error, payload } = await dispatch('query', { type: 'text', params: { q, from, to } });
+
+    if (await dispatch('cancel', { type: 'text', error })) {
+      commit('flag');
+      return;
+    }
+
+    return payload;
   },
 
   voice: async ({ state, dispatch, commit }, [src, dest]) => {
@@ -116,10 +124,10 @@ export const actions: ActionTree<State, RootState> = {
 
     commit('flag', 'voice');
 
-    const { error, payload } = await dispatch('query', { type: 'audio', params: { q, from } });
+    const { error } = await dispatch('query', { type: 'audio', params: { q, from } });
     if (await dispatch('cancel', { type: 'text', error })) { return; }
 
-    dispatch('done', payload);
+    commit('flag', 'voice');
   },
 
   pick: ({ state, dispatch }, params) => {

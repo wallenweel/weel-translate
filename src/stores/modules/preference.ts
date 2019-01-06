@@ -3,19 +3,7 @@ import { State as RootState, moduleGenerator, ModuleGeneratFn } from '@/stores/i
 import { update, clear } from '@/stores/mutations';
 import debug from '@/functions/debug';
 
-const namespaced: boolean = true;
-
-export const state: State = {
-  timeout: 15000,
-  locale: 'en',
-  theme: 'light',
-  fabEnable: true,
-  fabPosition: 'center',
-  fapEnable: true,
-  fapPosition: 'center',
-  fapPositionEdge: 'tc',
-  contextMenuEnable: true,
-};
+export const namespaced: boolean = true;
 
 export const register: configPairs<State> = {
   request_timeout: 'timeout',
@@ -27,6 +15,18 @@ export const register: configPairs<State> = {
   preference_fap_position: 'fapPosition',
   preference_fap_position_edge: 'fapPositionEdge',
   preference_context_menu_enable: 'contextMenuEnable',
+};
+
+export const state: State = {
+  timeout: 15000,
+  locale: 'en',
+  theme: 'light',
+  fabEnable: true,
+  fabPosition: 'center',
+  fapEnable: true,
+  fapPosition: 'center',
+  fapPositionEdge: 'tc',
+  contextMenuEnable: true,
 };
 
 export const mutations: MutationTree<State> = { update, clear };

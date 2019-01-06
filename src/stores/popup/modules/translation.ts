@@ -1,10 +1,10 @@
 import { MutationTree, ActionTree, Module, GetterTree } from 'vuex';
 import { State as RootState } from '../index';
 import {
-  State as CommonState,
   namespaced,
+  register as commonRegister,
+  State as CommonState,
   state as commonState,
-  register,
   mutations as commonMutations,
   actions as commonActions,
   webActions,
@@ -16,7 +16,12 @@ import {
   presetLanguagesFilter,
   presetLanguagesModifier,
 } from '@/functions';
+import { moduleHelper } from '@/stores';
 import languages from '@/assets/languages.json';
+
+export const register: configPairs<State> = {
+  ...commonRegister,
+};
 
 const state: State = {
   ...commonState,
@@ -69,9 +74,7 @@ export const translation: Module<State, RootState> = {
   namespaced, state, actions, mutations, getters,
 };
 
-export default translation;
-
-export { register };
+export default moduleHelper(translation, register);
 
 interface State extends CommonState {
   hotkey: 'enter' | 'ctrl+enter';

@@ -3,7 +3,6 @@ import { State as RootState } from '@/stores/';
 import { update, clear } from '@/stores/mutations';
 import {
   istype,
-  configRegister,
   presetInvoker,
 } from '@/functions';
 import i18n from '@/i18n';
@@ -14,6 +13,16 @@ import { requestTimeout } from '@/variables';
 import debug from '@/functions/debug';
 
 export const namespaced: boolean = true;
+
+export const register: configPairs<State> = {
+  request_timeout: 'timeout',
+  translation_sources: 'sources',
+  translation_current_source: 'source',
+  translation_enabled_sources: 'enabledSources',
+  translation_recent: 'recent',
+  translation_recent_numbers: 'recentNumbers',
+  translation_picked: 'picked',
+};
 
 export const state: State = {
   text: '', // query text {q}
@@ -29,19 +38,6 @@ export const state: State = {
   recentNumbers: 0,
   picked: [],
 };
-
-export const register: configPairs<State> = {
-  request_timeout: 'timeout',
-  translation_sources: 'sources',
-  translation_current_source: 'source',
-  translation_enabled_sources: 'enabledSources',
-  translation_recent: 'recent',
-  translation_recent_numbers: 'recentNumbers',
-  translation_picked: 'picked',
-};
-
-const pullConfig = (configRegister as ConfigRegistFn<State>)(register, 'pull');
-const pushConfig = (configRegister as ConfigRegistFn<State>)(register, 'push');
 
 export const mutations: MutationTree<State> = {
   translating: (state, status: boolean) => {
@@ -77,14 +73,6 @@ export const ipcActions: ActionTree<State, RootState> = {
 };
 
 export const actions: ActionTree<State, RootState> = {
-  fetch: ({ commit, rootState }) => {
-    commit('update', pullConfig(rootState.storage));
-  },
-
-  merge: async ({ dispatch }, changes) => {
-    await dispatch('storage/merge', pushConfig(changes), { root: true });
-  },
-
   source: ({ state, dispatch }, id) => {
     const source: SourcePresetItem = state.enabledSources
       .filter((item: SourcePresetItem) => item.id === id)[0];

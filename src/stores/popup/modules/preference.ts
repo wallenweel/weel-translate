@@ -3,6 +3,7 @@ import { State as RootState } from '../index';
 import i18n from '@/i18n';
 import { presetLanguagesFilter, configKeysReducer } from '@/functions';
 import {
+  namespaced,
   register as commonRegister,
   State as CommonState,
   state as commonState,
@@ -12,19 +13,17 @@ import languages from '@/assets/languages.json';
 import { moduleHelper } from '@/stores';
 import debug from '@/functions/debug';
 
-const namespaced: boolean = true;
+export const register: configPairs<State> = {
+  ...commonRegister,
+
+  translation_recent_numbers: 'recentNumbers',
+};
 
 const state: State = {
   ...commonState,
 
   locales: [],
   recentNumbers: 0,
-};
-
-export const register: configPairs<State> = {
-  ...commonRegister,
-
-  translation_recent_numbers: 'recentNumbers',
 };
 
 const mutations: MutationTree<State> = {

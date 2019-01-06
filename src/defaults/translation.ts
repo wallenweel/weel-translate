@@ -4,6 +4,7 @@ const enabledSources: SourcePresetItem[] = sourcePresets
   .map(({ id, name, fromto }) => ({ id, name, fromto }));
 
 const translationConfig: TranslationConfig = {
+  translation_hotkey: 'enter',
   translation_recent: [],
   translation_recent_numbers: 10,
   translation_picked: [],

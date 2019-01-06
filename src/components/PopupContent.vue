@@ -46,6 +46,8 @@ export default class PopupContent extends Vue {
 .ps {
   $y-w: 4px;
   .ps__scrollbar-y-rail {
+    filter: brightness(90%);
+    border-radius: $y-w;
     background-color: var(--mdc-theme-text-secondary-on-dark, transparent) !important;
     width: $y-w !important;
     right: 2px !important;

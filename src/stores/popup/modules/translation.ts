@@ -20,6 +20,8 @@ import languages from '@/assets/languages.json';
 
 export const register: configPairs<State> = {
   ...commonRegister,
+
+  translation_hotkey: 'hotkey',
 };
 
 const state: State = {
@@ -66,6 +68,7 @@ export const translation: Module<State, RootState> = {
 
 export default moduleHelper(translation, register);
 
+type C = DefaultConfig;
 interface State extends CommonState {
-  hotkey: 'enter' | 'ctrl+enter';
+  hotkey: C['translation_hotkey'];
 }

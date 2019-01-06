@@ -270,6 +270,7 @@ declare type translationListItem = {
 };
 
 declare interface TranslationConfig {
+  translation_hotkey: 'enter' | 'ctrl+enter';
   translation_recent: translationListItem[] | [];
   translation_recent_numbers: number;
   translation_picked: translationListItem[] | [];

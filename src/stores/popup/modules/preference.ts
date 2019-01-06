@@ -17,6 +17,7 @@ export const register: configPairs<State> = {
   ...commonRegister,
 
   translation_recent_numbers: 'recentNumbers',
+  translation_hotkey: 'hotkey',
 };
 
 const state: State = {
@@ -24,6 +25,7 @@ const state: State = {
 
   locales: [],
   recentNumbers: 0,
+  hotkey: 'enter',
 };
 
 const mutations: MutationTree<State> = {
@@ -51,6 +53,7 @@ const getters: GetterTree<State, RootState> = {
   },
   options: (state) => configKeysReducer([
     'theme',
+    'hotkey',
     'fabEnable', 'fabPosition',
     'fapEnable', 'fapPosition', 'fapPositionEdge',
     'contextMenuEnable',
@@ -67,4 +70,5 @@ type C = DefaultConfig;
 interface State extends CommonState {
   locales?: Language[];
   recentNumbers: C['translation_recent_numbers'];
+  hotkey: C['translation_hotkey'];
 }

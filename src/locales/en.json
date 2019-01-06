@@ -25,6 +25,10 @@
   "interface": "Interface",
   "ui_languages": "UI Languages",
   "theme_color": "Theme Color",
+  "hotkey": {
+    "_": "Hotkeys",
+    "input": "Useable in input textarea"
+  },
   "light": "Light",
   "dark": "Dark",
   "float_action_button": "Float action button",

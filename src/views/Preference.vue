@@ -86,6 +86,14 @@ export default class PreferenceView extends Vue {
         value: 'theme',
       },
       {
+        headline: this.$t('hotkey._'),
+        subheading: this.$t('hotkey.input'),
+        type: 'radio',
+        name: 'query-hotkey',
+        values: [['Enter', 'enter'], ['Ctrl+Enter', 'ctrl+enter']],
+        value: 'hotkey',
+      },
+      {
         headline: this.$t('float_action_button'),
         type: 'checkbox',
         label: this.$t('enable_fab'),

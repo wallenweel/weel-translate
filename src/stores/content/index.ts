@@ -120,6 +120,9 @@ const actions: ActionTree<State, State> = {
 
   notify: ({ commit }, message: string) => {
     commit('update', { notify: message || null });
+    setTimeout(() => {
+      commit('update', { notify: null });
+    }, 3000);
   },
 };
 

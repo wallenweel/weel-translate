@@ -14,6 +14,14 @@
     </transition>
 
     <section class="float-action-panel" :style="fapStyle" ref="fap" v-if="fapEnable">
+      <transition name="fade">
+        <div class="-notofy" v-if="notify">
+          <mdc-card class="-wrap">
+          <span class="-message">{{ notify }}</span>
+          </mdc-card>
+        </div>
+      </transition>
+      
       <div class="-actions" v-show="hasResult && hasSelection">
         <mdc-card class="-action">
           <mdc-card-action-icon class="-button" @click="handleSwapFromto">
@@ -59,6 +67,7 @@ const __ = namespace('translation');
   },
 })
 export default class Content extends Vue {
+  @State private notify!: null | string;
   @State private rect!: S['rect'];
   @Getter private hasSelection!: boolean;
   @Getter private rectOffsetCC!: [number, number];
@@ -284,6 +293,21 @@ function overflow(
 
   // user-select: none;
   width: 240px;
+  // position: relative;
+
+  .-notofy {
+    width: 100%;
+    z-index: 11;
+    top: 0;
+    position: absolute;
+    .-wrap {
+      opacity: .92;
+    }
+    .-message {
+      padding: 16px;
+      font-size: 12px;
+    }
+  }
 
   .-actions {
     $sz: 24px;

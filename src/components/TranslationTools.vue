@@ -71,12 +71,13 @@ export default class TranslationTools extends Vue {
   }
 
   @Watch('flag')
-  private onDone(val: boolean) {
-    if (this.progress === 1) {
+  private onDone(flag: boolean) {
+    if (this.progress === 1 && flag) {
       return this.startProgress();
+    } else {
+      clearInterval(this.interval);
+      this.progress = 1;
     }
-    clearInterval(this.interval);
-    this.progress = 1;
   }
 }
 </script>

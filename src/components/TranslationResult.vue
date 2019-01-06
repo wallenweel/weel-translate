@@ -7,7 +7,7 @@
           <template v-for="(value, i) in row">
             <voice-action-button class="_button" :key="`a_${i}`"
               v-if="isAction(value, 'voice')"
-              :params="parseAction(value)" :flag="flags.voice"
+              :params="parseAction(value)"
             >
             </voice-action-button>
             <pick-action-button class="_button" :key="`a_${i}`"
@@ -48,7 +48,6 @@ export default class TranslationResult extends Vue {
 
   @Prop(Object) private result!: translationResult;
   @Prop(Object) private layout!: templatePreset;
-  @Prop(Object) private flags!: { [type in 'voice' | 'picked']: boolean };
 
   private get hasResult(): boolean { return !!Object.values(this.result).length; }
   private get parseResultRows(): templatePreset['rows'] {

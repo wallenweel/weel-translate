@@ -1,7 +1,5 @@
 import { MutationTree, ActionTree, Module, GetterTree } from 'vuex';
 import { State as RootState } from '../index';
-import i18n from '@/i18n';
-
 import {
   State as CommonState,
   namespaced,
@@ -21,9 +19,9 @@ import {
 import languages from '@/assets/languages.json';
 
 const state: State = {
-  hotkey: 'enter',
-
   ...commonState,
+
+  hotkey: 'enter',
 };
 
 const mutations: MutationTree<State> = {

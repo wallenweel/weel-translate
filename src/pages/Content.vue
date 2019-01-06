@@ -30,7 +30,6 @@
         <translation-result class="-result"
           v-show="hasResult && hasSelection"
           :result="result" :layout="resultLayout"
-          :flags="{ voice: voiceflag }"
         />
       </transition>
     </section>
@@ -76,8 +75,6 @@ export default class Content extends Vue {
   @_.State private fapPosition!: string;
   @_.State private fapPositionEdge!: string;
 
-  @__.State private flag!: boolean;
-  @__.State private voiceflag!: boolean;
   @__.State private result!: translationResult;
   @__.Getter private fromto!: Array<Language['code']>;
   @__.Getter private hasResult!: boolean;

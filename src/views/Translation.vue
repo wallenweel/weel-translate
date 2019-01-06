@@ -8,7 +8,7 @@
 
     <translation-tools class="-tools"
       :value="value"
-      @query="handleQuery" :flag="flag"
+      @query="handleQuery" :flag="translating"
       @clear="handleClear" @paste="handlePaste"
       :fromto="fromto" @change="handleFromto"
       :languages="languages"
@@ -17,7 +17,6 @@
 
     <translation-result class="-result"
       :result="result" :layout="resultLayout"
-      :flags="{ voice: voiceflag }"
     />
 
     <mdc-dialog v-model="open" scrollable
@@ -57,8 +56,9 @@ export default class TranslationView extends Vue {
 
   @Getter private resultLayout!: LayoutPreset;
 
-  @__.State private flag!: boolean;
-  @__.State private voiceflag!: boolean;
+  @__.State private translating!: boolean;
+  @__.State private voicing!: boolean;
+
   @__.State private text!: string;
   @__.State private result!: translationResult;
   @__.State private hotkey!: string;

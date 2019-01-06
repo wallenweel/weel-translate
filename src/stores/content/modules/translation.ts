@@ -1,13 +1,11 @@
 import { MutationTree, ActionTree, Module, GetterTree } from 'vuex';
 import { State as RootState } from '../index';
-import i18n from '@/i18n';
-
-import { update, clear } from '@/stores/mutations';
 import {
-  State,
+  State as CommonState,
   namespaced,
   state as commonState,
   register,
+  mutations as commonMutations,
   actions as commonActions,
   webActions,
   ipcActions,
@@ -21,48 +19,25 @@ const state: State = {
   ...commonState,
 };
 
-const mutations = Object.assign({
-  flag: (state, type: 'voice' | '' = '') => {
-    const item = `${type}flag` as 'flag' | 'voiceflag';
-    state[item] = !state[item];
-  },
-  text: (state, text) => { state.text = text; },
-} as MutationTree<State>, { update, clear });
+const mutations: MutationTree<State> = {
+  ...commonMutations,
+};
 
-const actions = Object.assign({
+const actions: ActionTree<State, RootState> = {
+  ...(TARGET_BROWSER === 'web' ? webActions : ipcActions),
   ...commonActions,
 
-  init: ({ state, commit, dispatch }) => {/** */},
+  init: () => {/** */},
 
-  done: ({ state, getters, commit, dispatch }, { type, data, error }) => {
-    if (type === 'text') {
-      commit('flag');
+  result: ({ getters, commit, dispatch }, { type, data }) => {
+    const [error, result] = resultParser(data, getters.preset!);
+    if (error !== null) { dispatch('notify', error); }
 
-      const [, result] = resultParser(data, getters.preset!);
+    commit('update', { result });
 
-      commit('update', { result });
-
-      dispatch('record');
-      dispatch('notify', null);
-
-      if (!!error) {
-        let message: string = error;
-
-        if (/cancel/i.test(message)) { message = i18n.t('request_cancel_msg') as string; }
-        if (/timeout/i.test(message)) { message = i18n.t('request_timeout_msg') as string; }
-
-        dispatch('notify', message || i18n.t('__failed__.translation'));
-      }
-    }
-
-    if (type === 'audio') {
-      commit('flag', 'voice');
-      dispatch('notify', null);
-
-      if (!!error) { dispatch('notify', i18n.t('__failed__.voice')); }
-    }
+    dispatch('record');
   },
-} as ActionTree<State, RootState>, TARGET_BROWSER === 'web' ? webActions : ipcActions);
+};
 
 const getters: GetterTree<State, RootState> = {
   ...commonGetters,
@@ -75,3 +50,5 @@ export const translation: Module<State, RootState> = {
 export default translation;
 
 export { register };
+
+type State = CommonState;

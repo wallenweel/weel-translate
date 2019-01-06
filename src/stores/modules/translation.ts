@@ -19,8 +19,8 @@ export const state: State = {
   text: '', // query text {q}
   result: {},
   timeout: 1000,
-  flag: false,
-  voiceflag: false,
+  translating: false,
+  voicing: false,
 
   sources: [],
   source: { id: '', name: '', fromto: ['', ''] },
@@ -44,9 +44,11 @@ const pullConfig = (configRegister as ConfigRegistFn<State, DefaultConfig>)(regi
 const pushConfig = (configRegister as ConfigRegistFn<DefaultConfig, State>)(register, 'push');
 
 export const mutations: MutationTree<State> = {
-  flag: (state, type: 'voice' | '' = '') => {
-    const item = `${type}flag` as 'flag' | 'voiceflag';
-    state[item] = !state[item];
+  translating: (state, status: boolean) => {
+    state.translating = status;
+  },
+  voicing: (state, status: boolean) => {
+    state.voicing = status;
   },
   text: (state, text) => { state.text = text; },
   update,
@@ -57,9 +59,9 @@ export const webActions: ActionTree<State, RootState> = {
   query: async ({ state, dispatch, getters }, { type = 'text', params }) => {
     const { timeout = requestTimeout } = state;
     const { preset } = getters;
-    const [error, response] = await translationQuery({ type, params, timeout, preset });
+    const [error, payload] = await translationQuery({ type, params, timeout, preset });
 
-    return response;
+    return { error, payload };
   },
 };
 
@@ -103,14 +105,13 @@ export const actions: ActionTree<State, RootState> = {
   },
 
   text: async ({ commit, dispatch }, { q, from, to }) => {
-    commit('flag');
+    commit('translating', true);
 
     const { error, payload } = await dispatch('query', { type: 'text', params: { q, from, to } });
 
-    if (await dispatch('cancel', { type: 'text', error })) {
-      commit('flag');
-      return;
-    }
+    commit('translating', false);
+
+    if (await dispatch('cancel', { type: 'text', error })) { return; }
 
     return payload;
   },
@@ -122,12 +123,12 @@ export const actions: ActionTree<State, RootState> = {
     if (!!src) { [q, from] = [text, f]; }
     if (!!dest) { [q, from] = [dest || result.translation, t]; }
 
-    commit('flag', 'voice');
+    commit('voicing', true);
 
     const { error } = await dispatch('query', { type: 'audio', params: { q, from } });
-    if (await dispatch('cancel', { type: 'text', error })) { return; }
 
-    commit('flag', 'voice');
+    commit('voicing', false);
+    if (await dispatch('cancel', { type: 'text', error })) { return; }
   },
 
   pick: ({ state, dispatch }, params) => {
@@ -240,8 +241,8 @@ type C = DefaultConfig;
 export interface State {
   text: string;
   result: translationResult;
-  flag: boolean;
-  voiceflag: boolean;
+  translating: boolean;
+  voicing: boolean;
 
   timeout?: C['request_timeout'];
 

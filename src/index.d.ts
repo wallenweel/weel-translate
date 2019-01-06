@@ -15,9 +15,8 @@ declare interface PathValueFn {
 }
 
 type configPairs<S, C = DefaultConfig> = { [k in keyof C]?: keyof S };
-type ConfigRegistFn<A, B> =
-  (pairs: configPairs<A | B | any, B | A | DefaultConfig>, order: 'pull' | 'push') =>
-  (states: { [k in keyof A]?: any }) => { [k in keyof B]?: any };
+type ConfigRegistFn<S, C = DefaultConfig> =
+  (pairs: configPairs<S, C>, order: 'pull' | 'push') => (stuffs: C | S | any) => S | C | any;
 
 // parse params string to params object
 // such as: 'host?a&b=b&c=c' => { a: true, b: 'b', c: 'c' }

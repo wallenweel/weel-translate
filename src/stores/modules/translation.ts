@@ -40,8 +40,8 @@ export const register: configPairs<State> = {
   translation_picked: 'picked',
 };
 
-const pullConfig = (configRegister as ConfigRegistFn<State, DefaultConfig>)(register, 'pull');
-const pushConfig = (configRegister as ConfigRegistFn<DefaultConfig, State>)(register, 'push');
+const pullConfig = (configRegister as ConfigRegistFn<State>)(register, 'pull');
+const pushConfig = (configRegister as ConfigRegistFn<State>)(register, 'push');
 
 export const mutations: MutationTree<State> = {
   translating: (state, status: boolean) => {

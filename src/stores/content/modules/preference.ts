@@ -30,8 +30,8 @@ export const register: configPairs<State> = {
   preference_context_menu_enable: 'contextMenuEnable',
 };
 
-const pullConfig = (configRegister as ConfigRegistFn<State, DefaultConfig>)(register, 'pull');
-const pushConfig = (configRegister as ConfigRegistFn<DefaultConfig, State>)(register, 'push');
+const pullConfig = (configRegister as ConfigRegistFn<State>)(register, 'pull');
+const pushConfig = (configRegister as ConfigRegistFn<State>)(register, 'push');
 
 const actions = {
   fetch: ({ commit, rootState }) => {

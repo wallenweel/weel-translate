@@ -9,12 +9,8 @@ import { presetLanguagesFilter, configRegister } from '@/functions';
 const namespaced: boolean = true;
 
 const state: State = {
-  locales: [],
-  recentNumbers: 0,
-
   timeout: 15000,
   locale: 'en',
-
   theme: 'light',
   fabEnable: true,
   fabPosition: 'center',
@@ -27,7 +23,6 @@ const state: State = {
 export const register: configPairs<State> = {
   request_timeout: 'timeout',
   ui_language: 'locale',
-  translation_recent_numbers: 'recentNumbers',
   preference_theme: 'theme',
   preference_fab_enable: 'fabEnable',
   preference_fab_position: 'fabPosition',
@@ -97,12 +92,8 @@ export default preference;
 
 type C = DefaultConfig;
 interface State {
-  locales?: Language[];
-
   timeout: C['request_timeout'];
   locale: C['ui_language'];
-
-  recentNumbers: C['translation_recent_numbers'];
 
   theme: C['preference_theme'];
   fabEnable: C['preference_fab_enable'];

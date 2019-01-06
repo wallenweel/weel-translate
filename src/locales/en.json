@@ -58,6 +58,7 @@
 
   "request_cancel_msg": "Request canceled",
   "request_timeout_msg": "Request is timeout",
+  "request_not_support": "Request is not support",
   "blank_input_msg": "Need an input first",
 
   "languages": "Languages",

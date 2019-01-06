@@ -12,7 +12,6 @@ import {
   getters as commonGetters,
 } from '@/stores/modules/translation';
 import {
-  translationResultParser as resultParser,
   presetLanguagesFilter,
   presetLanguagesModifier,
 } from '@/functions';
@@ -38,15 +37,6 @@ const actions: ActionTree<State, RootState> = {
   ...commonActions,
 
   init: () => {/** */},
-
-  result: ({ getters, commit, dispatch }, { type, data }) => {
-    const [error, result] = resultParser(data, getters.preset!);
-    if (error !== null) { dispatch('notify', error); }
-
-    commit('update', { result });
-
-    dispatch('record');
-  },
 };
 
 const getters: GetterTree<State, RootState> = {

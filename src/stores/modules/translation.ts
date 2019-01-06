@@ -4,6 +4,7 @@ import { update, clear } from '@/stores/mutations';
 import {
   istype,
   presetInvoker,
+  translationResultParser,
 } from '@/functions';
 import i18n from '@/i18n';
 import md5 from 'js-md5';
@@ -112,10 +113,9 @@ export const actions: ActionTree<State, RootState> = {
     if (!!dest) { [q, from] = [dest || result.translation, t]; }
 
     commit('voicing', true);
-
     const { error } = await dispatch('query', { type: 'audio', params: { q, from } });
-
     commit('voicing', false);
+
     if (await dispatch('cancel', { type: 'text', error })) { return; }
   },
 
@@ -204,6 +204,7 @@ export const actions: ActionTree<State, RootState> = {
 
       if (/cancel/i.test(message)) { message = i18n.t('request_cancel_msg') as string; }
       if (/timeout/i.test(message)) { message = i18n.t('request_timeout_msg') as string; }
+      if (/NotSupportedError/i.test(message)) { message = i18n.t('request_not_support') as string; }
 
       const m = { text: 'translation', audio: 'voice' }[type as 'text' | 'audio'];
       dispatch('notify', message || i18n.t(`__failed__.${m}`));
@@ -214,6 +215,15 @@ export const actions: ActionTree<State, RootState> = {
     return false;
   },
 
+  result: ({ getters, commit, dispatch }, { type, data }) => {
+    const [error, result] = translationResultParser(data, getters.preset!);
+    if (error !== null) { dispatch('notify', error); }
+
+    commit('update', { result });
+
+    dispatch('record');
+  },
+
   notify: ({ dispatch }, message: string) => {
     dispatch('notify', message, { root: true });
   },
@@ -222,7 +232,7 @@ export const actions: ActionTree<State, RootState> = {
 export const getters: GetterTree<State, RootState> = {
   preset: (state) => presetInvoker(state.source.id, state.sources)[1] as SourcePreset,
   fromto: (state): Array<Language['code']> => state.source.fromto,
-  hasResult: (state): boolean => !!Object.values(state.result).length,
+  hasResult: (state): boolean => !!Object.values(state.result || {}).length,
 };
 
 type C = DefaultConfig;

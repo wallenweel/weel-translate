@@ -16,7 +16,7 @@
     />
 
     <translation-result class="-result"
-      :result="result" :layout="resultLayout"
+      :result="result" :layout="resultLayout" :has="hasResult"
     />
 
     <mdc-dialog v-model="open" scrollable

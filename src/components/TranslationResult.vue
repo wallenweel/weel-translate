@@ -1,7 +1,7 @@
 <template>
   <div class="translation-result">
     <transition name="fade">
-      <mdc-card class="_section" :wlt-id="layout.id" v-if="hasResult">
+      <mdc-card class="_section" :wlt-id="layout.id" v-if="has">
         <div v-for="(row, n) in this.parseResultRows" :key="n"
           class="_row" :wlt-id="n">
           <template v-for="(value, i) in row">
@@ -47,9 +47,9 @@ export default class TranslationResult extends Vue {
   // };
 
   @Prop(Object) private result!: translationResult;
+  @Prop(Boolean) private has!: boolean;
   @Prop(Object) private layout!: templatePreset;
 
-  private get hasResult(): boolean { return !!Object.values(this.result).length; }
   private get parseResultRows(): templatePreset['rows'] {
     const [, rows] = templateLayoutParser(this.result, this.layout);
     debug.log(rows);

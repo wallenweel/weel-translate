@@ -1,19 +1,21 @@
 import { MutationTree, ActionTree, Module, GetterTree } from 'vuex';
 import { State as RootState } from '../index';
 import {
-  State as CommonState,
   namespaced,
+  register as commonRegister,
+  State as CommonState,
   state as commonState,
-  register,
   mutations as commonMutations,
   actions as commonActions,
   webActions,
   ipcActions,
   getters as commonGetters,
 } from '@/stores/modules/translation';
-import {
-  translationResultParser as resultParser,
-} from '@/functions';
+import { moduleHelper } from '@/stores';
+
+export const register: configPairs<State> = {
+  ...commonRegister,
+};
 
 const state: State = {
   ...commonState,
@@ -28,15 +30,6 @@ const actions: ActionTree<State, RootState> = {
   ...commonActions,
 
   init: () => {/** */},
-
-  result: ({ getters, commit, dispatch }, { type, data }) => {
-    const [error, result] = resultParser(data, getters.preset!);
-    if (error !== null) { dispatch('notify', error); }
-
-    commit('update', { result });
-
-    dispatch('record');
-  },
 };
 
 const getters: GetterTree<State, RootState> = {
@@ -47,8 +40,6 @@ export const translation: Module<State, RootState> = {
   namespaced, state, actions, mutations, getters,
 };
 
-export default translation;
-
-export { register };
+export default moduleHelper(translation, register);
 
 type State = CommonState;

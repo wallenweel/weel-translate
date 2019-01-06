@@ -115,6 +115,7 @@ const actions: ActionTree<State, State> = {
 
   unselect: ({ commit }) => {
     commit('update', { text: null, initOffset: null });
+    commit('translation/update', { result: null });
   },
 
   notify: ({ commit }, message: string) => {

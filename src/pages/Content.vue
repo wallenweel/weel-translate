@@ -26,12 +26,11 @@
           </mdc-card-action-icon>
         </mdc-card>
       </div>
-      <transition name="fade">
-        <translation-result class="-result"
-          v-show="hasResult && hasSelection"
-          :result="result" :layout="resultLayout"
-        />
-      </transition>
+
+      <translation-result class="-result"
+        :result="result" :layout="resultLayout"
+        :has="hasResult && hasSelection"
+      />
     </section>
   </div>
 </template>

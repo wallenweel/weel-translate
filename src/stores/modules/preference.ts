@@ -22,9 +22,9 @@ export const state: State = {
   locale: 'en',
   theme: 'light',
   fabEnable: true,
-  fabPosition: 'center',
+  fabPosition: 'auto-center',
   fapEnable: true,
-  fapPosition: 'center',
+  fapPosition: 'follow',
   fapPositionEdge: 'tc',
   contextMenuEnable: true,
 };

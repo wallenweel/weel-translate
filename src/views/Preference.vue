@@ -67,8 +67,8 @@ const _ = namespace('preference');
 export default class PreferenceView extends Vue {
   @_.State private timeout!: number;
   @_.State private locale!: Language['code'];
-  @_.State private locales!: Language[];
 
+  @_.Getter private locales!: Language[];
   @_.Getter private options!: any;
 
   @_.Action('merge') private mergeConfig!: any;

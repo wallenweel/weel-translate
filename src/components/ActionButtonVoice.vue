@@ -45,10 +45,13 @@ export default class VoiceActionButton extends Vue {
 
   private get isDisabled() {
     let disabled: boolean = false;
+
     const { src, dest } = this.params || {} as any;
     const [from, to] = this.fromto;
+
     if (!!src) { disabled = this.unsupport.includes(from); }
     if (!!dest) { disabled = this.unsupport.includes(to); }
+
     return this.disabled || disabled;
   }
 

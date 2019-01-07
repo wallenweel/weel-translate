@@ -13,7 +13,10 @@
       </mdc-fab>
     </transition>
 
-    <section class="float-action-panel" :style="fapStyle" ref="fap" v-if="fapEnable">
+    <section class="float-action-panel" :style="fapStyle" ref="fap"
+      v-if="fapEnable"
+      @mousedown.stop.prevent
+    >
       <transition name="fade">
         <div class="-notofy" v-if="notify">
           <mdc-card class="-wrap">

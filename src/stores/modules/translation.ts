@@ -184,7 +184,7 @@ export const actions: ActionTree<State, RootState> = {
 
   fromto: ({ state, dispatch }, fromto) => {
     const changes = { source: { ...state.source, fromto } };
-    dispatch('merge', changes);
+    return dispatch('merge', changes);
   },
 
   clear: ({ state, dispatch }, type) => {

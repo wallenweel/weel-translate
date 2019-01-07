@@ -32,11 +32,7 @@ const mutations: MutationTree<State> = {
   ...commonMutations,
 };
 
-const webActions: ActionTree<State, RootState> = {
-  reset: ({ dispatch }) => {
-    dispatch('storage/reset', Object.keys(register), { root: true });
-  },
-};
+const webActions: ActionTree<State, RootState> = {};
 
 const ipcActions: ActionTree<State, RootState> = {};
 
@@ -44,6 +40,10 @@ const actions: ActionTree<State, RootState> = {
   ...(TARGET_BROWSER === 'web' ? webActions : ipcActions),
 
   init: () => {/** */},
+
+  reset: ({ dispatch }) => {
+    dispatch('storage/reset', Object.keys(register), { root: true });
+  },
 };
 
 const getters: GetterTree<State, RootState> = {

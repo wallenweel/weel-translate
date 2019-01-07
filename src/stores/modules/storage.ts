@@ -2,7 +2,7 @@ import { MutationTree, ActionTree, Module } from 'vuex';
 import defaultConfig, { base, preference, translation, web, template } from '@/defaults/config';
 import { State as RootState } from '../index';
 import { update, clear } from '@/stores/mutations';
-import { QUERY_CONFIG, SET_CONFIG } from '@/types';
+import { QUERY_CONFIG, SET_CONFIG, RESET_CONFIG } from '@/types';
 import { configKeysReducer, istype } from '@/functions';
 import debug from '@/functions/debug';
 
@@ -10,6 +10,14 @@ export const namespaced: boolean = true;
 
 export let PAGE: 'background' | 'popup' | 'content' | 'options';
 export let KEYS: Array<keyof DefaultConfig>;
+
+export const actionGenerator = (type: string, payload?: any): IpcAction => ({
+  type,
+  payload,
+  meta: {
+    from: PAGE,
+  },
+});
 
 export const state: State | any = {
   ui_language: 'en',
@@ -65,29 +73,22 @@ export const webActions: ActionTree<State, RootState> = {
 };
 
 export const ipcActions: ActionTree<State, RootState> = {
-  query: async ({ commit, dispatch }, keys?: storageKeys) => {
-    const action: IpcAction = {
-      type: QUERY_CONFIG,
-      payload: keys,
-      meta: {
-        from: PAGE,
-      },
-    };
+  reset: async ({ commit, dispatch }, keys: configCat | configKey[]) => {
+    const action = actionGenerator(RESET_CONFIG, keys);
+    const { payload: config } = await dispatch('ipc', action, { root: true })
 
+    commit('update', config);
+  },
+
+  query: async ({ commit, dispatch }, keys?: storageKeys) => {
+    const action = actionGenerator(QUERY_CONFIG, keys);
     const { payload: config } = await dispatch('ipc', action, { root: true });
 
     commit('update', config);
   },
 
   save: async ({ dispatch }, config) => {
-    const action: IpcAction = {
-      type: SET_CONFIG,
-      payload: config,
-      meta: {
-        from: PAGE,
-      },
-    };
-
+    const action = actionGenerator(SET_CONFIG, config);
     const { error, payload: success } = await dispatch('ipc', action, { root: true });
     if (error !== null) { return dispatch('notify', error, { root: true }); }
 

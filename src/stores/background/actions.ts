@@ -42,6 +42,10 @@ export const actions: ActionTree<State, State> = {
 };
 
 export const ipcActions: ActionTree<State, State> = {
+  [types.RESET_CONFIG]: async ({ dispatch }, { payload: keys }): Promise<std> => {
+    return await dispatch('storage/reset', { keys });
+  },
+
   [types.QUERY_CONFIG]: async ({ dispatch }, { payload: keys }): Promise<std> => {
     return await dispatch('storage/query', { keys });
   },

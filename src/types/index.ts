@@ -1,5 +1,6 @@
 export const TEST = 'TEST';
 
+export const RESET_CONFIG = 'RESET_CONFIG';
 export const QUERY_CONFIG = 'QUERY_CONFIG';
 export const SET_CONFIG = 'SET_CONFIG';
 export const UPDATED_CONFIG = 'UPDATED_CONFIG';

@@ -1,10 +1,9 @@
 import { MutationTree, ActionTree, Module } from 'vuex';
 import { State as RootState } from '../index';
-
 import { update, clear } from '@/stores/mutations';
-
 import { storage as apiStorage } from '@/apis/browser';
 import defaultConfig from '@/defaults/config';
+import { configKeysReducer } from '@/functions';
 import debug from '@/functions/debug';
 
 const namespaced: boolean = true;
@@ -13,9 +12,7 @@ const state: State = {
   ...defaultConfig,
 };
 
-
-const mutations: MutationTree<State> = Object.assign({
-}, { update, clear });
+const mutations: MutationTree<State> = { update, clear };
 
 const actions: ActionTree<State, RootState> = {
   init: async ({ dispatch, commit }): Promise<std> => {
@@ -26,7 +23,7 @@ const actions: ActionTree<State, RootState> = {
     return [null, config];
   },
 
-  query: async (_, { keys, type }: { keys?: storageKeys, type?: storageType} = {}): Promise<std<any>> => {
+  query: async (_, { keys, type }: { keys?: storageKeys, type?: storageType } = {}): Promise<std<any>> => {
     const config = await apiStorage[type || 'local'].get(keys || null);
 
     return [null, config];
@@ -44,17 +41,21 @@ const actions: ActionTree<State, RootState> = {
     return [null, true];
   },
 
-  reset: async ({ dispatch, commit }): Promise<std> => {
-    commit('clear');
+  reset: async ({ dispatch }, { keys = [], type }: { keys?: storageKeys, type?: storageType } = {}): Promise<std> => {
+    let config = configKeysReducer(keys, defaultConfig)[1] as DefaultConfig;
 
-    const [error] = await dispatch('update', defaultConfig);
+    if (!Object.keys(config).length) {
+      config = { ...defaultConfig };
+    }
+
+    const [error] = await dispatch('update', config);
 
     if (error !== null) {
       debug.error(`reset storage config failed.`);
       return [error];
     }
 
-    return [null];
+    return [null, config];
   },
 };
 

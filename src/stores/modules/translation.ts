@@ -7,7 +7,7 @@ import {
   translationResultParser,
 } from '@/functions';
 import i18n from '@/i18n';
-import md5 from 'js-md5';
+import md5 from '@/functions/md5';
 import { QUERY_TRANSLATION } from '@/types';
 import { translation as translationQuery } from '@/apis/request';
 import { requestTimeout } from '@/variables';

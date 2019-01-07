@@ -75,7 +75,7 @@ export const webActions: ActionTree<State, RootState> = {
 export const ipcActions: ActionTree<State, RootState> = {
   reset: async ({ commit, dispatch }, keys: configCat | configKey[]) => {
     const action = actionGenerator(RESET_CONFIG, keys);
-    const { payload: config } = await dispatch('ipc', action, { root: true })
+    const { payload: config } = await dispatch('ipc', action, { root: true });
 
     commit('update', config);
   },

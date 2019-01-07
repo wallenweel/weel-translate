@@ -8,7 +8,7 @@
 
 <script lang="ts">
 import { Component, Prop, Vue } from 'vue-property-decorator';
-import md5 from 'js-md5';
+import md5 from '@/functions/md5';
 import IconFavorite from '@/components/icons/Favorite.vue';
 
 @Component({

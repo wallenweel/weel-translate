@@ -19,6 +19,8 @@ module.exports = {
 
   filenameHashing: false,
 
+  productionSourceMap: false,
+
   pluginOptions: {
     i18n: {
       locale: 'en',
@@ -27,6 +29,12 @@ module.exports = {
       enableInSFC: false
     }
   },
+
+  // chainWebpack: config => {
+  //   config.plugins
+  //     .delete('split-manifest')
+  //     .delete('inline-manifest')
+  // },
 
   configureWebpack: {
     devtool: "inline-source-map",
@@ -55,6 +63,8 @@ function plugins() {
 
     const base = require(`./src/assets/manifests/${TARGET_BROWSER}.base.json`)
     const target = require(`./src/assets/manifests/${TARGET_BROWSER}.${process.env.NODE_ENV}.json`)
+
+    // target.content_security_policy = `script-src 'self' 'sha256-4RS22DYeB7U14dra4KcQYxmwt5HkOInieXK1NUMBmQI='; object-src 'self'`
 
     r.push(new GenerateJsonPlugin('manifest.json', Object.assign(base, { version }, target)))
   }

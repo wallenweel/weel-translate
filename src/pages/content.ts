@@ -1,5 +1,5 @@
 import Vue, { VueConstructor } from 'vue';
-import { isDebug, extensionTagName } from '@/variables';
+import { isDebug, isRelease, isWeb, extensionTagName } from '@/variables';
 import debug from '@/functions/debug';
 
 Vue.config.productionTip = false;
@@ -42,7 +42,7 @@ store.dispatch('init', { port }).then(() => {
   });
 
   const container = document.createElement(extensionTagName);
-  const exsited: HTMLElement | null = document.querySelector(extensionTagName);
+  const exsited: HTMLElement | null = document.body.querySelector(extensionTagName);
 
   if (!!exsited) { document.body.removeChild(exsited); }
   document.body.appendChild(container);
@@ -55,13 +55,18 @@ store.dispatch('init', { port }).then(() => {
     container.appendChild(mount);
     app.$mount(mount);
 
-    const p = document.createElement('p');
-    // tslint:disable-next-line:max-line-length
-    p.textContent = `Lorem ipsum, dolor sit amet consectetur adipisicing elit. Aut, est cumque saepe sint sed vero ipsa repellat quidem quae eius quod quaerat tenetur asperiores vel autem voluptatibus ullam. Tempore, dolorem.`;
-    const frag = document.createDocumentFragment();
-    for (let i = 0; i < 20; i++) { frag.appendChild(p.cloneNode(true)); }
-    document.querySelector('#app')!.appendChild(frag);
-  })((RUNTIME_ENV === 'development'));
+    ((flag) => {
+      if (!flag) { return; }
+
+      const p = document.createElement('p');
+      // tslint:disable-next-line:max-line-length
+      p.textContent = `Lorem ipsum, dolor sit amet consectetur adipisicing elit. Aut, est cumque saepe sint sed vero ipsa repellat quidem quae eius quod quaerat tenetur asperiores vel autem voluptatibus ullam. Tempore, dolorem.`;
+      const frag = document.createDocumentFragment();
+      for (let i = 0; i < 20; i++) { frag.appendChild(p.cloneNode(true)); }
+      document.body.querySelector('#app')!.appendChild(frag);
+    })(isWeb);
+
+  })(isDebug);
 
   ((flag) => {
     if (!flag) { return; }
@@ -94,5 +99,5 @@ store.dispatch('init', { port }).then(() => {
       }
       shadow.appendChild(frag);
     }
-  })((RUNTIME_ENV === 'production'));
+  })(isRelease);
 });

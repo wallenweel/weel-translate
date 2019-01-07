@@ -28,6 +28,7 @@ runtime.onMessage.addListener((message, sender, sendResponse) =>
 
 async function ipcActionResponser(action: IpcAction): Promise<any> {
   const { name, type, token } = action;
+  const sign = { name, type, token };
 
   if (!type) {
     debug.warn(`IPC message's type is ${type}.`);
@@ -35,6 +36,7 @@ async function ipcActionResponser(action: IpcAction): Promise<any> {
 
   if (!Object.keys(ipcActions).includes(type)) {
     debug.warn(`type "${type}" is not existed in actions.`);
+    return { ...sign, error: `type ${type} action is invalid.` };
   }
 
   const [err, payload] = await store.dispatch(action);
@@ -42,5 +44,5 @@ async function ipcActionResponser(action: IpcAction): Promise<any> {
   if (err !== null) { debug.warn(err); }
   const error: string | null = istype(err, 'error') ? err.message : err;
 
-  return { name, type, token, error, payload };
+  return { ...sign, error, payload };
 }

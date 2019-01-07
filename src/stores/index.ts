@@ -47,22 +47,24 @@ export type ipcActionRequestfn = (Port: RuntimePort, action: IpcAction) => IpcRe
 export const ipcActionRequestor: ipcActionRequestfn = async (Port, { type, token, payload, port = true }) => {
   let response: IpcResponse;
 
-  const [theName, theType, theToken] = [name, type, token];
-
   if (port) {
     const { name } = Port;
-    Port.postMessage({ name, type, token, payload } as IpcAction);
+    const [theName, theType, theToken] = [name, type, token];
+
+    const action: IpcAction = { name, type, token, payload };
+    Port.postMessage(action);
 
     try {
       response = await new Promise((resolve, reject) => {
         const listener = ({ name, type, token, error, payload }: IpcAction) => {
-          if (theName !== name && theType !== type) { return; }
+          if (theName !== name || theType !== type) {
+            return reject(`not same message source. "${theType}/${type}", "${theName}/${name}"`);
+          }
           if (token !== undefined && theToken !== token) { return; }
           if (error !== null) { reject(error); }
 
           resolve({ name, type, payload });
 
-          // remove the listener
           Port.onMessage.removeListener(listener);
         };
         Port.onMessage.addListener(listener);
@@ -71,13 +73,14 @@ export const ipcActionRequestor: ipcActionRequestfn = async (Port, { type, token
       response = { type, error };
     }
   } else {
-    response = await browser.runtime.sendMessage({ type, payload });
+    const action: IpcAction = { name, type, token, payload };
+    response = await browser.runtime.sendMessage(action);
   }
 
   const { error = null } = response;
 
   if (error !== null) {
-    debug.error(`occur error in named "${theType}" ipc action.`, error);
+    debug.error(`occur error in named "${type}" ipc action.`, error);
   }
 
   return Object.assign(response, { error }) as IpcResponse;

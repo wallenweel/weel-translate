@@ -27,12 +27,15 @@ const actions: ActionTree<State, State> = {
 
     dispatch('preference/init');
     dispatch('translation/init');
-    dispatch('storage/init', { page: 'popup', keys: [
+
+    const keys = [
       'template_layouts',
       'template_enabled_sources',
       ...Object.keys(preferenceRegister),
       ...Object.keys(translationRegister),
-    ]});
+    ] as Array<keyof DefaultConfig>;
+
+    dispatch('storage/init', { page: 'popup', keys});
   },
 
   ipc: async (_, action) => ipcActionRequestor(Port, action),

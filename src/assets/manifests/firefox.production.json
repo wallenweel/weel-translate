@@ -1,7 +1,8 @@
 {
   "permissions": [
     "<all_urls>",
-    "storage"
+    "storage",
+    "tabs"
   ],
 
   "web_accessible_resources": [

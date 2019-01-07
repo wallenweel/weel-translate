@@ -34,12 +34,12 @@ const actions: ActionTree<State, State> = {
 
     dispatch('translation/init');
 
-    const keys: string[] = [
+    const keys = [
       'template_layouts',
       'template_enabled_sources',
       ...Object.keys(preferenceRegister),
       ...Object.keys(translationRegister),
-    ];
+    ] as Array<keyof DefaultConfig>;
 
     dispatch('storage/init', { page: 'content', keys});
   },

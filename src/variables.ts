@@ -2,6 +2,10 @@ export const env: string = RUNTIME_ENV;
 
 export const isDebug: boolean = env === 'development';
 
+export const isRelease: boolean = env === 'production';
+
+export const isWeb: boolean = TARGET_BROWSER === 'web';
+
 export const extensionName: string = 'weel-translate-x';
 
 export const extensionTagName: string = extensionName;

@@ -6,7 +6,6 @@ import translation, { register as translationRegister } from './modules/translat
 import { update, clear } from '@/stores/mutations';
 import { presetInvoker } from '@/functions';
 import { ipcActionRequestor } from '@/stores/';
-import browser from '@/apis/browser';
 import debug from '@/functions/debug';
 
 Vue.use(Vuex);

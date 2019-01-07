@@ -1,4 +1,6 @@
 import Vue, { VueConstructor } from 'vue';
+import { isDebug } from '@/variables';
+import debug from '@/functions/debug';
 
 Vue.config.productionTip = false;
 
@@ -20,54 +22,73 @@ const port: RuntimePort = browser.runtime.connect({
 
 store.dispatch('init', { port }).then(() => {
   i18n.locale = store.getters.locale;
+
   store.watch(() => store.getters.locale, () => {
     i18n.locale = store.getters.locale;
   });
-});
 
-const app = new Vue({
-  store,
-  i18n,
-  render: (h) => h(App as VueConstructor),
-});
+  const app = new Vue({
+    store,
+    i18n,
+    render: (h) => h(App as VueConstructor),
+  });
 
-import debug from '@/functions/debug';
+  document.addEventListener('selectionchange', ({ currentTarget }) => {
+    const selection: Selection | null = (currentTarget as Document).getSelection();
 
-document.addEventListener('selectionchange', ({ currentTarget }) => {
-  const selection: Selection | null = (currentTarget as Document).getSelection();
+    if (!selection) { return; }
 
-  if (!selection) { return; }
+    store.dispatch('selection', selection);
+  });
 
-  store.dispatch('selection', selection);
-});
+  const container = document.createElement('weel-translate-x');
+  document.body.appendChild(container);
 
-((isDevelopment) => {
-  if (isDevelopment) {
+  ((flag) => {
+    if (!flag) { return; }
+
+    app.$mount(container);
+
     const p = document.createElement('p');
     // tslint:disable-next-line:max-line-length
     p.textContent = `Lorem ipsum, dolor sit amet consectetur adipisicing elit. Aut, est cumque saepe sint sed vero ipsa repellat quidem quae eius quod quaerat tenetur asperiores vel autem voluptatibus ullam. Tempore, dolorem.`;
     const frag = document.createDocumentFragment();
     for (let i = 0; i < 20; i++) { frag.appendChild(p.cloneNode(true)); }
     document.body.appendChild(frag);
+  })((RUNTIME_ENV === 'development'));
 
-    app.$mount('#app');
+  ((flag) => {
+    if (!flag) { return; }
 
-    return;
-  }
+    /** content shadow dom */
+    const shadow = container.attachShadow({ mode: 'open' });
+    const mount = document.createElement('div');
 
-  /** content shadow dom */
-  const wrap = document.createElement('weel-translate-x');
-  document.body.appendChild(wrap);
+    shadow.appendChild(mount);
+    app.$mount(mount);
 
-  const shadow = wrap.attachShadow({ mode: 'open' });
-  shadow.appendChild(document.createElement('div'));
+    if (isDebug) {
+      const styles = document.head.querySelectorAll('style');
+      for (const style of styles) {
+        shadow.appendChild(style);
+      }
+    } else {
+      const hrefs: string[] = [
+        'css/chunk-vendors.css',
+        'css/chunk-common.css',
+        'css/content/main.css',
+      ];
 
-  ((flag: boolean) => {
-    if (!flag && isDevelopment) { return; }
-    for (const style of document.head.querySelectorAll('style')) {
-      shadow.appendChild(style);
+      const link: HTMLLinkElement = document.createElement('link');
+      link.rel = 'stylesheet';
+
+      const frag = document.createDocumentFragment();
+      for (const href of hrefs) {
+        const l = link.cloneNode(true) as HTMLLinkElement;
+        l.href = browser.runtime.getURL(href);
+        frag.appendChild(l);
+      }
+      shadow.appendChild(frag);
     }
-  })(true);
-
-  app.$mount(shadow.firstElementChild!);
-})(!(RUNTIME_ENV === 'development'));
+  })((RUNTIME_ENV === 'production'));
+});

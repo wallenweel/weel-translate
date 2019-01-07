@@ -4,8 +4,17 @@
     "storage"
   ],
 
+  "web_accessible_resources": [
+    "content/*",
+    "css/*",
+    "js/*",
+    "img/*",
+    "icon.svg"
+  ],
+
   "background": {
     "scripts": [
+      "js/chunk-common.js",
       "js/chunk-vendors.js",
       "js/background/main.js"
     ]
@@ -16,6 +25,8 @@
     "match_about_blank": true,
     "all_frames": true,
     "js": [
+      "js/chunk-common.js",
+      "js/chunk-vendors.js",
       "js/content/main.js"
     ],
     "run_at": "document_end"

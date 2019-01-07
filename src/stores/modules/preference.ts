@@ -1,5 +1,5 @@
 import { MutationTree, ActionTree, Module, GetterTree } from 'vuex';
-import { State as RootState, moduleGenerator, ModuleGeneratFn } from '@/stores/index';
+import { State as RootState } from '@/stores/index';
 import { update, clear } from '@/stores/mutations';
 import debug from '@/functions/debug';
 
@@ -46,8 +46,6 @@ export const preference: Module<State, RootState> = {
 };
 
 export default preference;
-
-export const generator = moduleGenerator(preference, register);
 
 type C = DefaultConfig;
 export interface State {

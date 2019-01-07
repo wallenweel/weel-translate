@@ -124,6 +124,7 @@ declare interface BrowserRuntime {
   Port: RuntimePort;
 
   getManifest(): { version: version; };
+  getURL(path: string): string;
   connect(extensionId?: string | connectInfo, connectInfo?: connectInfo): RuntimePort;
 
   onConnect: {

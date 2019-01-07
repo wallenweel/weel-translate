@@ -23,6 +23,7 @@ export const browserShim: Browser = {
     lastError: null,
     Port: port,
     getManifest: () => ({ version: '0.0.0' }),
+    getURL: (path = '') => '',
     connect: () => port,
     onConnect: {
       addListener: () => void(0),

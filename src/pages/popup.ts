@@ -1,4 +1,6 @@
 import Vue, { VueConstructor } from 'vue';
+// import debug from '@/functions/debug';
+// debug.log(TARGET_BROWSER);
 
 Vue.config.productionTip = false;
 
@@ -27,17 +29,15 @@ const port: RuntimePort = browser.runtime.connect({
 
 store.dispatch('init', { port }).then(() => {
   i18n.locale = store.getters.locale;
+
   store.watch(() => store.getters.locale, () => {
     i18n.locale = store.getters.locale;
   });
+
+  new Vue({
+    router,
+    store,
+    i18n,
+    render: (h) => h(App as VueConstructor),
+  }).$mount('#app');
 });
-
-new Vue({
-  router,
-  store,
-  i18n,
-  render: (h) => h(App as VueConstructor),
-}).$mount('#app');
-
-// import debug from '@/functions/debug';
-// debug.log(TARGET_BROWSER);

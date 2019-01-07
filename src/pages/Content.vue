@@ -1,5 +1,5 @@
 <template>
-  <div class="content">
+  <div class="wrap">
     <transition name="fade">
       <mdc-fab class="float-action-button" :style="fabStyle" ref="fab"
         mini absolute
@@ -232,7 +232,7 @@ function overflow(
 @import '~vue-mdc-adapter/dist/card/card.min.css';
 @import '~vue-mdc-adapter/dist/linear-progress/linear-progress.min.css';
 
-.content {
+.wrap {
   --mdc-typography-font-family: "Roboto Mono", "Microsoft Yahei", "sans-serif", monospace;
   --mdc-theme-primary: #6200ee;
   --mdc-theme-secondary: #6200ee;

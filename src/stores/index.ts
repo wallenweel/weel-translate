@@ -44,8 +44,10 @@ export const moduleGenerator: ModuleGeneratFn = (commonModule = {}, commonRegist
 
 export type ipcActionRequestfn = (Port: RuntimePort, action: IpcAction) => IpcResponse | any;
 
-export const ipcActionRequestor: ipcActionRequestfn = async (Port, { type, meta = {}, payload, port = true }) => {
+export const ipcActionRequestor: ipcActionRequestfn = async (Port, action) => {
+  const { type, meta = {}, payload, port = true } = action;
   const { token, from } = meta;
+  console.log(action)
 
   let response: IpcResponse;
 
@@ -85,6 +87,7 @@ export const ipcActionRequestor: ipcActionRequestfn = async (Port, { type, meta 
     const action: IpcAction = { name, type, meta: { token, from }, payload };
     response = await browser.runtime.sendMessage(action);
   }
+  console.log(response)
 
   const { error = null } = response;
 

@@ -20,8 +20,8 @@ const { runtime } = browser;
     port.onMessage.addListener((message) => ipcActionResponser(message)
       .then((response) => port.postMessage(response))));
 
-  runtime.onMessage.addListener(async (message) =>
-    Promise.resolve(await ipcActionResponser(message as IpcAction)));
+  runtime.onMessage.addListener((message, sender, send) =>
+    !!ipcActionResponser(message).then((response) => send(response)));
 
   store.watch((state) => state.storage, (config: DefaultConfig) => {
     tabActionSender({

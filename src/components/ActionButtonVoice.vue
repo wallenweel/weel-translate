@@ -4,8 +4,8 @@
     @click="handleVoice"
   >
     <icon-volume-off v-if="isDisabled"/>
-    <icon-volume-down v-if="!isDisabled && !flag" />
-    <icon-volume-up v-if="!isDisabled && flag" :type="flag ? 'sharp' : 'two-tone'" />
+    <icon-volume-down v-if="!isDisabled && !toggle" />
+    <icon-volume-up v-if="!isDisabled && toggle" :type="toggle ? 'sharp' : 'two-tone'" />
   </mdc-button>
 </template>
 
@@ -27,9 +27,12 @@ export default class VoiceActionButton extends Vue {
   @Prop(Boolean) private disabled?: boolean;
   @Prop(Object) private params?: null | { [k: string]: any };
 
-  private get flag(): boolean {
+  private toggle: boolean = false;
+
+  private get voicing(): boolean {
     return this.$store.state.translation.voicing;
   }
+
   private get unsupport(): Array<Language['code']> {
     const { audio } = this.$store.getters['translation/preset'].query || {} as SourcePreset['query'];
     if (!audio) { return []; }
@@ -49,9 +52,15 @@ export default class VoiceActionButton extends Vue {
     return this.disabled || disabled;
   }
 
-  private handleVoice() {
+  private handleVoice(ev: any) {
     const { src, dest } = this.params || {} as any;
     this.$store.dispatch('translation/voice', [src, dest]);
+    this.toggle = true;
+  }
+
+  @Watch('voicing')
+  private onFlag(val: boolean) {
+    if (!val) { this.toggle = false; }
   }
 }
 </script>

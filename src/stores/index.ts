@@ -47,7 +47,6 @@ export type ipcActionRequestfn = (Port: RuntimePort, action: IpcAction) => IpcRe
 export const ipcActionRequestor: ipcActionRequestfn = async (Port, action) => {
   const { type, meta = {}, payload, port = true } = action;
   const { token, from } = meta;
-  console.log(action)
 
   let response: IpcResponse;
 
@@ -87,7 +86,6 @@ export const ipcActionRequestor: ipcActionRequestfn = async (Port, action) => {
     const action: IpcAction = { name, type, meta: { token, from }, payload };
     response = await browser.runtime.sendMessage(action);
   }
-  console.log(response)
 
   const { error = null } = response;
 

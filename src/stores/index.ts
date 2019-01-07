@@ -44,24 +44,33 @@ export const moduleGenerator: ModuleGeneratFn = (commonModule = {}, commonRegist
 
 export type ipcActionRequestfn = (Port: RuntimePort, action: IpcAction) => IpcResponse | any;
 
-export const ipcActionRequestor: ipcActionRequestfn = async (Port, { type, token, payload, port = true }) => {
+export const ipcActionRequestor: ipcActionRequestfn = async (Port, { type, meta = {}, payload, port = true }) => {
+  const { token, from } = meta;
+
   let response: IpcResponse;
 
   if (port) {
     const { name } = Port;
     const [theName, theType, theToken] = [name, type, token];
 
-    const action: IpcAction = { name, type, token, payload };
+    const action: IpcAction = { name, type, meta: { token, from }, payload };
     Port.postMessage(action);
 
     try {
       response = await new Promise((resolve, reject) => {
-        const listener = ({ name, type, token, error, payload }: IpcAction) => {
+        const listener = ({ name, type, meta = {}, error, payload }: IpcAction) => {
+          const { token, from } = meta;
+
+          if (from !== 'background') {
+            return reject(`only agree background's responses the ipc action from "${from}"`);
+          }
           if (theName !== name || theType !== type) {
             return reject(`not same message source. "${theType}/${type}", "${theName}/${name}"`);
           }
-          if (token !== undefined && theToken !== token) { return; }
-          if (error !== null) { reject(error); }
+          if (token !== undefined && theToken !== token) {
+            return reject(`responsing ipc action is not compatible`);
+          }
+          if (error !== null) { return reject(error); }
 
           resolve({ name, type, payload });
 
@@ -73,7 +82,7 @@ export const ipcActionRequestor: ipcActionRequestfn = async (Port, { type, token
       response = { type, error };
     }
   } else {
-    const action: IpcAction = { name, type, token, payload };
+    const action: IpcAction = { name, type, meta: { token, from }, payload };
     response = await browser.runtime.sendMessage(action);
   }
 

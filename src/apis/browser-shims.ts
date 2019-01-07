@@ -19,6 +19,10 @@ const port: RuntimePort = {
 
 export const browserShim: Browser = {
   origin: window,
+  tabs: {
+    sendMessage: (tabId, message) => new Promise(() => void(0)),
+    query: (queryInfo) => new Promise(() => [{}]),
+  },
   runtime: {
     lastError: null,
     Port: port,

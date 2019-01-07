@@ -110,14 +110,78 @@ declare interface Browser {
   // browser's original global object
   readonly origin?: any;
 
-  readonly runtime: BrowserRuntime;
   readonly storage: BrowserStorage;
+  readonly runtime: BrowserRuntime;
+  readonly tabs: BrowserTabs;
   // readonly i18n: BrowserI18n;
 
   readonly [name: string]: any;
 }
 
 declare type version = string; // like 0.0.0
+
+declare interface BrowserTabs {
+  query(queryInfo: TabQueryInfo): Promise<Tab[]>;
+  sendMessage(tabId: number, message: any, options?: { frameId?: number }): Promise<any>;
+}
+
+declare type TabStatus = 'loading' | 'complete';
+declare type MutedInfo = {
+  extensionId?: string;
+  muted: boolean;
+  reason?: MutedInfoReason;
+};
+declare type WindowType = 'normal' | 'popup' | 'panel' | 'devtools';
+declare type MutedInfoReason = 'capture' | 'extension' | 'user';
+
+// @see: https://developer.mozilla.org/en-US/docs/Mozilla/Add-ons/WebExtensions/API/tabs/Tab
+declare interface Tab {
+  active: boolean;
+  hidden: boolean;
+  incognito: boolean;
+  index: number;
+  isArticle: boolean;
+  isInReaderMode: boolean;
+  lastAccessed: number;
+  pinned: boolean;
+  id?: number;
+  attention?: boolean;
+  audible?: boolean;
+  autoDiscardable?: boolean;
+  cookieStoreId?: string;
+  currentWindow?: boolean;
+  discarded?: boolean;
+  highlighted: boolean;
+  muted?: boolean;
+  lastFocusedWindow?: boolean;
+  openerTabId?: number;
+  status?: TabStatus;
+  title?: string;
+  url?: string;
+  windowId?: number;
+  windowType?: WindowType;
+}
+
+declare interface TabQueryInfo {
+  active?: boolean;
+  incognito?: boolean;
+  index?: number;
+  pinned?: boolean;
+  id?: number;
+  audible?: boolean;
+  autoDiscardable?: boolean;
+  currentWindow?: boolean;
+  discarded?: boolean;
+  highlighted: boolean;
+  muted?: boolean;
+  lastFocusedWindow?: boolean;
+  openerTabId?: number;
+  status?: TabStatus;
+  title?: string;
+  url?: string;
+  windowId?: number;
+  windowType?: WindowType;
+}
 
 declare interface BrowserRuntime {
   lastError: null | Error;
@@ -164,22 +228,18 @@ declare interface StorageAreaMethods {
 declare interface IpcAction {
   port?: boolean; // whether a prot message or not
   name?: RuntimePort['name']; // connect port name, needed if is a port message
-
+  
   type: string; // reacting action's type
-  token?: string; // flag action which start a query
-  from?: string; // page name
   payload?: any;
+  meta?: {
+    token?: string; // flag action which start a query
+    from?: 'background' | 'popup' | 'content' | 'options'; // page name
+    [k: string]: any;
+  };
   error?: null | any;
 }
 
-declare interface IpcResponse {
-  name?: RuntimePort['name']; // existed if sender is a port message
-
-  type: string; // reacted action's type
-  token?: string; // flag action which start a query
-  payload?: any;
-  error?: null | any;
-}
+declare type IpcResponse = IpcAction;
 
 declare interface connectInfo {
   name?: RuntimePort['name'];
@@ -198,11 +258,11 @@ declare interface RuntimePort {
     addListener(listener: (message: any) => void): void;
     removeListener(listener: (message: any) => void): void;
   };
-  postMessage(message: { [k: string]: any }): void;
+  postMessage(message: any): void;
   sender?: MessageSender;
 }
 
-declare type listenerHandler = (message: { [k: string]: any }, sender: MessageSender, sendResponse: (data: any) => {}) => boolean | Promise<any>;
+declare type listenerHandler = (message: any, sender: MessageSender, sendResponse: (data: any) => {}) => void | boolean | Promise<any>;
 
 declare interface MessageSender {
   tab?: any;

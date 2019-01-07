@@ -2,6 +2,8 @@ export const TEST = 'TEST';
 
 export const QUERY_CONFIG = 'QUERY_CONFIG';
 export const SET_CONFIG = 'SET_CONFIG';
+export const UPDATED_CONFIG = 'UPDATED_CONFIG';
+
 export const QUERY_TRANSLATION = 'QUERY_TRANSLATION';
 
 export const VERSION_FRESH: versionFresh = 'VERSION_FRESH';

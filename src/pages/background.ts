@@ -2,6 +2,7 @@ import store from '@/stores/background';
 import browser from '@/apis/browser';
 import { ipcActions } from '@/stores/background/actions';
 import { istype } from '@/functions';
+import { UPDATED_CONFIG } from '@/types';
 import debug from '@/functions/debug';
 
 const { runtime } = browser;
@@ -13,22 +14,30 @@ const { runtime } = browser;
     debug.error(`background script startup incomplete.\n`, error);
   }
 
-  debug.log(store.state.storage);
+  debug.log(JSON.parse(JSON.stringify(store.state.storage)));
+
+  runtime.onConnect.addListener((port: RuntimePort) =>
+    port.onMessage.addListener((message) => ipcActionResponser(message)
+      .then((response) => port.postMessage(response))));
+
+  runtime.onMessage.addListener(async (message) =>
+    Promise.resolve(await ipcActionResponser(message as IpcAction)));
+
+  store.watch((state) => state.storage, (config: DefaultConfig) => {
+    tabActionSender({
+      type: UPDATED_CONFIG,
+      meta: {
+        from: 'background',
+      },
+    });
+  }, { deep: true });
 })();
 
-// connect
-runtime.onConnect.addListener((port: RuntimePort) =>
-  port.onMessage.addListener((message) => !!ipcActionResponser(message)
-    .then((response) => port.postMessage(response))));
-
-// message
-runtime.onMessage.addListener((message, sender, sendResponse) =>
-  !!ipcActionResponser(message as IpcAction)
-    .then((response) => sendResponse(response)));
 
 async function ipcActionResponser(action: IpcAction): Promise<any> {
-  const { name, type, token } = action;
-  const sign = { name, type, token };
+  const { name, type, meta = {} } = action;
+  const { token, from } = meta;
+  const sign: IpcAction = { name, type, meta: { from: 'background', token } };
 
   if (!type) {
     debug.warn(`IPC message's type is ${type}.`);
@@ -45,4 +54,33 @@ async function ipcActionResponser(action: IpcAction): Promise<any> {
   const error: string | null = istype(err, 'error') ? err.message : err;
 
   return { ...sign, error, payload };
+}
+
+async function tabActionSender(action: IpcAction, info?: TabQueryInfo) {
+  const { type, meta = {}, payload } = action;
+  const { token, from } = meta;
+
+  const tabs = await browser.tabs.query(info! || {
+    currentWindow: true,
+    active: true,
+  });
+
+  try {
+    for (const { id, status, index, active } of tabs) {
+      const response: IpcResponse = {
+        type,
+        meta: { token, from, tab: { id, status, index, active } },
+        payload,
+      };
+
+      const action: IpcAction = await browser.tabs.sendMessage(id!, response);
+
+      if (!!action && !!action.type) {
+        const response: IpcAction = await store.dispatch(action);
+        await tabActionSender(response);
+      }
+    }
+  } catch (error) {
+    debug.error(error);
+  }
 }

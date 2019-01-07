@@ -6,9 +6,17 @@ import translation, { register as translationRegister } from './modules/translat
 import { update, clear } from '@/stores/mutations';
 import { presetInvoker } from '@/functions';
 import { ipcActionRequestor } from '@/stores/';
+import { UPDATED_CONFIG } from '@/types';
 import debug from '@/functions/debug';
 
 Vue.use(Vuex);
+
+const register = [
+  'template_layouts',
+  'template_enabled_sources',
+  ...Object.keys(preferenceRegister),
+  ...Object.keys(translationRegister),
+] as Array<keyof DefaultConfig>;
 
 let Port: RuntimePort;
 
@@ -25,23 +33,25 @@ const state: State = {
   initOffset: null,
 };
 
-const mutations = Object.assign({
-} as MutationTree<State>, { update, clear });
+const mutations: MutationTree<State> = {
+  update, clear,
+};
+
+const ipcActions: ActionTree<State, State> = {
+  [UPDATED_CONFIG]: ({ dispatch }, { payload }) => {
+    dispatch('storage/fetch', register);
+  },
+};
 
 const actions: ActionTree<State, State> = {
+  ...ipcActions,
+
   init: ({ dispatch }, { port }) => {
     Port = port;
 
     dispatch('translation/init');
 
-    const keys = [
-      'template_layouts',
-      'template_enabled_sources',
-      ...Object.keys(preferenceRegister),
-      ...Object.keys(translationRegister),
-    ] as Array<keyof DefaultConfig>;
-
-    dispatch('storage/init', { page: 'content', keys});
+    dispatch('storage/init', { page: 'content', keys: register});
   },
 
   ipc: async (_, action) => ipcActionRequestor(Port, action),

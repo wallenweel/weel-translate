@@ -65,6 +65,7 @@ export const webActions: ActionTree<State, RootState> = {
 export const ipcActions: ActionTree<State, RootState> = {
   query: async ({ dispatch }, { type, params }) => {
     const action: IpcAction = {
+      port: false,
       type: QUERY_TRANSLATION,
       payload: { type, params },
     };

@@ -20,6 +20,13 @@ const port: RuntimePort = browser.runtime.connect({
   name: 'port-from-content',
 });
 
+browser.runtime.onMessage.addListener((message: IpcResponse) => {
+  const { type, payload, meta, error } = message;
+
+  const action: IpcAction = { type, payload, meta, error };
+  store.dispatch(action);
+});
+
 store.dispatch('init', { port }).then(() => {
   i18n.locale = store.getters.locale;
 

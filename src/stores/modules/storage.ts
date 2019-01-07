@@ -8,7 +8,7 @@ import debug from '@/functions/debug';
 
 export const namespaced: boolean = true;
 
-export let PAGE: 'background' | 'pupop' | 'content' | 'options';
+export let PAGE: 'background' | 'popup' | 'content' | 'options';
 export let KEYS: Array<keyof DefaultConfig>;
 
 export const state: State | any = {
@@ -69,7 +69,9 @@ export const ipcActions: ActionTree<State, RootState> = {
     const action: IpcAction = {
       type: QUERY_CONFIG,
       payload: keys,
-      from: PAGE,
+      meta: {
+        from: PAGE,
+      },
     };
 
     const { payload: config } = await dispatch('ipc', action, { root: true });
@@ -81,7 +83,9 @@ export const ipcActions: ActionTree<State, RootState> = {
     const action: IpcAction = {
       type: SET_CONFIG,
       payload: config,
-      from: PAGE,
+      meta: {
+        from: PAGE,
+      },
     };
 
     const { error, payload: success } = await dispatch('ipc', action, { root: true });

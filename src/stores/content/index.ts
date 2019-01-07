@@ -5,6 +5,7 @@ import preference, { register as preferenceRegister } from './modules/preference
 import translation, { register as translationRegister } from './modules/translation';
 import { update, clear } from '@/stores/mutations';
 import { presetInvoker } from '@/functions';
+import { ipcActionRequestor } from '@/stores/';
 import debug from '@/functions/debug';
 
 Vue.use(Vuex);
@@ -28,47 +29,22 @@ const mutations = Object.assign({
 } as MutationTree<State>, { update, clear });
 
 const actions: ActionTree<State, State> = {
-  init: ({ state, dispatch, rootState }, { port }) => {
+  init: ({ dispatch }, { port }) => {
     Port = port;
 
     dispatch('translation/init');
-    dispatch('storage/init', { page: 'popup', keys: [
+
+    const keys: string[] = [
       'template_layouts',
       'template_enabled_sources',
       ...Object.keys(preferenceRegister),
       ...Object.keys(translationRegister),
-    ]});
+    ];
+
+    dispatch('storage/init', { page: 'content', keys});
   },
 
-  ipc: async ({ dispatch }, { type, payload, port = true }) => {
-    let response: IpcResponse;
-    if (port) {
-      // response = await ipcAction(Port, { type, payload }) as IpcResponse;
-      const { name } = Port;
-      Port.postMessage({ name, type, payload } as IpcAction);
-
-      let i: number = 0;
-      response = await new Promise((resolve, reject) => {
-        const listener = ({ name, type, error, payload }: IpcAction) => {
-          if (error !== null) { reject(error); }
-          resolve({ name, type, payload });
-          debug.log(i++);
-          // Port.onMessage.removeListener(listener);
-        };
-        Port.onMessage.addListener(listener);
-      });
-    } else {
-      response = await browser.runtime.sendMessage({ type, payload });
-    }
-
-    const { error, payload: data } = response;
-
-    if (error !== null) {
-      dispatch('notify', error);
-    }
-
-    return data;
-  },
+  ipc: async (_, action) => ipcActionRequestor(Port, action),
 
   selection: ({ state, dispatch }, selection: Selection) => {
     const text: string = selection.toString().trim();
@@ -130,11 +106,11 @@ const getters: GetterTree<State, State> = {
   locale: (state): Language['code'] => state.storage.ui_language,
   resultLayout: (state): LayoutPreset => {
     const {
-      template_layouts: presets,
-      template_enabled_sources: sources,
+      template_layouts: layouts,
+      template_enabled_sources: sourcesTemplate,
     } = state.storage;
-    const id = sources[state.translation.source.id][0];
-    return presetInvoker(id, presets)[1] as LayoutPreset;
+    const id = (sourcesTemplate[state.translation.source.id] || [])[0];
+    return presetInvoker(id, layouts)[1] as LayoutPreset;
   },
   hasSelection: (state): boolean => !!state.text,
   rectOffsetCC: (state): [number, number] => {

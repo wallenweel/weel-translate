@@ -41,3 +41,44 @@ export const moduleGenerator: ModuleGeneratFn = (commonModule = {}, commonRegist
   return (module, register) =>
     moduleHelper({ ...commonModule, ...module }, { ...commonRegister, ...register });
 };
+
+export type ipcActionRequestfn = (Port: RuntimePort, action: IpcAction) => IpcResponse | any;
+
+export const ipcActionRequestor: ipcActionRequestfn = async (Port, { type, token, payload, port = true }) => {
+  let response: IpcResponse;
+
+  const [theName, theType, theToken] = [name, type, token];
+
+  if (port) {
+    const { name } = Port;
+    Port.postMessage({ name, type, token, payload } as IpcAction);
+
+    try {
+      response = await new Promise((resolve, reject) => {
+        const listener = ({ name, type, token, error, payload }: IpcAction) => {
+          if (theName !== name && theType !== type) { return; }
+          if (token !== undefined && theToken !== token) { return; }
+          if (error !== null) { reject(error); }
+
+          resolve({ name, type, payload });
+
+          // remove the listener
+          Port.onMessage.removeListener(listener);
+        };
+        Port.onMessage.addListener(listener);
+      });
+    } catch (error) {
+      response = { type, error };
+    }
+  } else {
+    response = await browser.runtime.sendMessage({ type, payload });
+  }
+
+  const { error = null } = response;
+
+  if (error !== null) {
+    debug.error(`occur error in named "${theType}" ipc action.`, error);
+  }
+
+  return Object.assign(response, { error }) as IpcResponse;
+};

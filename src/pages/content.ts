@@ -70,4 +70,4 @@ document.addEventListener('selectionchange', ({ currentTarget }) => {
   })(true);
 
   app.$mount(shadow.firstElementChild!);
-})(RUNTIME_ENV === 'development');
+})(!(RUNTIME_ENV === 'development'));

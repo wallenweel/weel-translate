@@ -5,8 +5,9 @@ import preference, { register as preferenceRegister } from './modules/preference
 import translation, { register as translationRegister } from './modules/translation';
 import { update, clear } from '@/stores/mutations';
 import { presetInvoker } from '@/functions';
-import debug from '@/functions/debug';
+import { ipcActionRequestor } from '@/stores/';
 import browser from '@/apis/browser';
+import debug from '@/functions/debug';
 
 Vue.use(Vuex);
 
@@ -35,44 +36,7 @@ const actions: ActionTree<State, State> = {
     ]});
   },
 
-  ipc: async ({ dispatch }, { type, token, payload, port = true }) => {
-    let response: IpcResponse;
-
-    const [theName, theType, theToken] = [name, type, token];
-
-    if (port) {
-      const { name } = Port;
-      Port.postMessage({ name, type, token, payload } as IpcAction);
-
-      try {
-        response = await new Promise((resolve, reject) => {
-          const listener = ({ name, type, token, error, payload }: IpcAction) => {
-            if (theName !== name && theType !== type) { return; }
-            if (token !== undefined && theToken !== token) { return; }
-            if (error !== null) { reject(error); }
-
-            resolve({ name, type, payload });
-
-            // remove the listener
-            Port.onMessage.removeListener(listener);
-          };
-          Port.onMessage.addListener(listener);
-        });
-      } catch (error) {
-        response = { type, error };
-      }
-    } else {
-      response = await browser.runtime.sendMessage({ type, payload });
-    }
-
-    const { error = null } = response;
-
-    if (error !== null) {
-      debug.error(`occur error in named "${theType}" ipc action.`, error);
-    }
-
-    return Object.assign(response, { error });
-  },
+  ipc: async (_, action) => ipcActionRequestor(Port, action),
 
   notify: ({ commit }, message: string) => {
     commit('update', { notify: message || null });

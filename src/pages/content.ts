@@ -1,5 +1,5 @@
 import Vue, { VueConstructor } from 'vue';
-import { isDebug } from '@/variables';
+import { isDebug, extensionTagName } from '@/variables';
 import debug from '@/functions/debug';
 
 Vue.config.productionTip = false;
@@ -41,20 +41,26 @@ store.dispatch('init', { port }).then(() => {
     store.dispatch('selection', selection);
   });
 
-  const container = document.createElement('weel-translate-x');
+  const container = document.createElement(extensionTagName);
+  const exsited: HTMLElement | null = document.querySelector(extensionTagName);
+
+  if (!!exsited) { document.body.removeChild(exsited); }
   document.body.appendChild(container);
+
+  const mount = document.createElement('div');
 
   ((flag) => {
     if (!flag) { return; }
 
-    app.$mount(container);
+    container.appendChild(mount);
+    app.$mount(mount);
 
     const p = document.createElement('p');
     // tslint:disable-next-line:max-line-length
     p.textContent = `Lorem ipsum, dolor sit amet consectetur adipisicing elit. Aut, est cumque saepe sint sed vero ipsa repellat quidem quae eius quod quaerat tenetur asperiores vel autem voluptatibus ullam. Tempore, dolorem.`;
     const frag = document.createDocumentFragment();
     for (let i = 0; i < 20; i++) { frag.appendChild(p.cloneNode(true)); }
-    document.body.appendChild(frag);
+    document.querySelector('#app')!.appendChild(frag);
   })((RUNTIME_ENV === 'development'));
 
   ((flag) => {
@@ -62,8 +68,6 @@ store.dispatch('init', { port }).then(() => {
 
     /** content shadow dom */
     const shadow = container.attachShadow({ mode: 'open' });
-    const mount = document.createElement('div');
-
     shadow.appendChild(mount);
     app.$mount(mount);
 
@@ -73,19 +77,19 @@ store.dispatch('init', { port }).then(() => {
         shadow.appendChild(style);
       }
     } else {
-      const hrefs: string[] = [
+      const urls: string[] = [
         'css/chunk-vendors.css',
         'css/chunk-common.css',
         'css/content/main.css',
-      ];
+      ].map((path) => browser.runtime.getURL(path));
 
       const link: HTMLLinkElement = document.createElement('link');
       link.rel = 'stylesheet';
 
       const frag = document.createDocumentFragment();
-      for (const href of hrefs) {
+      for (const url of urls) {
         const l = link.cloneNode(true) as HTMLLinkElement;
-        l.href = browser.runtime.getURL(href);
+        l.href = url;
         frag.appendChild(l);
       }
       shadow.appendChild(frag);

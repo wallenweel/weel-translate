@@ -220,6 +220,10 @@ function overflow(
 <style lang="scss">
 // @import '~vue-mdc-adapter/dist/vue-mdc-adapter.min.css';
 
+$mdc-theme-primary: #6200ee;
+$mdc-theme-secondary: #6200ee;
+$mdc-typography-font-family: "Roboto Mono", "Microsoft Yahei", "sans-serif", monospace;
+
 @import 'vue-mdc-adapter/dist/theme/styles';
 @import 'vue-mdc-adapter/dist/typography/styles';
 @import 'vue-mdc-adapter/dist/ripple/styles';
@@ -233,29 +237,9 @@ function overflow(
 @import '~vue-mdc-adapter/dist/linear-progress/linear-progress.min.css';
 
 .wrap {
-  --mdc-typography-font-family: "Roboto Mono", "Microsoft Yahei", "sans-serif", monospace;
-  --mdc-theme-primary: #6200ee;
-  --mdc-theme-secondary: #6200ee;
-  --mdc-theme-background: #fff;
-  --mdc-theme-surface: #fff;
-  --mdc-theme-on-primary: #fff;
-  --mdc-theme-on-secondary: #fff;
-  --mdc-theme-on-surface: #000;
-  --mdc-theme-text-primary-on-background: rgba(0, 0, 0, 0.87);
-  --mdc-theme-text-secondary-on-background: rgba(0, 0, 0, 0.54);
-  --mdc-theme-text-hint-on-background: rgba(0, 0, 0, 0.38);
-  --mdc-theme-text-disabled-on-background: rgba(0, 0, 0, 0.38);
-  --mdc-theme-text-icon-on-background: rgba(0, 0, 0, 0.38);
-  --mdc-theme-text-primary-on-light: rgba(0, 0, 0, 0.87);
-  --mdc-theme-text-secondary-on-light: rgba(0, 0, 0, 0.54);
-  --mdc-theme-text-hint-on-light: rgba(0, 0, 0, 0.38);
-  --mdc-theme-text-disabled-on-light: rgba(0, 0, 0, 0.38);
-  --mdc-theme-text-icon-on-light: rgba(0, 0, 0, 0.38);
-  --mdc-theme-text-primary-on-dark: white;
-  --mdc-theme-text-secondary-on-dark: rgba(255, 255, 255, 0.7);
-  --mdc-theme-text-hint-on-dark: rgba(255, 255, 255, 0.5);
-  --mdc-theme-text-disabled-on-dark: rgba(255, 255, 255, 0.5);
-  --mdc-theme-text-icon-on-dark: rgba(255, 255, 255, 0.5);
+  @each $style in map-keys($mdc-theme-property-values) {
+    --mdc-theme-#{$style}: #{map-get($mdc-theme-property-values, $style)};
+  }
 }
 
 .fade-enter-active, .fade-leave-active {

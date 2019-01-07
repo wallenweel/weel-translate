@@ -4,6 +4,8 @@ export const isDebug: boolean = env === 'development';
 
 export const extensionName: string = 'weel-translate-x';
 
+export const extensionTagName: string = extensionName;
+
 export const requestTimeout: number = 12000;
 
 export const presetIdReg: RegExp = /[\d\w\_]+?/;

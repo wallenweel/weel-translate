@@ -1,6 +1,6 @@
 import Vue, { VueConstructor } from 'vue';
-import debug from '@/functions/debug';
-debug.log(TARGET_BROWSER);
+// import debug from '@/functions/debug';
+// debug.log(TARGET_BROWSER);
 
 Vue.config.productionTip = false;
 

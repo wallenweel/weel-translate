@@ -71,7 +71,7 @@ async function tabActionSender(action: IpcAction, info?: TabQueryInfo) {
 
     for (const reg of avoidanceReg.urls) {
       if (reg.test(url || '')) {
-        return debug.info(`current url: "${url}" is avoidance.`);
+        return debug.info(`type: "${type}" action failed, current url: "${url}" is avoidance.`);
       }
     }
 
@@ -89,8 +89,7 @@ async function tabActionSender(action: IpcAction, info?: TabQueryInfo) {
         await tabActionSender(response);
       }
     } catch (error) {
-      debug.error(`type: "${type}" action failed, `,
-        `${active ? 'active' : 'target'} tab maybe was not ready or not support.`,
+      debug.error(`${active ? 'active' : 'target'} tab maybe was not ready or not support.`,
         JSON.stringify({ id, title }));
     }
   }

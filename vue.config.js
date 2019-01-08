@@ -37,16 +37,16 @@ module.exports = {
       .node.set('global', false)
       .end()
       .plugin('define')
-      .tap(args => {
-        return [{
-          ...args[0]['process.env'],
+        .tap(args => {
+          return [{
+            ...args[0]['process.env'],
 
-          gloabl: 'window', // repeat gloabl object to window
+            // gloabl: 'window', // repeat gloabl object to window
 
-          TARGET_BROWSER: JSON.stringify(TARGET_BROWSER),
-          RUNTIME_ENV: JSON.stringify(process.env.NODE_ENV)
-        }]
-      })
+            TARGET_BROWSER: JSON.stringify(TARGET_BROWSER),
+            RUNTIME_ENV: JSON.stringify(process.env.NODE_ENV)
+          }]
+        })
 
     if (TARGET_BROWSER !== 'web') {
       const { version } = require(`./package.json`)
@@ -61,22 +61,22 @@ module.exports = {
 
       config.plugin('generate-json')
         .use(GenerateJsonPlugin, ['manifest.json', { ...base, ...modify }])
+    }
 
-      if (
-        process.env.NODE_ENV === 'production' &&
-        process.env.VUE_CLI_MODERN_BUILD &&
-        process.env.VUE_CLI_MODERN_MODE
-      ) {
-        const search = `"undefined"!=typeof window&&window.Math==Math?window:"undefined"!=typeof self&&self.Math==Math?self:Function("return this")()`;
-        const replace = 'window'
+    if (
+      process.env.NODE_ENV === 'production' &&
+      process.env.VUE_CLI_MODERN_BUILD &&
+      process.env.VUE_CLI_MODERN_MODE
+    ) {
+      const search = `"undefined"!=typeof window&&window.Math==Math?window:"undefined"!=typeof self&&self.Math==Math?self:Function("return this")()`;
+      const replace = 'window'
 
-        config.plugin('replace-in-file')
-          .use(ReplaceInFile, [[{
-            dir: 'dist/firefox/js',
-            files: ['chunk-vendors.js'],
-            rules: [{ search, replace }]
-          }]])
-      }
+      config.plugin('replace-in-file')
+        .use(ReplaceInFile, [[{
+          dir: 'dist/firefox/js',
+          files: ['chunk-vendors.js'],
+          rules: [{ search, replace }]
+        }]])
     }
 
     // console.log(config.toConfig().plugins)

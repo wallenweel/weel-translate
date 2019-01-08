@@ -9,6 +9,7 @@
     "lint": "vue-cli-service lint",
     "build:chrome": "cross-env TARGET_BROWSER=chrome yarn build",
     "build:firefox": "cross-env TARGET_BROWSER=firefox yarn build",
+    "pack:amo": "cross-env TARGET_PLATFORM=amo yarn pack:firefox",
     "pack:firefox": "yarn build:firefox && yarn webext build",
     "test:unit": "vue-cli-service test:unit",
     "watch:chrome": "yarn build:chrome --mode=development --watch",

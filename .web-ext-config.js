@@ -1,8 +1,9 @@
-const sourceDir = 'dist/firefox'
+const isAmo = process.env.TARGET_PLATFORM === 'amo';
 
 module.exports = {
-  verbose: true,
-  sourceDir,
+  verbose: false,
+  sourceDir: 'dist/firefox',
+  artifactsDir: `web-ext-artifacts${isAmo ? '/amo' : ''}`,
   run: {
     startUrl: [
       'about:debugging#addons'
@@ -12,7 +13,6 @@ module.exports = {
     overwriteDest: true
   },
   ignoreFiles: [
-    'js/**/*-legacy.*',
-    'js/safari-nomodule-fix.js'
+    'js/**/*-legacy.*'
   ]
 }

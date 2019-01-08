@@ -6,6 +6,7 @@ const GenerateJsonPlugin = require('generate-json-webpack-plugin')
 
 // firefox, chrome, etc
 const TARGET_BROWSER = process.env.TARGET_BROWSER || 'web'
+const AMO_ID = `@weel-translate`
 
 module.exports = {
   outputDir: `dist/${TARGET_BROWSER}`,
@@ -77,11 +78,10 @@ function plugins() {
     const target = require(`./src/assets/manifests/${TARGET_BROWSER}.${process.env.NODE_ENV}.json`)
     const modify = { ...target, version }
 
-    if (process.argv.includes('--x')) {
+    if (process.env.TARGET_PLATFORM === 'amo') {
       modify.applications = base.applications
-      modify.applications.gecko.id = `${id}-x`
+      modify.applications.gecko.id = AMO_ID;
     }
-    // modify.content_security_policy = `script-src 'self' 'sha256-4RS22DYeB7U14dra4KcQYxmwt5HkOInieXK1NUMBmQI='; object-src 'self'`
 
     r.push(new GenerateJsonPlugin('manifest.json', Object.assign(base, modify)))
   }

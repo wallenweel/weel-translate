@@ -22,7 +22,8 @@
   "default_locale": "en",
 
   "icons": {
-    "24": "icon.svg"
+    "24": "img/icon_24.png",
+    "48": "img/icon_48.png"
   },
 
   "commands": {
@@ -36,7 +37,8 @@
   "browser_action": {
     "browser_style": false,
     "default_icon": {
-      "24": "icon.svg"
+      "24": "img/icon_24.png",
+      "48": "img/icon_48.png"
     },
     "default_title": "Weel Translate X",
     "default_popup": "popup/main.html"

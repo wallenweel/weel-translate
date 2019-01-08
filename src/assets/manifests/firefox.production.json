@@ -4,8 +4,7 @@
     "storage",
     "tabs",
     "menus",
-    "clipboardRead",
-    "clipboardWrite"
+    "clipboardRead"
   ],
 
   "web_accessible_resources": [

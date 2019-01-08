@@ -3,7 +3,7 @@
     temporary
     toggle-on="toggle-drawer"
     slot="drawer">
-    <mdc-card-media :src="logo"></mdc-card-media>
+    <mdc-card-media :src="drawerHead"></mdc-card-media>
     <mdc-drawer-list class="-list">
       <mdc-drawer-item v-for="(item, i) in items" :key="i"
         :to="item.to" :href="item.href"
@@ -23,7 +23,7 @@
 
 <script lang="ts">
 import { Component, Vue } from 'vue-property-decorator';
-import logo from '@/assets/logo.png';
+import drawerHead from '@/assets/drawer_head.png';
 import IconTranslate from '@/components/icons/Translate.vue';
 import IconFavorite from '@/components/icons/Favorite.vue';
 import IconHistory from '@/components/icons/History.vue';
@@ -52,7 +52,7 @@ interface ListItems {
   },
 })
 export default class PopupDrawer extends Vue {
-  private logo = logo;
+  private drawerHead = drawerHead;
   private items: ListItems = [
     { icon: 'translate', locale: 'translate', to: '/translate' },
     { icon: 'favorite', locale: 'picked', to: '/picked' },

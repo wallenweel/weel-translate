@@ -3,7 +3,6 @@
     "<all_urls>",
     "storage",
     "tabs",
-    "menus",
     "clipboardRead"
   ],
 
@@ -11,8 +10,7 @@
     "content/*",
     "css/*",
     "js/*",
-    "img/*",
-    "icon.svg"
+    "img/*"
   ],
 
   "background": {
@@ -25,8 +23,8 @@
 
   "content_scripts": [{
     "matches": ["<all_urls>"],
-    "match_about_blank": true,
-    "all_frames": true,
+    "match_about_blank": false,
+    "all_frames": false,
     "js": [
       "js/chunk-common.js",
       "js/chunk-vendors.js",

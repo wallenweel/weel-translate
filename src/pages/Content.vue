@@ -31,7 +31,7 @@
             <icon-swap-horiz name="swap languages" />
           </mdc-card-action-icon>
         </mdc-card>
-        <mdc-card class="-action">
+        <mdc-card class="-action" v-if="false">
           <mdc-card-action-icon class="-button" @click="handleWebQuery">
             <icon-pageview name="web infomation" />
           </mdc-card-action-icon>

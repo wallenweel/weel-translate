@@ -41,7 +41,7 @@ module.exports = {
           return [{
             ...args[0]['process.env'],
 
-            // gloabl: 'window', // repeat gloabl object to window
+            gloabl: 'window', // repeat gloabl object to window
 
             TARGET_BROWSER: JSON.stringify(TARGET_BROWSER),
             RUNTIME_ENV: JSON.stringify(process.env.NODE_ENV)
@@ -56,7 +56,7 @@ module.exports = {
 
       if (process.env.TARGET_PLATFORM === 'amo') {
         modify.applications = base.applications
-        modify.applications.gecko.id = AMO_ID;
+        modify.applications.gecko.id = AMO_ID
       }
 
       config.plugin('generate-json')
@@ -68,8 +68,8 @@ module.exports = {
       process.env.VUE_CLI_MODERN_BUILD &&
       process.env.VUE_CLI_MODERN_MODE
     ) {
-      const search = `"undefined"!=typeof window&&window.Math==Math?window:"undefined"!=typeof self&&self.Math==Math?self:Function("return this")()`;
-      const replace = 'window'
+      const search = `Function("return this")()`
+      const replace = '(function(){return this})()'
 
       config.plugin('replace-in-file')
         .use(ReplaceInFile, [[{

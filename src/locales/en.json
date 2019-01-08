@@ -1,6 +1,7 @@
 {
   "__unfound__": "Not Found",
   "__unready": {
+    "_": "(Not implement yet)",
     "locales": " (Need help)",
     "theme": "(Only implement 'light' now)"
   },

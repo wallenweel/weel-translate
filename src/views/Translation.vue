@@ -1,9 +1,10 @@
 <template>
   <div class="view-translation">
+    <div contenteditable ref="pasting" @paste.prevent="onPaste"></div>
     <translation-input class="-input"
       v-model="value"
       :hotkey="hotkey" @enter="handleEnter"
-      :has="hasResult"
+      :has="hasResult" :pasted="hasPasted"
     />
 
     <translation-tools class="-tools"
@@ -53,6 +54,7 @@ Component.registerHooks(['beforeRouteEnter']);
 export default class TranslationView extends Vue {
   private value?: string = '';
   private open?: boolean = false;
+  private hasPasted?: boolean = false;
 
   @Getter private resultLayout!: LayoutPreset;
 
@@ -76,11 +78,6 @@ export default class TranslationView extends Vue {
     this.updateFromto(fromto);
   }
 
-  private handleText(text: string) {
-    this.value = text;
-    this.updateText(text);
-  }
-
   private handleEnter(ev: any) {
     const { ctrlKey }: { ctrlKey: boolean } = ev;
 
@@ -99,7 +96,14 @@ export default class TranslationView extends Vue {
 
   private handleClear() { this.value = ''; }
   private handleQuery() { this.doTranslate(); }
-  private handlePaste() {/** */}
+  private onPaste(ev: any) {
+    const text = ev.clipboardData.getData('text/plain');
+    this.updateText(text);
+  }
+  private handlePaste() {
+    (this.$refs.pasting as HTMLInputElement).focus();
+    document.execCommand('paste');
+  }
 
   @Watch('value') private onValue(val: string) {
     this.updateText(val);

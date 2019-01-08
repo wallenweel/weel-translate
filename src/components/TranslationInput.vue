@@ -1,10 +1,10 @@
 <template>
-  <div class="translation-input" :wl-has="has">
-    <mdc-textfield class="-textfield"
-      v-model="input" @keypress.enter="handleEnter"
+  <div class="translation-input" :data-has="has">
+    <mdc-textfield class="-textfield" v-model="input" ref="field"
       multiline
-      :label="hintText" rows="0" cols="0">
-    </mdc-textfield>
+      :label="hintText" rows="0" cols="0"
+      @keypress.enter="handleEnter"
+    />
   </div>
 </template>
 
@@ -29,16 +29,17 @@ export default class TranslationInput extends Vue {
     return this.$t('input_hint_text', { hotkey });
   }
 
+  @Emit()
+  private handleEnter(ev: Event) { this.$emit('enter', ev, this.input); }
+
   @Watch('input')
   private onChange(text: string) { this.$emit('change', text); }
+
   @Watch('value')
   private onUpdate(text: string) {
     if (this.input === text) { return; }
     this.input = this.value!;
   }
-
-  @Emit()
-  private handleEnter(ev: Event) { this.$emit('enter', ev, this.input); }
 }
 </script>
 
@@ -48,7 +49,7 @@ export default class TranslationInput extends Vue {
   // overflow: hidden;
   position: relative;
 
-  &[wl-has="true"] {
+  &[data-has="true"] {
     .-textfield {
       & > .mdc-text-field {
         .mdc-text-field__input {
@@ -84,6 +85,7 @@ export default class TranslationInput extends Vue {
         padding-top: 0;
         padding-bottom: 0;
         color: var(--mdc-theme-text-primary-on-dark, #ffffff);
+        caret-color: currentColor;
       }
       .mdc-text-field:not(.mdc-text-field--disabled),
       .mdc-floating-label {

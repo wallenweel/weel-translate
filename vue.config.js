@@ -19,6 +19,8 @@ module.exports = {
 
   filenameHashing: false,
 
+  // crossorigin: true,
+
   productionSourceMap: false,
 
   pluginOptions: {
@@ -30,13 +32,23 @@ module.exports = {
     }
   },
 
-  // chainWebpack: config => {
-  //   config.plugins
-  //     .delete('split-manifest')
-  //     .delete('inline-manifest')
-  // },
-
   configureWebpack: {
+    // @see https://github.com/webpack/webpack/issues/5627#issuecomment-393007416
+    node: {
+      // prevent webpack from injecting useless setImmediate polyfill because Vue
+      // source contains it (although only uses it if it's native).
+      setImmediate: false,
+      // prevent webpack from injecting mocks to Node native modules
+      // that does not make sense for the client
+      dgram: 'empty',
+      fs: 'empty',
+      net: 'empty',
+      tls: 'empty',
+      child_process: 'empty',
+      // prevent webpack from injecting eval / new Function through global polyfill
+      global: false
+    },
+
     devtool: "inline-source-map",
     plugins: plugins()
   },
@@ -63,10 +75,15 @@ function plugins() {
 
     const base = require(`./src/assets/manifests/${TARGET_BROWSER}.base.json`)
     const target = require(`./src/assets/manifests/${TARGET_BROWSER}.${process.env.NODE_ENV}.json`)
+    const modify = { ...target, version }
 
-    // target.content_security_policy = `script-src 'self' 'sha256-4RS22DYeB7U14dra4KcQYxmwt5HkOInieXK1NUMBmQI='; object-src 'self'`
+    if (process.argv.includes('--x')) {
+      modify.applications = base.applications
+      modify.applications.gecko.id = `${id}-x`
+    }
+    // modify.content_security_policy = `script-src 'self' 'sha256-4RS22DYeB7U14dra4KcQYxmwt5HkOInieXK1NUMBmQI='; object-src 'self'`
 
-    r.push(new GenerateJsonPlugin('manifest.json', Object.assign(base, { version }, target)))
+    r.push(new GenerateJsonPlugin('manifest.json', Object.assign(base, modify)))
   }
 
   return r

@@ -3,6 +3,7 @@ import browser from '@/apis/browser';
 import { ipcActions } from '@/stores/background/actions';
 import { istype } from '@/functions';
 import { UPDATED_CONFIG } from '@/types';
+import { avoidanceReg } from '@/variables';
 import debug from '@/functions/debug';
 
 const { runtime } = browser;
@@ -65,22 +66,31 @@ async function tabActionSender(action: IpcAction, info?: TabQueryInfo) {
     active: true,
   });
 
-  try {
-    for (const { id, status, index, active } of tabs) {
-      const response: IpcResponse = {
-        type,
-        meta: { token, from, tab: { id, status, index, active } },
-        payload,
-      };
+  for (const tab of tabs) {
+    const { id, url, title, status, index, active } = tab;
 
+    for (const reg of avoidanceReg.urls) {
+      if (reg.test(url || '')) {
+        return debug.info(`current url: "${url}" is avoidance.`);
+      }
+    }
+
+    const response: IpcResponse = {
+      type,
+      meta: { token, from, tab: { id, url, title, status, index, active } },
+      payload,
+    };
+
+    try {
       const action: IpcAction = await browser.tabs.sendMessage(id!, response);
 
       if (!!action && !!action.type) {
         const response: IpcAction = await store.dispatch(action);
         await tabActionSender(response);
       }
+    } catch (error) {
+      debug.error(`${active ? 'active' : 'target'} tab maybe was not ready or not support.`,
+        JSON.stringify({ id, title }));
     }
-  } catch (error) {
-    debug.error(error);
   }
 }

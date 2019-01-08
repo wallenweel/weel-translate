@@ -5,15 +5,15 @@
   "author": "wallen <wallen_weel@outlook.com>",
   "scripts": {
     "serve": "cross-env TARGET_BROWSER=web vue-cli-service serve",
-    "build": "vue-cli-service build --no-unsafe-inline",
+    "build": "vue-cli-service build --modern --no-unsafe-inline",
     "lint": "vue-cli-service lint",
     "build:chrome": "cross-env TARGET_BROWSER=chrome yarn build",
     "build:firefox": "cross-env TARGET_BROWSER=firefox yarn build",
-    "pack:firefox": "yarn build:firefox && web-ext build -s=dist/firefox",
+    "pack:firefox": "yarn build:firefox && yarn webext build",
     "test:unit": "vue-cli-service test:unit",
     "watch:chrome": "yarn build:chrome --mode=development --watch",
     "watch:firefox": "yarn build:firefox --mode=development --watch",
-    "webext:firefox": "web-ext run -s=dist/firefox --start-url about:debugging#addons"
+    "webext": "web-ext --config=.web-ext-config.js"
   },
   "dependencies": {
     "axios": "^0.18.0",

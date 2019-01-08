@@ -89,7 +89,8 @@ async function tabActionSender(action: IpcAction, info?: TabQueryInfo) {
         await tabActionSender(response);
       }
     } catch (error) {
-      debug.error(`${active ? 'active' : 'target'} tab maybe was not ready or not support.`,
+      debug.error(`type: "${type}" action failed, `,
+        `${active ? 'active' : 'target'} tab maybe was not ready or not support.`,
         JSON.stringify({ id, title }));
     }
   }

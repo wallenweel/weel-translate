@@ -137,10 +137,10 @@ export const translation = ({
     }),
   }).then(([_, response]) => {
     const { data } = response || {} as any;
-    debug.info(type, data);
+    debug.log(type, data);
     return [null, { type, data }];
   }).catch(([error]) => {
-    debug.info(type, error);
+    debug.log(type, error);
     return [error.message, { type }];
   }).finally(() => {
     translatingCanceler = null;

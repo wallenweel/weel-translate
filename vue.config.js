@@ -1,8 +1,6 @@
 const path = require('path');
-const {
-  DefinePlugin
-} = require('webpack')
 const GenerateJsonPlugin = require('generate-json-webpack-plugin')
+const ReplaceInFile = require('replace-in-file-webpack-plugin')
 
 // firefox, chrome, etc
 const TARGET_BROWSER = process.env.TARGET_BROWSER || 'web'
@@ -33,25 +31,55 @@ module.exports = {
     }
   },
 
-  configureWebpack: {
-    // @see https://github.com/webpack/webpack/issues/5627#issuecomment-393007416
-    node: {
-      // prevent webpack from injecting useless setImmediate polyfill because Vue
-      // source contains it (although only uses it if it's native).
-      setImmediate: false,
-      // prevent webpack from injecting mocks to Node native modules
-      // that does not make sense for the client
-      dgram: 'empty',
-      fs: 'empty',
-      net: 'empty',
-      tls: 'empty',
-      child_process: 'empty',
-      // prevent webpack from injecting eval / new Function through global polyfill
-      global: false
-    },
+  chainWebpack: config => {
+    config
+      .devtool('inline-source-map')
+      .node.set('global', false)
+      .end()
+      .plugin('define')
+      .tap(args => {
+        return [{
+          ...args[0]['process.env'],
 
-    devtool: "inline-source-map",
-    plugins: plugins()
+          gloabl: 'window', // repeat gloabl object to window
+
+          TARGET_BROWSER: JSON.stringify(TARGET_BROWSER),
+          RUNTIME_ENV: JSON.stringify(process.env.NODE_ENV)
+        }]
+      })
+
+    if (TARGET_BROWSER !== 'web') {
+      const { version } = require(`./package.json`)
+      const base = require(`./src/assets/manifests/${TARGET_BROWSER}.base.json`)
+      const target = require(`./src/assets/manifests/${TARGET_BROWSER}.${process.env.NODE_ENV}.json`)
+      const modify = { ...target, version }
+
+      if (process.env.TARGET_PLATFORM === 'amo') {
+        modify.applications = base.applications
+        modify.applications.gecko.id = AMO_ID;
+      }
+
+      config.plugin('generate-json')
+        .use(GenerateJsonPlugin, ['manifest.json', { ...base, ...modify }])
+
+      if (
+        process.env.NODE_ENV === 'production' &&
+        process.env.VUE_CLI_MODERN_BUILD &&
+        process.env.VUE_CLI_MODERN_MODE
+      ) {
+        const search = `"undefined"!=typeof window&&window.Math==Math?window:"undefined"!=typeof self&&self.Math==Math?self:Function("return this")()`;
+        const replace = 'window'
+
+        config.plugin('replace-in-file')
+          .use(ReplaceInFile, [[{
+            dir: 'dist/firefox/js',
+            files: ['chunk-vendors.js'],
+            rules: [{ search, replace }]
+          }]])
+      }
+    }
+
+    // console.log(config.toConfig().plugins)
   },
 
   css: {
@@ -61,30 +89,4 @@ module.exports = {
       },
     },
   },
-}
-
-function plugins() {
-  const r = [
-    new DefinePlugin({
-      TARGET_BROWSER: JSON.stringify(TARGET_BROWSER),
-      RUNTIME_ENV: JSON.stringify(process.env.NODE_ENV)
-    })
-  ]
-
-  if (TARGET_BROWSER !== 'web') {
-    const { version } = require(`./package.json`)
-
-    const base = require(`./src/assets/manifests/${TARGET_BROWSER}.base.json`)
-    const target = require(`./src/assets/manifests/${TARGET_BROWSER}.${process.env.NODE_ENV}.json`)
-    const modify = { ...target, version }
-
-    if (process.env.TARGET_PLATFORM === 'amo') {
-      modify.applications = base.applications
-      modify.applications.gecko.id = AMO_ID;
-    }
-
-    r.push(new GenerateJsonPlugin('manifest.json', Object.assign(base, modify)))
-  }
-
-  return r
 }

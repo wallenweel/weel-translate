@@ -1,50 +1,91 @@
-# Weel Translate MD
+# Weel Translate X (V3.0)
 
-> Material Design Style Web Extension for Languages Translating.
+> Material Design Style Translation Extension for Languages.
+
+- [Weel Translate X (V3.0)](#weel-translate-x-v30)
+  - [Screenshots](#screenshots)
+  - [Get Started](#get-started)
+    - [First](#first)
+    - [Build For AMO (Firefox)](#build-for-amo-firefox)
+    - [Build For Firefox Testing](#build-for-firefox-testing)
+    - [Dev & Debug In "web" Mode](#dev--debug-in-%22web%22-mode)
+  - [Main Features List](#main-features-list)
+  - [Advance Features (_not completed yet_)](#advance-features-not-completed-yet)
+    - [Custom Translation Source Presets](#custom-translation-source-presets)
+      - [Source Interface](#source-interface)
+      - [Source Example](#source-example)
+    - [Add Web Crawler](#add-web-crawler)
+      - [Crawler Interface](#crawler-interface)
+      - [Crawler Example](#crawler-example)
+    - [Add Template Layout](#add-template-layout)
+      - [Layout Interface](#layout-interface)
+      - [Layout Example](#layout-example)
+  - [Project Setup](#project-setup)
 
 ## Screenshots
 
-> captured in development (web) mode.
+> all captured in production  mode.
 
-[![translation view in popup](docs/screenshots/_01.png)](docs/screenshots/01.png)
-[![test translating](docs/screenshots/_02.png)](docs/screenshots/02.png)
-[![translation view in chinese](docs/screenshots/_03.png)](docs/screenshots/03.png)
-[![select languages](docs/screenshots/_04.png)](docs/screenshots/04.png)
-[![preferences view in popup](docs/screenshots/_05.png)](docs/screenshots/05.png)
-[![popup drawer](docs/screenshots/_06.png)](docs/screenshots/06.png)
+![translation view in popup](docs/screenshots/00.png)
+![translation view in popup](docs/screenshots/01.png)
+![test translating](docs/screenshots/02.png)
+![translation view in chinese](docs/screenshots/03.png)
+![select languages](docs/screenshots/04.png)
+![preferences view in popup](docs/screenshots/05.png)
+![popup drawer](docs/screenshots/06.png)
+![popup drawer](docs/screenshots/07.png)
+![popup drawer](docs/screenshots/08.png)
+![popup drawer](docs/screenshots/09.png)
 
-## ~~Get Started~~
+## Get Started
 
-> developing, no release now.
+### First
 
-support debug in normal web mode:
+Now this project still in develping, every progresses all in **develop** branch.
 
-1. clone this repo's `develop` branch
+### Build For AMO (Firefox)
+
+1. run `yarn install` to install nessary dependencies
+2. run `yarn pack:amo` to build extension for publishing
+3. ouput files:  __dist/firefox/**/*__
+4. zip format extension file: __web-ext-artifacts/amo/weel_translate_x-[3.x.x].zip__
+
+### Build For Firefox Testing
+
+> This case will use `@translate-weel-x` id that defined in **mainfest.json**, but build for AMO will be set `@translate-weel` id automatically.
+
+1. run `yarn install`
+2. run `yarn pack:firefox`
+3. output files same with above
+4. zip file:  __web-ext-artifacts/weel_translate_x-[3.x.x].zip__
+5. visit [about:debugging#addons](about:debugging#addons) and click **Load Temporary Add-on** to select the zip file or __[output]/manifest.json__
+
+### Dev & Debug In "web" Mode
+
+1. clone this repo's `develop` branch to local
 2. run `yarn install` or `npm install` in project's root directory
 3. run `yarn serve` or `npm run serve` start a development serve for web debug
-4. visit `http://localhost::8080/popup/main.html` and press `F12` open web console then triggle mobile mode
-5. done, but install "cors" ignore extension for avoiding CORS Error from translation source
+4. visit `http://localhost::8080/popup/main.html` and could press `F12` open web console then triggle mobile mode
+5. done, but install "cors" ignore extension for avoiding CORS Error from translation source.
 
-## Main Features
+## Main Features List
 
 - [x] Support base translation (out of the box)
 - [x] Main translation in popup page (Browser Action)
-- [ ] Float translation panel in web page (Content Script)
-- [ ] Easy frontend settings
+- [x] Float translation panel in web page (Content Script)
+- [x] Easy frontend settings
 - [ ] Base customizable components (in frontend settings)
 - [ ] Advance preset templates costom support (in options page)
 - [ ] Support web infomation crawler (for sources that no api)
-- [ ] Support translating histories & picks
+- [x] Support translating histories & picks
 - [ ] Custimizable styles
-- [ ] Multiple UI languages support (Ready: `en`, `zh-cn`)
+- [x] Multiple UI languages support (Already: `en`, `zh-cn`)
 
-## Advance Features
+## Advance Features (_not completed yet_)
 
-> contine using without updating.
+### Custom Translation Source Presets
 
-### Add Translation Source Presets
-
-> For modifing more translation sources.
+> For the situation when some tranaltion source services changed their things, but still could contine using without updating this extension.
 
 #### Source Interface
 
@@ -81,7 +122,7 @@ declare interface SourcePreset extends Preset {
   // translation request
   // if false, use xhr or fetch by "url" and
   // parser's selectors as Dom selector
-  query?: {
+  query: {
     text: TextQuery;
     audio?: AudioQuery;
   } | false;
@@ -89,9 +130,12 @@ declare interface SourcePreset extends Preset {
   // parse response result
   // must be set in parent preset, optional in children
   // preset which has extends
-  parser?: {
-    [name: string]: selector;
-  };
+  parser: { [name: string]: selector; };
+
+  // test parser's item whether got vaild result or not
+  // use string as RegExp param: '\\w\\W+'  
+  // use custom placeholder repeat default: ['.+', 'Not Existed']
+  test?: { [name: string]: string | [string, string]; };
 
   // support ['auto:>AUTO', 'zh-cn:>zh-CHS', ...]
   // or [['auto', 'AUTO'], ['zh-cn', 'zh-CHS'], ...]
@@ -113,6 +157,9 @@ declare interface SourcePreset extends Preset {
   // invalid when "include" is set
   // if exist, exclude from all languages
   exclude?: Array<Language['code']>;
+
+  // custom all languages that your preset needs
+  languages?: Array<Language>;
 }
 
 declare interface Language {
@@ -125,11 +172,15 @@ declare type queryParams = string | { [param: string]: string | string[]; } | st
 declare interface TextQuery {
   method: 'get' | 'post' | string;
   url: string;
-  params: queryParams;
+  params?: queryParams;
+  unsupport?: Language['code'][];
 }
 
 declare interface AudioQuery extends TextQuery {
-  tune?: any;
+  // Feature: not implement
+  tune?: {
+    volume: number; // float number, minimum: 0 ~ maximum: 1
+  };
 }
 
 // object index such as "a.b.c" or Dom selecotr
@@ -146,12 +197,12 @@ declare type selector = string | string[] | undefined;
   "query": {
     "text": {
       "method": "get",
-      "url": "{{url}}/translate_a/single",
+      "url": "{url}/translate_a/single",
       "params": {
-        "q": "{{q}}",
-        "sl": "{{from}}",
-        "tl": "{{to}}",
-        "hl": "{{to}}",
+        "q": "{q}",
+        "sl": "{from}",
+        "tl": "{to}",
+        "hl": "{to}",
         "client": "gtx",
         "ie": "UTF-8",
         "oe": "UTF-8",
@@ -161,11 +212,12 @@ declare type selector = string | string[] | undefined;
       }
     },
     "audio": {
+      "unsupport": ["auto"],
       "method": "get",
-      "url": "{{url}}/translate_a/translate_tts",
+      "url": "{url}/translate_tts",
       "params": {
-        "q": "{{q}}",
-        "tl": "{{from}}",
+        "q": "{q}",
+        "tl": "{from}",
         "client": "gtx",
         "ie": "UTF-8"
       }
@@ -177,11 +229,17 @@ declare type selector = string | string[] | undefined;
     "translation": "$.sentences[0,-1]{trans}<\n>",
     "explain": "dict.0.pos/: /dict.0.terms<, >"
   },
+  "test": {
+    "phonetic_src": ".+",
+    "phonetic_dest": ".+",
+    "translation": ".+",
+    "explain": ".+\\:\\s.+"
+  },
   "fromto": ["auto", "auto"]
 }
 ```
 
-### Add Web Crawler (*not yet implement*)
+### Add Web Crawler
 
 > For fast getting more other infomation or using some translation source without standard api service.
 
@@ -202,12 +260,18 @@ declare interface LayoutPreset extends Preset {
   id: templateId;
   extends?: templateId;
 
-  // check has or not existed "keys" in result. such as
-  // test ['phonetic', 'translation'] in result { phonetic: '...', translation: '...' } is true
-  test: string[],
-
   // layout
   rows: string[][];
+
+  // check has or not existed "keys" in result. such as
+  // expect ['phonetic', 'translation'] in result { phonetic: '...', translation: '...' } is true
+  expect?: string[],
+
+  // replace string while result's item got unexpect things
+  // string: as placeholder if no content
+  // string[]: [regexp string for test, regexp string as replace rule, replaceing string]
+  // undefined: ignore this one
+  replace?: (string | string[] | undefined)[];
 
   title?: string;
   description?: string;
@@ -217,15 +281,15 @@ declare interface LayoutPreset extends Preset {
 #### Layout Example
 
 ```json
- {
-  "id": "default_popup",
-  "test": ["phonetic_src", "phonetic_dest", "translation", "explain"],
-  "title": "Default For Popup",
-  "description": "default translation result template in popup page.",
+{
+  "id": "standard",
+  "title": "Standard Translation Result",
+  "description": "Default enabled in popup and web page.",
+  "expect": ["phonetic_src", "phonetic_dest", "translation", "explain"],
   "rows": [
-    ["<pick>"],
+    ["<pick?title={translation}&excerpt={explain}>"],
     ["<voice?src>", "[", "{phonetic_src}", "]"],
-    ["<voice?dest>", "[", "{phonetic_dest}", "]"],
+    ["<voice?dest={translation}>", "[", "{phonetic_dest}", "]"],
     ["{translation}"],
     ["{explain}"]
   ]
@@ -234,10 +298,10 @@ declare interface LayoutPreset extends Preset {
 
 ```json
 {
-  "id": "default_float",
-  "test": ["phonetic_dest", "translation", "explain"],
-  "title": "Default For Float",
-  "description": "default translation result template in content page as float panel.",
+  "id": "simple",
+  "title": "Simple Translation Result'",
+  "description": "Shows a few base stuffs as result.",
+  "expect": ["phonetic_dest", "translation", "explain"],
   "rows": [
     ["<voice-dest>", "`", "{phonetic_dest}", "`"],
     ["{translation}"],
@@ -246,7 +310,7 @@ declare interface LayoutPreset extends Preset {
 }
 ```
 
-## Project setup
+## Project Setup
 
 ```sh
 # Install dependencies
@@ -265,10 +329,13 @@ yarn run build:firefox
 yarn run watch:firefox
 
 # Strat a temporary browser for development (dist/firefox)
-yarn run webext:firefox
+yarn run webext run
 
 # Package a .zip extension file for publishing (web-ext-artifacts/)
 yarn run pack:firefox
+
+# Package a .zip extension file for publishing (web-ext-artifacts/amo)
+yarn run pack:amo
 
 # Run unit tests
 yarn run test:unit

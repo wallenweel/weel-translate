@@ -8,7 +8,8 @@ module.exports = {
     'tsx'
   ],
   globals: {
-    RUNTIME_ENV: 'development'
+    RUNTIME_ENV: 'development',
+    TARGET_BROWSER: 'web'
   },
   transform: {
     '^.+\\.vue$': 'vue-jest',

@@ -108,7 +108,7 @@ export default class TranslationResult extends Vue {
       }
       &:nth-child(2),
       &:nth-child(3) {
-        font-size: .75rem;
+        font-size: 12px;
       }
       &:nth-child(4) {
         font-weight: bolder;
@@ -117,7 +117,7 @@ export default class TranslationResult extends Vue {
       }
       &:nth-child(5) {
         color: val(--mdc-theme-text-secondary-on-light, #555555);
-        font-size: 0.75rem;
+        font-size: 12px;
         line-height: 1.35;
         border-top: 1px solid var(--mdc-theme-text-secondary-on-background, #999999);
         padding: 8px 0;

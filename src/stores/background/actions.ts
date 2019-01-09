@@ -3,31 +3,36 @@ import { State } from './';
 import { versionCheck } from '@/functions';
 import * as types from '@/types';
 import debug from '@/functions/debug';
+import { base as baseConfig } from '@/defaults/config';
 
 export const actions: ActionTree<State, State> = {
+  // TODO: treat most error situations reasonably
   startup: async ({ dispatch, state }): Promise<std> => {
     const [err1, config]: std = await dispatch('storage/init');
     if (err1 !== null) { return [err1]; }
 
-    const [err2] = await dispatch('version', config);
+    const [err2] = await dispatch('version', {
+      version: baseConfig.version,
+      last_version: config.version,
+    });
     if (err2 !== null) { return [err2]; }
 
     return [null];
   },
 
-  version: async ({ dispatch }, config): Promise<std> => {
-    const { version, last_version } = config;
+  version: async ({ dispatch }, { version, last_version }): Promise<std> => {
     const [, status] = versionCheck(version, last_version);
+    const updateLastVersion = () => dispatch('storage/update', { version, last_version });
 
     switch (status) {
       case types.VERSION_FRESH: // first install
         const [error] = await dispatch('storage/reset');
-        if (error !== null) {
-          return [error];
-        }
+        if (error !== null) { return [error]; }
+        await updateLastVersion();
         return [null];
 
       case types.VERSION_UPDATED:
+        await updateLastVersion();
         return [null];
 
       case types.VERSION_OUTDATED:

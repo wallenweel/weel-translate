@@ -16,6 +16,7 @@ const mutations: MutationTree<State> = { update, clear };
 
 const actions: ActionTree<State, RootState> = {
   init: async ({ dispatch, commit }): Promise<std> => {
+    // await dispatch('reset');
     const [, config] = await dispatch('query');
 
     commit('update', config);

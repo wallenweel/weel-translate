@@ -43,11 +43,10 @@ export const browserShim: Browser = {
     local: storageAreaMethods,
     sync: storageAreaMethods,
   },
-  // i18n: {
-  //   getMessage: (name, substitions) => {
-  //     return '';
-  //   },
-  // },
+  i18n: {
+    getMessage: (name, substitions) => '',
+    getUILanguage: () => '',
+  },
 };
 
 if (TARGET_BROWSER === 'web') {

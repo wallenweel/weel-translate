@@ -2,6 +2,7 @@ const {
   storage,
   runtime,
   tabs,
+  i18n,
 } = browser as any;
 
 const manifest = runtime.getManifest();
@@ -12,4 +13,5 @@ export default {
   storage,
   runtime,
   tabs,
+  i18n,
 } as Browser;

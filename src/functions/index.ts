@@ -384,7 +384,10 @@ export const configKeysReducer: ConfigKeysReduceFn = (keys, config) => {
 };
 
 export const presetLanguagesModifier: PresetLanguagesModifyFn = (languages, rules = []) => {
-  if (!rules.length) { return ['no any rules', languages]; }
+  if (!rules.length) {
+    debug.log('no existed any language modifing rules');
+    return [null, languages];
+  }
 
   const out: Language[] = [];
 

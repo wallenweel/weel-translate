@@ -36,6 +36,7 @@ export const actions: ActionTree<State, State> = {
         return [null];
 
       case types.VERSION_OUTDATED:
+        await dispatch('storage/reset');
         return [null];
 
       case types.VERSION_SAME: // nothing change

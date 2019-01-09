@@ -29,3 +29,5 @@ export const theme = {
     secondary: '#6200ee',
   },
 };
+
+export const modifiedLocaleRules = ['en-us:>en', 'zh:>zh-cn'];

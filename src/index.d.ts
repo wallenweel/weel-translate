@@ -113,7 +113,7 @@ declare interface Browser {
   readonly storage: BrowserStorage;
   readonly runtime: BrowserRuntime;
   readonly tabs: BrowserTabs;
-  // readonly i18n: BrowserI18n;
+  readonly i18n: BrowserI18n;
 
   readonly [name: string]: any;
 }
@@ -273,9 +273,8 @@ declare interface MessageSender {
 }
 
 declare interface BrowserI18n {
-  readonly getMessage: {
-    (messageName: string, substitutions?: string | string[]): string;
-  };
+  getMessage(messageName: string, substitutions?: string | string[]): string;
+  getUILanguage(): string;
 }
 
 /** /defaults */

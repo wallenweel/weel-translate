@@ -1,4 +1,4 @@
-import Vue, { VueConstructor } from 'vue';
+import Vue from 'vue';
 import Router, { RouterOptions, RouteConfig } from 'vue-router';
 
 Vue.use(Router);
@@ -14,7 +14,7 @@ const routes: RouteConfig[] = [
     path: '/translate',
     name: 'translate',
     // component: () => import(/** webpackChunkName "translation-view" */ '@/views/Translation.vue'),
-    component: TranslationView as VueConstructor,
+    component: TranslationView,
     meta: { locale: 'translate' },
   },
   {

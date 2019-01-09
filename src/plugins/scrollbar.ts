@@ -1,8 +1,7 @@
-import { VueConstructor } from 'vue';
 import VuePrefectScrollbar from 'vue-perfect-scrollbar';
 
 class Scrollbar {
-  public install(Vue: VueConstructor) {
+  public install(Vue: any) {
     Vue.component('scrollbar', VuePrefectScrollbar);
   }
 }

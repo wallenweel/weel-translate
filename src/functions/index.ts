@@ -1,5 +1,5 @@
 import * as types from '../types';
-import { presetIdJsonReg } from '@/variables';
+import { presetIdJsonReg } from '../variables';
 import debug from './debug';
 
 export const istype: IsTypeFn = (target, type) => {

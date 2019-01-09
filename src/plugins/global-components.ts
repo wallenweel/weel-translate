@@ -1,8 +1,7 @@
-import { VueConstructor } from 'vue';
 import IconBase from '@/components/IconBase.vue';
 
 class GlobalComponents {
-  public install(Vue: VueConstructor) {
+  public install(Vue: any) {
     Vue.component('icon-base', IconBase);
   }
 }

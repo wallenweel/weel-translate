@@ -16,6 +16,9 @@
     "preset_top": "(Not Availble Now) If changes got anything wrong, please click \"{0}\" button to restore."
   },
 
+  "select_language": "Select Language",
+  "ok": "OK",
+
   "translate": "Translate",
   "settings": "Settings",
   "picked": "Picked",

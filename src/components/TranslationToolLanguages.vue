@@ -17,7 +17,7 @@
     >{{ toggle ? fromName : toName }}</mdc-button>
 
     <mdc-dialog v-model="open" scrollable
-      title="Select Language"
+      :title="$t('select_language')" :accept="$t('ok')"
       ref="select"
     >
       <mdc-list interactive dense>

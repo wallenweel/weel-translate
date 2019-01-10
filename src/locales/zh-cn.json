@@ -16,6 +16,9 @@
     "preset_top": "（未完成） 如果更改设置产生异常的话，请点击\"{0}\"按钮恢复。"
   },
 
+  "select_language": "选择语言",
+  "ok": "确定",
+
   "translate": "翻译",
   "settings": "设置",
   "picked": "收集",

@@ -1,0 +1,11 @@
+@mixin app-wrap {
+  font-family: $app-wrap-font-family;
+  font-size: 16px;
+  color: var(--mdc-theme-text-primary-on-light, #2c3e50);
+}
+
+@mixin view-top-tip {
+  background-color: var(--mdc-theme-primary, #6200ee);
+  color: var(--mdc-theme-text-primary-on-dark, #ffffff);
+  padding: 0 16px 16px;
+}

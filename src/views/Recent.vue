@@ -37,7 +37,7 @@ export default class RecentView extends Vue {
 </script>
 
 <style lang="scss">
-@import "../assets/styles";
+@import '../assets/styles/global';
 
 .view-recent {
   .-banner {

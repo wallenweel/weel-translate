@@ -23,11 +23,9 @@ export default class Options extends Vue {
 </script>
 
 <style lang="scss">
-// @import '~vue-mdc-adapter/dist/vue-mdc-adapter.min.css';
+@import '../assets/styles/global';
 
-$mdc-theme-primary: #6200ee;
-$mdc-theme-secondary: #6200ee;
-$mdc-typography-font-family: "Roboto Mono", "Microsoft Yahei", "sans-serif", monospace;
+// @import '~vue-mdc-adapter/dist/vue-mdc-adapter.min.css';
 
 @import 'vue-mdc-adapter/dist/theme/styles';
 @import 'vue-mdc-adapter/dist/typography/styles';

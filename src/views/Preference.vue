@@ -173,7 +173,7 @@ export default class PreferenceView extends Vue {
 </script>
 
 <style lang="scss">
-@import "../assets/styles";
+@import '../assets/styles/global';
 
 .view-preference {
   .-banner {

@@ -15,7 +15,7 @@ export default class PresetsView extends Vue {}
 </script>
 
 <style lang="scss">
-@import "../assets/styles";
+@import '../assets/styles/global';
 
 .view-presets {
   .-banner {

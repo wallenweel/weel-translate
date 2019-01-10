@@ -59,7 +59,7 @@ export default class PickedView extends Vue {
 </script>
 
 <style lang="scss">
-@import "../assets/styles";
+@import '../assets/styles/global';
 
 .view-picked {
   .-banner {

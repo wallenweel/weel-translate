@@ -239,10 +239,14 @@ $mdc-typography-font-family: "Roboto Mono", "Microsoft Yahei", "sans-serif", mon
 @import '~vue-mdc-adapter/dist/card/card.min.css';
 @import '~vue-mdc-adapter/dist/linear-progress/linear-progress.min.css';
 
-.wrap {
+.weel-translate-x {
   @each $style in map-keys($mdc-theme-property-values) {
     --mdc-theme-#{$style}: #{map-get($mdc-theme-property-values, $style)};
   }
+}
+
+.wrap {
+  color: var(--mdc-theme-text-primary-on-light, #222);
 }
 
 .fade-enter-active, .fade-leave-active {

@@ -1,6 +1,11 @@
-import * as types from '../types';
-import { presetIdJsonReg } from '../variables';
 import debug from './debug';
+import { presetIdJsonReg } from '../variables';
+import {
+  VERSION_FRESH,
+  VERSION_UPDATED,
+  VERSION_OUTDATED,
+  VERSION_SAME,
+} from '../types';
 
 export const istype: IsTypeFn = (target, type) => {
   let types: string[] = [];
@@ -86,7 +91,7 @@ export const stringParamsParaser: StringParamsParseFn = (target) => {
 
 export const versionCheck: VersionCheckFn = (current, last): std<versionStatus> => {
   if (!last) {
-    return [`last version is not existed`, types.VERSION_FRESH, -1];
+    return [`last version is not existed`, VERSION_FRESH, -1];
   }
 
   const intArr = (s: version): number[] =>
@@ -113,15 +118,15 @@ export const versionCheck: VersionCheckFn = (current, last): std<versionStatus> 
 
   for (let i = 0; i < c.length; i++) {
     if (c[i] > l[i]) { // [current].0.0 > [last].0.0
-      return [null, types.VERSION_UPDATED, incompatibleLevel(i, c, l)];
+      return [null, VERSION_UPDATED, incompatibleLevel(i, c, l)];
     }
 
     if (c[i] < l[i]) { // [current].0.0 < [last].0.0
-      return [null, types.VERSION_OUTDATED, incompatibleLevel(i, c, l)];
+      return [null, VERSION_OUTDATED, incompatibleLevel(i, c, l)];
     }
   }
 
-  return [null, types.VERSION_SAME, -1];
+  return [null, VERSION_SAME, -1];
 };
 
 export const presetsParser: PresetsParseFn = (presets) => {

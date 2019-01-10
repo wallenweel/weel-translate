@@ -1,9 +1,18 @@
 import { ActionTree } from 'vuex';
 import { State } from './';
 import { versionCheck } from '@/functions';
-import * as types from '@/types';
-import debug from '@/functions/debug';
+import {
+  VERSION_FRESH,
+  VERSION_UPDATED,
+  VERSION_OUTDATED,
+  VERSION_SAME,
+  RESET_CONFIG,
+  QUERY_CONFIG,
+  SET_CONFIG,
+  QUERY_TRANSLATION,
+} from '@/types';
 import { base as baseConfig } from '@/defaults/config';
+import debug from '@/functions/debug';
 
 export const actions: ActionTree<State, State> = {
   // TODO: treat most error situations reasonably
@@ -25,21 +34,21 @@ export const actions: ActionTree<State, State> = {
     const updateLastVersion = () => dispatch('storage/update', { version, last_version });
 
     switch (status) {
-      case types.VERSION_FRESH: // first install
+      case VERSION_FRESH: // first install
         const [error] = await dispatch('storage/reset');
         if (error !== null) { return [error]; }
         await updateLastVersion();
         return [null];
 
-      case types.VERSION_UPDATED:
+      case VERSION_UPDATED:
         await updateLastVersion();
         return [null];
 
-      case types.VERSION_OUTDATED:
+      case VERSION_OUTDATED:
         await dispatch('storage/reset');
         return [null];
 
-      case types.VERSION_SAME: // nothing change
+      case VERSION_SAME: // nothing change
         return [null];
       default:
         return [null];
@@ -48,19 +57,19 @@ export const actions: ActionTree<State, State> = {
 };
 
 export const ipcActions: ActionTree<State, State> = {
-  [types.RESET_CONFIG]: async ({ dispatch }, { payload: keys }): Promise<std> => {
+  [RESET_CONFIG]: async ({ dispatch }, { payload: keys }): Promise<std> => {
     return await dispatch('storage/reset', { keys });
   },
 
-  [types.QUERY_CONFIG]: async ({ dispatch }, { payload: keys }): Promise<std> => {
+  [QUERY_CONFIG]: async ({ dispatch }, { payload: keys }): Promise<std> => {
     return await dispatch('storage/query', { keys });
   },
 
-  [types.SET_CONFIG]: async ({ dispatch }, { payload: config }) => {
+  [SET_CONFIG]: async ({ dispatch }, { payload: config }) => {
     return await dispatch('storage/update', config);
   },
 
-  [types.QUERY_TRANSLATION]: async ({ dispatch }, { payload: { type, params } }) => {
+  [QUERY_TRANSLATION]: async ({ dispatch }, { payload: { type, params } }) => {
     return await dispatch('translation/query', { type, params });
   },
 };

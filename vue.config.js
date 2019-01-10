@@ -1,13 +1,15 @@
 const path = require('path');
 const GenerateJsonPlugin = require('generate-json-webpack-plugin')
 const ReplaceInFile = require('replace-in-file-webpack-plugin')
+const WebpackDelete = require('webpack-delete-plugin')
 
 // firefox, chrome, etc
 const TARGET_BROWSER = process.env.TARGET_BROWSER || 'web'
+const outputDir = `dist/${TARGET_BROWSER}`
 const AMO_ID = `@weel-translate`
 
 module.exports = {
-  outputDir: `dist/${TARGET_BROWSER}`,
+  outputDir,
 
   pages: {
     'background/main': 'src/pages/background.ts',
@@ -71,12 +73,17 @@ module.exports = {
       const search = `Function("return this")()`
       const replace = '(function(){return this})()'
 
-      config.plugin('replace-in-file')
-        .use(ReplaceInFile, [[{
-          dir: 'dist/firefox/js',
-          files: ['chunk-vendors.js'],
-          rules: [{ search, replace }]
-        }]])
+      config
+        .plugin('replace-in-file')
+          .use(ReplaceInFile, [[{
+            dir: 'dist/firefox/js',
+            files: ['chunk-vendors.js'],
+            rules: [{ search, replace }]
+          }]])
+        .end()
+        .plugin('webpack-delete')
+          .use(WebpackDelete, [[`./${outputDir}/js/**/*-legacy.js`]])
+
     }
 
     // console.log(config.toConfig().plugins)

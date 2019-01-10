@@ -11125,6 +11125,12 @@ webpack-chain@^4.11.0:
     deepmerge "^1.5.2"
     javascript-stringify "^1.6.0"
 
+webpack-delete-plugin@^0.1.1:
+  version "0.1.1"
+  resolved "https://registry.npmjs.org/webpack-delete-plugin/-/webpack-delete-plugin-0.1.1.tgz#a552a6fc2b2170856f499e8a06214ec3b1f9b29f"
+  dependencies:
+    del "^3.0.0"
+
 webpack-dev-middleware@3.4.0:
   version "3.4.0"
   resolved "https://registry.yarnpkg.com/webpack-dev-middleware/-/webpack-dev-middleware-3.4.0.tgz#1132fecc9026fd90f0ecedac5cbff75d1fb45890"

@@ -41,7 +41,7 @@
       <mdc-layout-cell class="-row">
         <mdc-headline>{{ $t('network') }}</mdc-headline>
         <mdc-subheading>{{ $t('set_timeout_seconds', [timeout / 1000]) }}</mdc-subheading>
-        <mdc-slider min=0 max=120 step=10 display-markers
+        <mdc-slider min=5 max=60 step=5 display-markers
           :value="timeout / 1000" @change="handleTimeout" />
       </mdc-layout-cell>
     </mdc-layout-grid>

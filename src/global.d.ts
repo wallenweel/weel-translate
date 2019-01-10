@@ -25,6 +25,8 @@ declare module '@/components/icons/GTranslate.vue'
 declare module '@/components/icons/SwapHoriz.vue'
 declare module '@/components/icons/Pageview.vue'
 declare module '@/components/icons/Delete.vue'
+declare module '@/components/icons/Feedback.vue'
+declare module '@/components/icons/Github.vue'
 
 //~ target browser flag for building extension
 //~ defined in "/vue.config.js"

@@ -2,6 +2,7 @@
   <svg xmlns="http://www.w3.org/2000/svg" ref="svg" :type="defaultType"
     :width="width || size || 24" :height="height || size || 24"
     :viewBox="`0 0 ${width || size || 24} ${height || size || 24}`"
+    :name="name"
   >
     <title :id="name || 'blank'" lang="en">{{ title || 'blank' }}</title>
     <g :fill="color || 'currentColor'">

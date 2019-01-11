@@ -490,11 +490,11 @@ declare interface LayoutPreset extends Preset {
 }
 
 declare interface TemplateConfig {
-  template_enabled_sources: {
+  template_source_layouts: {
     // like: google_com: ['standard', 'simple']
     [sourceId: string]: [layoutId, layoutId];
   };
-  template_enabled_crawlers: {
+  template_crawler_layouts: {
     [crawlerId: string]: [layoutId, layoutId];
   },
   template_enabled_layouts: LayoutPresetItem[];

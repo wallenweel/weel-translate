@@ -39,7 +39,7 @@
       </div>
 
       <translation-result class="-result"
-        :result="result" :layout="resultLayout"
+        :result="result" :layout="sourceLayout"
         :has="hasResult && hasSelection"
       />
     </section>
@@ -60,6 +60,7 @@ import debug from '@/functions/debug';
 
 const _ = namespace('preference');
 const __ = namespace('translation');
+const ___ = namespace('template');
 
 @Component({
   components: {
@@ -78,7 +79,6 @@ export default class Content extends Vue {
   @Getter private rectOffsetBC!: [number, number];
   @Getter private rectOffsetBR!: [number, number];
   @Getter private isRectUp!: boolean;
-  @Getter private resultLayout!: LayoutPreset;
 
   @_.State private fabEnable!: boolean;
   @_.State private fabPosition!: string;
@@ -91,6 +91,8 @@ export default class Content extends Vue {
   @__.Getter private hasResult!: boolean;
   @__.Action('translate') private doTranslate: any;
   @__.Action('fromto') private updateFromto: any;
+
+  @___.Getter private sourceLayout!: LayoutPreset;
 
   private fabStyle: string | null = null;
   private fapStyle: string | null = null;

@@ -3,6 +3,7 @@ import Vuex, { MutationTree, ActionTree, ModuleTree, GetterTree } from 'vuex';
 import storage from '../modules/storage';
 import preference, { register as preferenceRegister } from './modules/preference';
 import translation, { register as translationRegister } from './modules/translation';
+import template, { register as templateRegister } from './modules/template';
 import { update, clear } from '@/stores/mutations';
 import { presetInvoker } from '@/functions';
 import { ipcActionRequestor } from '@/stores/';
@@ -29,10 +30,9 @@ const actions: ActionTree<State, State> = {
     dispatch('translation/init');
 
     const keys = [
-      'template_layouts',
-      'template_source_layouts',
       ...Object.keys(preferenceRegister),
       ...Object.keys(translationRegister),
+      ...Object.keys(templateRegister),
     ] as Array<keyof DefaultConfig>;
 
     dispatch('storage/init', { page: 'popup', keys});
@@ -46,19 +46,11 @@ const actions: ActionTree<State, State> = {
 };
 
 const getters: GetterTree<State, State> = {
-  locale: (state): Language['code'] => state.storage.ui_language,
-  resultLayout: (state): LayoutPreset => {
-    const {
-      template_layouts: layouts,
-      template_source_layouts: sourcesTemplate,
-    } = state.storage;
-    const id = (sourcesTemplate[state.translation.source.id] || [])[0];
-    return presetInvoker(id, layouts)[1] as LayoutPreset;
-  },
+  locale: (state): Language['code'] => state.preference.locale,
 };
 
 const modules: ModuleTree<State> = {
-  storage, preference, translation,
+  storage, preference, translation, template,
 };
 
 const store = new Vuex.Store<State>({
@@ -69,6 +61,7 @@ store.subscribe((mutation) => {
   if (mutation.type === 'storage/update') {
     store.dispatch('preference/fetch');
     store.dispatch('translation/fetch');
+    store.dispatch('template/fetch');
   }
 });
 
@@ -77,5 +70,5 @@ export default store;
 export interface State {
   notify: null | string;
 
-  [name: string]: any;
+  [m: string]: any;
 }

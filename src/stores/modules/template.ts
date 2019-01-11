@@ -1,6 +1,7 @@
 import { MutationTree, ActionTree, Module, GetterTree } from 'vuex';
 import { State as RootState } from '@/stores/index';
 import { update, clear } from '@/stores/mutations';
+import { presetInvoker } from '@/functions';
 import debug from '@/functions/debug';
 
 export const namespaced: boolean = true;
@@ -29,7 +30,8 @@ export const actions: ActionTree<State, RootState> = {
   ...(TARGET_BROWSER === 'web' ? webActions : ipcActions),
 };
 
-export const getters: GetterTree<State, RootState> = {};
+export const getters: GetterTree<State, RootState> = {
+};
 
 export const template: Module<State, RootState> = {
   namespaced, state, actions, mutations, getters,

@@ -3,6 +3,7 @@ import Vuex, { MutationTree, ActionTree, ModuleTree, GetterTree } from 'vuex';
 import storage from '../modules/storage';
 import preference, { register as preferenceRegister } from './modules/preference';
 import translation, { register as translationRegister } from './modules/translation';
+import template, { register as templateRegister } from './modules/template';
 import { update, clear } from '@/stores/mutations';
 import { presetInvoker } from '@/functions';
 import { ipcActionRequestor } from '@/stores/';
@@ -12,10 +13,9 @@ import debug from '@/functions/debug';
 Vue.use(Vuex);
 
 const register = [
-  'template_layouts',
-  'template_enabled_sources',
   ...Object.keys(preferenceRegister),
   ...Object.keys(translationRegister),
+  ...Object.keys(templateRegister),
 ] as Array<keyof DefaultConfig>;
 
 let Port: RuntimePort;
@@ -113,15 +113,8 @@ const actions: ActionTree<State, State> = {
 };
 
 const getters: GetterTree<State, State> = {
-  locale: (state): Language['code'] => state.storage.ui_language,
-  resultLayout: (state): LayoutPreset => {
-    const {
-      template_layouts: layouts,
-      template_enabled_sources: sourcesTemplate,
-    } = state.storage;
-    const id = (sourcesTemplate[state.translation.source.id] || [])[0];
-    return presetInvoker(id, layouts)[1] as LayoutPreset;
-  },
+  locale: (state): Language['code'] => state.preference.locale,
+
   hasSelection: (state): boolean => !!state.text,
   rectOffsetCC: (state): [number, number] => {
     const { offset: { x, y }, size: { width, height } } = state.rect;
@@ -147,7 +140,7 @@ const getters: GetterTree<State, State> = {
 };
 
 const modules: ModuleTree<State> = {
-  storage, preference, translation,
+  storage, preference, translation, template,
 };
 
 const store = new Vuex.Store<State>({
@@ -158,6 +151,7 @@ store.subscribe((mutation) => {
   if (mutation.type === 'storage/update') {
     store.dispatch('preference/fetch');
     store.dispatch('translation/fetch');
+    store.dispatch('template/fetch');
   }
 });
 
@@ -175,5 +169,5 @@ export interface State {
   };
   initOffset: null | [number, number];
 
-  [name: string]: any;
+  [m: string]: any;
 }

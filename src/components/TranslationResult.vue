@@ -1,21 +1,23 @@
 <template>
   <div class="translation-result">
     <transition name="fade">
-      <mdc-card class="_section" :wlt-id="layout.id" v-if="has">
-        <div v-for="(row, n) in this.parseResultRows" :key="n"
-          class="_row" :wlt-id="n">
+      <mdc-card class="_section" :data-id="layout.id" v-if="has">
+        <div class="_row"
+          v-for="(row, n) in this.parseResultRows" :key="n"
+          :data-row="n + 1"
+        >
           <template v-for="(value, i) in row">
             <voice-action-button class="_button" :key="`a_${i}`"
               v-if="isAction(value, 'voice')"
               :params="parseAction(value)"
-            >
-            </voice-action-button>
+            />
             <pick-action-button class="_button" :key="`a_${i}`"
-              v-else-if="isAction(value, 'pick')" :params="parseAction(value)">
-            </pick-action-button>
+              v-else-if="isAction(value, 'pick')" :params="parseAction(value)"
+            />
 
             <span class="_span" :key="`s_${i}`" v-else
-              :wlt-tag="layout.rows[n][i]">{{ value === '__unfound__' ? $t(value) : value }}</span>
+              :data-tag="layout.rows[n][i]"
+            >{{ value === '__unfound__' ? $t(value) : value }}</span>
           </template>
         </div>
       </mdc-card>
@@ -28,7 +30,6 @@ import { Component, Prop, Vue } from 'vue-property-decorator';
 import VoiceActionButton from '@/components/ActionButtonVoice.vue';
 import PickActionButton from '@/components/ActionButtonPick.vue';
 import { templateLayoutParser, stringParamsParaser, istype } from '@/functions';
-// import { popup as popupLayout } from '@/defaults/layouts/translation';
 import debug from '@/functions/debug';
 
 @Component({
@@ -38,7 +39,6 @@ import debug from '@/functions/debug';
   },
 })
 export default class TranslationResult extends Vue {
-  // private layout: templatePreset = popupLayout;
   // private result: SourcePreset['parser'] = {
   //   phonetic_src: 'transˈlāSHən',
   //   phonetic_dest: 'Fan Yi',
@@ -90,37 +90,66 @@ export default class TranslationResult extends Vue {
 .translation-result {
   padding: 0 16px;
   position: relative;
+
   ._section {
     margin: 16px 0;
     padding: 16px;
-    ._row {
-      display: flex;
-      align-items: center;
-      &:nth-child(1) {
-        height: 0;
+
+    &[data-id="standard"] {
+      ._row {
         display: flex;
-        position: relative;
-        .translation-action-pick {
-          margin-top: 24px;
-          margin-left: auto;
-          margin-right: -8px;
+        align-items: center;
+        &[data-row="1"] {
+          height: 0;
+          display: flex;
+          position: relative;
+          .translation-action-pick {
+            margin-top: 24px;
+            margin-left: auto;
+            margin-right: -8px;
+          }
+        }
+        &[data-row="2"],
+        &[data-row="3"] {
+          font-size: 12px;
+        }
+        &[data-row="4"] {
+          font-weight: bolder;
+          margin-top: 4px;
+          padding-bottom: 8px;
+        }
+        &[data-row="5"] {
+          color: val(--mdc-theme-text-secondary-on-light, #555555);
+          font-size: 12px;
+          line-height: 1.35;
+          border-top: 1px solid var(--mdc-theme-text-secondary-on-background, #999999);
+          padding: 8px 0;
         }
       }
-      &:nth-child(2),
-      &:nth-child(3) {
-        font-size: 12px;
-      }
-      &:nth-child(4) {
-        font-weight: bolder;
-        margin-top: 4px;
-        padding-bottom: 8px;
-      }
-      &:nth-child(5) {
-        color: val(--mdc-theme-text-secondary-on-light, #555555);
-        font-size: 12px;
-        line-height: 1.35;
-        border-top: 1px solid var(--mdc-theme-text-secondary-on-background, #999999);
-        padding: 8px 0;
+    }
+    
+    &[data-id="simple"] {
+      ._row {
+        display: flex;
+        align-items: center;
+        &[data-row="1"] {
+          height: 0;
+          display: flex;
+          position: relative;
+          .translation-action-pick {
+            margin-top: 24px;
+            margin-left: auto;
+            margin-right: -8px;
+          }
+        }
+        &[data-row="2"] {
+          font-size: 12px;
+        }
+        &[data-row="3"] {
+          font-weight: bolder;
+          margin-top: 4px;
+          padding-bottom: 8px;
+        }
       }
     }
 

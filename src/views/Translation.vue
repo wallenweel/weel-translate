@@ -17,7 +17,7 @@
     />
 
     <translation-result class="-result"
-      :result="result" :layout="resultLayout" :has="hasResult"
+      :result="result" :layout="sourceLayout" :has="hasResult"
     />
 
     <mdc-dialog v-model="open" scrollable
@@ -41,6 +41,7 @@ import TranslationResult from '@/components/TranslationResult.vue';
 import debug from '@/functions/debug';
 
 const __ = namespace('translation');
+const ___ = namespace('template');
 
 Component.registerHooks(['beforeRouteEnter']);
 
@@ -56,7 +57,7 @@ export default class TranslationView extends Vue {
   private open?: boolean = false;
   private hasPasted?: boolean = false;
 
-  @Getter private resultLayout!: LayoutPreset;
+  @___.Getter private sourceLayout!: LayoutPreset;
 
   @__.State private translating!: boolean;
   @__.State private voicing!: boolean;

@@ -18,10 +18,10 @@ export const simple: LayoutPreset = {
   description: 'Shows a few base stuffs as result.',
 
   id: 'simple',
-  expect: ['phonetic_dest', 'translation', 'explain'],
+  expect: ['phonetic_src', 'translation', 'explain'],
   rows: [
-    ['<voice?dest>', '[', '{phonetic_dest}', ']'],
+    ['<pick?title={translation}&excerpt={explain}>'],
+    ['<voice?src>', '[', '{phonetic_src}', ']'],
     ['{translation}'],
-    ['{explain}'],
   ],
 };

@@ -428,6 +428,7 @@ declare interface AudioQuery extends TextQuery {
   tune?: {
     volume: number; // float number, minimum: 0 ~ maximum: 1
   };
+  modify?: SourcePreset['modify'];
 }
 
 // object index such as "a.b.c" or Dom selecotr

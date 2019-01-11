@@ -23,11 +23,13 @@ export default {
     },
     audio: {
       method: '{method}',
-      url: 'https://dict.youdao.com/dictvoice',
+      url: 'http://tts.youdao.com/fanyivoice',
       params: [
-        ['audio', '{q}'],
-        ['type', '1'],
+        ['word', '{q}'],
+        ['le', '{from}'],
+        ['keyfrom', 'speaker-target'],
       ],
+      modify: ['ja:>jap'],
     },
   },
 

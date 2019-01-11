@@ -1,5 +1,5 @@
 import axios, { AxiosRequestConfig, CancelTokenSource, Canceler } from 'axios';
-import { presetParamsParser, paramsParaser, istype } from '@/functions';
+import { presetParamsParser, paramsParaser, istype, presetLanguagesModifier } from '@/functions';
 import { requestTimeout } from '@/variables';
 import debug from '@/functions/debug';
 
@@ -129,6 +129,19 @@ export const translation = ({
 }): Promise<std> => {
   if (istype(translatingCanceler, 'function')) { translatingCanceler!(); }
   const query = request(preset, type);
+
+  if (typeof preset.query === 'object') {
+    const querier = preset.query[type as 'text' | 'audio'];
+    const modify = (querier as AudioQuery).modify;
+    if (type === 'audio' && !!modify) {
+      const langs: Language[] = presetLanguagesModifier([
+        { name: 'from', code: params.from },
+        { name: 'to', code: params.to || '' },
+      ], modify)[1]!;
+      params.from = langs[0].code;
+      params.to = langs[1].code;
+    }
+  }
 
   return query(params, {
     timeout,

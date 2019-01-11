@@ -44,20 +44,31 @@ const actions: ActionTree<State, RootState> = {
   reset: ({ dispatch }) => {
     dispatch('storage/reset', Object.keys(register), { root: true });
   },
+
+  save: ({ dispatch }, [key, val]) => {
+    let value: any = val;
+
+    if (key === 'timeout') { value = val * 1000; }
+
+    dispatch('merge', { [key]: value });
+  },
 };
 
 const getters: GetterTree<State, RootState> = {
-  locales: () => {
+  locales: (): Language[] => {
     const [error, locales] = presetLanguagesFilter(languages, Object.keys(i18n.messages));
-    return locales;
+    return locales as Language[];
   },
-  options: (state) => configKeysReducer([
+  options: (state): { [k in keyof State]: any } => configKeysReducer([
+    'locale',
     'theme',
     'hotkey',
     'fabEnable', 'fabPosition',
     'fapEnable', 'fapPosition', 'fapPositionEdge',
     'contextMenuEnable',
-  ], state)[1],
+    'recentNumbers',
+    'timeout',
+  ] as Array<keyof State>, state)[1],
 };
 
 export const preference: Module<State, RootState> = {
@@ -67,7 +78,7 @@ export const preference: Module<State, RootState> = {
 export default moduleHelper(preference, register);
 
 type C = DefaultConfig;
-interface State extends CommonState {
+export interface State extends CommonState {
   locales?: Language[];
   recentNumbers: C['translation_recent_numbers'];
   hotkey: C['translation_hotkey'];

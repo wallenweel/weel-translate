@@ -239,13 +239,10 @@ function overflow(
 @import '~vue-mdc-adapter/dist/card/card.min.css';
 @import '~vue-mdc-adapter/dist/linear-progress/linear-progress.min.css';
 
-.weel-translate-x {
+.wrap {
   @each $style in map-keys($mdc-theme-property-values) {
     --mdc-theme-#{$style}: #{map-get($mdc-theme-property-values, $style)};
   }
-}
-
-.wrap {
   @include app-wrap;
 }
 

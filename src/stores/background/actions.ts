@@ -29,7 +29,7 @@ export const actions: ActionTree<State, State> = {
     return [null];
   },
 
-  version: async ({ dispatch }, { version, last_version }): Promise<std> => {
+  version: async ({ state, dispatch }, { version, last_version }): Promise<std> => {
     const [, status] = versionCheck(version, last_version);
     const updateLastVersion = () => dispatch('storage/update', { version, last_version });
 
@@ -41,6 +41,15 @@ export const actions: ActionTree<State, State> = {
         return [null];
 
       case VERSION_UPDATED:
+        if (version === '3.0.6') {
+          const [error] = await dispatch('storage/reset', [
+            'translation_sources',
+            'translation_enabled_sources',
+            'template_source_layouts',
+            'template_layouts',
+          ]);
+          debug.error(error);
+        }
         await updateLastVersion();
         return [null];
 

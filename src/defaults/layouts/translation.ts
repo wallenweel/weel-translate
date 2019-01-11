@@ -18,9 +18,9 @@ export const simple: LayoutPreset = {
   description: 'Shows a few base stuffs as result.',
 
   id: 'simple',
-  expect: ['phonetic_src', 'translation', 'explain'],
+  expect: ['phonetic_src', 'translation'],
   rows: [
-    ['<pick?title={translation}&excerpt={explain}>'],
+    ['<pick?title={translation}>'],
     ['<voice?src>', '[', '{phonetic_src}', ']'],
     ['{translation}'],
   ],

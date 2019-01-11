@@ -37,7 +37,7 @@ export const request: ApiRequest = (preset, type = 'text'): (a: any, b: any) => 
       cancelToken: source.token,
       headers: {
         // 'Access-Control-Allow-Origin': '*',
-        // 'Content-Type': 'application/json',
+        // 'Content-Type': 'application/json;charset=utf-8',
         // 'X-HTTP-Method-Override': 'GET',
       },
     } as AxiosRequestConfig, userConfig);

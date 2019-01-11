@@ -22,7 +22,7 @@
     >
       <mdc-list interactive dense>
         <mdc-list-item
-          v-for="(lang, i) in languages" :key="i"
+          v-for="(lang, i) in list" :key="i"
           :ref="lang.code === selected ? 'selected' : null"
           :selected="lang.code === selected"
           @click="select(lang.code)"
@@ -54,6 +54,9 @@ export default class TranslationToolLanguages extends Vue {
   private open: boolean = false;
   private selected: Language['code'] = '';
   private type: 'from' | 'to' | null = null;
+  private list: Language[] = [];
+
+  private created() { this.twoLanguages(); }
 
   private get toggleDisabled(): boolean {
     return !(this.languages.length >= 2);
@@ -91,9 +94,23 @@ export default class TranslationToolLanguages extends Vue {
     });
   }
 
+  private twoLanguages() {
+    this.list = this.fromName !== this.toName ? [this.from, this.to] : [this.from];
+  }
+
   @Watch('toggle')
-  private swichLanguages(val: boolean) {
+  private swichLanguages() {
     this.$emit('change', [this.to.code, this.from.code]);
+  }
+
+  @Watch('fromto')
+  private onFromto() { this.twoLanguages(); }
+
+  @Watch('open')
+  private onOpen(flag: boolean) {
+    if (flag && this.list.length < this.languages.length) {
+      this.list = this.languages;
+    }
   }
 }
 </script>

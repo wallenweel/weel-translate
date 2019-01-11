@@ -30,7 +30,7 @@ const actions: ActionTree<State, State> = {
 
     const keys = [
       'template_layouts',
-      'template_enabled_sources',
+      'template_source_layouts',
       ...Object.keys(preferenceRegister),
       ...Object.keys(translationRegister),
     ] as Array<keyof DefaultConfig>;
@@ -50,7 +50,7 @@ const getters: GetterTree<State, State> = {
   resultLayout: (state): LayoutPreset => {
     const {
       template_layouts: layouts,
-      template_enabled_sources: sourcesTemplate,
+      template_source_layouts: sourcesTemplate,
     } = state.storage;
     const id = (sourcesTemplate[state.translation.source.id] || [])[0];
     return presetInvoker(id, layouts)[1] as LayoutPreset;

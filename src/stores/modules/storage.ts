@@ -22,7 +22,7 @@ export const actionGenerator = (type: string, payload?: any): IpcAction => ({
 export const state: State | any = {
   ui_language: 'en',
   template_layouts: [],
-  template_enabled_sources: {},
+  template_source_layouts: {},
 };
 
 export const mutations = Object.assign({

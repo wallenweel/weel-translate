@@ -483,7 +483,7 @@ declare interface LayoutPreset extends Preset {
   // string: as placeholder if no content
   // string[]: [regexp string for test, regexp string as replace rule, replaceing string]
   // undefined: ignore this one
-  replace?: (string | string[] | undefined)[];
+  // replace?: (string | RegExp[] | undefined)[];
 
   title?: string;
   description?: string;

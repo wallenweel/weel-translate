@@ -38,5 +38,4 @@ export default {
     },
   },
   fromto: ['auto', 'zh-cn'],
-  include: ['auto', 'zh-cn', 'en', 'ja', 'ko', 'es', 'de'],
 } as SourcePreset;

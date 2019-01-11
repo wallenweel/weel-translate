@@ -466,11 +466,11 @@ declare interface LayoutPresetItem {
   title?: LayoutPreset['title'];
 }
 
-declare type templateId = presetId;
+declare type layoutId = presetId;
 
 declare interface LayoutPreset extends Preset {
-  id: templateId;
-  extends?: templateId;
+  id: layoutId;
+  extends?: layoutId;
 
   // layout
   rows: string[][];
@@ -490,12 +490,13 @@ declare interface LayoutPreset extends Preset {
 }
 
 declare interface TemplateConfig {
-  // template_enabled_crawlers: {
-  //   [crawlerId: string]: LayoutPresetItem;
-  // },
   template_enabled_sources: {
-    [sourceId: string]: [LayoutPresetItem, LayoutPresetItem];
+    // like: google_com: ['standard', 'simple']
+    [sourceId: string]: [layoutId, layoutId];
   };
+  template_enabled_crawlers: {
+    [crawlerId: string]: [layoutId, layoutId];
+  },
   template_enabled_layouts: LayoutPresetItem[];
   template_layouts: presetStringJson[];
 }

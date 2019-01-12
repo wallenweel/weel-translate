@@ -42,8 +42,7 @@ export default {
     translation: '.+',
   },
 
-  // tslint:disable-next-line:max-line-length
-  languages: [{code: 'AUTO', name: '自动'}, {code: 'zh-CHS', name: '中文'}, {code: 'en', name: '英语'}, {code: 'ja', name: '日语'}, {code: 'ko', name: '韩语'}, {code: 'fr', name: '法语'}, {code: 'de', name: '德语'}, {code: 'ru', name: '俄语'}, {code: 'es', name: '西班牙语'}, {code: 'pt', name: '葡萄牙语'}, {code: 'vi', name: '越南语'}, {code: 'id', name: '印尼语'}, {code: 'ar', name: '阿拉伯语'}],
-
+  include: ['auto', 'zh-cn', 'en', 'ja', 'ko', 'fr', 'de', 'ru', 'es', 'pt', 'vi', 'id', 'ar'],
+  modify: ['auto:>AUTO', 'zh-cn:>zh-CHS'],
   fromto: ['AUTO', 'zh-CHS'],
 } as SourcePreset;

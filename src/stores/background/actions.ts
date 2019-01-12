@@ -41,12 +41,9 @@ export const actions: ActionTree<State, State> = {
         return [null];
 
       case VERSION_UPDATED:
-        if (version === '3.0.6') {
+        if (version === '3.0.7') {
           const [error] = await dispatch('storage/reset', [
             'translation_sources',
-            'translation_enabled_sources',
-            'template_source_layouts',
-            'template_layouts',
           ]);
           debug.error(error);
         }

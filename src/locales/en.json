@@ -20,7 +20,6 @@
   "ok": "OK",
 
   "translate": "Translate",
-  "settings": "Settings",
   "picked": "Picked",
   "recent": "Recent",
 
@@ -57,6 +56,8 @@
   "network": "Network",
   "set_timeout_seconds": "Current Set Timeout: {0} seconds",
   "set_recent_numbers": "Current Set Number: {0}",
+
+  "settings": "Settings",
 
   "presets": "Presets",
 

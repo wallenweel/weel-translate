@@ -30,7 +30,7 @@
 
         <!-- Reset -->
         <mdc-button class="-spec -reset" @click="handleReset(name)"
-          dense v-if="name === 'preference' || name === 'presets'"
+          dense v-if="name === 'preference' || name === 'settings'"
         >{{ $t('reset') }}</mdc-button>
         <!-- Clear -->
         <mdc-button class="-spec -reset" @click="handleClear(name)"
@@ -85,7 +85,7 @@ export default class PopupToolbar extends Vue {
     this.changeSource(id);
   }
 
-  private handleReset(name: 'preference' | 'presets') {
+  private handleReset(name: 'preference' | 'settings') {
     if (name === 'preference') {
       return this.resetPreference();
     }

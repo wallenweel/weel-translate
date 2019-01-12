@@ -70,8 +70,8 @@ export default class PopupDrawer extends Vue {
     { icon: 'translate', locale: 'translate', to: '/translate' },
     { icon: 'favorite', locale: 'picked', to: '/picked' },
     { icon: 'history', locale: 'recent', to: '/recent' },
-    { icon: 'settings', locale: 'preference', to: '/preference' },
-    { icon: 'style', locale: 'presets', to: '/presets' },
+    { icon: 'style', locale: 'preference', to: '/preference' },
+    { icon: 'settings', locale: 'settings', to: '/settings' },
   ];
 }
 </script>

@@ -36,10 +36,10 @@ const routes: RouteConfig[] = [
     meta: { locale: 'preference' },
   },
   {
-    path: '/presets',
-    name: 'presets',
-    component: () => import(/** webpackChunkName "presets-view" */ '@/views/Presets.vue'),
-    meta: { locale: 'presets' },
+    path: '/settings',
+    name: 'settings',
+    component: () => import(/** webpackChunkName "settings-view" */ '@/views/Settings.vue'),
+    meta: { locale: 'settings' },
   },
 ];
 

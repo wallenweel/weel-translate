@@ -1,5 +1,5 @@
 <template>
-  <div class="view-presets">
+  <div class="view-settings">
     <mdc-layout-grid class="-banner">
       <mdc-text typo='overline' tag="span">{{ $t('__tip.preset_top', [$t('reset')]) }}</mdc-text>
     </mdc-layout-grid>
@@ -29,7 +29,7 @@ import debug from '@/functions/debug';
     OptionList,
   },
 })
-export default class PresetseView extends Vue {
+export default class SettingsView extends Vue {
   private items: any = [];
   private options: any = {};
 
@@ -43,7 +43,7 @@ export default class PresetseView extends Vue {
 <style lang="scss">
 @import '../assets/styles/global';
 
-.view-presets {
+.view-settings {
   .-banner {
     @include view-top-tip;
   }

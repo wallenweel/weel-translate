@@ -1,8 +1,6 @@
 import { MutationTree, ActionTree, Module, GetterTree } from 'vuex';
 import { State as RootState } from '@/stores/index';
 import { update, clear } from '@/stores/mutations';
-import { presetInvoker } from '@/functions';
-import debug from '@/functions/debug';
 
 export const namespaced: boolean = true;
 
@@ -14,10 +12,12 @@ export const register: configPairs<State> = {
 };
 
 export const state: State = {
-  sourceLayouts: {},
+  sourceLayouts: {
+    nil: ['nil', 'nil'],
+  },
   crawlerLayouts: {},
   enabledLayouts: [],
-  layouts: [],
+  layouts: [JSON.stringify({ id: 'nil', rows: [] } as LayoutPreset)],
 };
 
 export const mutations: MutationTree<State> = { update, clear };

@@ -39,11 +39,8 @@ const getters: GetterTree<State, RootState> = {
   sourceLayout: (state, getters, RootState): LayoutPreset => {
     const { layouts, sourceLayouts } = state;
     const { translation: { source } } = RootState;
-    const layout = sourceLayouts[source.id];
-
-    if (!layout) { return {} as LayoutPreset; }
-
-    return presetInvoker(layout[1], layouts)[1] as LayoutPreset;
+    const id = sourceLayouts[source.id][1];
+    return presetInvoker(id, layouts)[1] as LayoutPreset;
   },
 };
 

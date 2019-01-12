@@ -49,8 +49,6 @@ const actions: ActionTree<State, State> = {
   init: ({ dispatch }, { port }) => {
     Port = port;
 
-    dispatch('translation/init');
-
     dispatch('storage/init', { page: 'content', keys: register});
   },
 

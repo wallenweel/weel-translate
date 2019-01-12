@@ -33,7 +33,7 @@ export const state: State = {
   voicing: false,
 
   sources: [],
-  source: { id: '', name: '', fromto: ['', ''] },
+  source: { id: 'nil', name: '', fromto: ['', ''] },
   enabledSources: [],
   recent: [],
   recentNumbers: 0,

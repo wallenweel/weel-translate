@@ -5,11 +5,16 @@ import preference, { register as preferenceRegister } from './modules/preference
 import translation, { register as translationRegister } from './modules/translation';
 import template, { register as templateRegister } from './modules/template';
 import { update, clear } from '@/stores/mutations';
-import { presetInvoker } from '@/functions';
 import { ipcActionRequestor } from '@/stores/';
-import debug from '@/functions/debug';
 
 Vue.use(Vuex);
+
+// regist config keys to states by the hash
+const register = [
+  ...Object.keys(preferenceRegister),
+  ...Object.keys(translationRegister),
+  ...Object.keys(templateRegister),
+] as Array<keyof DefaultConfig>;
 
 let Port: RuntimePort;
 
@@ -26,23 +31,14 @@ const actions: ActionTree<State, State> = {
     // useless in "web" mode
     Port = port;
 
-    dispatch('preference/init');
-    dispatch('translation/init');
-
-    const keys = [
-      ...Object.keys(preferenceRegister),
-      ...Object.keys(translationRegister),
-      ...Object.keys(templateRegister),
-    ] as Array<keyof DefaultConfig>;
-
-    dispatch('storage/init', { page: 'popup', keys});
+    dispatch('storage/init', { page: 'popup', keys: register});
   },
 
+  // send messages to background and get responses
   ipc: async (_, action) => ipcActionRequestor(Port, action),
 
-  notify: ({ commit }, message: string) => {
-    commit('update', { notify: message || null });
-  },
+  // global notify message
+  notify: ({ commit }, message: string) => commit('update', { notify: message || null }),
 };
 
 const getters: GetterTree<State, State> = {
@@ -57,6 +53,7 @@ const store = new Vuex.Store<State>({
   state, actions, mutations, getters, modules,
 });
 
+// let modules fetch(update) the newest states
 store.subscribe((mutation) => {
   if (mutation.type === 'storage/update') {
     store.dispatch('preference/fetch');

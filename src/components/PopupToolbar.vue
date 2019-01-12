@@ -58,7 +58,7 @@ const __ = namespace('translation');
   },
 })
 export default class PopupToolbar extends Vue {
-  @_.Action('reset') private resetPreference!: ActionMethod;
+  @_.Action('reset') private resetOptions!: ActionMethod;
 
   @__.State private source!: SourcePresetItem;
   @__.State private enabledSources!: SourcePresetItem[];
@@ -86,9 +86,7 @@ export default class PopupToolbar extends Vue {
   }
 
   private handleReset(name: 'preference' | 'settings') {
-    if (name === 'preference') {
-      return this.resetPreference();
-    }
+    this.resetOptions(name);
   }
 
   private handleClear(type: 'picked' | 'recent') {

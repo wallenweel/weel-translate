@@ -5,7 +5,7 @@
     </mdc-layout-grid>
 
     <option-list class="-options"
-      :options="options" :items="items"
+      :options="preference" :items="items"
       @change="handleChange"
     />
   </div>
@@ -18,7 +18,6 @@ import { ActionMethod } from 'vuex';
 import { namespace } from 'vuex-class';
 import { State } from '@/stores/popup/modules/preference';
 import { Option } from '@/types/interface';
-import i18n from '@/i18n';
 import OptionList from '@/components/OptionList.vue';
 import debug from '@/functions/debug';
 
@@ -30,13 +29,13 @@ const _ = namespace('preference');
   },
 })
 export default class PreferenceView extends Vue {
+  @_.Getter private preference!: { [k in keyof State]: any } ;
   @_.Getter private locales!: Language[];
-  @_.Getter private options!: { [k in keyof State]: any } ;
 
   @_.Action('save') private saveConfig!: ActionMethod;
 
   private get items(): Array<Option<State>> {
-    const opt = this.options;
+    const opt = this.preference;
 
     return [{
       headline: this.$t('ui_languages'),
@@ -52,13 +51,6 @@ export default class PreferenceView extends Vue {
       values: [[this.$t('light'), 'light'], [this.$t('dark'), 'dark']],
       name: 'theme',
       value: opt.theme,
-    }, {
-      headline: this.$t('hotkey._'),
-      subheading: this.$t('hotkey.input'),
-      type: 'radio',
-      values: [['Enter', 'enter'], ['Ctrl+Enter', 'ctrl+enter']],
-      name: 'hotkey',
-      value: opt.hotkey,
     }, {
       headline: this.$t('float_action_button'),
       type: 'checkbox',
@@ -106,32 +98,11 @@ export default class PreferenceView extends Vue {
           value: opt.fapPositionEdge,
         },
       ],
-    }, {
-      headline: this.$t('context_menu_trigger'),
-      subheading: this.$t('__unready._'),
-      type: 'checkbox',
-      label: this.$t('enable_context_menu'),
-      name: 'contextMenuEnable',
-      value: opt.contextMenuEnable,
-    }, {
-      headline: this.$t('network'),
-      subheading: this.$t('set_timeout_seconds', [`${this.options.timeout / 1000}`]),
-      type: 'slider',
-      meta: { min: 5, max: 60, step: 5 },
-      name: 'timeout',
-      value: opt.timeout / 1000,
-    }, {
-      headline: this.$t('recent'),
-      subheading: this.$t('set_recent_numbers', [`${this.options.recentNumbers}`]),
-      type: 'slider',
-      meta: { min: 0, max: 48, step: 2 },
-      name: 'recentNumbers',
-      value: opt.recentNumbers,
     }];
   }
 
   private handleChange([k, v]: [string, any]) {
-    if (v === this.options[k as keyof State]) { return; }
+    if (v === this.preference[k as keyof State]) { return; }
     this.saveConfig([k, v]);
   }
 }

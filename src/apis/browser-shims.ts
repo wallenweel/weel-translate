@@ -45,7 +45,7 @@ export const browserShim: Browser = {
   },
   i18n: {
     getMessage: (name, substitions) => '',
-    getUILanguage: () => '',
+    getUILanguage: () => navigator.language,
   },
 };
 

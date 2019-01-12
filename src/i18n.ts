@@ -22,3 +22,13 @@ export default new VueI18n({
   messages: loadLocaleMessages(),
   silentTranslationWarn: RUNTIME_ENV === 'production',
 });
+
+/** detect user language */
+import { modifiedLocaleRules as rules } from '@/variables';
+import { presetLanguagesModifier } from './functions';
+
+export const language: Language['code'] = (browser.i18n.getUILanguage() || 'en').toLowerCase();
+export const locale: Language['code'] = presetLanguagesModifier([{
+  name: language,
+  code: language,
+}], rules)[1]![0].code;

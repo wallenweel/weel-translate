@@ -19,7 +19,7 @@ export const register: configPairs<State> = {
 
 export const state: State = {
   timeout: 15000,
-  locale: 'en',
+  locale: '',
   theme: 'light',
   fabEnable: true,
   fabPosition: 'auto-center',

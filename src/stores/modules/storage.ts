@@ -19,9 +19,7 @@ export const actionGenerator = (type: string, payload?: any): IpcAction => ({
   },
 });
 
-export const state: State | any = {
-  ui_language: 'en',
-};
+export const state: State | any = {};
 
 export const mutations = Object.assign({
   init: (state, { page, keys }) => {

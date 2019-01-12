@@ -6,15 +6,9 @@ import preference from './preference';
 import translation from './translation';
 import web from './web';
 import template from './template';
-import { presetLanguagesModifier } from '@/functions';
-import { modifiedLocaleRules } from '@/variables';
+import { locale } from '@/i18n';
 
 export const manifest = browser.runtime.getManifest();
-export const UILanguage = browser.i18n.getUILanguage();
-
-export const locale: Language['code'] =  presetLanguagesModifier(
-  [{ name: UILanguage, code: (UILanguage || 'en').toLowerCase() }],
-  modifiedLocaleRules)[1]![0].code;
 
 const base: BaseConfig = {
   runtime_env: RUNTIME_ENV,

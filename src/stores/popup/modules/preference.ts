@@ -41,8 +41,11 @@ const actions: ActionTree<State, RootState> = {
 
   init: () => {/** */},
 
-  reset: ({ dispatch }) => {
-    dispatch('storage/reset', Object.keys(register), { root: true });
+  reset: ({ dispatch, getters }, name: 'preference' | 'settings') => {
+    const reversedRegister: any = Object.entries({ ...register })
+      .reduce((p, [c, s]) => ({ ...p, [s as string]: c }), {});
+    const keys = Object.keys(getters[name]).map((k) => reversedRegister[k]);
+    dispatch('storage/reset', keys, { root: true });
   },
 
   save: ({ dispatch }, [key, val]) => {
@@ -59,12 +62,14 @@ const getters: GetterTree<State, RootState> = {
     const [error, locales] = presetLanguagesFilter(languages, Object.keys(i18n.messages));
     return locales as Language[];
   },
-  options: (state): { [k in keyof State]: any } => configKeysReducer([
+  preference: (state): { [k in keyof State]: any } => configKeysReducer([
     'locale',
     'theme',
-    'hotkey',
     'fabEnable', 'fabPosition',
     'fapEnable', 'fapPosition', 'fapPositionEdge',
+  ] as Array<keyof State>, state)[1],
+  settings: (state): { [k in keyof State]: any } => configKeysReducer([
+    'hotkey',
     'contextMenuEnable',
     'recentNumbers',
     'timeout',

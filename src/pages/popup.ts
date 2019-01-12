@@ -18,7 +18,7 @@ Vue.use(Scrollbar);
 
 import router from '@/routers/popup';
 import store from '@/stores/popup';
-import i18n from '@/i18n';
+import i18n, { locale } from '@/i18n';
 
 import App from './Popup.vue';
 
@@ -28,10 +28,10 @@ const port: RuntimePort = browser.runtime.connect({
 });
 
 store.dispatch('init', { port }).then(() => {
-  i18n.locale = store.getters.locale;
+  i18n.locale = store.getters.locale || locale;
 
   store.watch(() => store.getters.locale, () => {
-    i18n.locale = store.getters.locale;
+    i18n.locale = store.getters.locale || locale;
   });
 
   new Vue({

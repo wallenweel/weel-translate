@@ -1,5 +1,5 @@
 <template>
-  <div class="wrap">
+  <div class="wrap" :style="cssVariables">
     <transition name="fade">
       <mdc-fab class="float-action-button" :style="fabStyle" ref="fab"
         mini absolute
@@ -79,6 +79,7 @@ export default class Content extends Vue {
   @Getter private rectOffsetBC!: [number, number];
   @Getter private rectOffsetBR!: [number, number];
   @Getter private isRectUp!: boolean;
+  @Getter private theme!: null | string;
 
   @_.State private fabEnable!: boolean;
   @_.State private fabPosition!: string;
@@ -93,6 +94,14 @@ export default class Content extends Vue {
   @__.Action('fromto') private updateFromto: any;
 
   @___.Getter private sourceLayout!: LayoutPreset;
+
+  private get cssVariables() {
+    const { color } = this.theme as any;
+    return [
+      `--mdc-theme-primary: ${color.primary}`,
+      `--mdc-theme-secondary: ${color.secondary}`,
+    ].join(';');
+  }
 
   private fabStyle: string | null = null;
   private fapStyle: string | null = null;

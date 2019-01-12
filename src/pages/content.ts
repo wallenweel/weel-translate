@@ -59,8 +59,8 @@ store.dispatch('init', { port }).then(() => {
   ((flag) => {
     if (!flag) { return; }
 
-    container.appendChild(mount);
-    app.$mount(mount);
+    // container.appendChild(mount);
+    // app.$mount(mount);
 
     ((flag) => {
       if (!flag) { return; }
@@ -72,7 +72,6 @@ store.dispatch('init', { port }).then(() => {
       for (let i = 0; i < 20; i++) { frag.appendChild(p.cloneNode(true)); }
       document.body.querySelector('#app')!.appendChild(frag);
     })(isWeb);
-
   })(isDebug);
 
   ((flag) => {
@@ -106,5 +105,5 @@ store.dispatch('init', { port }).then(() => {
       }
       shadow.appendChild(frag);
     }
-  })(isRelease);
+  })(isRelease || isDebug);
 });

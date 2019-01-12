@@ -4,11 +4,10 @@ import storage from '../modules/storage';
 import preference, { register as preferenceRegister } from './modules/preference';
 import translation, { register as translationRegister } from './modules/translation';
 import template, { register as templateRegister } from './modules/template';
+import { locale, theme } from '@/stores/getters';
 import { update, clear } from '@/stores/mutations';
-import { presetInvoker } from '@/functions';
 import { ipcActionRequestor } from '@/stores/';
 import { UPDATED_CONFIG } from '@/types';
-import debug from '@/functions/debug';
 
 Vue.use(Vuex);
 
@@ -111,7 +110,7 @@ const actions: ActionTree<State, State> = {
 };
 
 const getters: GetterTree<State, State> = {
-  locale: (state): Language['code'] => state.preference.locale,
+  locale, theme,
 
   hasSelection: (state): boolean => !!state.text,
   rectOffsetCC: (state): [number, number] => {

@@ -5,6 +5,7 @@ import preference, { register as preferenceRegister } from './modules/preference
 import translation, { register as translationRegister } from './modules/translation';
 import template, { register as templateRegister } from './modules/template';
 import { update, clear } from '@/stores/mutations';
+import { locale, theme } from '@/stores/getters';
 import { ipcActionRequestor } from '@/stores/';
 
 Vue.use(Vuex);
@@ -42,14 +43,7 @@ const actions: ActionTree<State, State> = {
 };
 
 const getters: GetterTree<State, State> = {
-  locale: (state): Language['code'] => state.preference.locale,
-  theme: (state) => ({
-    mode: state.preference.theme,
-    color: {
-      primary: state.preference.primaryColor,
-      secondary: state.preference.secondaryColor,
-    },
-  }),
+  locale, theme,
 };
 
 const modules: ModuleTree<State> = {

@@ -3,7 +3,7 @@ import { TranslateResult } from 'vue-i18n';
 export interface Option<S> {
   headline?: string | TranslateResult;
   subheading?: string | TranslateResult;
-  type: 'radio' | 'slider' | 'checkbox';
+  type: 'radio' | 'slider' | 'checkbox' | 'color';
   label?: string | TranslateResult;
   meta?: any;
   values?: Array<[string | TranslateResult, any]>;

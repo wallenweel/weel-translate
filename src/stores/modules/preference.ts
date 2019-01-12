@@ -1,6 +1,7 @@
 import { MutationTree, ActionTree, Module, GetterTree } from 'vuex';
 import { State as RootState } from '@/stores/index';
 import { update, clear } from '@/stores/mutations';
+import { theme } from '@/variables';
 import debug from '@/functions/debug';
 
 export const namespaced: boolean = true;
@@ -9,6 +10,8 @@ export const register: configPairs<State> = {
   request_timeout: 'timeout',
   ui_language: 'locale',
   preference_theme: 'theme',
+  preference_theme_color_primary: 'primaryColor',
+  preference_theme_color_secondary: 'secondaryColor',
   preference_fab_enable: 'fabEnable',
   preference_fab_position: 'fabPosition',
   preference_fap_enable: 'fapEnable',
@@ -21,6 +24,8 @@ export const state: State = {
   timeout: 15000,
   locale: '',
   theme: 'light',
+  primaryColor: theme.color.primary,
+  secondaryColor: theme.color.secondary,
   fabEnable: true,
   fabPosition: 'auto-center',
   fapEnable: true,
@@ -53,6 +58,8 @@ export interface State {
   locale: C['ui_language'];
 
   theme: C['preference_theme'];
+  primaryColor: C['preference_theme_color_primary'];
+  secondaryColor: C['preference_theme_color_secondary'];
   fabEnable: C['preference_fab_enable'];
   fabPosition: C['preference_fab_position'];
   fapEnable: C['preference_fap_enable'];

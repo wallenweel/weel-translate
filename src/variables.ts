@@ -26,7 +26,7 @@ export const avoidanceReg = {
 export const theme = {
   color: {
     primary: '#6200ee',
-    secondary: '#6200ee',
+    secondary: '#5800d5',
   },
 };
 

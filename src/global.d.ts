@@ -2,7 +2,7 @@ declare module 'vue-property-decorator'
 declare module 'vue-mdc-adapter'
 declare module 'vue-mdc-adapter/*'
 declare module 'vue-perfect-scrollbar'
-declare module 'js-md5'
+declare module 'vue-color'
 
 declare module '*.png'
 declare module '*.svg'

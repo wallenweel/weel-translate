@@ -24,26 +24,50 @@
       :name="item.name"
       :value="item.value" @change="value => handleChange(item.name, value)"
     />
+
+    <section v-if="item.type === 'color'">
+      <mdc-button :style="{ backgroundColor: item.value, color: tcolor }"
+        @click="color = item.value; currentColorName = item.name"
+      >{{ item.value }}</mdc-button>
+      <mdc-button style="margin-left: 4px;" v-if="!!currentColorName" @click="handleColor(item.value)">{{ $t('ok') }}</mdc-button>
+      <chrome-color class="-color-selector" v-model="color" v-if="!!currentColorName"
+        :disableAlpha="!!(item.meta || {}).disableAlpha || true"
+        :disableFields="!!(item.meta || {}).disableFields || true"
+      />
+    </section>
   </div>
 </template>
 
 <script lang="ts">
-import { Component, Prop, Emit, Vue } from 'vue-property-decorator';
+import { Component, Prop, Emit, Watch, Vue } from 'vue-property-decorator';
+import { Chrome as ChromeColor } from 'vue-color';
 import debug from '@/functions/debug';
 
-@Component
+@Component({
+  components: {
+    ChromeColor,
+  },
+})
 export default class OptionItem extends Vue {
   @Prop(Object) private item!: any;
   @Prop(Object) private values!: { [k: string]: any };
 
-  @Emit('change')
-  private handleChange(key: string, value: any) {
-    return [key, value];
-  }
+  private currentColorName: string = '';
+  private color: string = '#000000';
+  private tcolor: string = '#ffffff';
 
   private testItem([key, value]: [string, any]): boolean {
     return this.values[key] === value;
   }
+
+  private handleColor(hex: string) {
+    const [name, color] = [this.currentColorName, (this.color as any).hex || hex];
+    this.handleChange(name, color);
+    this.currentColorName = '';
+  }
+
+  @Emit('change')
+  private handleChange(key: string, value: any) { return [key, value]; }
 }
 </script>
 
@@ -76,6 +100,10 @@ export default class OptionItem extends Vue {
   }
   .mdc-subheading {
     font-size: .75rem;
+  }
+
+  .-color-selector {
+    margin-top: 8px;
   }
 }
 </style>

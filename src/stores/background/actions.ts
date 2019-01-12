@@ -43,6 +43,8 @@ export const actions: ActionTree<State, State> = {
       case VERSION_UPDATED:
         if (version === '3.0.7') {
           const [error] = await dispatch('storage/reset', [
+            'preference_theme_color_primary',
+            'preference_theme_color_secondary',
             'translation_sources',
           ]);
           debug.error(error);

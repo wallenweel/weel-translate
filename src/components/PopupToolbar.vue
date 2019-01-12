@@ -126,7 +126,7 @@ export default class PopupToolbar extends Vue {
   }
 
   button.-spec {
-    background-color: #5800d5;
+    background-color: var(--mdc-theme-secondary, #5800d5);
     border-radius: 24px;
     max-width: 96px;
     color: white;

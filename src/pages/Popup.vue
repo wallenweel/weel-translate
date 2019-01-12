@@ -1,5 +1,5 @@
 <template>
-  <mdc-layout-app class="popup">
+  <mdc-layout-app class="popup" :style="cssVariables">
     <popup-toolbar :raised="!isReachStart"></popup-toolbar>
     <popup-drawer></popup-drawer>
     <popup-content v-model="isReachStart"></popup-content>
@@ -10,7 +10,7 @@
 
 <script lang="ts">
 import Vue from 'vue';
-import { State, Action } from 'vuex-class';
+import { State, Action, Getter } from 'vuex-class';
 import { Component, Watch } from 'vue-property-decorator';
 import PopupToolbar from '@/components/PopupToolbar.vue';
 import PopupDrawer from '@/components/PopupDrawer.vue';
@@ -29,8 +29,17 @@ export default class Popup extends Vue {
   private snack: any = { message: `` };
 
   @State private notify!: null | string;
+  @Getter private theme!: null | string;
 
   @Action('notify') private resetNotify: any;
+
+  private get cssVariables() {
+    const { color } = this.theme as any;
+    return [
+      `--mdc-theme-primary: ${color.primary}`,
+      `--mdc-theme-secondary: ${color.secondary}`,
+    ].join(';');
+  }
 
   @Watch('notify')
   private onNotify(val: null | string) {

@@ -301,6 +301,8 @@ interface BaseConfig {
 
 declare interface PreferenceConfig {
   preference_theme: 'dark' | 'light';
+  preference_theme_color_primary: string;
+  preference_theme_color_secondary: string;
 
   // enable float action button
   preference_fab_enable: boolean;

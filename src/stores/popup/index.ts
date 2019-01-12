@@ -43,6 +43,13 @@ const actions: ActionTree<State, State> = {
 
 const getters: GetterTree<State, State> = {
   locale: (state): Language['code'] => state.preference.locale,
+  theme: (state) => ({
+    mode: state.preference.theme,
+    color: {
+      primary: state.preference.primaryColor,
+      secondary: state.preference.secondaryColor,
+    },
+  }),
 };
 
 const modules: ModuleTree<State> = {

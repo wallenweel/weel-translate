@@ -279,6 +279,7 @@ function overflow(
   $sz: 32px;
   height: $sz;
   width: $sz;
+  background-color: var(--mdc-theme-primary);
   // border-radius: 8px;
   .mdc-icon svg {
     transform: scale(.8);

@@ -1,5 +1,5 @@
 <template>
-  <mdc-layout-app class="popup" :style="cssVariables">
+  <mdc-layout-app class="popup">
     <popup-toolbar :raised="!isReachStart"></popup-toolbar>
     <popup-drawer></popup-drawer>
     <popup-content v-model="isReachStart"></popup-content>
@@ -46,6 +46,11 @@ export default class Popup extends Vue {
     if (!val) { return; }
 
     (this.$refs.snack as any).show({ message: val || 'something wrong, no reason.' });
+  }
+
+  @Watch('cssVariables', { immediate: true })
+  private onCssVariables(style: string) {
+    document.body.style.cssText = style;
   }
 }
 </script>

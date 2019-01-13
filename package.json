@@ -1,6 +1,6 @@
 {
   "name": "weel-translate-x",
-  "version": "3.0.7",
+  "version": "3.0.10",
   "private": true,
   "author": "wallen <wallen_weel@outlook.com>",
   "scripts": {
@@ -18,10 +18,10 @@
   },
   "dependencies": {
     "axios": "^0.18.0",
+    "colorsys": "^1.0.22",
     "material-components-web": "^0.42.0",
     "vue": "^2.5.21",
     "vue-class-component": "^6.0.0",
-    "vue-color": "^2.7.0",
     "vue-i18n": "^8.4.0",
     "vue-mdc-adapter": "^0.18.2",
     "vue-perfect-scrollbar": "^0.1.0",

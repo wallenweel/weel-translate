@@ -8,31 +8,31 @@
         v-if="item.type === 'radio'"
         :name="item.name" :value="m[1]" :label="m[0]"
         :checked="m[1] === item.value"
-        :picked="item.value" @change="value => handleChange(item.name, value)"
+        :picked="item.value" @change="value => emitChange(item.name, value)"
       />
     </template>
     
     <mdc-checkbox
       v-if="item.type === 'checkbox'"
       :name="item.name" :label="item.label"
-      :checked="item.value" @change="value => handleChange(item.name, value)"
+      :checked="item.value" @change="value => emitChange(item.name, value)"
     />
 
     <mdc-slider
       v-if="item.type === 'slider'"
       :min="item.meta.min" :max="item.meta.max" :step="item.meta.step" display-markers
       :name="item.name"
-      :value="item.value" @change="value => handleChange(item.name, value)"
+      :value="item.value" @change="value => emitChange(item.name, value)"
     />
 
     <section v-if="item.type === 'color'">
-      <mdc-button :style="{ backgroundColor: item.value, color: tcolor }"
+      <mdc-button :style="{ backgroundColor: color || item.value, color: tcolor }"
         @click="color = item.value; currentColorName = item.name"
-      >{{ item.value }}</mdc-button>
-      <mdc-button style="margin-left: 4px;" v-if="!!currentColorName" @click="handleColor(item.value)">{{ $t('ok') }}</mdc-button>
-      <chrome-color class="-color-selector" v-model="color" v-if="!!currentColorName"
-        :disableAlpha="!!(item.meta || {}).disableAlpha || true"
-        :disableFields="!!(item.meta || {}).disableFields || true"
+      >{{ color || item.value }}</mdc-button>
+      <mdc-button style="margin-left: 4px;" v-if="!!currentColorName" @click="handleColor(color)">{{ $t('ok') }}</mdc-button>
+      <color-picker class="-color-selector" v-if="!!currentColorName"
+        :value="color"
+        @change="({ hex }) => { this.color = hex }"
       />
     </section>
   </div>
@@ -40,12 +40,12 @@
 
 <script lang="ts">
 import { Component, Prop, Emit, Watch, Vue } from 'vue-property-decorator';
-import { Chrome as ChromeColor } from 'vue-color';
+import ColorPicker from '@/components/ColorPickerBase.vue';
 import debug from '@/functions/debug';
 
 @Component({
   components: {
-    ChromeColor,
+    ColorPicker,
   },
 })
 export default class OptionItem extends Vue {
@@ -53,7 +53,7 @@ export default class OptionItem extends Vue {
   @Prop(Object) private values!: { [k: string]: any };
 
   private currentColorName: string = '';
-  private color: string = '#000000';
+  private color: string = '';
   private tcolor: string = '#ffffff';
 
   private testItem([key, value]: [string, any]): boolean {
@@ -62,12 +62,13 @@ export default class OptionItem extends Vue {
 
   private handleColor(hex: string) {
     const [name, color] = [this.currentColorName, (this.color as any).hex || hex];
-    this.handleChange(name, color);
+    this.emitChange(name, color);
+    this.color = '';
     this.currentColorName = '';
   }
 
   @Emit('change')
-  private handleChange(key: string, value: any) { return [key, value]; }
+  private emitChange(key: string, value: any) { return [key, value]; }
 }
 </script>
 

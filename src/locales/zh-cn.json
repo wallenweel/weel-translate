@@ -33,6 +33,8 @@
   },
   "ui_languages": "UI 语言",
   "theme_color": "主题颜色",
+  "modify_primary_color": "修改主要颜色",
+  "modify_seconary_color": "修改次要颜色",
   "light": "亮色",
   "dark": "暗色",
   "float_action_button": "浮动按钮",

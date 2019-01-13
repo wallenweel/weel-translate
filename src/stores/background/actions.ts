@@ -35,20 +35,32 @@ export const actions: ActionTree<State, State> = {
 
     switch (status) {
       case VERSION_FRESH: // first install
-        const [error] = await dispatch('storage/reset');
-        if (error !== null) { return [error]; }
+        const [installError] = await dispatch('storage/reset');
+        if (installError !== null) { return [installError]; }
         await updateLastVersion();
         return [null];
 
       case VERSION_UPDATED:
-        if (version === '3.0.7') {
-          const [error] = await dispatch('storage/reset', [
+        let keys: Array<keyof DefaultConfig> = [];
+        if (version === '3.0.10') {
+          keys = [
             'preference_theme_color_primary',
             'preference_theme_color_secondary',
             'translation_sources',
-          ]);
-          debug.error(error);
+          ];
         }
+        if (version === '3.0.6') {
+          keys = [
+            'translation_sources',
+            'translation_enabled_sources',
+            'template_source_layouts',
+            'template_layouts',
+          ];
+        }
+
+        const [updateError] = await dispatch('storage/reset', keys);
+        if (updateError !== null) { debug.error(updateError); }
+
         await updateLastVersion();
         return [null];
 

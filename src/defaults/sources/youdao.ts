@@ -29,7 +29,7 @@ export default {
         ['le', '{from}'],
         ['keyfrom', 'speaker-target'],
       ],
-      modify: ['ja:>ja' + 'p'],
+      modify: [['ja:>ja', 'p'].join('')],
     },
   },
 

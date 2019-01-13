@@ -35,6 +35,8 @@
   },
   "light": "Light",
   "dark": "Dark",
+  "modify_primary_color": "Modify Primary Color",
+  "modify_seconary_color": "Modify Secondary Color",
   "float_action_button": "Float action button",
   "enable_fab": "Enable FAB",
   "appearance_position": "Appearance position",

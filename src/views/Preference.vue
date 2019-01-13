@@ -3,9 +3,7 @@
     <mdc-layout-grid class="-banner">
       <mdc-text typo='overline' tag="span">{{ $t('__tip.preference_top', [$t('reset')]) }}</mdc-text>
     </mdc-layout-grid>
-    <!-- <chrome-color v-model="colors"
-      :disableAlpha="true" :disableFields="true"
-    /> -->
+
     <option-list class="-options"
       :options="preference" :items="items"
       @change="handleChange"
@@ -20,7 +18,6 @@ import { ActionMethod } from 'vuex';
 import { namespace } from 'vuex-class';
 import { State } from '@/stores/popup/modules/preference';
 import { Option } from '@/types/interface';
-// import { Chrome as ChromeColor } from 'vue-color';
 import OptionList from '@/components/OptionList.vue';
 import debug from '@/functions/debug';
 
@@ -29,7 +26,6 @@ const _ = namespace('preference');
 @Component({
   components: {
     OptionList,
-    // ChromeColor,
   },
 })
 export default class PreferenceView extends Vue {
@@ -37,8 +33,6 @@ export default class PreferenceView extends Vue {
   @_.Getter private locales!: Language[];
 
   @_.Action('save') private saveConfig!: ActionMethod;
-
-  // private colors = '#194d33';
 
   private get items(): Array<Option<State>> {
     const opt = this.preference;
@@ -58,12 +52,12 @@ export default class PreferenceView extends Vue {
       name: 'theme',
       value: opt.theme,
       appends: [{
-        subheading: 'Select Primary Color',
+        subheading: this.$t('modify_primary_color'),
         type: 'color',
         name: 'primaryColor',
         value: opt.primaryColor,
       }, {
-        subheading: 'Select Secondary Color',
+        subheading: this.$t('modify_seconary_color'),
         type: 'color',
         name: 'secondaryColor',
         value: opt.secondaryColor,
@@ -119,11 +113,6 @@ export default class PreferenceView extends Vue {
   private handleChange([k, v]: [string, any]) {
     if (v === this.preference[k as keyof State]) { return; }
     this.saveConfig([k, v]);
-  }
-
-  @Watch('colors')
-  private onColors(val: any) {
-    debug.log(JSON.stringify(val));
   }
 }
 </script>

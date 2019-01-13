@@ -1,10 +1,11 @@
-## [3.0.7](https://github.com/wallenweel/weel-translate/compare/v3.0.6...v3.0.7) (2019-01-10)
+## [3.0.10](https://github.com/wallenweel/weel-translate/compare/v3.0.6...v3.0.10) (2019-01-10)
 
 ### Features
 
 * use "settings" view repeat to "preset" view from popup page
 * move some options to settings
 * a few code adjustments
+* add primary & secondary color modification
 
 ### Bug Fixes
 

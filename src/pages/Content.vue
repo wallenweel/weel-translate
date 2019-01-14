@@ -3,13 +3,10 @@
     <transition name="fade">
       <mdc-fab class="float-action-button" :style="fabStyle" ref="fab"
         mini absolute
+        v-if="fabEnable && !immediateFap" v-show="hasSelection && !hasResult"
         @click="handleQuery"
-        v-if="fabEnable"
-        v-show="hasSelection && !hasResult"
       >
-        <mdc-icon>
-          <icon-translate style="display: block;" />
-        </mdc-icon>
+        <mdc-icon><icon-translate style="display: block;" /></mdc-icon>
       </mdc-fab>
     </transition>
 
@@ -80,9 +77,11 @@ export default class Content extends Vue {
   @Getter private rectOffsetBR!: [number, number];
   @Getter private isRectUp!: boolean;
   @Getter private theme!: null | string;
+  @Action('selection') private updateSelection!: ActionMethod;
 
   @_.State private fabEnable!: boolean;
   @_.State private fabPosition!: string;
+  @_.State private immediateFap!: boolean;
   @_.State private fapEnable!: boolean;
   @_.State private fapPosition!: string;
   @_.State private fapPositionEdge!: string;
@@ -94,6 +93,9 @@ export default class Content extends Vue {
   @__.Action('fromto') private updateFromto: any;
 
   @___.Getter private sourceLayout!: LayoutPreset;
+
+  private get selection(): Selection { return document.getSelection(); }
+  private getText(): string { return this.selection.toString().trim(); }
 
   private get cssVariables() {
     const { color } = this.theme as any;
@@ -202,6 +204,19 @@ export default class Content extends Vue {
       document.addEventListener('mousemove', this.handleMousemove, false);
     } else {
       document.removeEventListener('mousemove', this.handleMousemove, false);
+    }
+  }
+
+  @Watch('immediateFap', { immediate: true }) private onImmediateFap(flag: boolean) {
+    const mouseup = async () => {
+      if (!this.getText()) { return; }
+      this.doTranslate();
+    };
+
+    if (!flag) {
+      document.removeEventListener('mouseup', mouseup, false);
+    } else {
+      document.addEventListener('mouseup', mouseup, false);
     }
   }
 }

@@ -40,14 +40,6 @@ store.dispatch('init', { port }).then(() => {
     render: (h) => h(App as VueConstructor),
   });
 
-  document.addEventListener('selectionchange', ({ currentTarget }) => {
-    const selection: Selection | null = (currentTarget as Document).getSelection();
-
-    if (!selection) { return; }
-
-    store.dispatch('selection', selection);
-  });
-
   const container = document.createElement(extensionTagName);
   const exsited: HTMLElement | null = document.body.querySelector(extensionTagName);
 

@@ -8,6 +8,7 @@ import { locale, theme } from '@/stores/getters';
 import { update, clear } from '@/stores/mutations';
 import { ipcActionRequestor } from '@/stores/';
 import { UPDATED_CONFIG } from '@/types';
+import debug from '@/functions/debug';
 
 Vue.use(Vuex);
 
@@ -49,26 +50,41 @@ const actions: ActionTree<State, State> = {
     Port = port;
 
     dispatch('storage/init', { page: 'content', keys: register});
+
+    dispatch('selectionEvent');
   },
 
   ipc: async (_, action) => ipcActionRequestor(Port, action),
 
-  selection: ({ state, dispatch }, selection: Selection) => {
+  selectionEvent: ({ state, dispatch }) => {
+    const selectionchange = ({ currentTarget }: Event) => {
+      const selection: Selection | null = (currentTarget as Document).getSelection();
+      if (!selection) { return; }
+      dispatch('selection', selection);
+    };
+
+    document.addEventListener('selectionchange', selectionchange, false);
+
+    // invoke the returned function could remove the listener
+    return () => document.removeEventListener('selectionchange', selectionchange, false);
+  },
+
+  selection: async ({ state, dispatch }, selection: Selection) => {
     const text: string = selection.toString().trim();
 
     if (!text.length) {
-      if (!!state.text) { dispatch('unselect'); }
+      if (!!state.text) { await dispatch('unselect'); }
       return;
     }
 
     if (state.lastText === text) {
-      if (!!state.lastText && !state.text) { dispatch('selected'); }
+      if (!!state.lastText && !state.text) { await dispatch('selected'); }
       return;
     }
 
     const rect: ClientRect = selection.getRangeAt(0).getBoundingClientRect();
 
-    dispatch('select', [text, rect]);
+    await dispatch('select', [text, rect]);
   },
 
   select: ({ commit }, [text, rect]) => {

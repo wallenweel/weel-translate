@@ -48,12 +48,24 @@ const actions: ActionTree<State, RootState> = {
     dispatch('storage/reset', keys, { root: true });
   },
 
-  save: ({ dispatch }, [key, val]) => {
+  save: ({ state, dispatch }, [key, val]: [keyof State, any]) => {
     let value: any = val;
 
-    if (key === 'timeout') { value = val * 1000; }
+    const extra = {} as { [k in keyof State]: any };
 
-    dispatch('merge', { [key]: value });
+    if (key === 'timeout') { value = val * 1000; }
+    if (key === 'fabEnable' && val) {
+      extra.immediateFap = false;
+      if (!state.fapEnable) { extra.fapEnable = true; }
+    }
+    if (key === 'fapEnable' && !val) {
+      extra.immediateFap = false;
+    }
+    if (key === 'immediateFap' && val && !state.fapEnable) {
+      extra.fapEnable = true;
+    }
+
+    dispatch('merge', { [key]: value, ...extra });
   },
 };
 

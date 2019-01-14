@@ -77,7 +77,6 @@ export default class Content extends Vue {
   @Getter private rectOffsetBR!: [number, number];
   @Getter private isRectUp!: boolean;
   @Getter private theme!: null | string;
-  @Action('selection') private updateSelection!: ActionMethod;
 
   @_.State private fabEnable!: boolean;
   @_.State private fabPosition!: string;
@@ -93,9 +92,6 @@ export default class Content extends Vue {
   @__.Action('fromto') private updateFromto: any;
 
   @___.Getter private sourceLayout!: LayoutPreset;
-
-  private get selection(): Selection { return document.getSelection(); }
-  private getText(): string { return this.selection.toString().trim(); }
 
   private get cssVariables() {
     const { color } = this.theme as any;
@@ -206,10 +202,9 @@ export default class Content extends Vue {
       document.removeEventListener('mousemove', this.handleMousemove, false);
     }
   }
-
   @Watch('immediateFap', { immediate: true }) private onImmediateFap(flag: boolean) {
     const mouseup = async () => {
-      if (!this.getText()) { return; }
+      if (!this.hasSelection) { return; }
       this.doTranslate();
     };
 

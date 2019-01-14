@@ -56,7 +56,7 @@ const actions: ActionTree<State, State> = {
 
   ipc: async (_, action) => ipcActionRequestor(Port, action),
 
-  selectionEvent: ({ state, dispatch }) => {
+  selectionEvent: ({ dispatch }) => {
     const selectionchange = ({ currentTarget }: Event) => {
       const selection: Selection | null = (currentTarget as Document).getSelection();
       if (!selection) { return; }
@@ -69,8 +69,8 @@ const actions: ActionTree<State, State> = {
     return () => document.removeEventListener('selectionchange', selectionchange, false);
   },
 
-  selection: async ({ state, dispatch }, selection: Selection) => {
-    const text: string = selection.toString().trim();
+  selection: async ({ state, dispatch }, selection: Selection = document.getSelection()!) => {
+    const text: string = (selection || '').toString().trim();
 
     if (!text.length) {
       if (!!state.text) { await dispatch('unselect'); }

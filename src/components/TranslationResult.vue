@@ -53,8 +53,8 @@ export default class TranslationResult extends Vue {
   private get parseResultRows(): templatePreset['rows'] {
     if (!this.layout.id) { return []; }
 
-    const [, rows] = templateLayoutParser(this.result, this.layout);
-    debug.log(rows);
+    const [error, rows] = templateLayoutParser(this.result, this.layout);
+    debug.log(error, rows);
     return rows!;
   }
 

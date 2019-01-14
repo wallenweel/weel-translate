@@ -61,10 +61,20 @@ async function tabActionSender(action: IpcAction, info?: TabQueryInfo) {
   const { type, meta = {}, payload } = action;
   const { token, from } = meta;
 
-  const tabs = await browser.tabs.query(info! || {
-    currentWindow: true,
-    active: true,
-  });
+  let tabs: Tab[] | null = null;
+
+  try {
+    tabs  = await browser.tabs.query(info! || {
+      currentWindow: true,
+      active: true,
+    });
+  } catch (error) {
+    debug.error(error);
+  }
+
+  if (!tabs) {
+    return debug.error(`the "${type}" action failed, maybe current tab is not ready.`);
+  }
 
   for (const tab of tabs) {
     const { id, url, title, status, index, active } = tab;

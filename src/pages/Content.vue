@@ -169,7 +169,10 @@ export default class Content extends Vue {
     return `transform: translate3d(${x}px, ${y}px, 0);`;
   }
 
-  private handleQuery() { this.doTranslate(); }
+  private handleQuery() {
+    if (!this.hasSelection) { return; }
+    this.doTranslate();
+  }
   private async handleSwapFromto() {
     const [from, to] = this.fromto;
     await this.updateFromto([to, from]);
@@ -203,15 +206,10 @@ export default class Content extends Vue {
     }
   }
   @Watch('immediateFap', { immediate: true }) private onImmediateFap(flag: boolean) {
-    const mouseup = async () => {
-      if (!this.hasSelection) { return; }
-      this.doTranslate();
-    };
-
     if (!flag) {
-      document.removeEventListener('mouseup', mouseup, false);
+      document.removeEventListener('mouseup', this.handleQuery, false);
     } else {
-      document.addEventListener('mouseup', mouseup, false);
+      document.addEventListener('mouseup', this.handleQuery, false);
     }
   }
 }

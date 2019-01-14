@@ -1,12 +1,14 @@
-## [3.0.12](https://github.com/wallenweel/weel-translate/compare/v3.0.10...v3.0.12) (2019-01-14)
+## [3.0.13](https://github.com/wallenweel/weel-translate/compare/v3.0.10...v3.0.13) (2019-01-14)
 
 ### Features
 
 * add __immediate translating__ option into preferences (need __enabled fab__ option is not chekced )
+* add __context menu__ entry port
 
 ### Bug Fixes
 
 * reset config keys mistakely that necessary after version updated is not coherent
+* improve config updating from background to content
 
 ## [3.0.10](https://github.com/wallenweel/weel-translate/compare/v3.0.6...v3.0.10) (2019-01-13)
 

@@ -47,6 +47,10 @@ export const browserShim: Browser = {
     getMessage: (name, substitions) => '',
     getUILanguage: () => navigator.language,
   },
+  contextMenus: {
+    create: (createProperties, callback) => 0,
+    remove: (menuItemId) => new Promise(() => void(0)),
+  },
 };
 
 if (TARGET_BROWSER === 'web') {

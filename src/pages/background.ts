@@ -3,7 +3,7 @@ import browser from '@/apis/browser';
 import { ipcActions } from '@/stores/background/actions';
 import { istype } from '@/functions';
 import { UPDATED_CONFIG } from '@/types';
-import { avoidanceReg } from '@/variables';
+import { avoidanceReg, extensionName } from '@/variables';
 import debug from '@/functions/debug';
 
 const { runtime } = browser;
@@ -35,6 +35,21 @@ const { runtime } = browser;
       });
     }
   });
+
+  let contextMenusId: string | number | null = null;
+  store.watch((state) => state.storage.preference_context_menu_enable, (enabled: boolean) => {
+    if (enabled) {
+      contextMenusId = browser.contextMenus.create({
+        id: extensionName,
+        title: 'Translate',
+        enabled,
+      });
+    } else {
+      if (contextMenusId !== null) {
+        browser.contextMenus.remove(contextMenusId);
+      }
+    }
+  }, { immediate: true });
 })();
 
 

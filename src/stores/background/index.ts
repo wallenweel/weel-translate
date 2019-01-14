@@ -1,6 +1,7 @@
 import Vue from 'vue';
-import Vuex, { MutationTree, ModuleTree } from 'vuex';
+import Vuex, { MutationTree, ModuleTree, GetterTree } from 'vuex';
 import actions from './actions';
+import { update, clear } from '@/stores/mutations';
 import translation from './modules/translation';
 import storage from './modules/storage';
 import debug from '@/functions/debug';
@@ -10,17 +11,7 @@ Vue.use(Vuex);
 const state: State = {};
 
 const mutations: MutationTree<State> = {
-  update: (state, data: object = {}): void => {
-    for (const [key, value] of Object.entries(data)) {
-      const target = state[key];
-
-      if (!target) {
-        state[key] = value;
-      } else {
-        state[key] = Object.assign({}, target, value);
-      }
-    }
-  },
+  update, clear,
 };
 
 const modules: ModuleTree<State> = {

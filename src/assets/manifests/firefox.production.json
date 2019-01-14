@@ -3,7 +3,8 @@
     "<all_urls>",
     "storage",
     "tabs",
-    "clipboardRead"
+    "clipboardRead",
+    "contextMenus"
   ],
 
   "web_accessible_resources": [

@@ -114,11 +114,54 @@ declare interface Browser {
   readonly runtime: BrowserRuntime;
   readonly tabs: BrowserTabs;
   readonly i18n: BrowserI18n;
+  readonly contextMenus: BrowserMenus;
 
   readonly [name: string]: any;
 }
 
 declare type version = string; // like 0.0.0
+
+declare interface BrowserMenus {
+  create(createProperties: menusCreateProperties, callback?: () => {}): number | string;
+  remove(menuItemId: string | number): Promise<never>;
+}
+
+declare type menusCreateProperties = {
+  checked?: boolean;
+  command?: '_execute_browser_action' | '_execute_page_action' | '_execute_sidebar_action';
+  contexts?: menusContextType[];
+  documentUrlPatterns?: string[];
+  enabled?: boolean;
+  icons?: { [size: string]: string };
+  id?: string;
+  onclick?: (info: menusOnClickData, tab: Tab) => {};
+  parentId?: number | string;
+  targetUrlPatterns?: string[];
+  title?: string;
+  type?: 'normal' | 'checkbox' | 'radio' | 'separator';
+  visible?: boolean;
+};
+
+declare type menusOnClickData = {
+  bookmarkId?: string;
+  checked?: boolean;
+  editable?: boolean;
+  frameId?: number;
+  frameUrl?: string;
+  linkText?: string;
+  linkUrl?: string;
+  mediaType?: 'image' | 'video' | 'audio';
+  menuItemId?: string | number;
+  modifiers?: string[];
+  pageUrl?: string;
+  parentMenuItemId?: number | string;
+  selectionText?: string;
+  srcUrl?: string;
+  targetElementId?: number;
+  wasChecked?: boolean;
+};
+
+declare type menusContextType = 'all' | 'audio' | 'bookmark' | 'browser_action' | 'editable' | 'frame' | 'image' | 'link' | 'page' | 'page_action' | 'password' | 'selection' | 'tab' | 'tools_menu' | 'video';
 
 declare interface BrowserTabs {
   query(queryInfo: TabQueryInfo): Promise<Tab[]>;

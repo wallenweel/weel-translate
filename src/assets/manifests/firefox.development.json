@@ -3,7 +3,7 @@
     "<all_urls>",
     "storage",
     "tabs",
-    "menus",
+    "contextMenus",
     "clipboardRead",
     "clipboardWrite"
   ],

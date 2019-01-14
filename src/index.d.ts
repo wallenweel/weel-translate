@@ -278,7 +278,7 @@ declare interface BrowserI18n {
 }
 
 /** /defaults */
-declare type configCat = 'config' | 'translation' | 'preference' | 'template' | 'web';
+declare type configCat = 'config' | 'translation' | 'preference_immediate' | 'template' | 'web';
 declare interface DefaultConfig extends
 WebConfig,
 TemplateConfig,
@@ -309,6 +309,10 @@ declare interface PreferenceConfig {
 
   // after selection | center of selection | follow mouse
   preference_fab_position: 'after' | 'center' | 'follow' | 'auto-center';
+
+  // whether translate immediately after has text selection
+  // need "preference_fab_enable" is false
+  preference_immediate_fap: boolean;
 
   // enable float action (result) panel
   preference_fap_enable: boolean;

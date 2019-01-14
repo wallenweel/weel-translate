@@ -31,3 +31,20 @@ export const theme = {
 };
 
 export const modifiedLocaleRules = ['en-us:>en', 'zh:>zh-cn'];
+
+export const updatedConfigKeys: { [v: string]: Array<keyof DefaultConfig> } = {
+  '3.0.6': [
+    'translation_sources',
+    'translation_enabled_sources',
+    'template_source_layouts',
+    'template_layouts',
+  ],
+  '3.0.10': [
+    'preference_theme_color_primary',
+    'preference_theme_color_secondary',
+    'translation_sources',
+  ],
+  '3.0.12': [
+    'preference_fab_enable',
+  ],
+};

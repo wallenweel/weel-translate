@@ -12,6 +12,7 @@ import {
   QUERY_TRANSLATION,
 } from '@/types';
 import { base as baseConfig } from '@/defaults/config';
+import { updatedConfigKeys } from '@/variables';
 import debug from '@/functions/debug';
 
 export const actions: ActionTree<State, State> = {
@@ -30,42 +31,40 @@ export const actions: ActionTree<State, State> = {
   },
 
   version: async ({ state, dispatch }, { version, last_version }): Promise<std> => {
-    const [, status] = versionCheck(version, last_version);
-    const updateLastVersion = () => dispatch('storage/update', { version, last_version });
+    const [, status, incompatible] = versionCheck(version, last_version);
+    const updateVersions = () => dispatch('storage/update', [{ version, last_version }, 'local']);
 
     switch (status) {
       case VERSION_FRESH: // first install
-        const [installError] = await dispatch('storage/reset');
-        if (installError !== null) { return [installError]; }
-        await updateLastVersion();
+        await dispatch('storage/reset');
+        await updateVersions();
         return [null];
 
       case VERSION_UPDATED:
-        let keys: Array<keyof DefaultConfig> = [];
-        if (version === '3.0.10') {
-          keys = [
-            'preference_theme_color_primary',
-            'preference_theme_color_secondary',
-            'translation_sources',
-          ];
-        }
-        if (version === '3.0.6') {
-          keys = [
-            'translation_sources',
-            'translation_enabled_sources',
-            'template_source_layouts',
-            'template_layouts',
-          ];
+        // config keys that needed to reset in this updating
+        let keys: Array<keyof DefaultConfig>;
+
+        // the old is not compatible with the new version completely
+        // so need to reset keys of all
+        if (incompatible === 1) {
+          keys = [];
+        } else { // incompatible: -1 or 0
+          // compatible version, but may need to reset some config items the manifest at
+          // @see `src/variables.ts` -> updatedConfigKeys
+          keys = Object.entries(updatedConfigKeys).reduce((p: Array<keyof DefaultConfig>, [v, a]) => {
+            const [, status] = versionCheck(v, last_version);
+            if (status === VERSION_OUTDATED) { return p; }
+            return [...p, ...a];
+          }, []);
         }
 
-        const [updateError] = await dispatch('storage/reset', keys);
-        if (updateError !== null) { debug.error(updateError); }
-
-        await updateLastVersion();
+        await dispatch('storage/reset', { keys });
+        await updateVersions();
         return [null];
 
       case VERSION_OUTDATED:
         await dispatch('storage/reset');
+        await updateVersions();
         return [null];
 
       case VERSION_SAME: // nothing change
@@ -85,8 +84,8 @@ export const ipcActions: ActionTree<State, State> = {
     return await dispatch('storage/query', { keys });
   },
 
-  [SET_CONFIG]: async ({ dispatch }, { payload: config }) => {
-    return await dispatch('storage/update', config);
+  [SET_CONFIG]: async ({ dispatch }, { payload: config, storage = 'local' }) => {
+    return await dispatch('storage/update', [config, storage as storageType]);
   },
 
   [QUERY_TRANSLATION]: async ({ dispatch }, { payload: { type, params } }) => {

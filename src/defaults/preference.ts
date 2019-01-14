@@ -8,6 +8,7 @@ const preferenceConfig: PreferenceConfig = {
   preference_theme_color_secondary: theme.color.secondary,
   preference_fab_enable: true,
   preference_fab_position: 'auto-center',
+  preference_immediate_fap: false,
   preference_fap_enable: true,
   preference_fap_position: 'follow',
   preference_fap_position_edge: 'tc',

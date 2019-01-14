@@ -30,12 +30,12 @@ const actions: ActionTree<State, RootState> = {
     return [null, config];
   },
 
-  update: async ({ commit }, config: DefaultConfig): Promise<std> => {
+  update: async ({ commit }, [config, type]: [DefaultConfig, storageType]): Promise<std> => {
     if (!Object.keys(config).length) {
       return ['empty config'];
     }
 
-    await apiStorage.local.set(config);
+    await apiStorage[type || 'local'].set(config);
 
     commit('update', config);
 
@@ -49,7 +49,7 @@ const actions: ActionTree<State, RootState> = {
       config = { ...defaultConfig };
     }
 
-    const [error] = await dispatch('update', config);
+    const [error] = await dispatch('update', [config, type]);
 
     if (error !== null) {
       debug.error(`reset storage config failed.`);

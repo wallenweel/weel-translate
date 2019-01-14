@@ -45,6 +45,7 @@
   "follow": "Follow Mouse Pointer",
   "auto_center": "Up&Down Side Center",
   "float_action_panel": "Float Action Panel",
+  "immediate_fap": "Translate Immediately",
   "enable_fap": "Enable FAP",
   "edge": "Viewport Edge",
   "edge_position": "Edge Position",

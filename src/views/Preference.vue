@@ -80,6 +80,12 @@ export default class PreferenceView extends Vue {
         ],
         name: 'fabPosition',
         value: opt.fabPosition,
+      }, {
+        test: ['fabEnable', false],
+        type: 'checkbox',
+        label: this.$t('immediate_fap'),
+        name: 'immediateFap',
+        value: opt.immediateFap,
       }],
     }, {
       headline: this.$t('float_action_panel'),

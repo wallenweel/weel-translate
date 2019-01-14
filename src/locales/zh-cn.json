@@ -45,6 +45,7 @@
   "follow": "跟随鼠标指针",
   "auto_center": "上下边中间",
   "float_action_panel": "浮动面板",
+  "immediate_fap": "即时翻译",
   "enable_fap": "启用浮动面板",
   "edge": "窗口边角",
   "edge_position": "边角的位置",

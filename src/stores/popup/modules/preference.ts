@@ -68,6 +68,7 @@ const getters: GetterTree<State, RootState> = {
     'primaryColor',
     'secondaryColor',
     'fabEnable', 'fabPosition',
+    'immediateFap',
     'fapEnable', 'fapPosition', 'fapPositionEdge',
   ] as Array<keyof State>, state)[1],
   settings: (state): { [k in keyof State]: any } => configKeysReducer([

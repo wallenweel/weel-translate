@@ -14,6 +14,7 @@ export const register: configPairs<State> = {
   preference_theme_color_secondary: 'secondaryColor',
   preference_fab_enable: 'fabEnable',
   preference_fab_position: 'fabPosition',
+  preference_immediate_fap: 'immediateFap',
   preference_fap_enable: 'fapEnable',
   preference_fap_position: 'fapPosition',
   preference_fap_position_edge: 'fapPositionEdge',
@@ -28,6 +29,7 @@ export const state: State = {
   secondaryColor: theme.color.secondary,
   fabEnable: true,
   fabPosition: 'auto-center',
+  immediateFap: false,
   fapEnable: true,
   fapPosition: 'follow',
   fapPositionEdge: 'tc',
@@ -62,6 +64,7 @@ export interface State {
   secondaryColor: C['preference_theme_color_secondary'];
   fabEnable: C['preference_fab_enable'];
   fabPosition: C['preference_fab_position'];
+  immediateFap: C['preference_immediate_fap'];
   fapEnable: C['preference_fap_enable'];
   fapPosition: C['preference_fap_position'];
   fapPositionEdge: C['preference_fap_position_edge'];

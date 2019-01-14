@@ -6,16 +6,21 @@ export const isRelease: boolean = env === 'production';
 
 export const isWeb: boolean = TARGET_BROWSER === 'web';
 
+// this ext's project name
 export const extensionName: string = 'weel-translate-x';
 
+// custom tag for rejecting to content page
 export const extensionTagName: string = extensionName;
 
+// default timeout number for net request
 export const requestTimeout: number = 12000;
 
+// check whether is preset's id format
 export const presetIdReg: RegExp = /[\d\w\_]+?/;
-
+// check whether is preset's format
 export const presetIdJsonReg: RegExp = /"id":"([\d\w\_]+?)"/;
 
+// things that should to be avoid
 export const avoidanceReg = {
   urls: [
     /^about:/,
@@ -23,6 +28,7 @@ export const avoidanceReg = {
   ],
 };
 
+// define default theme's stuffs
 export const theme = {
   color: {
     primary: '#6200ee',
@@ -30,8 +36,10 @@ export const theme = {
   },
 };
 
+// make browser's user locale fit i18n files
 export const modifiedLocaleRules = ['en-us:>en', 'zh:>zh-cn'];
 
+// these config keys need to reset after updated
 export const updatedConfigKeys: { [v: string]: Array<keyof DefaultConfig> } = {
   '3.0.6': [
     'translation_sources',

@@ -56,7 +56,10 @@
   "bottom_center": "Bottom Center",
   "bottom_right": "Bottom Right",
   "context_menu_trigger": "Context Menu Trigger",
+
   "enable_context_menu": "Enable Context Menu",
+  "context_menus_translate": "Translate Selected Text",
+
   "network": "Network",
   "set_timeout_seconds": "Current Set Timeout: {0} seconds",
   "set_recent_numbers": "Current Set Number: {0}",

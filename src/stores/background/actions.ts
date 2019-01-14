@@ -10,10 +10,21 @@ import {
   QUERY_CONFIG,
   SET_CONFIG,
   QUERY_TRANSLATION,
+  CONTEXT_MENU_TRANSLATING,
 } from '@/types';
 import { base as baseConfig } from '@/defaults/config';
-import { updatedConfigKeys } from '@/variables';
+import { updatedConfigKeys, extensionName } from '@/variables';
+import { tabActionSender } from '@/pages/background';
+import i18n from '@/i18n';
 import debug from '@/functions/debug';
+
+let contextMenusId: string | number | null = null;
+const contextMenusListener: menusOnClickedListener = (info) => {
+  tabActionSender({
+    type: CONTEXT_MENU_TRANSLATING,
+    meta: { from: 'background', contextMenus: true },
+  });
+};
 
 export const actions: ActionTree<State, State> = {
   // TODO: treat most error situations reasonably
@@ -72,6 +83,30 @@ export const actions: ActionTree<State, State> = {
       default:
         return [null];
     }
+  },
+
+  contextMenus: ({ state }, { enabled, text }) => {
+    const flag: boolean = enabled || state.storage.preference_context_menu_enable;
+
+    if (flag) {
+      if (contextMenusId !== null) { return [null, 'has context menu']; }
+      debug.log('enable')
+
+      contextMenusId = browser.contextMenus.create({
+        id: extensionName,
+        title: i18n.t('context_menus_translate') as string,
+      });
+      browser.contextMenus.onClicked.addListener(contextMenusListener);
+    } else {
+      if (contextMenusId === null) { return [null, 'no context menu']; }
+      debug.log('disable')
+
+      browser.contextMenus.onClicked.removeListener(contextMenusListener);
+      browser.contextMenus.remove(contextMenusId);
+      contextMenusId = null;
+    }
+
+    return [null];
   },
 };
 

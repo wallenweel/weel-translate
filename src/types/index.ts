@@ -6,6 +6,7 @@ export const SET_CONFIG = 'SET_CONFIG';
 export const UPDATED_CONFIG = 'UPDATED_CONFIG';
 
 export const QUERY_TRANSLATION = 'QUERY_TRANSLATION';
+export const CONTEXT_MENU_TRANSLATING = 'CONTEXT_MENU_TRANSLATING';
 
 export const VERSION_FRESH: versionFresh = 'VERSION_FRESH';
 export const VERSION_UPDATED: versionUpdate = 'VERSION_UPDATED';

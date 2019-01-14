@@ -12,7 +12,7 @@ const preferenceConfig: PreferenceConfig = {
   preference_fap_enable: true,
   preference_fap_position: 'follow',
   preference_fap_position_edge: 'tc',
-  preference_context_menu_enable: true,
+  preference_context_menu_enable: false,
 };
 
 export default preferenceConfig;

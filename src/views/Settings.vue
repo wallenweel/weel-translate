@@ -37,7 +37,6 @@ export default class SettingsView extends Vue {
     const opt = this.settings;
     return [{
       headline: this.$t('context_menu_trigger'),
-      subheading: this.$t('__unready._'),
       type: 'checkbox',
       label: this.$t('enable_context_menu'),
       name: 'contextMenuEnable',

@@ -1,4 +1,4 @@
-## [3.0.13](https://github.com/wallenweel/weel-translate/compare/v3.0.10...v3.0.13) (2019-01-14)
+## [3.0.13](https://github.com/wallenweel/weel-translate/compare/v3.0.10...v3.0.13) (2019-01-15)
 
 ### Features
 

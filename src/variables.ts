@@ -55,4 +55,7 @@ export const updatedConfigKeys: { [v: string]: Array<keyof DefaultConfig> } = {
   '3.0.12': [
     'preference_fab_enable',
   ],
+  '3.0.13': [
+    'preference_context_menu_enable',
+  ],
 };

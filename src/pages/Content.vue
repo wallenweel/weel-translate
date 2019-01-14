@@ -188,7 +188,7 @@ export default class Content extends Vue {
       this.$nextTick(() => {
         this.fabStyle = this.fabLocating();
       });
-    })(this.fabEnable);
+    })(this.fabEnable && !this.immediateFap);
   }
   @Watch('hasResult') private onHasResult() {
     ((flag) => {

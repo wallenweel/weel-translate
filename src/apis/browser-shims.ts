@@ -50,6 +50,11 @@ export const browserShim: Browser = {
   contextMenus: {
     create: (createProperties, callback) => 0,
     remove: (menuItemId) => new Promise(() => void(0)),
+    onClicked: {
+      addListener: (callback) => void(0),
+      removeListener: (callback) => void(0),
+      hasListener: (callback) => void(0),
+    },
   },
 };
 

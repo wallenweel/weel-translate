@@ -7,7 +7,7 @@ import template, { register as templateRegister } from './modules/template';
 import { locale, theme } from '@/stores/getters';
 import { update, clear } from '@/stores/mutations';
 import { ipcActionRequestor } from '@/stores/';
-import { UPDATED_CONFIG } from '@/types';
+import { UPDATED_CONFIG, CONTEXT_MENU_TRANSLATING } from '@/types';
 import debug from '@/functions/debug';
 
 Vue.use(Vuex);
@@ -40,6 +40,10 @@ const mutations: MutationTree<State> = {
 const ipcActions: ActionTree<State, State> = {
   [UPDATED_CONFIG]: ({ dispatch }, { meta: { from }, payload: config }) => {
     dispatch('storage/update', config);
+  },
+  [CONTEXT_MENU_TRANSLATING]: ({ state, dispatch }, { meta }) => {
+    if (!(state.text || '').length) { return; }
+    dispatch('translation/translate');
   },
 };
 

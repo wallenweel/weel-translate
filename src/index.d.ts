@@ -124,7 +124,14 @@ declare type version = string; // like 0.0.0
 declare interface BrowserMenus {
   create(createProperties: menusCreateProperties, callback?: () => {}): number | string;
   remove(menuItemId: string | number): Promise<never>;
+  onClicked: {
+    addListener(callback: menusOnClickedListener): void;
+    removeListener(callback: menusOnClickedListener): void;
+    hasListener(callback: menusOnClickedListener): void;
+  };
 }
+
+declare type menusOnClickedListener = (info: menusOnClickData, tab: Tab) => void;
 
 declare type menusCreateProperties = {
   checked?: boolean;

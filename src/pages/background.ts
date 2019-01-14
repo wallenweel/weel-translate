@@ -24,14 +24,17 @@ const { runtime } = browser;
   runtime.onMessage.addListener((message, sender, send) =>
     !!ipcActionResponser(message).then((response) => send(response)));
 
-  store.watch((state) => state.storage, (config: DefaultConfig) => {
-    tabActionSender({
-      type: UPDATED_CONFIG,
-      meta: {
-        from: 'background',
-      },
-    });
-  }, { deep: true });
+  store.subscribe(({ type, payload }: any, state: any) => {
+    if (type === 'storage/update') {
+      const config = payload;
+
+      tabActionSender({
+        type: UPDATED_CONFIG,
+        meta: { from: 'background' },
+        payload: config,
+      });
+    }
+  });
 })();
 
 
@@ -73,7 +76,7 @@ async function tabActionSender(action: IpcAction, info?: TabQueryInfo) {
   }
 
   if (!tabs) {
-    return debug.error(`the "${type}" action failed, maybe current tab is not ready.`);
+    return debug.info(`the "${type}" action failed, maybe current tab is not ready.`);
   }
 
   for (const tab of tabs) {

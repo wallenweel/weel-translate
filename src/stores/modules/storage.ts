@@ -11,6 +11,16 @@ export const namespaced: boolean = true;
 export let PAGE: 'background' | 'popup' | 'content' | 'options';
 export let KEYS: Array<keyof DefaultConfig>;
 
+const filterConfig = (changes: { [k in keyof DefaultConfig]: any }) => {
+  const config: { [k: string]: any } = {};
+
+  for (const [k, v] of Object.entries(changes)) {
+    if (istype(v, 'undefined') || !KEYS!.includes(k as keyof DefaultConfig)) { continue; }
+    config[k] = v;
+  }
+  return config;
+};
+
 export const actionGenerator = (type: string, payload?: any): IpcAction => ({
   type,
   payload,
@@ -104,12 +114,7 @@ export const actions = Object.assign({
   },
 
   merge: async ({ state, dispatch, commit }, changes) => {
-    const config: { [k: string]: any } = {};
-
-    for (const [k, v] of Object.entries(changes)) {
-      if (istype(v, 'undefined') || !KEYS!.includes(k as keyof DefaultConfig)) { continue; }
-      config[k] = v;
-    }
+    const config = filterConfig(changes) as DefaultConfig;
 
     // push changes
     const success = await dispatch('save', config);
@@ -123,6 +128,10 @@ export const actions = Object.assign({
     commit('update', config);
 
     return true;
+  },
+
+  update: async ({ commit }, changes) => {
+    commit('update', filterConfig(changes));
   },
 } as ActionTree<State, RootState>, TARGET_BROWSER === 'web' ? webActions : ipcActions);
 

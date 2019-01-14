@@ -38,8 +38,8 @@ const mutations: MutationTree<State> = {
 };
 
 const ipcActions: ActionTree<State, State> = {
-  [UPDATED_CONFIG]: ({ dispatch }, { payload }) => {
-    dispatch('storage/fetch', register);
+  [UPDATED_CONFIG]: ({ dispatch }, { meta: { from }, payload: config }) => {
+    dispatch('storage/update', config);
   },
 };
 

@@ -24,19 +24,19 @@ const filterConfig = (changes: { [k in keyof DefaultConfig]: any }) => {
 export const actionGenerator = (type: string, payload?: any): IpcAction => ({
   type,
   payload,
-  meta: {
-    from: PAGE,
-  },
+  meta: { from: PAGE },
 });
 
 export const state: State | any = {};
 
-export const mutations = Object.assign({
+export const mutations: MutationTree<State> = {
+  update, clear,
+
   init: (state, { page, keys }) => {
     state.page = page;
     state.keys = keys;
   },
-} as MutationTree<State>, { update, clear });
+};
 
 type configKey = keyof DefaultConfig;
 export const webActions: ActionTree<State, RootState> = {
@@ -102,7 +102,9 @@ export const ipcActions: ActionTree<State, RootState> = {
   },
 };
 
-export const actions = Object.assign({
+export const actions: ActionTree<State, RootState> = {
+  ...(TARGET_BROWSER === 'web' ? webActions : ipcActions),
+
   init: async ({ dispatch, commit }, { page = '', keys = [] }) => {
     [PAGE, KEYS] = [page, keys];
 
@@ -133,7 +135,7 @@ export const actions = Object.assign({
   update: async ({ commit }, changes) => {
     commit('update', filterConfig(changes));
   },
-} as ActionTree<State, RootState>, TARGET_BROWSER === 'web' ? webActions : ipcActions);
+};
 
 export const storage: Module<State, RootState> = {
   namespaced, state, actions, mutations,

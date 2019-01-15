@@ -1,5 +1,5 @@
 <template>
-  <div class="wrap" :style="cssVariables">
+  <div class="wrap" :style="cssVariables" :data-theme="theme.mode">
     <transition name="fade">
       <mdc-fab class="float-action-button" :style="fabStyle" ref="fab"
         mini absolute
@@ -261,6 +261,10 @@ function overflow(
     --mdc-theme-#{$style}: #{map-get($mdc-theme-property-values, $style)};
   }
   @include app-wrap;
+
+  &[data-theme="dark"] {
+    @include dark-theme-variables;
+  }
 }
 
 .fade-enter-active, .fade-leave-active {

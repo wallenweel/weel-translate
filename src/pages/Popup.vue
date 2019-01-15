@@ -1,8 +1,10 @@
 <template>
-  <mdc-layout-app class="popup">
-    <popup-toolbar :raised="!isReachStart"></popup-toolbar>
-    <popup-drawer></popup-drawer>
-    <popup-content v-model="isReachStart"></popup-content>
+  <mdc-layout-app class="popup" :data-theme="theme.mode">
+    <popup-toolbar :raised="!isReachStart" />
+
+    <popup-drawer />
+
+    <popup-content v-model="isReachStart" />
 
     <mdc-snackbar v-model="snack" @hide="resetNotify" ref="snack" />
   </mdc-layout-app>
@@ -118,7 +120,13 @@ html, .popup {
   background-color: #f5f5f5;
 }
 
+.popup {
+  &[data-theme="dark"] {
+    @include dark-theme-variables;
+  }
+}
+
 .popup-content {
-  background-color: white;
+  background-color: var(--mdc-theme-on-primary);
 }
 </style>

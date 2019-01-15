@@ -46,7 +46,6 @@ export default class PreferenceView extends Vue {
       value: opt.locale,
     }, {
       headline: this.$t('theme_color'),
-      subheading: this.$t('__unready.theme'),
       type: 'radio',
       values: [[this.$t('light'), 'light'], [this.$t('dark'), 'dark']],
       name: 'theme',

@@ -80,13 +80,17 @@ export default class PopupDrawer extends Vue {
 @import '~vue-mdc-adapter/dist/drawer/drawer.min.css';
 
 .popup-drawer {
-    .-head {
-      &:hover {
-        .-feedback {
-          opacity: 1;
-        }
+  .mdc-drawer__drawer {
+    background-color: var(--mdc-theme-background);
+  }
+    
+  .-head {
+    &:hover {
+      .-feedback {
+        opacity: 1;
       }
     }
+  }
   .-feedback {
     opacity: 0;
     transition: opacity .25s ease-in;

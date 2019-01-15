@@ -84,7 +84,7 @@ export default class TranslationTools extends Vue {
 
 <style lang="scss">
 .input-actions {
-  background: #fff;
+  background-color: var(--mdc-theme-background);
   margin: 8px 0;
   padding: 2px 8px;
   justify-content: space-evenly;

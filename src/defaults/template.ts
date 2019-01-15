@@ -4,13 +4,13 @@ import { sourcePresets } from './sources';
 const enabledLayouts: TemplateConfig['template_enabled_layouts'] = layoutPresets
   .map(({ id, expect, title }) => ({ id, expect, title }));
 
-const [google, googleCN] = sourcePresets;
-const enabledSources: TemplateConfig['template_source_layouts'] = [google, googleCN]
+const enabledSources: TemplateConfig['template_source_layouts'] = sourcePresets
   .reduce((p: object, { id }) => ({ ...p, [id]: [enabledLayouts[0].id, enabledLayouts[0].id] }), {});
 
 const templateConfig: TemplateConfig = {
   template_source_layouts: {
     ...enabledSources,
+
     youdao: [enabledLayouts[1].id, enabledLayouts[1].id],
   },
   template_crawler_layouts: {},

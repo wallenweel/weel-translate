@@ -101,6 +101,7 @@ export default class OptionItem extends Vue {
   }
   .mdc-subheading {
     font-size: .75rem;
+    color: var(--mdc-theme-text-primary-on-background);
   }
 
   .-color-selector {

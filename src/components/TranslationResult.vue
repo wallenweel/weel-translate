@@ -92,6 +92,7 @@ export default class TranslationResult extends Vue {
 .translation-result {
   padding: 0 16px;
   position: relative;
+  color: var(--mdc-theme-text-primary-on-background);
 
   ._section {
     margin: 16px 0;

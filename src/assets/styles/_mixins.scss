@@ -9,3 +9,10 @@
   color: var(--mdc-theme-text-primary-on-dark, #ffffff);
   padding: 0 16px 16px;
 }
+
+@mixin dark-theme-variables {
+  --mdc-theme-background: hsl(0, 0%, 12%);
+  --mdc-theme-on-primary: hsl(0, 0%, 12%);
+  --mdc-theme-surface: hsl(0, 0%, 12%);
+  --mdc-theme-text-primary-on-background: hsl(0, 0%, 92%);
+}

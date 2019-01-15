@@ -1,3 +1,14 @@
+## [3.0.14](https://github.com/wallenweel/weel-translate/compare/v3.0.13...v3.0.14) (2019-01-15)
+
+### Styles
+
+* use **google translate** icon repeat to origianal temporarily, because may not to custom icons somewhere;
+* implement dark theme;
+
+### Bug Fixes
+
+* context menus entry's translation of title
+
 ## [3.0.13](https://github.com/wallenweel/weel-translate/compare/v3.0.10...v3.0.13) (2019-01-15)
 
 ### Features

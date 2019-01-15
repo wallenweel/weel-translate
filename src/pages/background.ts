@@ -5,6 +5,7 @@ import { istype } from '@/functions';
 import { UPDATED_CONFIG } from '@/types';
 import { avoidanceReg } from '@/variables';
 import debug from '@/functions/debug';
+import i18n from '@/i18n';
 
 const { runtime } = browser;
 
@@ -36,8 +37,19 @@ const { runtime } = browser;
     }
   });
 
+  store.watch((state) => state.storage.ui_language, async (locale: Language['code']) => {
+    i18n.locale = locale;
+
+    await store.dispatch('removeContextMenus');
+    await store.dispatch('createContextMenus');
+  }, { immediate: true });
+
   store.watch((state) => state.storage.preference_context_menu_enable, (enabled: boolean) => {
-    store.dispatch('contextMenus', { enabled });
+    if (enabled) {
+      store.dispatch('createContextMenus');
+    } else {
+      store.dispatch('removeContextMenus');
+    }
   }, { immediate: true });
 })();
 

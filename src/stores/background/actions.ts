@@ -85,26 +85,24 @@ export const actions: ActionTree<State, State> = {
     }
   },
 
-  contextMenus: ({ state }, { enabled, text }) => {
-    const flag: boolean = enabled || state.storage.preference_context_menu_enable;
+  createContextMenus: ({ state }) => {
+    if (contextMenusId !== null) { return [null, 'has context menu']; }
 
-    if (flag) {
-      if (contextMenusId !== null) { return [null, 'has context menu']; }
-      debug.log('enable')
+    contextMenusId = browser.contextMenus.create({
+      id: extensionName,
+      title: i18n.t('context_menus_translate') as string,
+    });
+    browser.contextMenus.onClicked.addListener(contextMenusListener);
 
-      contextMenusId = browser.contextMenus.create({
-        id: extensionName,
-        title: i18n.t('context_menus_translate') as string,
-      });
-      browser.contextMenus.onClicked.addListener(contextMenusListener);
-    } else {
-      if (contextMenusId === null) { return [null, 'no context menu']; }
-      debug.log('disable')
+    return [null, contextMenusId, contextMenusListener];
+  },
 
-      browser.contextMenus.onClicked.removeListener(contextMenusListener);
-      browser.contextMenus.remove(contextMenusId);
-      contextMenusId = null;
-    }
+  removeContextMenus: () => {
+    if (contextMenusId === null) { return [null, 'no context menu']; }
+
+    browser.contextMenus.onClicked.removeListener(contextMenusListener);
+    browser.contextMenus.remove(contextMenusId);
+    contextMenusId = null;
 
     return [null];
   },

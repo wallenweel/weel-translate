@@ -81,7 +81,6 @@ module.exports = {
         .end()
         .plugin('webpack-delete')
           .use(WebpackDelete, [[`./${outputDir}/js/**/*-legacy.js`]])
-
     }
 
     // console.log(config.toConfig().plugins)

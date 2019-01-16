@@ -4,6 +4,7 @@ declare module 'vue-mdc-adapter/*'
 declare module 'vue-perfect-scrollbar'
 
 declare module 'colorsys';
+declare module 'codeflask';
 
 declare module '*.png'
 declare module '*.svg'

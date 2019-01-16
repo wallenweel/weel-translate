@@ -16,7 +16,7 @@ Vue.use(Scrollbar);
 
 import router from '@/routers/options';
 import store from '@/stores/options';
-import i18n, { locale } from '@/i18n';
+import i18n from '@/i18n';
 
 import App from './Options.vue';
 

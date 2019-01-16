@@ -1,5 +1,5 @@
 <template>
-  <div class="view-picked">Picked Items</div>
+  <div class="view-picked">SourcePreset</div>
 </template>
 
 <script lang="ts">

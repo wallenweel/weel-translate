@@ -16,13 +16,8 @@
 <script lang="ts">
 import Vue from 'vue';
 import { Component, Prop, Watch } from 'vue-property-decorator';
-import { State, namespace } from 'vuex-class';
 import IconMenu from '@/components/icons/Menu.vue';
 import debug from '@/functions/debug';
-import { ActionMethod } from 'vuex';
-
-const _ = namespace('preference');
-const __ = namespace('translation');
 
 @Component({
   components: {
@@ -30,47 +25,12 @@ const __ = namespace('translation');
   },
 })
 export default class OptionsToolbar extends Vue {
-  @_.Action('reset') private resetPreference!: ActionMethod;
-
-  @__.State private source!: SourcePresetItem;
-  @__.State private enabledSources!: SourcePresetItem[];
-  @__.Action('source') private changeSource!: ActionMethod;
-
   private title: string = '';
-  private sourceMenu: boolean = false;
-
-  @Prop(Boolean)
-  private raised?: boolean;
 
   private created() {
     const { title, locale } = this.$route.meta;
 
     this.title = title || locale || '';
-  }
-
-  private handleSourceSelect(target: any) {
-    const id = target.item.getAttribute('data-id');
-    this.changeSource(id);
-  }
-
-  private handlePreferenceReset() {
-    this.resetPreference();
-  }
-
-  @Watch('raised')
-  private onScrollReachStart(val: boolean, old: boolean) {
-    const [max, min, cls] = [
-      'mdc-toolbar--flexible-space-maximized',
-      'mdc-toolbar--flexible-space-minimized',
-      (this.$refs.wrap as any).$el.firstChild.classList,
-    ];
-    if (val) {
-      cls.remove(max);
-      cls.add(min);
-    } else {
-      cls.remove(min);
-      cls.add(max);
-    }
   }
 
   @Watch('$route.meta')

@@ -1,7 +1,11 @@
 <template>
   <mdc-layout-app>
-    <options-toolbar :raised="!isReachStart"></options-toolbar>
-    <options-drawer />
+    <options-toolbar />
+    <options-drawer @change="drawer = !drawer" />
+
+    <main :class="['options-content', drawer ? 'drawer-open' : '']">
+      <router-view></router-view>
+    </main>
   </mdc-layout-app>
 </template>
 
@@ -10,6 +14,7 @@ import Vue from 'vue';
 import { Component, Watch } from 'vue-property-decorator';
 import OptionsToolbar from '@/components/OptionsToolbar.vue';
 import OptionsDrawer from '@/components/OptionsDrawer.vue';
+import debug from '@/functions/debug';
 
 @Component({
   components: {
@@ -18,7 +23,13 @@ import OptionsDrawer from '@/components/OptionsDrawer.vue';
   },
 })
 export default class Options extends Vue {
-  private isReachStart: boolean = true;
+  private drawer: boolean = false;
+
+  private mounted() {
+    this.$nextTick(() => {
+      this.$root.$emit('toggle-drawer');
+    });
+  }
 }
 </script>
 
@@ -47,11 +58,12 @@ export default class Options extends Vue {
 :root {
   --app-height: 100vh;
   --app-width: 100vw;
-  // --app-toolbar-height: 56px;
+  --app-toolbar-height: 56px;
+  --app-drawer-width: 240px;
 
-  // @media (min-width: 599px) {
-  //   --app-toolbar-height: 64px;
-  // }
+  @media (min-width: 599px) {
+    --app-toolbar-height: 64px;
+  }
 }
 
 html {
@@ -75,6 +87,19 @@ body {
 }
 
 .options-content {
-  background-color: white;
+  background-color: var(--mdc-theme-background);
+
+  padding-top: var(--app-toolbar-height);
+
+  left: 0;
+  bottom: 0;
+  right: 0;
+  top: 0;
+  z-index: 1;
+  position: absolute;
+
+  &.drawer-open {
+    padding-left: var(--app-drawer-width);
+  }
 }
 </style>

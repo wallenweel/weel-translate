@@ -1,39 +1,35 @@
 <template>
   <div class="view-source-preset">
-    <section class="-editor" ref="editor" style="height: 100vh;">{{ code }}</section>
+    <code-editor
+      :code="code" :lineNumbers="false"
+      @change="handleChange" @save="handleSave"
+    />
   </div>
 </template>
 
 <script lang="ts">
 import Vue from 'vue';
-import CodeFlask from 'codeflask';
 import { Component } from 'vue-property-decorator';
+import CodeEditor from '@/components/CodeEditor.vue';
 import debug from '@/functions/debug';
 
-@Component
+@Component({
+  components: {
+    CodeEditor,
+  },
+})
 export default class SourcePresetView extends Vue {
-  private code: string = '{ "test": "testt" }';
+  private code: object = { "test": true, "t": 0 };
 
-  private mounted() {
-    const flask = new CodeFlask('.-editor', { language: 'json' });
-    flask.addLanguage('json', {
-      property: /"(?:\\.|[^\\"\r\n])*"(?=\s*:)/i,
-      string: {
-        pattern: /"(?:\\.|[^\\"\r\n])*"(?!\s*:)/,
-        greedy: true
-      },
-      number: /\b0x[\dA-Fa-f]+\b|(?:\b\d+\.?\d*|\B\.\d+)(?:[Ee][+-]?\d+)?/,
-      punctuation: /[{}[\]);,]/,
-      operator: /:/g,
-      boolean: /\b(?:true|false)\b/i,
-      null: /\bnull\b/i,
-    });
+  private handleChange(code: string) {
+    debug.log(code);
+  }
+
+  private handleSave(code: string) {
+    debug.log(code);
   }
 }
 </script>
 
 <style lang="scss">
-.codeflask__flatten {
-  letter-spacing: 0;
-}
 </style>

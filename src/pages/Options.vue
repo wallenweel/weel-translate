@@ -4,7 +4,7 @@
     <options-drawer @change="drawer = !drawer" />
 
     <main :class="['options-content', drawer ? 'drawer-open' : '']">
-      <router-view></router-view>
+      <router-view class="-child" />
     </main>
   </mdc-layout-app>
 </template>
@@ -100,6 +100,10 @@ body {
 
   &.drawer-open {
     padding-left: var(--app-drawer-width);
+  }
+
+  .-child {
+    height: 100%;
   }
 }
 </style>

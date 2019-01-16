@@ -26,6 +26,7 @@ export default new VueI18n({
 /** detect user language */
 import { modifiedLocaleRules as rules } from '@/variables';
 import { presetLanguagesModifier } from './functions';
+import browser from './apis/browser';
 
 export const language: Language['code'] = (browser.i18n.getUILanguage() || 'en').toLowerCase();
 export const locale: Language['code'] = presetLanguagesModifier([{

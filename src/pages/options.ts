@@ -15,8 +15,8 @@ import Scrollbar from '@/plugins/scrollbar';
 Vue.use(Scrollbar);
 
 import router from '@/routers/options';
-// import store from '@/stores/options';
-import i18n from '@/i18n';
+import store from '@/stores/options';
+import i18n, { locale } from '@/i18n';
 
 import App from './Options.vue';
 
@@ -25,19 +25,18 @@ const port: RuntimePort = browser.runtime.connect({
   name: 'port-from-options',
 });
 
-// store.dispatch('init', { port }).then(() => {
-//   i18n.locale = store.getters.locale;
-//   store.watch(() => store.getters.locale, () => {
-//     i18n.locale = store.getters.locale;
-//   });
-// });
+store.dispatch('init', { port }).then(() => {
+  i18n.locale = store.getters.locale;
 
-new Vue({
-  router,
-  // store,
-  i18n,
-  render: (h) => h(App as VueConstructor),
-}).$mount('#app');
+  store.watch(() => store.getters.locale, (locale: Language['code']) => {
+    i18n.locale = locale;
+  });
 
-// import debug from '@/functions/debug';
-// debug.log(TARGET_BROWSER);
+  new Vue({
+    router,
+    store,
+    i18n,
+    render: (h) => h(App as VueConstructor),
+  }).$mount('#app');
+});
+

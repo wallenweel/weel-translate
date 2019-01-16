@@ -77,6 +77,11 @@
   "request_not_support": "Request is not support",
   "blank_input_msg": "Need an input first",
 
+  "source_preset": "Translation Source (API)",
+  "style_preset": "UI Style",
+  "crawler_preset": "Web Crawler",
+  "template_preset": "Result Template",
+
   "languages": "Languages",
   "automatic": "Automatic",
   "afrikaans": "Afrikaans",

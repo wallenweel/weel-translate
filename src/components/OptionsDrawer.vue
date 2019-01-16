@@ -8,10 +8,9 @@
       >
         <mdc-icon style="margin-right: 16px;">
           <icon-translate v-if="item.icon === 'translate'" />
-          <icon-favorite v-if="item.icon === 'favorite'" />
-          <icon-history v-if="item.icon === 'history'" />
-          <icon-settings v-if="item.icon === 'settings'" />
           <icon-style v-if="item.icon === 'style'" />
+          <icon-code v-if="item.icon === 'code'" />
+          <icon-pageview v-if="item.icon === 'pageview'" />
         </mdc-icon>
         {{ $t(item.locale) }}
       </mdc-drawer-item>
@@ -22,10 +21,9 @@
 <script lang="ts">
 import { Component, Vue } from 'vue-property-decorator';
 import IconTranslate from '@/components/icons/Translate.vue';
-import IconFavorite from '@/components/icons/Favorite.vue';
-import IconHistory from '@/components/icons/History.vue';
-import IconSettings from '@/components/icons/Settings.vue';
 import IconStyle from '@/components/icons/Style.vue';
+import IconPageview from '@/components/icons/Pageview.vue';
+import IconCode from '@/components/icons/Code.vue';
 import debug from '@/functions/debug';
 
 interface ListItems {
@@ -42,20 +40,18 @@ interface ListItems {
 @Component({
   components: {
     IconTranslate,
-    IconFavorite,
-    IconHistory,
-    IconSettings,
+    IconCode,
     IconStyle,
+    IconPageview,
   },
 })
 export default class PopupDrawer extends Vue {
   private open: boolean = true;
   private items: ListItems = [
-    { icon: 'translate', locale: 'translation_sources', to: '/sources' },
-    { icon: 'favorite', locale: 'picked', to: '/picked' },
-    { icon: 'history', locale: 'history', to: '/history' },
-    { icon: 'settings', locale: 'preference', to: '/preference' },
-    { icon: 'style', locale: 'presets', to: '/presets' },
+    { icon: 'translate', locale: 'source_preset', to: '/source-preset' },
+    { icon: 'pageview', locale: 'crawler_preset', to: '/crawler-preset' },
+    { icon: 'code', locale: 'template_preset', to: '/template-preset' },
+    { icon: 'style', locale: 'style_preset', to: '/style-preset' },
   ];
 
   private created() {
@@ -71,6 +67,10 @@ export default class PopupDrawer extends Vue {
 
 .options-drawer {
   height: var(--app-height);
+
+  .mdc-drawer__drawer {
+    background-color: var(--mdc-theme-background);
+  }
 
   .mdc-drawer-list {
     .mdc-drawer-item:last-child {

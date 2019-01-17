@@ -6,29 +6,29 @@ Vue.use(Router);
 const routes: RouteConfig[] = [
   {
     path: '/',
-    redirect: '/translation-preset',
+    redirect: '/translation',
   },
   {
-    path: '/translation-preset',
-    name: 'translation-preset',
+    path: '/translation',
+    name: 'translation',
     component: () => import(/** webpackChunkName "translation-preset-view" */ '@/views/PresetTranslation.vue'),
     meta: { locale: 'translation_preset' },
   },
   {
-    path: '/web-preset',
-    name: 'web-preset',
+    path: '/web',
+    name: 'web',
     component: () => import(/** webpackChunkName "web-preset-view" */ '@/views/PresetWeb.vue'),
     meta: { locale: 'web_preset' },
   },
   {
-    path: '/style-preset',
-    name: 'style-preset',
+    path: '/style',
+    name: 'style',
     component: () => import(/** webpackChunkName "style-preset-view" */ '@/views/PresetStyle.vue'),
     meta: { locale: 'style_preset' },
   },
   {
-    path: '/template-preset',
-    name: 'template-preset',
+    path: '/template',
+    name: 'template',
     component: () => import(/** webpackChunkName "template-preset-view" */ '@/views/PresetTemplate.vue'),
     meta: { locale: 'template_preset' },
   },

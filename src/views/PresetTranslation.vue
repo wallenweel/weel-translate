@@ -1,5 +1,5 @@
 <template>
-  <div class="view-source-preset">
+  <div class="view-translation-preset">
     <code-editor
       :code="code" :lineNumbers="false"
       @change="handleChange" @save="handleSave"

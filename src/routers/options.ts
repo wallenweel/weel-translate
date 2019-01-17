@@ -6,19 +6,19 @@ Vue.use(Router);
 const routes: RouteConfig[] = [
   {
     path: '/',
-    redirect: '/source-preset',
+    redirect: '/translation-preset',
   },
   {
-    path: '/source-preset',
-    name: 'source-preset',
-    component: () => import(/** webpackChunkName "source-preset-view" */ '@/views/PresetSource.vue'),
-    meta: { locale: 'source_preset' },
+    path: '/translation-preset',
+    name: 'translation-preset',
+    component: () => import(/** webpackChunkName "translation-preset-view" */ '@/views/PresetTranslation.vue'),
+    meta: { locale: 'translation_preset' },
   },
   {
-    path: '/crawler-preset',
-    name: 'crawler-preset',
-    component: () => import(/** webpackChunkName "crawler-preset-view" */ '@/views/PresetCrawler.vue'),
-    meta: { locale: 'crawler_preset' },
+    path: '/web-preset',
+    name: 'web-preset',
+    component: () => import(/** webpackChunkName "web-preset-view" */ '@/views/PresetWeb.vue'),
+    meta: { locale: 'web_preset' },
   },
   {
     path: '/style-preset',

@@ -80,9 +80,9 @@
   "request_not_support": "请求不可用",
   "blank_input_msg": "需要输入请求内容",
 
-  "source_preset": "翻译源 (API)",
+  "translation_preset": "翻译源 (API)",
   "style_preset": "自定义样式",
-  "crawler_preset": "网页爬取",
+  "web_preset": "网页爬取",
   "template_preset": "结果模板",
 
   "languages": "语言",

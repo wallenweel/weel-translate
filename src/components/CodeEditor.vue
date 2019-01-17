@@ -1,6 +1,6 @@
 <template>
   <div class="code-editor">
-    <header class="-head" ref="tools">
+    <header class="-head" ref="tools" v-if="!readonly">
       <mdc-tab-bar class="-tabs" @change="handleTabSelected">
         <mdc-tab v-for="(tab, i) in tabs" :key="`${tab.name}_${i}`">{{ tab.name }}</mdc-tab>
       </mdc-tab-bar>
@@ -11,11 +11,9 @@
       <mdc-button @click="emitSave">Save</mdc-button>
     </header>
 
-    <article class="-body" ref="editor">
-      {{ code }}<slot v-if="!code" />
-    </article>
+    <article class="-body" ref="editor">{{ code }}<slot v-if="!code" /></article>
 
-    <footer class="-foot" ref="status">
+    <footer class="-foot" ref="status" v-if="!readonly">
       info:
     </footer>
   </div>

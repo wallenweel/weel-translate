@@ -3,6 +3,7 @@ import Vuex, { MutationTree, ActionTree, ModuleTree, GetterTree } from 'vuex';
 import storage from '../modules/storage';
 import preference, { register as preferenceRegister } from './modules/preference';
 import translation, { register as translationRegister } from './modules/translation';
+import template, { register as templateRegister } from './modules/template';
 import { update, clear } from '@/stores/mutations';
 import { locale, theme } from '@/stores/getters';
 import { ipcActionRequestor } from '@/stores/';
@@ -13,6 +14,7 @@ Vue.use(Vuex);
 const register = [
   ...Object.keys(preferenceRegister),
   ...Object.keys(translationRegister),
+  ...Object.keys(templateRegister),
 ] as Array<keyof DefaultConfig>;
 
 let Port: RuntimePort;
@@ -44,7 +46,7 @@ const getters: GetterTree<State, State> = {
 };
 
 const modules: ModuleTree<State> = {
-  storage, preference, translation,
+  storage, preference, translation, template,
 };
 
 const store = new Vuex.Store<State>({
@@ -56,6 +58,7 @@ store.subscribe((mutation) => {
   if (mutation.type === 'storage/update') {
     store.dispatch('preference/fetch');
     store.dispatch('translation/fetch');
+    store.dispatch('template/fetch');
   }
 });
 

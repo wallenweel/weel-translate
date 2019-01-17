@@ -7,7 +7,11 @@
 
     <section class="-test">
       <!-- <mdc-textfield class="-text" v-model="text" fullwidth label="Hint text" /> -->
-      <!-- <translation-view style="height: 480px;"></translation-view> -->
+      <translation-view class="-translation" />
+      <!-- <code class="-response">{{preset}}</code> -->
+      <code-editor class="-code" :readonly="true"
+        :code="preset" :lineNumbers="false"
+      />
     </section>
   </div>
 </template>
@@ -18,7 +22,7 @@ import { Component } from 'vue-property-decorator';
 import { namespace, Getter } from 'vuex-class';
 import CodeEditor from '@/components/CodeEditor.vue';
 import { formatter } from '@/functions/preset';
-// import TranslationView from '@/views/Translation.vue';
+import TranslationView from '@/views/Translation.vue';
 import debug from '@/functions/debug';
 
 const __ = namespace('translation');
@@ -26,7 +30,7 @@ const __ = namespace('translation');
 @Component({
   components: {
     CodeEditor,
-    // TranslationView,
+    TranslationView,
   },
 })
 export default class SourcePresetView extends Vue {
@@ -63,14 +67,23 @@ export default class SourcePresetView extends Vue {
     width: 100%;
   }
   .-test {
-    min-width: 260px;
-    max-width: 260px;
+    min-width: 280px;
+    max-width: 280px;
     width: 100%;
+    flex-direction: column;
+    display: flex;
 
-    .-text {
-      .mdc-textfield {
-        margin-top: 0;
-      }
+    .-translation {
+      --app-height: 340px;
+      --app-toolbar-height: 0px;
+      height: var(--app-height);
+      border-bottom: solid 1px rgba(25, 25, 25, .25);
+      flex-shrink: 0;
+      overflow: auto;
+    }
+    .-response {
+      height: 100%;
+      overflow: auto;
     }
   }
 }

@@ -76,7 +76,7 @@ export default class TranslationInput extends Vue {
       }
 
       .mdc-text-field__input {
-        height: 100vh;
+        height: var(--app-height);
         max-height: calc(var(--app-height) - var(--app-toolbar-height) - 124px);
         min-height: 3em;
         width: 100%;

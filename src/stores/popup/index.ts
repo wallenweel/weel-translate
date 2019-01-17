@@ -23,8 +23,7 @@ const state: State = {
   notify: null,
 };
 
-const mutations = Object.assign({
-} as MutationTree<State>, { update, clear });
+const mutations: MutationTree<State> = { update, clear };
 
 const actions: ActionTree<State, State> = {
   init: ({ state, dispatch, rootState }, { port }) => {

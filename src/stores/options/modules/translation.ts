@@ -16,14 +16,12 @@ import { moduleHelper } from '@/stores';
 
 export const register: configPairs<State> = {
   ...commonRegister,
-
-  translation_hotkey: 'hotkey',
 };
 
 const state: State = {
   ...commonState,
 
-  hotkey: 'enter',
+  items: [],
 };
 
 const mutations: MutationTree<State> = {
@@ -51,5 +49,5 @@ export default moduleHelper(translation, register);
 
 type C = DefaultConfig;
 interface State extends CommonState {
-  hotkey: C['translation_hotkey'];
+  items: sourceId[];
 }

@@ -2,6 +2,7 @@ import Vue from 'vue';
 import Vuex, { MutationTree, ActionTree, ModuleTree, GetterTree } from 'vuex';
 import storage from '../modules/storage';
 import preference, { register as preferenceRegister } from './modules/preference';
+import translation, { register as translationRegister } from './modules/translation';
 import { update, clear } from '@/stores/mutations';
 import { locale, theme } from '@/stores/getters';
 import { ipcActionRequestor } from '@/stores/';
@@ -11,6 +12,7 @@ Vue.use(Vuex);
 // regist config keys to states by the hash
 const register = [
   ...Object.keys(preferenceRegister),
+  ...Object.keys(translationRegister),
 ] as Array<keyof DefaultConfig>;
 
 let Port: RuntimePort;
@@ -19,11 +21,10 @@ const state: State = {
   notify: null,
 };
 
-const mutations = Object.assign({
-} as MutationTree<State>, { update, clear });
+const mutations: MutationTree<State> = { update, clear };
 
 const actions: ActionTree<State, State> = {
-  init: ({ state, dispatch, rootState }, { port }) => {
+  init: ({ state, dispatch, rootState, rootGetters }, { port }) => {
     // initial a port for connecting other end
     // useless in "web" mode
     Port = port;
@@ -43,7 +44,7 @@ const getters: GetterTree<State, State> = {
 };
 
 const modules: ModuleTree<State> = {
-  storage, preference,
+  storage, preference, translation,
 };
 
 const store = new Vuex.Store<State>({
@@ -54,6 +55,7 @@ const store = new Vuex.Store<State>({
 store.subscribe((mutation) => {
   if (mutation.type === 'storage/update') {
     store.dispatch('preference/fetch');
+    store.dispatch('translation/fetch');
   }
 });
 

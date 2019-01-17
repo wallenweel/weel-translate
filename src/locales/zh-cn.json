@@ -17,6 +17,9 @@
     "preset_top": "（未完成） 如果更改设置产生异常的话，请点击\"{0}\"按钮恢复。"
   },
 
+  "swap_languages": "切换语言",
+  "web_crawling": "查询网页",
+
   "select_language": "选择语言",
   "ok": "确定",
 

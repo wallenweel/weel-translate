@@ -17,6 +17,9 @@
     "preset_top": "(Not Availble Now) If changes got anything wrong, please click \"{0}\" button to restore."
   },
 
+  "swap_languages": "Swap Languages",
+  "web_crawling": "Query Web",
+  
   "select_language": "Select Language",
   "ok": "OK",
 

@@ -25,12 +25,12 @@
       <div class="-actions" v-show="hasResult && hasSelection">
         <mdc-card class="-action">
           <mdc-card-action-icon class="-button" @click="handleSwapFromto">
-            <icon-swap-horiz name="swap languages" />
+            <icon-swap-horiz :name="$t('swap_languages')" />
           </mdc-card-action-icon>
         </mdc-card>
         <mdc-card class="-action" v-if="false">
           <mdc-card-action-icon class="-button" @click="handleWebQuery">
-            <icon-pageview name="web infomation" />
+            <icon-pageview :name="$t('web_crawling')" />
           </mdc-card-action-icon>
         </mdc-card>
       </div>

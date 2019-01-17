@@ -26,9 +26,9 @@ export default class Options extends Vue {
   private drawer: boolean = false;
 
   private mounted() {
-    this.$nextTick(() => {
-      this.$root.$emit('toggle-drawer');
-    });
+    // this.$nextTick(() => {
+    //   this.$root.$emit('toggle-drawer');
+    // });
   }
 }
 </script>

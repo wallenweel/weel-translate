@@ -19,7 +19,7 @@ import debug from '@/functions/debug';
   },
 })
 export default class SourcePresetView extends Vue {
-  private code: object = { "test": true, "t": 0 };
+  private code: object = { test: true, t: 0 };
 
   private handleChange(code: string) {
     debug.log(code);

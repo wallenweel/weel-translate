@@ -1,10 +1,15 @@
 import { presetIdReg } from '@/variables';
 
 export const formatter: FormatFn = (preset, spacing = 2) => {
+  let out = preset;
+
   try {
-    return [null, JSON.stringify(preset, null, spacing)];
+    if (typeof preset === 'string') {
+      out = JSON.parse(out);
+    }
+    return [null, JSON.stringify(out, null, spacing)];
   } catch (error) {
-    return [error];
+    return [error, out];
   }
 };
 

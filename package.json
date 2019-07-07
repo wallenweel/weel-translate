@@ -1,6 +1,6 @@
 {
   "name": "weel-translate-x",
-  "version": "3.1.0",
+  "version": "3.1.1",
   "private": true,
   "author": "wallen <wallen_weel@outlook.com>",
   "scripts": {
@@ -18,7 +18,7 @@
   },
   "dependencies": {
     "axios": "^0.18.0",
-    "codeflask": "https://github.com/wallenweel/CodeFlask.git",
+    "codeflask": "^1.4.1",
     "colorsys": "^1.0.22",
     "material-components-web": "^0.42.0",
     "vue": "^2.5.21",

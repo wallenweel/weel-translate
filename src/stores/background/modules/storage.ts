@@ -3,7 +3,7 @@ import { State as RootState } from '../index';
 import { update, clear } from '@/stores/mutations';
 import { storage as apiStorage } from '@/apis/browser';
 import defaultConfig from '@/defaults/config';
-import { configKeysReducer } from '@/functions';
+import { configKeysReducer, istype } from '@/functions';
 import debug from '@/functions/debug';
 
 const namespaced: boolean = true;
@@ -27,7 +27,19 @@ const actions: ActionTree<State, RootState> = {
   query: async (_, { keys, type }: { keys?: storageKeys, type?: storageType } = {}): Promise<std<any>> => {
     const config = await apiStorage[type || 'local'].get(keys || null);
 
-    return [null, config];
+    const c = { ...config } as any;
+
+    for (const [k, v] of Object.entries(c)) {
+      if (istype(v, ['string'])) {
+        try {
+          c[k] = JSON.parse(v as string);
+        } catch (error) {
+          continue;
+        }
+      }
+    }
+
+    return [null, c];
   },
 
   update: async ({ commit }, [config, type]: [DefaultConfig, storageType]): Promise<std> => {
@@ -35,7 +47,15 @@ const actions: ActionTree<State, RootState> = {
       return ['empty config'];
     }
 
-    await apiStorage[type || 'local'].set(config);
+    const c = { ...config } as any;
+
+    for (const [k, v] of Object.entries(c)) {
+      if (istype(v, ['array', 'object'])) {
+        c[k] = JSON.stringify(v);
+      }
+    }
+
+    await apiStorage[type || 'local'].set(c);
 
     commit('update', config);
 

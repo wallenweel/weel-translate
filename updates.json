@@ -1,0 +1,23 @@
+{
+  "addons": {
+    "{cf45b493-28fa-42c5-a604-6470669fc4a1}": {
+      "updates": [
+        {
+          "version": "3.1.1",
+          "update_link": "https://github.com/wallenweel/weel-translate/releases/download/v3.1.1/weel_translate_x-3.1.1-fx.xpi",
+          "update_hash": "sha256:51ed900eb7ab4bccc91a42270e372e0a22f1bfa125cad08982b1c010bb83a10e"
+        },
+        {
+          "version": "3.1.2",
+          "update_link": "https://github.com/wallenweel/weel-translate/releases/download/v3.1.1/weel_translate_x-3.1.1-fx.xpi",
+          "update_hash": "sha256:51ed900eb7ab4bccc91a42270e372e0a22f1bfa125cad08982b1c010bb83a10e"
+        },
+        {
+          "version": "3.1.3",
+          "update_link": "https://github.com/wallenweel/weel-translate/releases/download/v3.1.1/weel_translate_x-3.1.1-fx.xpi",
+          "update_hash": "sha256:51ed900eb7ab4bccc91a42270e372e0a22f1bfa125cad08982b1c010bb83a10e"
+        }
+      ]
+    }
+  }
+}

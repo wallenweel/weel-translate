@@ -13,7 +13,7 @@
     "url": "https://github.com/wallenweel/weel-translate"
   },
 
-  "applications": {
+  "browser_specific_settings": {
     "gecko": {
       "id": "@weel-translate-x"
     }

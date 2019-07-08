@@ -64,13 +64,13 @@ module.exports = {
       const modify = { ...target, version }
 
       if (process.env.TARGET_PLATFORM === 'amo') {
-        modify.applications = base.applications
-        modify.applications.gecko.id = AMO_ID
+        modify.browser_specific_settings = base.browser_specific_settings
+        modify.browser_specific_settings.gecko.id = AMO_ID
       }
 
       if (TARGET_BROWSER === 'firefox') {
-        modify.applications = base.applications
-        modify.applications.gecko.update_url =
+        modify.browser_specific_settings = base.browser_specific_settings
+        modify.browser_specific_settings.gecko.update_url =
           process.env.VUE_APP_UPDATE_URL_FIREFOX
       }
 

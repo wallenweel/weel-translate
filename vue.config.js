@@ -8,15 +8,24 @@ const TARGET_BROWSER = process.env.TARGET_BROWSER || 'web'
 const outputDir = `dist/${TARGET_BROWSER}`
 const AMO_ID = `@weel-translate`
 
-module.exports = {
-  outputDir,
-
-  pages: {
+const pages = {
+  production: {
+    'background/main': 'src/pages/background.ts',
+    'popup/main': 'src/pages/popup.ts',
+    'content/main': 'src/pages/content.ts'
+  },
+  development: {
     'background/main': 'src/pages/background.ts',
     'popup/main': 'src/pages/popup.ts',
     'options/main': 'src/pages/options.ts',
     'content/main': 'src/pages/content.ts'
-  },
+  }
+}[process.env.NODE_ENV]
+
+module.exports = {
+  outputDir,
+
+  pages,
 
   filenameHashing: false,
 
@@ -57,6 +66,12 @@ module.exports = {
       if (process.env.TARGET_PLATFORM === 'amo') {
         modify.applications = base.applications
         modify.applications.gecko.id = AMO_ID
+      }
+
+      if (TARGET_BROWSER === 'firefox') {
+        modify.applications = base.applications
+        modify.applications.gecko.update_url =
+          process.env.VUE_APP_UPDATE_URL_FIREFOX
       }
 
       config.plugin('generate-json')

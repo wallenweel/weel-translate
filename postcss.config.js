@@ -1,7 +1,7 @@
 module.exports = {
   plugins: {
     autoprefixer: {
-      browsers: [
+      overrideBrowserslist: [
         "last 1 versions"
       ]
     }

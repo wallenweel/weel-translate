@@ -137,7 +137,7 @@ export const actions: ActionTree<State, RootState> = {
   },
 };
 
-export const storage: Module<State, RootState> = {
+export const storage: Module<State, any> = {
   namespaced, state, actions, mutations,
 };
 

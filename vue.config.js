@@ -68,10 +68,13 @@ module.exports = {
         modify.browser_specific_settings.gecko.id = AMO_ID
       }
 
-      if (TARGET_BROWSER === 'firefox') {
-        modify.browser_specific_settings = base.browser_specific_settings
+      if (
+        TARGET_BROWSER === "firefox" &&
+        process.env.TARGET_PLATFORM !== "amo"
+      ) {
+        modify.browser_specific_settings = base.browser_specific_settings;
         modify.browser_specific_settings.gecko.update_url =
-          process.env.VUE_APP_UPDATE_URL_FIREFOX
+          process.env.VUE_APP_UPDATE_URL_FIREFOX;
       }
 
       config.plugin('generate-json')

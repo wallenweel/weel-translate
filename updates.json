@@ -11,6 +11,11 @@
           "version": "3.1.2",
           "update_link": "https://github.com/wallenweel/weel-translate/releases/download/v3.1.2/weel_translate_x-3.1.2-fx.xpi",
           "update_hash": "sha256:1f96a15a8cdad490cc864f1925198629e07c54eac96f8ac18bf38593cd392d8f"
+        },
+        {
+          "version": "3.1.3",
+          "update_link": "https://github.com/wallenweel/weel-translate/releases/download/v3.1.3/weel_translate_x-3.1.3-fx.xpi",
+          "update_hash": "sha256:36fa6cf382cbaac967035eeaec6b32d8ae9ba421f4f96359d2e9c5a924709708"
         }
       ]
     }
